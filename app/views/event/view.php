@@ -1,27 +1,24 @@
 <?php 
-  if($this->session->flashdata('message'))
-  {
-      echo "<blockquote style='background:#EEE8AA';>";
-      echo $this->session->flashdata('message');
-      echo "</blockquote>";
-  }
-  
     //log_message('error',print_r($province_list,TRUE));    
 //    wts($province_list);
     $data_arr=$event_list_formatted;
 
-    if ($data_arr) 
+    if ( ! (empty($data_arr))) 
     {
-        $this->table->set_heading($heading);
+        // pagination links
+        echo fpagination($pagination);
         
-        $template = array(
-                'table_open' => '<table class="table table-striped table-bordered table-condensed ">'
-        );
-        $this->table->set_template($template);
-        echo $links;
+        // create table
+        $this->table->set_template(ftable());
+        $this->table->set_heading($heading);
         echo $this->table->generate($data_arr);
-        echo $links;
-        echo "<p><a href='".$create_link."/add'>Add Entry</a></p>";
+        
+        // pagination links
+        echo fpagination($pagination);
+        
+        // add button
+        echo fbuttonLink($create_link."/add","Add Entry");
+        
     }
     else
     {

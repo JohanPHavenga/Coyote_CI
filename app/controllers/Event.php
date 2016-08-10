@@ -5,6 +5,7 @@ class Event extends CI_Controller {
     {
             parent::__construct();
             $this->load->model('event_model');
+            $this->load->helper('formulate');
             
     }
     
@@ -24,32 +25,39 @@ class Event extends CI_Controller {
     public function view() {  
         // load helpers / libraries
         $this->load->library('table'); 
-        $this->load->library("pagination");
-        $config=set_pagenation_config("event",$this->event_model->record_count());
+        
+        // pagination      
+        // pagination config
+        $per_page=50;
+        $uri_segment=3;
+        $url=base_url()."/event/view";
+        $total_rows=$this->event_model->record_count();
+        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        
+        // pagination init
+        $this->load->library("pagination");        
+        $this->pagination->initialize($config);
+        $data["pagination"]=$this->pagination->create_links();  
+        
         
         // set data
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["event_list"] = $this->event_model->get_event_list($config["per_page"], $page);        
+        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+        $data["event_list"] = $this->event_model->get_event_list($per_page, $page);
         $data['create_link']="/event/create";
+        $data['title'] = uri_string(); 
         
         // as daar data is
         if ($data["event_list"]) { 
-            $data['heading']= array_keys($data['event_list'][0]); 
-            $data['heading'][] = "";
+            $data['heading']=ftableHeading(array_keys($data['event_list'][0]),2);
             
             foreach ($data['event_list'] as $entry):
-                $entry[]="<a href='$data[create_link]/edit/$entry[event_id]'>edit</a>"
-                    . " | <a href='/event/delete/$entry[event_id]'>delete</a>";
+                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['event_id'], "edit", "default", "xs");
+                $entry[]=fbuttonLink("/event/delete/".$entry['event_id'], "delete", "danger", "xs");
                 $data['event_list_formatted'][] = $entry;
             endforeach;
         }
         
-        $data['title'] = uri_string(); 
-        $data["links"] = $this->pagination->create_links();   
-        
         // load view
-        $this->pagination->initialize($config);
-        
         $this->load->view('templates/header', $data);
         $this->load->view('event/view', $data);
         $this->load->view('templates/footer');
@@ -94,14 +102,20 @@ class Event extends CI_Controller {
             $db_write=$this->event_model->set_event($action, $id);
             if ($db_write)
             {
-                $msg="Event has been updated";
+                $alert="Event has been updated";
+                $status="success";
             }
             else 
             {
-                $msg="Error committing to the database";
+                $alert="Error committing to the database";
+                $status="danger";
             }
             
-            $this->session->set_flashdata('message', $msg);
+            $this->session->set_flashdata([
+                'alert'=>$alert,
+                'status'=>$status,
+                ]);
+            
             redirect('event/view');  
         }
     }

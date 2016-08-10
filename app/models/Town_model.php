@@ -40,6 +40,7 @@ class Town_model extends CI_Model {
                 foreach ($query->result_array() as $row) {
                     $data[$row['town_id']] = $row['town_name'] . " (".$row['province_name'].")";
                 }
+//                return array_slice($data, 0, 500, true);
                 return $data;
             }
             return false;

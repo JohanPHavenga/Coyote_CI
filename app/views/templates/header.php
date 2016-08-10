@@ -10,7 +10,11 @@
     <!-- Bootstrap -->
     <link href="<?=base_url('css/bootstrap.min.css');?>" rel="stylesheet">    
     <link href="<?=base_url('css/bootstrap-theme.min.css');?>" rel="stylesheet">
-
+    
+    <link href="<?=base_url('css/select2.css');?>" rel="stylesheet"/>
+    <link href="<?=base_url('css/select2-bootstrap.css');?>" rel="stylesheet"/>
+    
+   
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -69,3 +73,20 @@
     <div class="container theme-showcase" role="main">
         
         <h1><?php echo $title; ?></h1>
+        
+        <?php
+        // alert message on top of the page
+        // set flashdata [alert|status]
+        if($this->session->flashdata('alert'))
+        {
+            $alert_msg=$this->session->flashdata('alert');
+            if ( ! ($this->session->flashdata('status'))) 
+            {
+                $status='warning';
+            }
+            else 
+            {
+                $status=$this->session->flashdata('status');
+            }
+            echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
+        }

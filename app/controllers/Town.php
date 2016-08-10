@@ -5,7 +5,6 @@ class Town extends CI_Controller {
     {
             parent::__construct();
             $this->load->model('town_model');
-            $this->load->library("pagination");
             
     }
     
@@ -22,19 +21,38 @@ class Town extends CI_Controller {
     }
     
     public function view($id = FALSE) {  
-        $config=set_pagenation_config("town",$this->town_model->record_count());
-        $this->pagination->initialize($config);
-        
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-        $data["town_list"] = $this->town_model->get_town_list($config["per_page"], $page);
-        
-        
-        $data["links"] = $this->pagination->create_links();        
-        $data['heading']= array_keys($data['town_list'][0]);
-        $data['title'] = uri_string(); 
-        
+        // load helpers / libraries
+        $this->load->helper('formulate');
         $this->load->library('table'); 
         
+        
+        // pagination      
+        // pagination config
+        $per_page=50;
+        $uri_segment=3;
+        $url=base_url()."/town/view";
+        $total_rows=$this->town_model->record_count();
+        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        
+        // pagination init
+        $this->load->library("pagination");        
+        $this->pagination->initialize($config);
+        $data["pagination"]=$this->pagination->create_links();  
+        
+        
+        // set data
+        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+        $data["town_list"] = $this->town_model->get_town_list($per_page, $page);        
+        
+        if ($data["town_list"]) {  
+            $data['heading']=ftableHeading(array_keys($data['town_list'][0]));
+        }
+        
+        $data['title'] = uri_string();  
+        
+         
+        
+        // load view;
         $this->load->view('templates/header', $data);
         $this->load->view('town/view', $data);
         $this->load->view('templates/footer');
