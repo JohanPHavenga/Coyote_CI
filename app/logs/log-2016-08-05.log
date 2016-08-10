@@ -1,0 +1,148 @@
+ERROR - 2016-08-05 12:08:35 --> Array
+(
+    [0] => Array
+        (
+            [province_id] => 2
+            [province_name] => KwaZulu Natal
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [1] => Array
+        (
+            [province_id] => 3
+            [province_name] => Free State
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [2] => Array
+        (
+            [province_id] => 5
+            [province_name] => Eastern Cape
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [3] => Array
+        (
+            [province_id] => 6
+            [province_name] => Gauteng
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [4] => Array
+        (
+            [province_id] => 7
+            [province_name] => Mpumalanga
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [5] => Array
+        (
+            [province_id] => 8
+            [province_name] => Northern Cape
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [6] => Array
+        (
+            [province_id] => 9
+            [province_name] => Limpopo
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [7] => Array
+        (
+            [province_id] => 10
+            [province_name] => North West
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+    [8] => Array
+        (
+            [province_id] => 11
+            [province_name] => Western Cape
+            [created_date] => 2016-08-04 10:34:44
+            [updated_date] => 
+        )
+
+)
+
+ERROR - 2016-08-05 12:13:51 --> 404 Page Not Found: Faviconico/index
+ERROR - 2016-08-05 12:14:33 --> Severity: Error --> Call to undefined method CI_Loader::wts() /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:14:41 --> Severity: Notice --> Undefined variable: wts /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:14:41 --> Severity: Error --> Function name must be a string /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:14:59 --> Severity: Notice --> Undefined property: CI_Loader::$wts /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:14:59 --> Severity: Notice --> Trying to get property of non-object /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:16:03 --> Severity: Notice --> Undefined variable: data /var/www/app/views/province/view.php 4
+ERROR - 2016-08-05 12:17:34 --> Severity: Notice --> Undefined variable: data /var/www/app/views/province/view.php 3
+ERROR - 2016-08-05 12:25:19 --> Severity: Parsing Error --> syntax error, unexpected 'endforeach' (T_ENDFOREACH) /var/www/app/views/province/view.php 11
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:00:50 --> Severity: Warning --> usort() expects exactly 2 parameters, 1 given /var/www/app/views/province/view.php 13
+ERROR - 2016-08-05 13:05:19 --> Severity: Notice --> Undefined variable: heading /var/www/app/views/province/view.php 9
+ERROR - 2016-08-05 13:07:08 --> 404 Page Not Found: Town/index
+ERROR - 2016-08-05 13:17:45 --> Query error: Table 'coyote.Towns' doesn't exist - Invalid query: SELECT COUNT(*) AS `numrows` FROM `Towns`
+ERROR - 2016-08-05 13:18:18 --> Severity: Warning --> array_keys() expects parameter 1 to be array, object given /var/www/app/controllers/Town.php 37
+ERROR - 2016-08-05 13:18:18 --> Severity: Error --> Cannot use object of type stdClass as array /var/www/system/libraries/Table.php 256
+ERROR - 2016-08-05 13:19:12 --> Severity: Warning --> array_keys() expects parameter 1 to be array, object given /var/www/app/controllers/Town.php 40
+ERROR - 2016-08-05 13:19:12 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at /var/www/app/helpers/global_helper.php:8) /var/www/system/core/Common.php 573
+ERROR - 2016-08-05 13:19:12 --> Severity: Error --> Cannot use object of type stdClass as array /var/www/system/libraries/Table.php 256
+ERROR - 2016-08-05 13:27:17 --> Query error: Table 'coyote.comments' doesn't exist - Invalid query: SELECT *
+FROM `towns`
+JOIN `comments` ON `comments`.`id` = `blogs`.`id`
+ LIMIT 450, 50
+ERROR - 2016-08-05 13:27:53 --> Query error: Table 'coyote.province' doesn't exist - Invalid query: SELECT *
+FROM `towns`
+JOIN `province` ON `province`.`province_id` = `towns`.`province_id`
+ LIMIT 450, 50
+ERROR - 2016-08-05 13:28:02 --> Query error: Table 'coyote.province' doesn't exist - Invalid query: SELECT *
+FROM `towns`
+JOIN `province` ON `province`.`province_id` = `towns`.`province_id`
+ LIMIT 50
+ERROR - 2016-08-05 13:38:16 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:41:06 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:41:10 --> Severity: Error --> Using $this when not in object context /var/www/app/helpers/global_helper.php 14
+ERROR - 2016-08-05 13:42:16 --> Severity: Notice --> Undefined property: Town::$record_count /var/www/system/core/Model.php 77
+ERROR - 2016-08-05 13:42:16 --> Severity: Notice --> Undefined variable: config /var/www/app/controllers/Town.php 28
+ERROR - 2016-08-05 13:42:46 --> Severity: Notice --> Undefined variable: config /var/www/app/controllers/Town.php 28
+ERROR - 2016-08-05 13:48:09 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:48:24 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:48:25 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:48:41 --> 404 Page Not Found: Event/view
+ERROR - 2016-08-05 13:49:34 --> 404 Page Not Found: Event/view
+ERROR - 2016-08-05 13:49:39 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:49:47 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:49:47 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:50:05 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:50:06 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:50:13 --> 404 Page Not Found: Event/index
+ERROR - 2016-08-05 13:53:36 --> Query error: Not unique table/alias: 'events' - Invalid query: SELECT *
+FROM (`events`, `events`)
+LEFT JOIN `towns` ON `towns`.`towns_id` = `events`.`towns_id`
+ LIMIT 50
+ERROR - 2016-08-05 13:53:48 --> Query error: Not unique table/alias: 'events' - Invalid query: SELECT *
+FROM (`events`, `events`)
+LEFT JOIN `towns` ON `towns`.`town_id` = `events`.`town_id`
+ LIMIT 50
+ERROR - 2016-08-05 13:56:58 --> Severity: Compile Error --> Can't use method return value in write context /var/www/app/models/Event_model.php 22
+ERROR - 2016-08-05 13:57:10 --> Severity: Warning --> array_keys() expects parameter 1 to be array, null given /var/www/app/controllers/Event.php 33
+ERROR - 2016-08-05 13:57:43 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/app/controllers/Event.php 41
+ERROR - 2016-08-05 14:00:39 --> 404 Page Not Found: Even/index
+ERROR - 2016-08-05 14:01:35 --> Severity: Notice --> Undefined property: CI_Loader::$table /var/www/app/views/event/view.php 8
+ERROR - 2016-08-05 14:01:35 --> Severity: Error --> Call to a member function set_heading() on null /var/www/app/views/event/view.php 8
+ERROR - 2016-08-05 14:10:12 --> Severity: Notice --> Undefined variable: add_link /var/www/app/views/event/view.php 13
+ERROR - 2016-08-05 14:16:26 --> Severity: Parsing Error --> syntax error, unexpected '}', expecting ',' or ';' /var/www/app/controllers/Event.php 56
+ERROR - 2016-08-05 14:18:48 --> Severity: Warning --> Missing argument 2 for Event::create() /var/www/app/controllers/Event.php 53
