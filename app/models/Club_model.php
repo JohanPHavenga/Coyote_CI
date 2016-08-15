@@ -1,5 +1,5 @@
 <?php
-class Event_model extends CI_Model {
+class Club_model extends CI_Model {
 
         public function __construct()
         {
@@ -7,16 +7,17 @@ class Event_model extends CI_Model {
         }
         
         public function record_count() {
-            return $this->db->count_all("events");
+            return $this->db->count_all("clubs");
         }
         
-        public function get_event_list($limit, $start)
+        public function get_club_list($limit, $start)
         {
             $this->db->limit($limit, $start);    
             
-            $this->db->select("events.*, town_name");
-            $this->db->from("events");
-            $this->db->join('towns', 'towns.town_id = events.town_id', 'left');
+            $this->db->select("clubs.*, town_name, province_name");
+            $this->db->from("clubs");
+            $this->db->join('towns', 'town_id', 'left');
+            $this->db->join('provinces', 'province_id', 'left');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -29,7 +30,7 @@ class Event_model extends CI_Model {
 
         }
         
-        public function get_event_detail($id)
+        public function get_club_detail($id)
         {
             if( ! ($id)) 
             {
@@ -37,7 +38,7 @@ class Event_model extends CI_Model {
             } 
             else 
             {
-                $query = $this->db->get_where('events', array('event_id' => $id));
+                $query = $this->db->get_where('clubs', array('club_id' => $id));
 
                 if ($query->num_rows() > 0) {
                     return $query->row_array();
@@ -47,20 +48,20 @@ class Event_model extends CI_Model {
 
         }
         
-        public function set_event($action, $id)
+        public function set_club($action, $id)
         {            
             $data = array(
-                        'event_name' => $this->input->post('event_name'),
-                        'event_status' => $this->input->post('event_status'),
+                        'club_name' => $this->input->post('club_name'),
+                        'club_status' => $this->input->post('club_status'),
                         'town_id' => $this->input->post('town_id'),
                     );            
             
             switch ($action) {                    
                 case "add": 
-                    return $this->db->insert('events', $data);                    
+                    return $this->db->insert('clubs', $data);                    
                 case "edit":
                     $data['updated_date']=date("Y-m-d H:i:s");
-                    return $this->db->update('events', $data, array('event_id' => $id));
+                    return $this->db->update('clubs', $data, array('club_id' => $id));
                     
                 default:
                     show_404();
@@ -70,16 +71,15 @@ class Event_model extends CI_Model {
         }
         
         
-        public function remove_event($id) {
+        public function remove_club($id) {
             if( ! ($id)) 
             {
                 return false;  
             } 
             else 
             {
-                return $this->db->delete('events', array('event_id' => $id));
+                return $this->db->delete('clubs', array('club_id' => $id));
             }
         }
-        
         
 }

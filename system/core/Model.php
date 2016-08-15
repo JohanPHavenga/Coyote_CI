@@ -84,7 +84,7 @@ class CI_Model {
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
-                    $data[$row['status_name']] = $row['status_name'];
+                    $data[$row['status_id']] = $row['status_name'];
                 }
                 return $data;
             }
