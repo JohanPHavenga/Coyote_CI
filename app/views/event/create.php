@@ -13,6 +13,11 @@
         ]);
     
     echo "</div>";
+        
+    echo "<div class='form-group'>";
+    echo form_label('Status', 'event_status');
+    echo form_dropdown('event_status', $status_dropdown, @$event_detail['event_status'], ["id"=>"event_status","class"=>"form-control"]);        
+    echo "</div>";
     
     echo "<div class='form-group'>";
     echo form_label('Town', 'town_id');

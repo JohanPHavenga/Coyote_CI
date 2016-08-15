@@ -76,5 +76,19 @@ class CI_Model {
 		//	most likely a typo in your model code.
 		return get_instance()->$key;
 	}
+        
+        
+        
+        public function get_status_dropdown() {
+            $query = $this->db->get("status");
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result_array() as $row) {
+                    $data[$row['status_name']] = $row['status_name'];
+                }
+                return $data;
+            }
+            return false;
+        }
 
 }

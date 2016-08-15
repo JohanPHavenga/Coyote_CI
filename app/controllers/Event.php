@@ -77,6 +77,7 @@ class Event extends CI_Controller {
         $data['action']=$action;
         $data['form_url']='event/create/'.$action;        
                 
+        $data['status_dropdown']=$this->event_model->get_status_dropdown();
         $data['town_dropdown']=$this->town_model->get_town_dropdown();
         
         if ($action=="edit") 
@@ -85,8 +86,9 @@ class Event extends CI_Controller {
         $data['form_url']='event/create/'.$action."/".$id;
         }
         
-        // set form
+        // set validation rules
         $this->form_validation->set_rules('event_name', 'Event Name', 'required');
+        $this->form_validation->set_rules('event_status', 'Event Status', 'required');
         $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a town"]);
 
         // load correct view

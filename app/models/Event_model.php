@@ -48,9 +48,10 @@ class Event_model extends CI_Model {
         }
         
         public function set_event($action, $id)
-        {
+        {            
             $data = array(
                         'event_name' => $this->input->post('event_name'),
+                        'event_status' => $this->input->post('event_status'),
                         'town_id' => $this->input->post('town_id'),
                     );            
             
