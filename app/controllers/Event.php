@@ -75,7 +75,11 @@ class Event extends CI_Controller {
         // set data
         $data['title'] = ucfirst($action).' an event';
         $data['action']=$action;
-        $data['form_url']='event/create/'.$action;        
+        $data['form_url']='event/create/'.$action;      
+        
+        $data['js_to_load']=array("select2.js");
+        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
                 
         $data['status_dropdown']=$this->event_model->get_status_dropdown();
         $data['town_dropdown']=$this->town_model->get_town_dropdown();

@@ -11,8 +11,15 @@
     <link href="<?=base_url('css/bootstrap.min.css');?>" rel="stylesheet">    
     <link href="<?=base_url('css/bootstrap-theme.min.css');?>" rel="stylesheet">
     
-    <link href="<?=base_url('css/select2.css');?>" rel="stylesheet"/>
-    <link href="<?=base_url('css/select2-bootstrap.css');?>" rel="stylesheet"/>
+    <?php
+        // load extra CSS files from controller
+        if (isset($css_to_load)) : 
+        foreach ($css_to_load as $row):
+            $css_link=base_url('css/'.$row);        
+            echo "<link href='$css_link' rel='stylesheet'>";
+        endforeach;
+        endif;
+    ?>
     
    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -64,7 +71,13 @@
             <li><a href="/">Home</a></li>
             <li><a href="/province/view">Provinces</a></li>
             <li><a href="/town/view">Towns</a></li>
-            <li><a href="/event/view">Events</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/event/view">View</a></li>
+                    <li><a href="/event/create/add">Add</a></li>
+                </ul>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
