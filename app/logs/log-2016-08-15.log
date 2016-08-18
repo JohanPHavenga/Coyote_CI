@@ -331,3 +331,5 @@ ERROR - 2016-08-15 13:24:02 --> Severity: Notice --> Undefined variable: event_l
 ERROR - 2016-08-15 13:24:35 --> Severity: Notice --> Undefined variable: club_list_formatted /var/www/app/views/club/view.php 4
 ERROR - 2016-08-15 13:25:19 --> Severity: Notice --> Undefined variable: club_list_formatted /var/www/app/views/club/view.php 4
 ERROR - 2016-08-15 13:38:34 --> Severity: Error --> Call to undefined method CI_DB_mysqli_driver::leftjoin() /var/www/app/models/Club_model.php 19
+ERROR - 2016-08-15 14:25:14 --> Query error: Unknown column 'province_name' in 'field list' - Invalid query: SELECT `club_id`, `club_name`, `province_name`
+FROM `clubs`

@@ -1,0 +1,1 @@
+ERROR - 2016-08-18 06:39:15 --> Query error: Cannot add or update a child row: a foreign key constraint fails (`coyote`.`club_sponsor`, CONSTRAINT `FK_cs_sponsor_id` FOREIGN KEY (`sponsor_id`) REFERENCES `sponsors` (`sponsor_id`) ON DELETE CASCADE ON UPDATE CASCADE) - Invalid query: INSERT INTO `club_sponsor` (`club_id`, `sponsor_id`) VALUES ('3', '0')

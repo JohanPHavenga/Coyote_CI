@@ -21,7 +21,12 @@
     
     echo "<div class='form-group'>";
     echo form_label('Town', 'town_id');
-    echo form_dropdown('town_id', $town_dropdown, @$club_detail['town_id'], ["id"=>"e1","class"=>"form-control autocomplete"]);        
+    echo form_dropdown('town_id', $town_dropdown, @$club_detail['town_id'], ["id"=>"town_id","class"=>"form-control autocomplete"]);        
+    echo "</div>";
+    
+    echo "<div class='form-group'>";
+    echo form_label('Sponsor', 'sponsor_id');
+    echo form_dropdown('sponsor_id', $sponsor_dropdown, @$club_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control"]);        
     echo "</div>";
    
     echo fbutton();

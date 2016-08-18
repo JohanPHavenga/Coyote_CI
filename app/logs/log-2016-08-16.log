@@ -1,0 +1,47 @@
+ERROR - 2016-08-16 08:57:30 --> Severity: Notice --> Undefined variable: event_id /var/www/app/models/Event_model.php 57
+ERROR - 2016-08-16 08:57:30 --> Query error: Column 'event_id' cannot be null - Invalid query: INSERT INTO `organising_club` (`club_id`, `event_id`) VALUES ('2', NULL)
+ERROR - 2016-08-16 09:00:22 --> Query error: Table 'coyote.club' doesn't exist - Invalid query: SELECT `events`.*, `town_name`
+FROM `events`
+LEFT JOIN `towns` USING (`town_id`)
+LEFT JOIN `club` USING (`club_id`)
+ LIMIT 50
+ERROR - 2016-08-16 09:00:48 --> Query error: Table 'coyote.club' doesn't exist - Invalid query: SELECT `events`.*, `town_name`, `club_name`
+FROM `events`
+LEFT JOIN `towns` USING (`town_id`)
+LEFT JOIN `club` ON `events`.`club_id`=`club`.`club_id`
+ LIMIT 50
+ERROR - 2016-08-16 09:01:00 --> Query error: Unknown column 'events.club_id' in 'on clause' - Invalid query: SELECT `events`.*, `town_name`, `club_name`
+FROM `events`
+LEFT JOIN `towns` USING (`town_id`)
+LEFT JOIN `clubs` ON `events`.`club_id`=`club`.`club_id`
+ LIMIT 50
+ERROR - 2016-08-16 09:01:20 --> Query error: Unknown column 'events.club_id' in 'on clause' - Invalid query: SELECT `events`.*, `town_name`, `club_name`
+FROM `events`
+LEFT JOIN `towns` ON `events`.`town_id`=`towns`.`town_id`
+LEFT JOIN `clubs` ON `events`.`club_id`=`club`.`club_id`
+ LIMIT 50
+ERROR - 2016-08-16 09:03:26 --> Query error: Unknown column 'events.club_id' in 'on clause' - Invalid query: SELECT `events`.*, `town_name`, `club_name`
+FROM `events`
+LEFT JOIN `towns` ON `events`.`town_id`=`towns`.`town_id`
+LEFT JOIN `organising_club` USING (`event_id`)
+LEFT JOIN `clubs` ON `events`.`club_id`=`club`.`club_id`
+ LIMIT 50
+ERROR - 2016-08-16 09:11:36 --> Severity: 4096 --> Object of class CI_DB_mysqli_result could not be converted to string /var/www/app/controllers/Event.php 113
+ERROR - 2016-08-16 09:16:59 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:16:59 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:19:49 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:19:49 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:19:59 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:19:59 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:20:03 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:20:03 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:21:12 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:21:12 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:21:14 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:21:14 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:21:17 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:21:17 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:22:14 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:22:14 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map
+ERROR - 2016-08-16 09:22:30 --> 404 Page Not Found: Css/bootstrap.min.css.map
+ERROR - 2016-08-16 09:22:30 --> 404 Page Not Found: Css/bootstrap-theme.min.css.map

@@ -67,6 +67,7 @@ class Club extends CI_Controller {
     public function create($action, $id=0) {  
         // additional models
         $this->load->model('town_model');
+        $this->load->model('sponsor_model');
             
         // load helpers / libraries
         $this->load->helper('form');
@@ -83,6 +84,7 @@ class Club extends CI_Controller {
                 
         $data['status_dropdown']=$this->club_model->get_status_dropdown();
         $data['town_dropdown']=$this->town_model->get_town_dropdown();
+        $data['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown(); 
         
         if ($action=="edit") 
         {

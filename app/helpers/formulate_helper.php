@@ -2,6 +2,23 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // ================================================================
+// Formulate Dates
+// ================================================================
+if ( ! function_exists('fdateShort'))
+{
+    function fdateShort($date) 
+    {
+        if ($date)
+        {
+            return date("Y-m-d",strtotime($date));
+        } else {
+            return false;
+        }
+    }
+}
+
+
+// ================================================================
 // Formulate Buttons
 // ================================================================
 if ( ! function_exists('fbutton')) 

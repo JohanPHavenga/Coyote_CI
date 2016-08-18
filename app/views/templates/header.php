@@ -68,9 +68,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
             <li><a href="/province/view">Provinces</a></li>
             <li><a href="/town/view">Towns</a></li>
+            
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -79,10 +79,24 @@
                 </ul>
             </li>
             <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Editions <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/edition/view">View</a></li>
+                    <li><a href="/edition/create/add">Add</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clubs <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="/club/view">View</a></li>
                     <li><a href="/club/create/add">Add</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sponsors <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/sponsor/view">View</a></li>
+                    <li><a href="/sponsor/create/add">Add</a></li>
                 </ul>
             </li>
           </ul>
