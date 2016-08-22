@@ -16,7 +16,7 @@
                 endforeach;
             endif;
         ?>
-        <script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 <?php
                 if (isset($js_script_to_load)) :

@@ -21,3 +21,5 @@ ERROR - 2016-08-18 20:14:33 --> Severity: error --> Exception: Session: Configur
 ERROR - 2016-08-18 20:14:33 --> Severity: Warning --> fopen(041d4f461a74cf7823f1009b54fda7f3ac54e0c9): failed to open stream: Permission denied /var/www/system/libraries/Session/drivers/Session_files_driver.php 157
 ERROR - 2016-08-18 20:14:33 --> Session: File '041d4f461a74cf7823f1009b54fda7f3ac54e0c9' doesn't exist and cannot be created.
 ERROR - 2016-08-18 20:14:33 --> Severity: Warning --> Unknown: Failed to write session data (user). Please verify that the current setting of session.save_path is correct () Unknown 0
+ERROR - 2016-08-18 20:26:08 --> Session: No Redis save path configured.
+ERROR - 2016-08-18 20:26:08 --> Severity: Error --> session_start(): Failed to initialize storage module: user (path: ) /var/www/system/libraries/Session/Session.php 141

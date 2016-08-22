@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://192.168.33.10/';
-$config['base_url'] = 'http://www.johanhavenga.co.za/';
+$config['base_url'] = 'http://192.168.33.10/';
+//$config['base_url'] = 'http://www.johanhavenga.co.za/';
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -369,7 +369,7 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'coyote';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;

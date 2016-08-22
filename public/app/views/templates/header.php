@@ -86,6 +86,13 @@
                 </ul>
             </li>
             <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Races <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/race/view">View</a></li>
+                    <li><a href="/race/create/add">Add</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clubs <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="/club/view">View</a></li>

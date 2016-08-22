@@ -17,6 +17,24 @@ if ( ! function_exists('fdateShort'))
     }
 }
 
+if ( ! function_exists('fdateLong'))
+{
+    function fdateLong($date, $show_sec=TRUE) 
+    {
+        if ($date)
+        {
+            if ($show_sec) 
+            {
+                return date("Y-m-d H:i:s",strtotime($date));
+            } else {
+                return date("Y-m-d H:i",strtotime($date));
+            }
+        } else {
+            return false;
+        }
+    }
+}
+
 
 // ================================================================
 // Formulate Buttons

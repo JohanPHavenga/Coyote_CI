@@ -31,6 +31,21 @@ class Edition_model extends CI_Model {
 
         }
         
+        public function get_edition_dropdown() {
+            $this->db->select("edition_id, edition_name");
+            $this->db->from("editions");
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $data[] = "Please Select";
+                foreach ($query->result_array() as $row) {
+                    $data[$row['edition_id']] = $row['edition_name'];
+                }
+                return $data;
+            }
+            return false;
+        }
+        
         public function get_edition_detail($id)
         {
             if( ! ($id)) 
