@@ -1,5 +1,5 @@
 <?php
-class Pages extends Frontend_Controller {
+class Dashboard extends Admin_Controller {
     
     // check if method exists, if not calls "view" method
     public function _remap($method, $params = array())
@@ -10,7 +10,7 @@ class Pages extends Frontend_Controller {
         }   
         else 
         {
-            $this->view($method, $params = array());
+            $this->view();
         }
         
         
@@ -18,18 +18,17 @@ class Pages extends Frontend_Controller {
     
     public function view($page = 'home')
     {
-        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
+        if ( ! file_exists(APPPATH.'views/admin/dashboard/'.$page.'.php'))
         {
                 // Whoops, we don't have a page for that!
                 show_404();
         }
 
         $data['title'] = ucfirst($page); // Capitalize the first letter
-        $data['page'] = $page;
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('pages/'.$page, $data);
-        $this->load->view('templates/footer', $data);
+        $this->load->view('templates/header_admin', $data);
+        $this->load->view('admin/dashboard/'.$page, $data);
+        $this->load->view('templates/footer_admin', $data);
     }
         
 }

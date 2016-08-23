@@ -1,5 +1,5 @@
 <?php
-class Town extends CI_Controller {
+class Town extends Admin_Controller {
 
     public function __construct()
     {

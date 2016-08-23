@@ -1,10 +1,10 @@
 <?php
-class Race extends CI_Controller {
+class Event extends Admin_Controller {
 
     public function __construct()
     {
             parent::__construct();
-            $this->load->model('race_model');
+            $this->load->model('event_model');
             $this->load->helper('formulate');
             
     }
@@ -18,7 +18,7 @@ class Race extends CI_Controller {
         else 
         {
 //            $this->view();
-            redirect('/race/view', 'refresh');
+            redirect('/event/view', 'refresh');
         }
     }
     
@@ -30,8 +30,8 @@ class Race extends CI_Controller {
         // pagination config
         $per_page=50;
         $uri_segment=3;
-        $url=base_url()."/race/view";
-        $total_rows=$this->race_model->record_count();
+        $url=base_url()."/event/view";
+        $total_rows=$this->event_model->record_count();
         $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
@@ -42,77 +42,75 @@ class Race extends CI_Controller {
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["race_list"] = $this->race_model->get_race_list($per_page, $page);
-        $data['create_link']="/race/create";
+        $data["event_list"] = $this->event_model->get_event_list($per_page, $page);
+        $data['create_link']="/event/create";
         $data['title'] = uri_string(); 
         
         // as daar data is
-        $data['race_list_formatted']=[];
-        if ($data["race_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['race_list'][0]),2);
+        if ($data["event_list"]) { 
+            $data['heading']=ftableHeading(array_keys($data['event_list'][0]),2);
             
-            foreach ($data['race_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['race_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/race/delete/".$entry['race_id'], "delete", "danger", "xs");
-                $data['race_list_formatted'][] = $entry;
+            foreach ($data['event_list'] as $entry):
+                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['event_id'], "edit", "default", "xs");
+                $entry[]=fbuttonLink("/event/delete/".$entry['event_id'], "delete", "danger", "xs");
+                $data['event_list_formatted'][] = $entry;
             endforeach;
         }
         
         // load view
         $this->load->view('templates/header', $data);
-        $this->load->view('race/view', $data);
+        $this->load->view('event/view', $data);
         $this->load->view('templates/footer');
     }
     
     
     public function create($action, $id=0) {  
         // additional models
-        $this->load->model('edition_model');
+        $this->load->model('town_model');
+        $this->load->model('club_model');
             
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' an race';
+        $data['title'] = ucfirst($action).' an event';
         $data['action']=$action;
-        $data['form_url']='race/create/'.$action;      
+        $data['form_url']='event/create/'.$action;      
         
-        $data['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $data['js_script_to_load']="$('#datetimepicker1').datetimepicker({format: 'YYYY/MM/DD HH:mm'});";
-        $data['css_to_load']=array("bootstrap-datetimepicker.min.css");
-        
+        $data['js_to_load']=array("select2.js");
+        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
                 
-        $data['edition_dropdown']=$this->edition_model->get_edition_dropdown(); 
-        $data['status_dropdown']=$this->race_model->get_status_dropdown();
+        $data['status_dropdown']=$this->event_model->get_status_dropdown();
+        $data['town_dropdown']=$this->town_model->get_town_dropdown();        
+        $data['club_dropdown']=$this->club_model->get_club_dropdown();
         
         if ($action=="edit") 
         {
-        $data['race_detail']=$this->race_model->get_race_detail($id);        
-        $data['form_url']='race/create/'.$action."/".$id;
+        $data['event_detail']=$this->event_model->get_event_detail($id);        
+        $data['form_url']='event/create/'.$action."/".$id;
         }
         
         // set validation rules
-        $this->form_validation->set_rules('race_name', 'Race Name', 'required');
-        $this->form_validation->set_rules('race_distance', 'Race distance', 'required|numeric');
-        $this->form_validation->set_rules('race_date', 'Race date', 'required');
-        $this->form_validation->set_rules('race_status', 'Race status', 'required');
-        $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an edition"]);
+        $this->form_validation->set_rules('event_name', 'Event Name', 'required');
+        $this->form_validation->set_rules('event_status', 'Event Status', 'required');
+        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a town"]);
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
             $this->load->view('templates/header', $data);
-            $this->load->view('race/create', $data);
+            $this->load->view('event/create', $data);
             $this->load->view('templates/footer');
 
         }
         else
         {
-            $db_write=$this->race_model->set_race($action, $id);
+            $db_write=$this->event_model->set_event($action, $id);
             if ($db_write)
             {
-                $alert="Race has been updated";
+                $alert="Event has been updated";
                 $status="success";
             }
             else 
@@ -126,7 +124,7 @@ class Race extends CI_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('race/view');  
+            redirect('event/view');  
         }
     }
     
@@ -135,22 +133,22 @@ class Race extends CI_Controller {
         
         if ($id==0) {
             $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('race/view');  
+            redirect('event/view');  
             die();
         }
         
-        $data['title'] = 'Delete an race';
+        $data['title'] = 'Delete an event';
         $data['id']=$id;
         
         
         if ($confirm=='confirm') 
         {
             
-            $db_del=$this->race_model->remove_race($id);
+            $db_del=$this->event_model->remove_event($id);
             
             if ($db_del)
             {
-                $msg="Race has been deleted";
+                $msg="Event has been deleted";
             }
             else 
             {
@@ -158,12 +156,12 @@ class Race extends CI_Controller {
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('race/view');          
+            redirect('event/view');          
         }
         else 
         {
             $this->load->view('templates/header', $data);
-            $this->load->view('race/delete', $data);
+            $this->load->view('event/delete', $data);
             $this->load->view('templates/footer');
         
         }

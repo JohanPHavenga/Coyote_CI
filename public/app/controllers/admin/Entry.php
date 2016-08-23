@@ -1,10 +1,10 @@
 <?php
-class Edition extends CI_Controller {
+class Entry extends Admin_Controller {
 
     public function __construct()
     {
             parent::__construct();
-            $this->load->model('edition_model');
+            $this->load->model('entry_model');
             $this->load->helper('formulate');
             
     }
@@ -18,7 +18,7 @@ class Edition extends CI_Controller {
         else 
         {
 //            $this->view();
-            redirect('/edition/view', 'refresh');
+            redirect('/entry/view', 'refresh');
         }
     }
     
@@ -30,8 +30,8 @@ class Edition extends CI_Controller {
         // pagination config
         $per_page=50;
         $uri_segment=3;
-        $url=base_url()."/edition/view";
-        $total_rows=$this->edition_model->record_count();
+        $url=base_url()."/entry/view";
+        $total_rows=$this->entry_model->record_count();
         $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
@@ -42,78 +42,82 @@ class Edition extends CI_Controller {
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["edition_list"] = $this->edition_model->get_edition_list($per_page, $page);
-        $data['create_link']="/edition/create";
+        $data["entry_list"] = $this->entry_model->get_entry_list($per_page, $page);
+        $data['create_link']="/entry/create";
         $data['title'] = uri_string(); 
         
         // as daar data is
-        $data['edition_list_formatted']=[];
-        if ($data["edition_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['edition_list'][0]),2);
+        $data['entry_list_formatted']=[];
+        if ($data["entry_list"]) { 
+            $data['heading']=ftableHeading(array_keys($data['entry_list'][0]),2);
             
-            foreach ($data['edition_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['edition_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/edition/delete/".$entry['edition_id'], "delete", "danger", "xs");
-                $data['edition_list_formatted'][] = $entry;
+            foreach ($data['entry_list'] as $entry):
+                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['entry_id'], "edit", "default", "xs");
+                $entry[]=fbuttonLink("/entry/delete/".$entry['entry_id'], "delete", "danger", "xs");
+                $data['entry_list_formatted'][] = $entry;
             endforeach;
         }
         
         // load view
         $this->load->view('templates/header', $data);
-        $this->load->view('edition/view', $data);
+        $this->load->view('entry/view', $data);
         $this->load->view('templates/footer');
     }
     
     
     public function create($action, $id=0) {  
         // additional models
-        $this->load->model('sponsor_model');
-        $this->load->model('event_model');
+        $this->load->model('race_model');
+        $this->load->model('user_model');
+        $this->load->model('club_model');
             
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' an edition';
+        $data['title'] = ucfirst($action).' a entry';
         $data['action']=$action;
-        $data['form_url']='edition/create/'.$action;      
+        $data['form_url']='entry/create/'.$action;      
         
-        $data['js_to_load']=array("select2.js");
-        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
+//        $data['js_to_load']=array("select2.js");
+//        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+//        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
+        
+        $data['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
+        $data['js_script_to_load']="$('.entry_time').datetimepicker({format: 'HH:mm:ss'});";
+        $data['css_to_load']=array("bootstrap-datetimepicker.min.css");
                 
-        $data['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown(); 
-        $data['event_dropdown']=$this->event_model->get_event_dropdown(); 
-        $data['status_dropdown']=$this->event_model->get_status_dropdown();
+        $data['race_dropdown']=$this->race_model->get_race_dropdown();
+        $data['user_dropdown']=$this->user_model->get_user_dropdown();
+        $data['club_dropdown']=$this->club_model->get_club_dropdown(); 
         
         if ($action=="edit") 
         {
-        $data['edition_detail']=$this->edition_model->get_edition_detail($id);        
-        $data['form_url']='edition/create/'.$action."/".$id;
+        $data['entry_detail']=$this->entry_model->get_entry_detail($id);        
+        $data['form_url']='entry/create/'.$action."/".$id;
         }
         
         // set validation rules
-        $this->form_validation->set_rules('edition_name', 'Edition Name', 'required');
-        $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
-        $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
-        $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an event"]);
-        $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsort"]);
+        $this->form_validation->set_rules('entry_number', 'Race Number', 'required');
+        $this->form_validation->set_rules('race_id', 'Race', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Race"]);
+        $this->form_validation->set_rules('user_id', 'User', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a User"]);
+        $this->form_validation->set_rules('club_id', 'Club', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Club"]);
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
             $this->load->view('templates/header', $data);
-            $this->load->view('edition/create', $data);
+            $this->load->view('entry/create', $data);
             $this->load->view('templates/footer');
 
         }
         else
         {
-            $db_write=$this->edition_model->set_edition($action, $id);
+            $db_write=$this->entry_model->set_entry($action, $id);
             if ($db_write)
             {
-                $alert="Event has been updated";
+                $alert="Entry has been updated";
                 $status="success";
             }
             else 
@@ -127,7 +131,7 @@ class Edition extends CI_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('edition/view');  
+            redirect('entry/view');  
         }
     }
     
@@ -136,22 +140,21 @@ class Edition extends CI_Controller {
         
         if ($id==0) {
             $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('edition/view');  
+            redirect('entry/view');  
             die();
         }
         
-        $data['title'] = 'Delete an edition';
+        $data['title'] = 'Delete a entry';
         $data['id']=$id;
         
         
         if ($confirm=='confirm') 
         {
-            
-            $db_del=$this->edition_model->remove_edition($id);
+            $db_del=$this->entry_model->remove_entry($id);
             
             if ($db_del)
             {
-                $msg="Event has been deleted";
+                $msg="Entry has been deleted";
             }
             else 
             {
@@ -159,12 +162,12 @@ class Edition extends CI_Controller {
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('edition/view');          
+            redirect('entry/view');          
         }
         else 
         {
             $this->load->view('templates/header', $data);
-            $this->load->view('edition/delete', $data);
+            $this->load->view('entry/delete', $data);
             $this->load->view('templates/footer');
         
         }

@@ -35,6 +35,18 @@ if ( ! function_exists('fdateLong'))
     }
 }
 
+if ( ! function_exists('fdateYear'))
+{
+    function fdateYear($date) 
+    {
+        if ($date)
+        {
+            return date("Y",strtotime($date));
+        } else {
+            return false;
+        }
+    }
+}
 
 // ================================================================
 // Formulate Buttons
@@ -63,8 +75,7 @@ if ( ! function_exists('fbuttonLink'))
     function fbuttonLink($url,$text,$status="default",$size=NULL) 
     {
         // status: default|primary|success|warning|danger|link
-        // size: lg|sm|xs
-        
+        // size: lg|sm|xs        
         if ($size)
         {
             $btn_size="btn-".$size;

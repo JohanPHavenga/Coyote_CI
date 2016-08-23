@@ -1,5 +1,5 @@
 <?php
-class Race_model extends CI_Model {
+class Asanumber_model extends CI_Model {
 
         public function __construct()
         {
@@ -7,44 +7,45 @@ class Race_model extends CI_Model {
         }
         
         public function record_count() {
-            return $this->db->count_all("races");
+            return $this->db->count_all("asanumbers");
         }
         
-        public function get_race_list($limit, $start)
+        public function get_asanumber_list($limit, $start)
         {
-            $this->db->limit($limit, $start);    
+            $this->db->limit($limit, $start);
             
-            $this->db->select("races.*, edition_name");
-            $this->db->from("races");
-            $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            $this->db->select("asanumbers.*, user_name, user_surname");
+            $this->db->from("asanumbers");
+            $this->db->join('users', 'user_id', 'left');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
-                    $data[] = $row;
+                    $data[$row['asanumber_id']] = $row;
                 }
                 return $data;
             }
             return false;
 
-        }
+        }        
         
-         public function get_race_dropdown() {
-            $this->db->select("race_id, race_name");
-            $this->db->from("races");
+        public function get_asanumber_dropdown() {
+            $this->db->select("asanumber_id, asanumber_num, asanumber_year");
+            $this->db->from("asanumbers");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['race_id']] = $row['race_name'];
+                    $data[$row['asanumber_id']] = $row['asanumber_year'] . "-".$row['asanumber_num'];
                 }
+//                return array_slice($data, 0, 500, true);
                 return $data;
             }
             return false;
         }
         
-        public function get_race_detail($id)
+        public function get_asanumber_detail($id)
         {
             if( ! ($id)) 
             {
@@ -52,10 +53,10 @@ class Race_model extends CI_Model {
             } 
             else 
             {
-                $this->db->select("races.*, edition_name");
-                $this->db->from("races");
-                $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
-                $this->db->where('race_id', $id);
+                $this->db->select("asanumbers.*, user_name, user_surname");
+                $this->db->from("asanumbers");
+                $this->db->join('users', 'user_id', 'left');
+                $this->db->where('asanumber_id', $id);
                 $query = $this->db->get();
 
                 if ($query->num_rows() > 0) {
@@ -66,29 +67,27 @@ class Race_model extends CI_Model {
 
         }
         
-        public function set_race($action, $id)
+        public function set_asanumber($action, $id)
         {            
-            $race_data = array(
-                        'race_name' => $this->input->post('race_name'),
-                        'race_distance' => $this->input->post('race_distance'),
-                        'race_date' => $this->input->post('race_date'),
-                        'race_status' => $this->input->post('race_status'),
-                        'edition_id' => $this->input->post('edition_id'),
+            $asanumber_data = array(
+                        'asanumber_num' => $this->input->post('asanumber_num'),
+                        'asanumber_year' => $this->input->post('asanumber_year'),
+                        'user_id' => $this->input->post('user_id'),
                     );       
             
             switch ($action) {                    
                 case "add":                     
                     $this->db->trans_start();
-                    $this->db->insert('races', $race_data);  
+                    $this->db->insert('asanumbers', $asanumber_data);  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();               
                 case "edit":
                     // add updated date to both data arrays
-                    $race_data['updated_date']=date("Y-m-d H:i:s");
+                    $asanumber_data['updated_date']=date("Y-m-d H:i:s");
                     
                     // start SQL transaction
                     $this->db->trans_start();
-                    $this->db->update('races', $race_data, array('race_id' => $id));                  
+                    $this->db->update('asanumbers', $asanumber_data, array('asanumber_id' => $id));                  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();    
                 default:
@@ -99,16 +98,16 @@ class Race_model extends CI_Model {
         }
         
         
-        public function remove_race($id) {
-            if( ! ($id)) 
+        public function remove_asanumber($id) {
+            if( ! ($id))
             {
                 return false;  
             } 
             else 
             {
-                // only race needed, SQL key constraints used to remove records from organizing_club
+                // only asanumber needed, SQL key constraints used to remove records from organizing_club
                 $this->db->trans_start();
-                $this->db->delete('races', array('race_id' => $id));               
+                $this->db->delete('asanumbers', array('asanumber_id' => $id));               
                 $this->db->trans_complete();  
                 return $this->db->trans_status();    
             }

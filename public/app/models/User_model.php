@@ -1,5 +1,5 @@
 <?php
-class Race_model extends CI_Model {
+class User_model extends CI_Model {
 
         public function __construct()
         {
@@ -7,16 +7,16 @@ class Race_model extends CI_Model {
         }
         
         public function record_count() {
-            return $this->db->count_all("races");
+            return $this->db->count_all("users");
         }
         
-        public function get_race_list($limit, $start)
+        public function get_user_list($limit, $start)
         {
             $this->db->limit($limit, $start);    
             
-            $this->db->select("races.*, edition_name");
-            $this->db->from("races");
-            $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            $this->db->select("users.*, club_name");
+            $this->db->from("users");
+            $this->db->join('clubs', 'club_id');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -29,22 +29,22 @@ class Race_model extends CI_Model {
 
         }
         
-         public function get_race_dropdown() {
-            $this->db->select("race_id, race_name");
-            $this->db->from("races");
+        public function get_user_dropdown() {
+            $this->db->select("user_id, user_name, user_surname");
+            $this->db->from("users");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['race_id']] = $row['race_name'];
+                    $data[$row['user_id']] = $row['user_name']." ".$row['user_surname'];
                 }
                 return $data;
             }
             return false;
         }
         
-        public function get_race_detail($id)
+        public function get_user_detail($id)
         {
             if( ! ($id)) 
             {
@@ -52,10 +52,10 @@ class Race_model extends CI_Model {
             } 
             else 
             {
-                $this->db->select("races.*, edition_name");
-                $this->db->from("races");
-                $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
-                $this->db->where('race_id', $id);
+                $this->db->select("users.*, club_id");
+                $this->db->from("users");
+                $this->db->join('clubs', 'club_id', 'left');
+                $this->db->where('user_id', $id);
                 $query = $this->db->get();
 
                 if ($query->num_rows() > 0) {
@@ -66,29 +66,27 @@ class Race_model extends CI_Model {
 
         }
         
-        public function set_race($action, $id)
+        public function set_user($action, $id)
         {            
-            $race_data = array(
-                        'race_name' => $this->input->post('race_name'),
-                        'race_distance' => $this->input->post('race_distance'),
-                        'race_date' => $this->input->post('race_date'),
-                        'race_status' => $this->input->post('race_status'),
-                        'edition_id' => $this->input->post('edition_id'),
-                    );       
+            $user_data = array(
+                        'user_name' => $this->input->post('user_name'),
+                        'user_surname' => $this->input->post('user_surname'),
+                        'club_id' => $this->input->post('club_id'),
+                    );
             
             switch ($action) {                    
                 case "add":                     
                     $this->db->trans_start();
-                    $this->db->insert('races', $race_data);  
+                    $this->db->insert('users', $user_data);  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();               
                 case "edit":
                     // add updated date to both data arrays
-                    $race_data['updated_date']=date("Y-m-d H:i:s");
+                    $user_data['updated_date']=date("Y-m-d H:i:s");
                     
                     // start SQL transaction
                     $this->db->trans_start();
-                    $this->db->update('races', $race_data, array('race_id' => $id));                  
+                    $this->db->update('users', $user_data, array('user_id' => $id));                  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();    
                 default:
@@ -99,16 +97,16 @@ class Race_model extends CI_Model {
         }
         
         
-        public function remove_race($id) {
+        public function remove_user($id) {
             if( ! ($id)) 
             {
                 return false;  
             } 
             else 
             {
-                // only race needed, SQL key constraints used to remove records from organizing_club
+                // only edition needed, SQL key constraints used to remove records from organizing_club
                 $this->db->trans_start();
-                $this->db->delete('races', array('race_id' => $id));               
+                $this->db->delete('users', array('user_id' => $id));               
                 $this->db->trans_complete();  
                 return $this->db->trans_status();    
             }
