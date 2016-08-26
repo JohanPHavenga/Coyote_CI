@@ -1,12 +1,13 @@
 <?php
 class Event extends Admin_Controller {
 
+    private $return_url="/admin/event/view";
+    private $create_url="/admin/event/create";
+    
     public function __construct()
     {
-            parent::__construct();
-            $this->load->model('event_model');
-            $this->load->helper('formulate');
-            
+        parent::__construct();
+        $this->load->model('event_model');
     }
     
     public function _remap($method, $params = array())
@@ -17,8 +18,8 @@ class Event extends Admin_Controller {
         }   
         else 
         {
-//            $this->view();
-            redirect('/event/view', 'refresh');
+            $this->view();
+//            redirect('/event/view', 'refresh');
         }
     }
     
@@ -29,38 +30,31 @@ class Event extends Admin_Controller {
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=3;
-        $url=base_url()."/event/view";
+        $uri_segment=4;
         $total_rows=$this->event_model->record_count();
-        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();  
-        
+        $data["pagination"]=$this->pagination->create_links();          
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["event_list"] = $this->event_model->get_event_list($per_page, $page);
-        $data['create_link']="/event/create";
+        $data["list"] = $this->event_model->get_event_list($per_page, $page);
+        $data['create_link']=$this->create_url;
+        $data['delete_arr']=["controller"=>"event","id_field"=>"event_id"];
         $data['title'] = uri_string(); 
         
         // as daar data is
-        if ($data["event_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['event_list'][0]),2);
-            
-            foreach ($data['event_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['event_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/event/delete/".$entry['event_id'], "delete", "danger", "xs");
-                $data['event_list_formatted'][] = $entry;
-            endforeach;
+        if ($data["list"]) { 
+             $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
         }
         
         // load view
-        $this->load->view('templates/header', $data);
-        $this->load->view('event/view', $data);
-        $this->load->view('templates/footer');
+        $this->load->view($this->header_url, $data);
+        $this->load->view($this->view_url, $data);
+        $this->load->view($this->footer_url);
     }
     
     

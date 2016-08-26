@@ -1,8 +1,5 @@
 <?php
-class Province extends Admin_Controller {
-    
-    private $return_url="/admin/asanumber/view";
-    private $create_url="/admin/asanumber/create";
+class Province extends Admin_Controller {    
     
     public function __construct()
     {

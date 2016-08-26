@@ -1,7 +1,7 @@
 <?php    
     //log_message('error',print_r($province_list,TRUE));    
 //    wts($province_list);
-    $data_arr=$town_list;
+    $data_arr=$list;
 
     if ( ! (empty($data_arr))) 
     {

@@ -30,7 +30,7 @@ class Asanumber extends Admin_Controller {
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=3;
+        $uri_segment=4;
         $total_rows=$this->asanumber_model->record_count();
         $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
