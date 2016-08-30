@@ -24,12 +24,10 @@ class Login extends Frontend_Controller {
     
     public function userlogin()
     {
-        
         $data['title'] = "User Login";
         $data['form_url'] = '/login/userlogin/submit';  
-        $data['return_url'] = '/login';
-        
-        $data['css_to_load']=array("login.css");
+        $data['error_url'] = '/login';  
+        $data['success_url'] = '/';
         
         // set validation rules
         $this->form_validation->set_rules('user_username', 'Username', 'required');
@@ -44,36 +42,79 @@ class Login extends Frontend_Controller {
         }
         else
         {
-            $check_login=false;
+            $check_login=true;
+            
             if ($check_login)
             {
-                $alert="Login successfull";
-                $status="success";
+                $this->session->set_flashdata([
+                    'alert'=>"Login successfull",
+                    'status'=>"success",
+                    ]);
+
+                redirect($data['success_url']);  
             }
             else 
-            {
-                $alert="Login Failed";
-                $status="danger";
+            {                
+                $this->session->set_flashdata([
+                    'alert'=>"Login Failed",
+                    'status'=>"danger",
+                    ]);
+
+                redirect($data['error_url']);  
             }
             
-            $this->session->set_flashdata([
-                'alert'=>$alert,
-                'status'=>$status,
-                ]);
+            die("Login failure");
             
-            redirect($data['return_url']);  
         }
 
     }
     
     public function admin()
     {
-
+        
         $data['title'] = "Admin Login";
+        $data['form_url'] = '/login/admin/submit';  
+        $data['error_url'] = '/login/admin';  
+        $data['success_url'] = '/admin';
+        
+        // set validation rules
+        $this->form_validation->set_rules('user_username', 'Username', 'required');
+        $this->form_validation->set_rules('user_password', 'Password', 'required');
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('login/adminlogin', $data);
-        $this->load->view('templates/footer', $data);
+        // load correct view
+        if ($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('templates/header', $data);
+            $this->load->view('login/adminlogin', $data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $check_login=true;
+            
+            if ($check_login)
+            {
+                $this->session->set_flashdata([
+                    'alert'=>"Login successfull",
+                    'status'=>"success",
+                    ]);
+
+                redirect($data['success_url']);  
+            }
+            else 
+            {                
+                $this->session->set_flashdata([
+                    'alert'=>"Login Failed",
+                    'status'=>"danger",
+                    ]);
+
+                redirect($data['error_url']);  
+            }
+            
+            die("Login failure");
+            
+        }
+
     }
         
 }

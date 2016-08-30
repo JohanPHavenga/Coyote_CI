@@ -1,12 +1,13 @@
 <?php
 class Edition extends Admin_Controller {
 
+    private $return_url="/admin/edition/view";
+    private $create_url="/admin/edition/create";
+    
     public function __construct()
     {
-            parent::__construct();
-            $this->load->model('edition_model');
-            $this->load->helper('formulate');
-            
+        parent::__construct();
+        $this->load->model('edition_model');            
     }
     
     public function _remap($method, $params = array())
@@ -17,8 +18,7 @@ class Edition extends Admin_Controller {
         }   
         else 
         {
-//            $this->view();
-            redirect('/edition/view', 'refresh');
+            $this->view($params);
         }
     }
     
@@ -29,10 +29,9 @@ class Edition extends Admin_Controller {
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=3;
-        $url=base_url()."/edition/view";
+        $uri_segment=4;
         $total_rows=$this->edition_model->record_count();
-        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
         $this->load->library("pagination");        
@@ -42,26 +41,21 @@ class Edition extends Admin_Controller {
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["edition_list"] = $this->edition_model->get_edition_list($per_page, $page);
-        $data['create_link']="/edition/create";
+        
+        $data["list"] = $this->edition_model->get_edition_list($per_page, $page);
+        $data['create_link']=$this->create_url;
+        $data['delete_arr']=["controller"=>"edition","id_field"=>"edition_id"];
         $data['title'] = uri_string(); 
         
         // as daar data is
-        $data['edition_list_formatted']=[];
-        if ($data["edition_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['edition_list'][0]),2);
-            
-            foreach ($data['edition_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['edition_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/edition/delete/".$entry['edition_id'], "delete", "danger", "xs");
-                $data['edition_list_formatted'][] = $entry;
-            endforeach;
+        if ($data["list"]) { 
+            $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
         }
         
         // load view
-        $this->load->view('templates/header', $data);
-        $this->load->view('edition/view', $data);
-        $this->load->view('templates/footer');
+        $this->load->view($this->header_url, $data);
+        $this->load->view($this->view_url, $data);
+        $this->load->view($this->footer_url);
     }
     
     
@@ -75,13 +69,13 @@ class Edition extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' an edition';
+        $data['title'] = uri_string();  
         $data['action']=$action;
-        $data['form_url']='edition/create/'.$action;      
+        $data['form_url']=$this->create_url."/".$action;       
         
-        $data['js_to_load']=array("select2.js");
-        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
+//        $data['js_to_load']=array("select2.js");
+//        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+//        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
                 
         $data['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown(); 
         $data['event_dropdown']=$this->event_model->get_event_dropdown(); 
@@ -89,8 +83,8 @@ class Edition extends Admin_Controller {
         
         if ($action=="edit") 
         {
-        $data['edition_detail']=$this->edition_model->get_edition_detail($id);        
-        $data['form_url']='edition/create/'.$action."/".$id;
+        $data['edition_detail']=$this->edition_model->get_edition_detail($id);         
+        $data['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -103,10 +97,9 @@ class Edition extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('edition/create', $data);
-            $this->load->view('templates/footer');
-
+            $this->load->view($this->header_url, $data);
+            $this->load->view($this->create_url, $data);
+            $this->load->view($this->footer_url);
         }
         else
         {
@@ -127,46 +120,46 @@ class Edition extends Admin_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('edition/view');  
+            redirect($this->return_url);  
         }
     }
     
     
-    public function delete($id=0, $confirm=false) {
+    public function delete($confirm=false) {
+        
+        $id=$this->encryption->decrypt($this->input->post('edition_id'));
         
         if ($id==0) {
-            $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('edition/view');  
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
             die();
         }
-        
-        $data['title'] = 'Delete an edition';
-        $data['id']=$id;
-        
-        
+                
         if ($confirm=='confirm') 
         {
-            
-            $db_del=$this->edition_model->remove_edition($id);
-            
+            $db_del=$this->edition_model->remove_edition($id);            
             if ($db_del)
             {
-                $msg="Event has been deleted";
+                $msg="Edition has been deleted";
+                $status="success";
             }
             else 
             {
-                $msg="Error committing to the database";
+                $msg="Error committing to the database ID:'.$id";
+                $status="danger";
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('edition/view');          
+            $this->session->set_flashdata('status', $status);
+            redirect($this->return_url);                
         }
         else 
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('edition/delete', $data);
-            $this->load->view('templates/footer');
-        
+            $this->session->set_flashdata('alert', 'Cannot delete record');
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
+            die();
         }
     }        
         

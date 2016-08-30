@@ -27,6 +27,9 @@ class Delete extends Admin_Controller {
         
         $data["title"]="Delete Confirmation";
         
+//        wts($data);
+//        echo $decrypt_arr[2];
+                
         $this->load->view('templates/header_admin', $data);
         $this->load->view('admin/delete', $data);
         $this->load->view('templates/footer_admin');

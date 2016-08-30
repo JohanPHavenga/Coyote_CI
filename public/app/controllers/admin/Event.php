@@ -1,7 +1,7 @@
 <?php
 class Event extends Admin_Controller {
 
-    private $return_url="/admin/event/view";
+    private $return_url="/admin/event";
     private $create_url="/admin/event/create";
     
     public function __construct()
@@ -18,8 +18,7 @@ class Event extends Admin_Controller {
         }   
         else 
         {
-            $this->view();
-//            redirect('/event/view', 'refresh');
+            $this->view($params);
         }
     }
     
@@ -41,6 +40,7 @@ class Event extends Admin_Controller {
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+        
         $data["list"] = $this->event_model->get_event_list($per_page, $page);
         $data['create_link']=$this->create_url;
         $data['delete_arr']=["controller"=>"event","id_field"=>"event_id"];
@@ -68,9 +68,9 @@ class Event extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' an event';
+        $data['title'] = uri_string();  
         $data['action']=$action;
-        $data['form_url']='event/create/'.$action;      
+        $data['form_url']=$this->create_url."/".$action;        
         
         $data['js_to_load']=array("select2.js");
         $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
@@ -82,8 +82,8 @@ class Event extends Admin_Controller {
         
         if ($action=="edit") 
         {
-        $data['event_detail']=$this->event_model->get_event_detail($id);        
-        $data['form_url']='event/create/'.$action."/".$id;
+        $data['event_detail']=$this->event_model->get_event_detail($id);       
+        $data['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -94,10 +94,9 @@ class Event extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('event/create', $data);
-            $this->load->view('templates/footer');
-
+            $this->load->view($this->header_url, $data);
+            $this->load->view($this->create_url, $data);
+            $this->load->view($this->footer_url);
         }
         else
         {
@@ -118,46 +117,46 @@ class Event extends Admin_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('event/view');  
+            redirect($this->return_url);  
         }
     }
     
     
-    public function delete($id=0, $confirm=false) {
+    public function delete($confirm=false) {
+        
+        $id=$this->encryption->decrypt($this->input->post('event_id'));
         
         if ($id==0) {
-            $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('event/view');  
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
             die();
         }
-        
-        $data['title'] = 'Delete an event';
-        $data['id']=$id;
-        
-        
+                
         if ($confirm=='confirm') 
         {
-            
-            $db_del=$this->event_model->remove_event($id);
-            
+            $db_del=$this->event_model->remove_event($id);            
             if ($db_del)
             {
                 $msg="Event has been deleted";
+                $status="success";
             }
             else 
             {
-                $msg="Error committing to the database";
+                $msg="Error committing to the database ID:'.$id";
+                $status="danger";
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('event/view');          
+            $this->session->set_flashdata('status', $status);
+            redirect($this->return_url);                
         }
         else 
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('event/delete', $data);
-            $this->load->view('templates/footer');
-        
+            $this->session->set_flashdata('alert', 'Cannot delete record');
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
+            die();
         }
     }        
         

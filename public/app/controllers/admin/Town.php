@@ -1,7 +1,7 @@
 <?php
 class Town extends Admin_Controller {
 
-    private $return_url="/admin/town/view";
+    private $return_url="/admin/town";
 
     public function __construct()
     {

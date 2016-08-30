@@ -1,7 +1,7 @@
 <?php
 class Asanumber extends Admin_Controller {
 
-    private $return_url="/admin/asanumber/view";
+    private $return_url="/admin/asanumber";
     private $create_url="/admin/asanumber/create";
     
     public function __construct()
@@ -19,7 +19,7 @@ class Asanumber extends Admin_Controller {
         }   
         else 
         {
-            $this->view($method, $params = array());
+            $this->view($params);
         }
     }
     
@@ -125,9 +125,9 @@ class Asanumber extends Admin_Controller {
         $id=$this->encryption->decrypt($this->input->post('asanumber_id'));
         
         if ($id==0) {
-            $this->session->set_flashdata('alert', 'Cannot delete record');
+            $this->session->set_flashdata('alert', 'Cannot delete record: '. $id);
             $this->session->set_flashdata('status', 'danger');
-            redirect($this->view_url);  
+            redirect($this->return_url);  
             die();
         }
         
@@ -141,7 +141,7 @@ class Asanumber extends Admin_Controller {
             }
             else 
             {
-                $msg="Error committing to the database";
+                $msg="Error committing to the database ID:".$id;
                 $status="danger";
             }
 

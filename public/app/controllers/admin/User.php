@@ -1,12 +1,13 @@
 <?php
 class User extends Admin_Controller {
 
+    private $return_url="/admin/user";
+    private $create_url="/admin/user/create";
+    
     public function __construct()
     {
-            parent::__construct();
-            $this->load->model('user_model');
-            $this->load->helper('formulate');
-            
+        parent::__construct();
+        $this->load->model('user_model');
     }
     
     public function _remap($method, $params = array())
@@ -17,8 +18,7 @@ class User extends Admin_Controller {
         }   
         else 
         {
-//            $this->view();
-            redirect('/user/view', 'refresh');
+            $this->view($params);
         }
     }
     
@@ -29,39 +29,32 @@ class User extends Admin_Controller {
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=3;
-        $url=base_url()."/user/view";
+        $uri_segment=4;
         $total_rows=$this->user_model->record_count();
-        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
         $data["pagination"]=$this->pagination->create_links();  
         
-        
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["user_list"] = $this->user_model->get_user_list($per_page, $page);
-        $data['create_link']="/user/create";
+        
+        $data["list"] = $this->user_model->get_user_list($per_page, $page);
+        $data['create_link']=$this->create_url;
+        $data['delete_arr']=["controller"=>"user","id_field"=>"user_id"];
         $data['title'] = uri_string(); 
         
         // as daar data is
-        $data['user_list_formatted']=[];
-        if ($data["user_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['user_list'][0]),2);
-            
-            foreach ($data['user_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['user_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/user/delete/".$entry['user_id'], "delete", "danger", "xs");
-                $data['user_list_formatted'][] = $entry;
-            endforeach;
+        if ($data["list"]) { 
+             $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
         }
         
         // load view
-        $this->load->view('templates/header', $data);
-        $this->load->view('user/view', $data);
-        $this->load->view('templates/footer');
+        $this->load->view($this->header_url, $data);
+        $this->load->view($this->view_url, $data);
+        $this->load->view($this->footer_url);
     }
     
     
@@ -74,9 +67,9 @@ class User extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' an user';
+        $data['title'] = uri_string();  
         $data['action']=$action;
-        $data['form_url']='user/create/'.$action;      
+        $data['form_url']=$this->create_url."/".$action;     
         
 //        $data['js_to_load']=array("select2.js");
 //        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
@@ -87,7 +80,7 @@ class User extends Admin_Controller {
         if ($action=="edit") 
         {
         $data['user_detail']=$this->user_model->get_user_detail($id);        
-        $data['form_url']='user/create/'.$action."/".$id;
+        $data['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -98,10 +91,9 @@ class User extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('user/create', $data);
-            $this->load->view('templates/footer');
-
+            $this->load->view($this->header_url, $data);
+            $this->load->view($this->create_url, $data);
+            $this->load->view($this->footer_url);
         }
         else
         {
@@ -122,48 +114,48 @@ class User extends Admin_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('user/view');  
+            redirect($this->return_url);  
         }
     }
     
     
-    public function delete($id=0, $confirm=false) {
+    public function delete($confirm=false) {
+        
+        $id=$this->encryption->decrypt($this->input->post('user_id'));
         
         if ($id==0) {
-            $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('user/view');  
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
             die();
         }
-        
-        $data['title'] = 'Delete an user';
-        $data['id']=$id;
-        
-        
+                
         if ($confirm=='confirm') 
         {
-            
-            $db_del=$this->user_model->remove_user($id);
-            
+            $db_del=$this->user_model->remove_user($id);            
             if ($db_del)
             {
-                $msg="User has been deleted";
+                $msg="Event has been deleted";
+                $status="success";
             }
             else 
             {
-                $msg="Error committing to the database";
+                $msg="Error committing to the database ID:'.$id";
+                $status="danger";
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('user/view');          
+            $this->session->set_flashdata('status', $status);
+            redirect($this->return_url);                
         }
         else 
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('user/delete', $data);
-            $this->load->view('templates/footer');
-        
+            $this->session->set_flashdata('alert', 'Cannot delete record');
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
+            die();
         }
-    }        
+    }      
         
         
     

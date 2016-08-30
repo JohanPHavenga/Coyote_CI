@@ -12,7 +12,7 @@
         foreach ($list as $id=>$data) {
             if (@$create_link)
             {
-                // add edit button
+                // add edit buttondata
                 $data[]=fbuttonLink($create_link."/edit/".$id, "Edit", 'default', 'xs');
                 // add delete button. Encrypt the data
                 $crypt=base64_encode($this->encryption->encrypt($delete_arr['controller']."|".$delete_arr['id_field']."|".$id));
