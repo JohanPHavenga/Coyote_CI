@@ -23,11 +23,25 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/login">User Login</a></li>
-                            <li><a href="/login/admin">Admin Login</a></li>
-                        </ul>
+                        <?php
+                            if ($this->session->user_logged_in) {
+                            ?>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$this->session->user['user_name'];?> <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="">Profile</a></li>
+                                    <li><a href="/login/logout">Logout</a></li>
+                                </ul>
+                            <?php
+                            } else {
+                            ?>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/login">User Login</a></li>
+                                    <li><a href="/login/admin">Admin Login</a></li>
+                                </ul>
+                            <?php
+                            }
+                        ?>
                     </li>
                 </ul>
             </div><!--/.nav-collapse -->

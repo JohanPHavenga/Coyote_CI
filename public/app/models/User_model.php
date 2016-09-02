@@ -6,6 +6,12 @@ class User_model extends CI_Model {
         $this->load->database();
     }
 
+    
+    private function hash_pass($password) 
+    {
+        return sha1($password."37");
+    }
+    
     public function record_count() {
         return $this->db->count_all("users");
     }
@@ -74,6 +80,8 @@ class User_model extends CI_Model {
         $user_data = array(
                     'user_name' => $this->input->post('user_name'),
                     'user_surname' => $this->input->post('user_surname'),
+                    'user_username' => $this->input->post('user_username'),
+                    'user_password' => $this->hash_pass($this->input->post('user_password')),
                     'club_id' => $this->input->post('club_id'),
                 );
 
@@ -113,6 +121,30 @@ class User_model extends CI_Model {
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
+    }
+    
+    
+    public function check_login($login_type="user")
+    {            
+        $user_data = array(
+                    'user_username' => $this->input->post('user_username'),
+                    'user_password' => $this->hash_pass($this->input->post('user_password')),
+                );
+        
+        if ($login_type=="admin") {
+            $user_data["isadmin_flag"]=1;
+        }        
+                
+        $this->db->select("user_id, user_name, user_surname");
+        $this->db->from("users");
+        $this->db->where($user_data); 
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        }
+        return false;
+
     }
     
     

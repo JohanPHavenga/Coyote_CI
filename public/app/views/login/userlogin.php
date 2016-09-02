@@ -8,7 +8,7 @@
                 echo form_open($form_url); 
                 echo form_input([
                     'name'          => 'user_username',
-                    'id'          => 'user_username',
+                    'id'            => 'user_username',
                     'class'         => 'form-control',
                     'placeholder'   => 'Username',
                     'required'      => '',

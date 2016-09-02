@@ -136,7 +136,7 @@ class Race extends Admin_Controller {
                 
         if ($confirm=='confirm') 
         {
-            $db_del=$this->race_model->remove_event($id);            
+            $db_del=$this->race_model->remove_race($id);            
             if ($db_del)
             {
                 $msg="Race has been deleted";

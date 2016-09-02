@@ -1,12 +1,13 @@
 <?php
 class Entry extends Admin_Controller {
 
+    private $return_url="/admin/entry";
+    private $create_url="/admin/entry/create";
+
     public function __construct()
     {
-            parent::__construct();
-            $this->load->model('entry_model');
-            $this->load->helper('formulate');
-            
+        parent::__construct();
+        $this->load->model('entry_model');
     }
     
     public function _remap($method, $params = array())
@@ -17,8 +18,7 @@ class Entry extends Admin_Controller {
         }   
         else 
         {
-//            $this->view();
-            redirect('/entry/view', 'refresh');
+            $this->view($params);
         }
     }
     
@@ -29,10 +29,9 @@ class Entry extends Admin_Controller {
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=3;
-        $url=base_url()."/entry/view";
+        $uri_segment=4;
         $total_rows=$this->entry_model->record_count();
-        $config=fpaginationConfig($url, $per_page, $total_rows, $uri_segment);                
+        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
         $this->load->library("pagination");        
@@ -42,26 +41,20 @@ class Entry extends Admin_Controller {
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["entry_list"] = $this->entry_model->get_entry_list($per_page, $page);
-        $data['create_link']="/entry/create";
+        
+        $data["list"] = $this->entry_model->get_entry_list($per_page, $page);
+        $data['create_link']=$this->create_url;
+        $data['delete_arr']=["controller"=>"entry","id_field"=>"entry_id"];
         $data['title'] = uri_string(); 
         
         // as daar data is
-        $data['entry_list_formatted']=[];
-        if ($data["entry_list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['entry_list'][0]),2);
-            
-            foreach ($data['entry_list'] as $entry):
-                $entry[]=fbuttonLink($data['create_link']."/edit/".$entry['entry_id'], "edit", "default", "xs");
-                $entry[]=fbuttonLink("/entry/delete/".$entry['entry_id'], "delete", "danger", "xs");
-                $data['entry_list_formatted'][] = $entry;
-            endforeach;
+        if ($data["list"]) { 
+             $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
         }
-        
         // load view
-        $this->load->view('templates/header', $data);
-        $this->load->view('entry/view', $data);
-        $this->load->view('templates/footer');
+        $this->load->view($this->header_url, $data);
+        $this->load->view($this->view_url, $data);
+        $this->load->view($this->footer_url);
     }
     
     
@@ -76,9 +69,9 @@ class Entry extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = ucfirst($action).' a entry';
+        $data['title'] = uri_string();  
         $data['action']=$action;
-        $data['form_url']='entry/create/'.$action;      
+        $data['form_url']=$this->create_url."/".$action;      
         
 //        $data['js_to_load']=array("select2.js");
 //        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
@@ -94,8 +87,8 @@ class Entry extends Admin_Controller {
         
         if ($action=="edit") 
         {
-        $data['entry_detail']=$this->entry_model->get_entry_detail($id);        
-        $data['form_url']='entry/create/'.$action."/".$id;
+        $data['entry_detail']=$this->entry_model->get_entry_detail($id);    
+        $data['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -107,10 +100,9 @@ class Entry extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('entry/create', $data);
-            $this->load->view('templates/footer');
-
+            $this->load->view($this->header_url, $data);
+            $this->load->view($this->create_url, $data);
+            $this->load->view($this->footer_url);
         }
         else
         {
@@ -131,45 +123,46 @@ class Entry extends Admin_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect('entry/view');  
+            redirect($this->return_url);  
         }
     }
     
     
-    public function delete($id=0, $confirm=false) {
+    public function delete($confirm=false) {
+        
+        $id=$this->encryption->decrypt($this->input->post('entry_id'));
         
         if ($id==0) {
-            $this->session->set_flashdata('message', 'Cannot delete record');
-            redirect('entry/view');  
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
             die();
         }
-        
-        $data['title'] = 'Delete a entry';
-        $data['id']=$id;
-        
-        
+                
         if ($confirm=='confirm') 
         {
-            $db_del=$this->entry_model->remove_entry($id);
-            
+            $db_del=$this->entry_model->remove_entry($id);            
             if ($db_del)
             {
                 $msg="Entry has been deleted";
+                $status="success";
             }
             else 
             {
-                $msg="Error committing to the database";
+                $msg="Error committing to the database ID:'.$id";
+                $status="danger";
             }
 
             $this->session->set_flashdata('alert', $msg);
-            redirect('entry/view');          
+            $this->session->set_flashdata('status', $status);
+            redirect($this->return_url);                
         }
         else 
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('entry/delete', $data);
-            $this->load->view('templates/footer');
-        
+            $this->session->set_flashdata('alert', 'Cannot delete record');
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);  
+            die();
         }
     }        
         

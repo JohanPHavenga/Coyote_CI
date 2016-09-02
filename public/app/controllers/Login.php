@@ -22,6 +22,16 @@ class Login extends Frontend_Controller {
         }
     } 
     
+    
+    public function logout() 
+    {
+        $this->session->user_logged_in=false;
+        $this->session->admin_logged_in=false;
+        unset($this->session->user);
+        unset($this->session->admin_user);
+        redirect("/");  
+    }
+    
     public function userlogin()
     {
         $data['title'] = "User Login";
@@ -42,10 +52,13 @@ class Login extends Frontend_Controller {
         }
         else
         {
-            $check_login=true;
+            
+            $check_login=$this->user_model->check_login();
             
             if ($check_login)
             {
+                $this->session->user_logged_in=true;
+                $this->session->user=$check_login;
                 $this->session->set_flashdata([
                     'alert'=>"Login successfull",
                     'status'=>"success",
@@ -90,10 +103,12 @@ class Login extends Frontend_Controller {
         }
         else
         {
-            $check_login=true;
+            $check_login=$this->user_model->check_login("admin");
             
             if ($check_login)
             {
+                $this->session->admin_logged_in=true;
+                $this->session->admin_user=$check_login;
                 $this->session->set_flashdata([
                     'alert'=>"Login successfull",
                     'status'=>"success",
