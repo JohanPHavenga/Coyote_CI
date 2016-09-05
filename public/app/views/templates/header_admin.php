@@ -50,6 +50,14 @@
                     <li><a href="/admin/user/create/add">Add</a></li>
                 </ul>
             </li>
+            
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Roles <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/role">View</a></li>
+                    <li><a href="/admin/role/create/add">Add</a></li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entries <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -81,7 +89,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$this->session->user['user_name'];?> <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$this->session->admin_user['user_name'];?> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="">Profile</a></li>
                     <li><a href="/login/logout">Logout</a></li>

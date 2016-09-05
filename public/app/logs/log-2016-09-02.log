@@ -22,3 +22,5 @@ ERROR - 2016-09-02 11:57:17 --> Severity: Notice --> Undefined index: controller
 ERROR - 2016-09-02 11:57:17 --> Severity: Notice --> Undefined index: controller /var/www/public/app/views/admin/list.php 18
 ERROR - 2016-09-02 11:57:17 --> Severity: Notice --> Undefined index: controller /var/www/public/app/views/admin/list.php 18
 ERROR - 2016-09-02 11:57:17 --> Severity: Notice --> Undefined index: controller /var/www/public/app/views/admin/list.php 18
+ERROR - 2016-09-02 12:07:03 --> Query error: No tables used - Invalid query: SELECT *
+ERROR - 2016-09-02 13:07:19 --> 404 Page Not Found: admin/Role/index

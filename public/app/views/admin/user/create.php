@@ -52,11 +52,22 @@
     
     echo "</div>";
     
+    
+    echo "<div class='form-group'>";
+    echo form_label('Role', 'role_id');
+    echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"2"]);        
+    echo "</div>";
+    
     echo "<div class='form-group'>";
     echo form_label('Club', 'club_id');
     echo form_dropdown('club_id', $club_dropdown, @$user_detail['club_id'], ["id"=>"club_id","class"=>"form-control"]);        
     echo "</div>";
    
+    echo "<div class='btn-group'>";
     echo fbutton();
+    echo fbuttonLink($return_url,"Cancel");
+    echo "</div>";
      
     echo form_close();
+
+//    wts($user_detail);

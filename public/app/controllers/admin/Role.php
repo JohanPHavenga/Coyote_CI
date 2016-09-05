@@ -1,13 +1,13 @@
 <?php
-class User extends Admin_Controller {
+class Role extends Admin_Controller {
 
-    private $return_url="/admin/user";
-    private $create_url="/admin/user/create";
-    
+    private $return_url="/admin/role";
+    private $create_url="/admin/role/create";
+
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model');
+        $this->load->model('role_model');
     }
     
     public function _remap($method, $params = array())
@@ -30,7 +30,7 @@ class User extends Admin_Controller {
         // pagination config
         $per_page=50;
         $uri_segment=4;
-        $total_rows=$this->user_model->record_count();
+        $total_rows=$this->role_model->record_count();
         $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
         // pagination init
@@ -38,12 +38,13 @@ class User extends Admin_Controller {
         $this->pagination->initialize($config);
         $data["pagination"]=$this->pagination->create_links();  
         
+        
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
         
-        $data["list"] = $this->user_model->get_user_list($per_page, $page);
+        $data["list"] = $this->role_model->get_role_list($per_page, $page);
         $data['create_link']=$this->create_url;
-        $data['delete_arr']=["controller"=>"user","id_field"=>"user_id"];
+        $data['delete_arr']=["controller"=>"role","id_field"=>"role_id"];
         $data['title'] = uri_string(); 
         
         // as daar data is
@@ -60,8 +61,7 @@ class User extends Admin_Controller {
     
     public function create($action, $id=0) {  
         // additional models
-        $this->load->model('club_model');
-        $this->load->model('role_model');
+        $this->load->model('town_model');
             
         // load helpers / libraries
         $this->load->helper('form');
@@ -70,43 +70,38 @@ class User extends Admin_Controller {
         // set data
         $data['title'] = uri_string();  
         $data['action']=$action;
-        $data['form_url']=$this->create_url."/".$action;     
+        $data['form_url']=$this->create_url."/".$action;       
         
-//        $data['js_to_load']=array("select2.js");
-//        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-//        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
+        $data['js_to_load']=array("select2.js");
+        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
                 
-        $data['club_dropdown']=$this->club_model->get_club_dropdown(); 
-        $data['role_dropdown']=$this->role_model->get_role_dropdown(); 
+        $data['status_dropdown']=$this->role_model->get_status_dropdown();
+        $data['town_dropdown']=$this->town_model->get_town_dropdown();
         
         if ($action=="edit") 
         {
-        $data['user_detail']=$this->user_model->get_user_detail($id);   
-        $data['user_detail']['role_id']=$this->role_model->get_role_list_per_user($id);   
+        $data['role_detail']=$this->role_model->get_role_detail($id); 
         $data['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
-        $this->form_validation->set_rules('user_name', 'User Name', 'required');
-        $this->form_validation->set_rules('user_surname', 'User Surame', 'required');
-        $this->form_validation->set_rules('club_id', 'Club', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a club for the user"]);
-        $this->form_validation->set_rules('role_id[]', 'Role', 'required');
+        $this->form_validation->set_rules('role_name', 'Role Name', 'required');
+        $this->form_validation->set_rules('role_status', 'Role Status', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            if ($action=="add") { $data['user_detail']['role_id'][]=2; }
-            $data['return_url']=$this->return_url;
             $this->load->view($this->header_url, $data);
             $this->load->view($this->create_url, $data);
             $this->load->view($this->footer_url);
         }
         else
         {
-            $db_write=$this->user_model->set_user($action, $id);
+            $db_write=$this->role_model->set_role($action, $id);
             if ($db_write)
             {
-                $alert="User has been updated";
+                $alert="Role has been updated";
                 $status="success";
             }
             else 
@@ -120,14 +115,14 @@ class User extends Admin_Controller {
                 'status'=>$status,
                 ]);
             
-            redirect($this->return_url);  
+            redirect($this->return_url);    
         }
     }
     
     
     public function delete($confirm=false) {
         
-        $id=$this->encryption->decrypt($this->input->post('user_id'));
+        $id=$this->encryption->decrypt($this->input->post('role_id'));
         
         if ($id==0) {
             $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
@@ -138,10 +133,10 @@ class User extends Admin_Controller {
                 
         if ($confirm=='confirm') 
         {
-            $db_del=$this->user_model->remove_user($id);            
+            $db_del=$this->role_model->remove_role($id);            
             if ($db_del)
             {
-                $msg="Event has been deleted";
+                $msg="Role has been deleted";
                 $status="success";
             }
             else 
@@ -161,7 +156,7 @@ class User extends Admin_Controller {
             redirect($this->return_url);  
             die();
         }
-    }      
+    }        
         
         
     

@@ -89,15 +89,36 @@ class User_model extends CI_Model {
             case "add":                     
                 $this->db->trans_start();
                 $this->db->insert('users', $user_data);  
+                    // get event ID from Insert
+                $user_id=$this->db->insert_id();          
+                // update data array
+                foreach ($this->input->post('role_id') as $role_id) {
+                    $this->db->insert('user_role', ["user_id"=>$user_id,"role_id"=>$role_id]);
+                }                
                 $this->db->trans_complete();  
-                return $this->db->trans_status();
+                return $this->db->trans_status();               
+                
             case "edit":
                 // add updated date to both data arrays
                 $user_data['updated_date']=date("Y-m-d H:i:s");
+                //check of password wat gepost is alreeds gehash is
+                if ($this->check_password($this->input->post('user_password')))
+                {
+                    unset($user_data['user_password']);
+                }
 
                 // start SQL transaction
                 $this->db->trans_start();
                 $this->db->update('users', $user_data, array('user_id' => $id));
+                
+                // delete uit user_role
+                $this->db->where('user_id', $id);
+                $this->db->delete('user_role');
+                // add nuwe entries
+                foreach ($this->input->post('role_id') as $role_id) {
+                    $this->db->insert('user_role', ["user_id"=>$id,"role_id"=>$role_id]);
+                }                
+                
                 $this->db->trans_complete();
                 return $this->db->trans_status();
             default:
@@ -130,13 +151,13 @@ class User_model extends CI_Model {
                     'user_username' => $this->input->post('user_username'),
                     'user_password' => $this->hash_pass($this->input->post('user_password')),
                 );
-        
-        if ($login_type=="admin") {
-            $user_data["isadmin_flag"]=1;
-        }        
                 
-        $this->db->select("user_id, user_name, user_surname");
+        $this->db->select("users.user_id, user_name, user_surname, role_id");
         $this->db->from("users");
+        if ($login_type=="admin") {
+            $this->db->join("user_role","users.user_id=user_role.user_id"); 
+            $user_data["role_id"]=1;
+        }
         $this->db->where($user_data); 
         $query = $this->db->get();
 
@@ -147,5 +168,11 @@ class User_model extends CI_Model {
 
     }
     
+    private function check_password($password)
+    {            
+        $this->db->where('user_password', $password);
+        $this->db->from('users');
+        return $this->db->count_all_results();
+    }
     
 }

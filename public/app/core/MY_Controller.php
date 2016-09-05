@@ -27,7 +27,8 @@ class Admin_Controller extends MY_Controller {
     {
         parent::__construct();
         // Check login, load back end dependencies
-        if (!$this->session->admin_logged_in) {
+        if (!$this->session->has_userdata('admin_logged_in'))
+        {
             $this->session->set_flashdata([
                     'alert'=>"You are not logged in as an Admin. Please log in to continue.",
                     'status'=>"danger",

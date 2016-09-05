@@ -24,7 +24,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <?php
-                            if ($this->session->user_logged_in) {
+                            if ($this->session->has_userdata('user_logged_in')) {
                             ?>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$this->session->user['user_name'];?> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
