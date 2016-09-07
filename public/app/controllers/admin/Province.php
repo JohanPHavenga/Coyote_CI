@@ -21,18 +21,18 @@ class Province extends Admin_Controller {
     
     public function view($id = FALSE) {
         
-        $data['title'] = uri_string(); 
-        $data['list'] = $this->province_model->get_province_list($id);
+        $this->data_to_view['title'] = uri_string(); 
+        $this->data_to_view['list'] = $this->province_model->get_province_list($id);
         // as daar data is
-        if ($data["list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]));
+        if ($this->data_to_view["list"]) { 
+            $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]));
         }
         
         $this->load->library('table'); 
         
-        $this->load->view($this->header_url, $data);
-        $this->load->view($this->view_url, $data);
-        $this->load->view($this->footer_url);
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
     
 }

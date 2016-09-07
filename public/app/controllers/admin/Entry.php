@@ -36,25 +36,25 @@ class Entry extends Admin_Controller {
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();  
+        $this->data_to_view["pagination"]=$this->pagination->create_links();  
         
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
         
-        $data["list"] = $this->entry_model->get_entry_list($per_page, $page);
-        $data['create_link']=$this->create_url;
-        $data['delete_arr']=["controller"=>"entry","id_field"=>"entry_id"];
-        $data['title'] = uri_string(); 
+        $this->data_to_view["list"] = $this->entry_model->get_entry_list($per_page, $page);
+        $this->data_to_view['create_link']=$this->create_url;
+        $this->data_to_view['delete_arr']=["controller"=>"entry","id_field"=>"entry_id"];
+        $this->data_to_view['title'] = uri_string(); 
         
         // as daar data is
-        if ($data["list"]) { 
-             $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
+        if ($this->data_to_view["list"]) { 
+             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
         }
         // load view
-        $this->load->view($this->header_url, $data);
-        $this->load->view($this->view_url, $data);
-        $this->load->view($this->footer_url);
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
     
     
@@ -69,26 +69,26 @@ class Entry extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = uri_string();  
-        $data['action']=$action;
-        $data['form_url']=$this->create_url."/".$action;      
+        $this->data_to_view['title'] = uri_string();  
+        $this->data_to_view['action']=$action;
+        $this->data_to_view['form_url']=$this->create_url."/".$action;      
         
-//        $data['js_to_load']=array("select2.js");
-//        $data['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-//        $data['css_to_load']=array("select2.css","select2-bootstrap.css");
+//        $this->data_to_view['js_to_load']=array("select2.js");
+//        $this->data_to_view['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
+//        $this->data_to_view['css_to_load']=array("select2.css","select2-bootstrap.css");
         
-        $data['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $data['js_script_to_load']="$('.entry_time').datetimepicker({format: 'HH:mm:ss'});";
-        $data['css_to_load']=array("bootstrap-datetimepicker.min.css");
+        $this->data_to_view['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
+        $this->data_to_view['js_script_to_load']="$('.entry_time').datetimepicker({format: 'HH:mm:ss'});";
+        $this->data_to_view['css_to_load']=array("bootstrap-datetimepicker.min.css");
                 
-        $data['race_dropdown']=$this->race_model->get_race_dropdown();
-        $data['user_dropdown']=$this->user_model->get_user_dropdown();
-        $data['club_dropdown']=$this->club_model->get_club_dropdown(); 
+        $this->data_to_view['race_dropdown']=$this->race_model->get_race_dropdown();
+        $this->data_to_view['user_dropdown']=$this->user_model->get_user_dropdown();
+        $this->data_to_view['club_dropdown']=$this->club_model->get_club_dropdown(); 
         
         if ($action=="edit") 
         {
-        $data['entry_detail']=$this->entry_model->get_entry_detail($id);    
-        $data['form_url']=$this->create_url."/".$action."/".$id;
+        $this->data_to_view['entry_detail']=$this->entry_model->get_entry_detail($id);    
+        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -100,9 +100,10 @@ class Entry extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view($this->header_url, $data);
-            $this->load->view($this->create_url, $data);
-            $this->load->view($this->footer_url);
+            $this->data_to_view['return_url']=$this->return_url;
+            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view($this->create_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_view);
         }
         else
         {

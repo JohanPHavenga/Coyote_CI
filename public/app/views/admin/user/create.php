@@ -1,73 +1,88 @@
-<?php 
-    echo validation_errors(); 
-    
-    echo form_open($form_url); 
-    
-    echo "<div class='form-group'>";
-    echo form_label('Name', 'user_name');
-    echo form_input([
-            'name'          => 'user_name',
-            'id'            => 'user_name',
-            'value'         => set_value('user_name', @$user_detail['user_name']),
-            'class'         => 'form-control',
-            'required'      => '',
-        ]);
-    
-    echo "</div>";
-    
-    echo "<div class='form-group'>";
-    echo form_label('Surname', 'user_surname');
-    echo form_input([
-            'name'          => 'user_surname',
-            'id'            => 'user_surname',
-            'value'         => set_value('user_surname', @$user_detail['user_surname']),
-            'class'         => 'form-control',
-            'required'      => '',
-        ]);
-    
-    echo "</div>";
-    
-    echo "<div class='form-group'>";
-    echo form_label('Username', 'user_username');
-    echo form_input([
-            'name'          => 'user_username',
-            'id'            => 'user_username',
-            'value'         => set_value('user_username', @$user_detail['user_username']),
-            'class'         => 'form-control',
-            'required'      => '',
-        ]);
-    
-    echo "</div>";
-    
-    echo "<div class='form-group'>";
-    echo form_label('Password', 'user_password');
-    echo form_input([
-            'name'          => 'user_password',
-            'id'            => 'user_password',
-            'value'         => set_value('user_password', @$user_detail['user_password']),
-            'class'         => 'form-control',
-            'type'          => 'password',
-            'required'      => '',
-        ]);
-    
-    echo "</div>";
-    
-    
-    echo "<div class='form-group'>";
-    echo form_label('Role', 'role_id');
-    echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"2"]);        
-    echo "</div>";
-    
-    echo "<div class='form-group'>";
-    echo form_label('Club', 'club_id');
-    echo form_dropdown('club_id', $club_dropdown, @$user_detail['club_id'], ["id"=>"club_id","class"=>"form-control"]);        
-    echo "</div>";
-   
-    echo "<div class='btn-group'>";
-    echo fbutton();
-    echo fbuttonLink($return_url,"Cancel");
-    echo "</div>";
-     
-    echo form_close();
+<div class="row">
+    <div class="col-md-6">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-edit font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase"><?= ucfirst($action);?> entry</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+            <?php 
+                echo validation_errors(); 
 
-//    wts($user_detail);
+                echo form_open($form_url); 
+
+                echo "<div class='form-group'>";
+                echo form_label('Name', 'user_name');
+                echo form_input([
+                        'name'          => 'user_name',
+                        'id'            => 'user_name',
+                        'value'         => set_value('user_name', @$user_detail['user_name']),
+                        'class'         => 'form-control',
+                        'required'      => '',
+                    ]);
+
+                echo "</div>";
+
+                echo "<div class='form-group'>";
+                echo form_label('Surname', 'user_surname');
+                echo form_input([
+                        'name'          => 'user_surname',
+                        'id'            => 'user_surname',
+                        'value'         => set_value('user_surname', @$user_detail['user_surname']),
+                        'class'         => 'form-control',
+                        'required'      => '',
+                    ]);
+
+                echo "</div>";
+
+                echo "<div class='form-group'>";
+                echo form_label('Username', 'user_username');
+                echo form_input([
+                        'name'          => 'user_username',
+                        'id'            => 'user_username',
+                        'value'         => set_value('user_username', @$user_detail['user_username']),
+                        'class'         => 'form-control',
+                        'required'      => '',
+                    ]);
+
+                echo "</div>";
+
+                echo "<div class='form-group'>";
+                echo form_label('Password', 'user_password');
+                echo form_input([
+                        'name'          => 'user_password',
+                        'id'            => 'user_password',
+                        'value'         => set_value('user_password', @$user_detail['user_password']),
+                        'class'         => 'form-control',
+                        'type'          => 'password',
+                        'required'      => '',
+                    ]);
+
+                echo "</div>";
+
+
+                echo "<div class='form-group'>";
+                echo form_label('Role', 'role_id');
+                echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"2"]);        
+                echo "</div>";
+
+                echo "<div class='form-group'>";
+                echo form_label('Club', 'club_id');
+                echo form_dropdown('club_id', $club_dropdown, @$user_detail['club_id'], ["id"=>"club_id","class"=>"form-control"]);        
+                echo "</div>";
+
+                echo "<div class='btn-group'>";
+                echo fbutton();
+                echo fbuttonLink($return_url,"Cancel");
+                echo "</div>";
+
+                echo form_close();
+
+            //    wts($user_detail);
+            ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -36,22 +36,22 @@ class Town extends Admin_Controller {
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links(); 
+        $this->data_to_view["pagination"]=$this->pagination->create_links(); 
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $data["list"] = $this->town_model->get_town_list($per_page, $page);        
-        $data['title'] = uri_string(); 
+        $this->data_to_view["list"] = $this->town_model->get_town_list($per_page, $page);        
+        $this->data_to_view['title'] = uri_string(); 
         
         // as daar data is
-        if ($data["list"]) {  
-            $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]));
+        if ($this->data_to_view["list"]) {  
+            $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]));
         }
         
         // load view;
-        $this->load->view($this->header_url, $data);
-        $this->load->view($this->view_url, $data);
-        $this->load->view($this->footer_url);
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
     
 }
