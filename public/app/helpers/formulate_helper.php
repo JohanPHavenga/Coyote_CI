@@ -89,6 +89,22 @@ if ( ! function_exists('fbuttonLink'))
 }
 
 
+if ( ! function_exists('fbuttonLinkGroup')) 
+{
+    function fbuttonLinkGroup($action_array) 
+    {
+        $html="<div class='btn-group'>";
+        foreach ($action_array as $text=>$link) {
+            if ($text=="Delete") { $btn_color="danger"; } else { $btn_color="default"; }
+            $html.="<a href='$link' class='btn btn-$btn_color btn-xs' role='button'>$text</a>";
+        }
+        $html.="</div>";
+        
+        return $html;
+    }
+}
+
+
 // ====================================s============================
 // Formulate Tables
 // ================================================================
@@ -98,7 +114,7 @@ if ( ! function_exists('ftable'))
     function ftable() 
     {
         $template = array(
-                'table_open' => '<table class="table table-striped table-bordered table-condensed ">'
+                'table_open' => '<table class="table table-striped table-bordered table-hover">'
         );
         return $template;
     }

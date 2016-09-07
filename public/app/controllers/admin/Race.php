@@ -36,25 +36,25 @@ class Race extends Admin_Controller {
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();          
+        $this->data_to_view["pagination"]=$this->pagination->create_links();          
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
         
-        $data["list"] = $this->race_model->get_race_list($per_page, $page);
-        $data['create_link']=$this->create_url;
-        $data['delete_arr']=["controller"=>"race","id_field"=>"race_id"];
-        $data['title'] = uri_string(); 
+        $this->data_to_view["list"] = $this->race_model->get_race_list($per_page, $page);
+        $this->data_to_view['create_link']=$this->create_url;
+        $this->data_to_view['delete_arr']=["controller"=>"race","id_field"=>"race_id"];
+        $this->data_to_view['title'] = uri_string(); 
         
         // as daar data is
-        if ($data["list"]) { 
-             $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
+        if ($this->data_to_view["list"]) { 
+             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
         }
         
         // load view
-        $this->load->view($this->header_url, $data);
-        $this->load->view($this->view_url, $data);
-        $this->load->view($this->footer_url);
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
     
     
@@ -67,22 +67,22 @@ class Race extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = uri_string();  
-        $data['action']=$action;
-        $data['form_url']=$this->create_url."/".$action;      
+        $this->data_to_view['title'] = uri_string();  
+        $this->data_to_view['action']=$action;
+        $this->data_to_view['form_url']=$this->create_url."/".$action;      
         
-        $data['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $data['js_script_to_load']="$('#datetimepicker1').datetimepicker({format: 'YYYY/MM/DD HH:mm'});";
-        $data['css_to_load']=array("bootstrap-datetimepicker.min.css");
+        $this->data_to_view['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
+        $this->data_to_view['js_script_to_load']="$('#datetimepicker1').datetimepicker({format: 'YYYY/MM/DD HH:mm'});";
+        $this->data_to_view['css_to_load']=array("bootstrap-datetimepicker.min.css");
         
                 
-        $data['edition_dropdown']=$this->edition_model->get_edition_dropdown(); 
-        $data['status_dropdown']=$this->race_model->get_status_dropdown();
+        $this->data_to_view['edition_dropdown']=$this->edition_model->get_edition_dropdown(); 
+        $this->data_to_view['status_dropdown']=$this->race_model->get_status_dropdown();
         
         if ($action=="edit") 
         {
-        $data['race_detail']=$this->race_model->get_race_detail($id);    
-        $data['form_url']=$this->create_url."/".$action."/".$id;
+        $this->data_to_view['race_detail']=$this->race_model->get_race_detail($id);    
+        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -95,9 +95,10 @@ class Race extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view($this->header_url, $data);
-            $this->load->view($this->create_url, $data);
-            $this->load->view($this->footer_url);
+            $this->data_to_view['return_url']=$this->return_url;
+            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view($this->create_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_view);
         }
         else
         {
