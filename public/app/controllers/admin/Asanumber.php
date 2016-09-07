@@ -37,25 +37,25 @@ class Asanumber extends Admin_Controller {
         // pagination init
         $this->load->library("pagination");        
         $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();  
+        $this->data_to_view["pagination"]=$this->pagination->create_links();  
         
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
         
-        $data["list"] = $this->asanumber_model->get_asanumber_list($per_page, $page);
-        $data['create_link']=$this->create_url;        
-        $data['delete_arr']=["controller"=>"asanumber","id_field"=>"asanumber_id"];
-        $data['title'] = uri_string();         
+        $this->data_to_view["list"] = $this->asanumber_model->get_asanumber_list($per_page, $page);
+        $this->data_to_view['create_link']=$this->create_url;        
+        $this->data_to_view['delete_arr']=["controller"=>"asanumber","id_field"=>"asanumber_id"];
+        $this->data_to_view['title'] = uri_string();         
         
         // as daar data is
-        if ($data["list"]) { 
-            $data['heading']=ftableHeading(array_keys($data['list'][key($data['list'])]),2);
+        if ($this->data_to_view["list"]) { 
+            $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
         }
         
         // load view
-        $this->load->view($this->header_url, $data);
-        $this->load->view($this->view_url, $data);
-        $this->load->view($this->footer_url);
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
     
     
@@ -68,20 +68,20 @@ class Asanumber extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $data['title'] = uri_string();   
-        $data['action']=$action;
-        $data['form_url']=$this->create_url."/".$action;      
+        $this->data_to_view['title'] = uri_string();   
+        $this->data_to_view['action']=$action;
+        $this->data_to_view['form_url']=$this->create_url."/".$action;      
         
-        $data['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $data['js_script_to_load']="$('.asanumber_year').datetimepicker({format: 'YYYY', viewMode: 'years'});";
-        $data['css_to_load']=array("bootstrap-datetimepicker.min.css");
+        $this->data_to_view['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
+        $this->data_to_view['js_script_to_load']="$('.asanumber_year').datetimepicker({format: 'YYYY', viewMode: 'years'});";
+        $this->data_to_view['css_to_load']=array("bootstrap-datetimepicker.min.css");
                 
-        $data['user_dropdown']=$this->user_model->get_user_dropdown(); 
+        $this->data_to_view['user_dropdown']=$this->user_model->get_user_dropdown(); 
         
         if ($action=="edit") 
         {
-        $data['asanumber_detail']=$this->asanumber_model->get_asanumber_detail($id);        
-        $data['form_url']=$this->create_url."/".$action."/".$id;
+        $this->data_to_view['asanumber_detail']=$this->asanumber_model->get_asanumber_detail($id);        
+        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
         
         // set validation rules
@@ -92,9 +92,10 @@ class Asanumber extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view($this->header_url, $data);
-            $this->load->view($this->create_url, $data);
-            $this->load->view($this->footer_url);
+            $this->data_to_view['return_url']=$this->return_url;
+            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view($this->create_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_view);
         }
         else
         {
