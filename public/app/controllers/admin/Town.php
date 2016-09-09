@@ -26,10 +26,12 @@ class Town extends Admin_Controller {
         // load helpers / libraries
         $this->load->library('table'); 
         
+        $url_disect=$this->url_disect();
+        
         // pagination      
         // pagination config
         $per_page=50;
-        $uri_segment=4;
+        $uri_segment=count($url_disect['url_string_arr']);
         $total_rows=$this->town_model->record_count();
         $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);                
         
@@ -52,6 +54,13 @@ class Town extends Admin_Controller {
         $this->load->view($this->header_url, $this->data_to_view);
         $this->load->view($this->view_url, $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_view);
+    }
+    
+    
+    public function json($ss='') {
+        if (empty($ss)) { die("No search string passed"); }
+        $this->data_to_view["search_result"]=$this->town_model->town_search($ss);
+        $this->load->view("/admin/json", $this->data_to_view);
     }
     
 }

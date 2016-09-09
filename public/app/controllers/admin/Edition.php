@@ -72,9 +72,18 @@ class Edition extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;       
         
-//        $this->data_to_view['js_to_load']=array("select2.js");
-//        $this->data_to_view['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-//        $this->data_to_view['css_to_load']=array("select2.css","select2-bootstrap.css");
+        $this->data_to_view['css_to_load']=array(
+            "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+            );
+        
+        $this->data_to_view['js_to_load']=array(
+            "plugins/moment.min.js",
+            "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+            );
+        
+        $this->data_to_view['scripts_to_load']=array(
+            "scripts/admin/components-date-time-pickers.js",
+            );
                 
         $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown(); 
         $this->data_to_view['event_dropdown']=$this->event_model->get_event_dropdown(); 

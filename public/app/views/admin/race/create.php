@@ -27,23 +27,25 @@
 
                 echo "<div class='form-group'>";
                 echo form_label('Date and Time', 'race_date');
-                echo "<div class='input-group date' id='datetimepicker1'>";
+                echo '<div class="input-group input-medium date form_datetime">';
                 echo form_input([
                         'name'          => 'race_date',
+                        'id'            => 'race_date',
                         'value'         => set_value('race_date', @fdateLong($race_detail['race_date'],false)),
                         'class'         => 'form-control',
+                        'readonly'      => '',
                     ]);    
-                echo '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div>';
+                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></div>';
                 echo "</div>";
-
-
+                
+                
                 echo "<div class='form-group'>";
                 echo form_label('Race Distance (km)', 'race_distance');
                 echo form_input([
                         'name'          => 'race_distance',
                         'id'            => 'race_distance',
                         'value'         => set_value('race_distance', @$race_detail['race_distance']),
-                        'class'         => 'form-control',
+                        'class'         => 'form-control input-small',
                         'type'          => 'number',
                         'required'      => '',
                     ]);    
@@ -53,7 +55,7 @@
 
                 echo "<div class='form-group'>";
                 echo form_label('Status', 'race_status');
-                echo form_dropdown('race_status', $status_dropdown, @$race_detail['race_status'], ["id"=>"race_status","class"=>"form-control"]);        
+                echo form_dropdown('race_status', $status_dropdown, @$race_detail['race_status'], ["id"=>"race_status","class"=>"form-control input-medium"]);        
                 echo "</div>";
 
                 echo "<div class='form-group'>";

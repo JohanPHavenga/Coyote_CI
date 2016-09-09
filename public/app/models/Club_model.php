@@ -56,12 +56,12 @@ class Club_model extends CI_Model {
             } 
             else 
             {
-                $this->db->select("clubs.*, sponsor_id");
+                $this->db->select("clubs.*, town_name, sponsor_id");
                 $this->db->from("clubs");
+                $this->db->join('towns', 'town_id', 'left');
                 $this->db->join('club_sponsor', 'club_id', 'left');
                 $this->db->where('club_id', $id);
                 $query = $this->db->get();
-                
 
                 if ($query->num_rows() > 0) {
                     return $query->row_array();

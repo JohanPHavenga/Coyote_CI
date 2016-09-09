@@ -30,9 +30,21 @@
                 echo "</div>";
 
                 echo "<div class='form-group'>";
-                echo form_label('Town', 'town_id');
-                echo form_dropdown('town_id', $town_dropdown, @$event_detail['town_id'], ["id"=>"town_id","class"=>"form-control autocomplete"]);        
-                echo "</div>";
+                echo form_label('Town', 'town_name');
+                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>';
+                echo form_input([
+                        'id'            => 'town_name',
+                        'name'          => 'town_name',
+                        'value'         => set_value('club_name', @$event_detail['town_name']),
+                        'class'         => 'form-control',
+                    ]);
+                echo "</div></div>";
+                echo form_input([
+                        'name'          => 'town_id',
+                        'id'            => 'town_id',
+                        'type'          => 'hidden',
+                        'value'         => set_value('club_name', @$event_detail['town_id']),
+                    ]);
 
 
                 echo "<div class='form-group'>";
@@ -47,7 +59,7 @@
 
                 echo form_close();
 
-            //    wts($town_dropdown);
+//                wts($town_dropdown);
 
                 //<input type="submit" name="submit" value="Edit Event">
             ?>

@@ -27,18 +27,20 @@
 
                 echo "<div class='form-group'>";
                 echo form_label('Status', 'edition_status');
-                echo form_dropdown('edition_status', $status_dropdown, @$edition_detail['edition_status'], ["id"=>"edition_status","class"=>"form-control"]);        
+                echo form_dropdown('edition_status', $status_dropdown, @$edition_detail['edition_status'], ["id"=>"edition_status","class"=>"form-control input-small"]);        
                 echo "</div>";
 
                 echo "<div class='form-group'>";
                 echo form_label('Date', 'edition_date');
+                echo '<div class="input-group input-medium date date-picker">';
                 echo form_input([
                         'name'          => 'edition_date',
                         'id'            => 'edition_date',
                         'value'         => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
                         'class'         => 'form-control',
-                        'type'          => 'date',
+                        'readonly'      => '',
                     ]);    
+                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
                 echo "</div>";
 
 

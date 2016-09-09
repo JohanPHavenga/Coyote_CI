@@ -30,15 +30,26 @@
                 } else {
                     $time=@$entry_detail['entry_time'];
                 }
+                
+//               <div class="form-group">
+//                    <label class="control-label col-md-3">Default Timepicker</label>
+//                    <div class="col-md-3">
+//                        <div class="input-icon">
+//                            <i class="fa fa-clock-o"></i>
+//                            <input type="text" class="form-control timepicker timepicker-default"> </div>
+//                    </div>
+//                </div>
+                
+                
                 echo "<div class='form-group'>";
                 echo form_label('Race Result', 'entry_time');
-                echo "<div class='input-group date' id='entry_time'>";
+                echo "<div class='input-icon'><i class='fa fa-clock-o'></i>";
                 echo form_input([
                         'name'          => 'entry_time',
                         'value'         => set_value('entry_time', $time, false),
-                        'class'         => 'form-control entry_time',
+                        'class'         => 'form-control timepicker timepicker-24 input-small',
                     ]);    
-                echo '<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div>';
+                echo '</div>';
                 echo "</div>";
 
 

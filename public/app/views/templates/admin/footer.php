@@ -39,9 +39,27 @@
         <script src="<?= base_url('plugins/jquery.blockui.min.js');?>" type="text/javascript"></script>
         <script src="<?= base_url('plugins/bootstrap-switch/js/bootstrap-switch.min.js');?>" type="text/javascript"></script>
         <!-- END CORE PLUGINS -->
+        <?php
+        // load extra JS files from controller
+            if (isset($js_to_load)) : 
+                foreach ($js_to_load as $row):
+                    $js_link=base_url($row);        
+                    echo "<script src='$js_link' type='text/javascript'></script>";
+                endforeach;
+            endif;
+        ?>
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<?= base_url('scripts/admin/app.min.js');?>" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
+        <?php
+        // load script files from controller
+            if (isset($scripts_to_load)) : 
+                foreach ($scripts_to_load as $row):
+                    $js_link=base_url($row);        
+                    echo "<script src='$js_link' type='text/javascript'></script>";
+                endforeach;
+            endif;
+        ?>
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<?= base_url('scripts/admin/layout.min.js');?>" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->

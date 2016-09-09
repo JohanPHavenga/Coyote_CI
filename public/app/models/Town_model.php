@@ -46,5 +46,25 @@ class Town_model extends CI_Model {
             return false;
         }
         
+        public function town_search($ss)
+        {            
+            $this->db->select("town_id, town_name, province_name");
+            $this->db->from("towns");
+            $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
+            $this->db->where("town_name LIKE '%$ss%'");
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result_array() as $row) {
+                    $data[]=[
+                        'id' => $row['town_id'],
+                        'value' => $row['town_name']." (".$row['province_name'].")",
+                    ];
+                }
+                return $data;
+            }
+            return false;
+
+        }
         
 }

@@ -71,9 +71,18 @@ class Race extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;      
         
-        $this->data_to_view['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $this->data_to_view['js_script_to_load']="$('#datetimepicker1').datetimepicker({format: 'YYYY/MM/DD HH:mm'});";
-        $this->data_to_view['css_to_load']=array("bootstrap-datetimepicker.min.css");
+        $this->data_to_view['css_to_load']=array(
+            "plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+            );
+        
+        $this->data_to_view['js_to_load']=array(
+            "plugins/moment.min.js",
+            "plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+            );
+        
+        $this->data_to_view['scripts_to_load']=array(
+            "scripts/admin/components-date-time-pickers.js",
+            );
         
                 
         $this->data_to_view['edition_dropdown']=$this->edition_model->get_edition_dropdown(); 

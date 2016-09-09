@@ -65,6 +65,15 @@ class Admin_Controller extends MY_Controller {
         
     }
     
+    function url_disect() {
+        $url_info=[];
+        $url_info["base_url"]=base_url();
+        $url_info["url_string"]=uri_string();
+        $url_info["url_string_arr"]=explode("/",uri_string());
+        
+        return $url_info;
+    }
+    
 }
 
 /**

@@ -43,3 +43,16 @@ ERROR - 2016-09-07 13:24:44 --> Severity: Notice --> Undefined variable: return_
 ERROR - 2016-09-07 13:24:46 --> Severity: Notice --> Undefined variable: return_url /var/www/public/app/views/admin/event/create.php 45
 ERROR - 2016-09-07 13:25:10 --> Severity: Notice --> Undefined offset: 1 /var/www/public/app/controllers/admin/Delete.php 22
 ERROR - 2016-09-07 13:25:10 --> Severity: Notice --> Undefined offset: 2 /var/www/public/app/controllers/admin/Delete.php 23
+ERROR - 2016-09-07 14:23:36 --> 404 Page Not Found: Bootstrap-datetimepickermincss/index
+ERROR - 2016-09-07 14:23:36 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index
+ERROR - 2016-09-07 14:23:36 --> 404 Page Not Found: Momentjs/index
+ERROR - 2016-09-07 14:23:36 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index
+ERROR - 2016-09-07 14:24:15 --> 404 Page Not Found: Bootstrap-datetimepickermincss/index
+ERROR - 2016-09-07 14:24:15 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index
+ERROR - 2016-09-07 14:24:15 --> 404 Page Not Found: Momentjs/index
+ERROR - 2016-09-07 14:24:16 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index
+ERROR - 2016-09-07 14:36:36 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index
+ERROR - 2016-09-07 14:36:36 --> 404 Page Not Found: Momentjs/index
+ERROR - 2016-09-07 14:36:36 --> 404 Page Not Found: Bootstrap-datetimepickermincss/index
+ERROR - 2016-09-07 14:36:36 --> 404 Page Not Found: Momentjs/index
+ERROR - 2016-09-07 14:36:37 --> 404 Page Not Found: Bootstrap-datetimepickerminjs/index

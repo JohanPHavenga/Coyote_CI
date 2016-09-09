@@ -18,6 +18,15 @@
         <link href="<?= base_url('plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
+        <?php
+            // load extra CSS files from controller
+            if (isset($css_to_load)) : 
+            foreach ($css_to_load as $row):
+                $css_link=base_url($row);        
+                echo "<link href='$css_link' rel='stylesheet'>";
+            endforeach;
+            endif;
+        ?>    
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="<?= base_url('css/admin/components-rounded.min.css'); ?>" rel="stylesheet" id="style_components" type="text/css" />
         <link href="<?= base_url('css/admin/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />

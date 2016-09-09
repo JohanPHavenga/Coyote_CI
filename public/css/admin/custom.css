@@ -3,3 +3,7 @@
     mergin-bottom: 30px;
     background-color: #fff;
 }
+
+.input-group-addon>i {
+    color: #666;
+}

@@ -70,13 +70,23 @@ class Club extends Admin_Controller {
         $this->data_to_view['title'] = uri_string();  
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;      
-        
-        $this->data_to_view['js_to_load']=array("select2.js");
-        $this->data_to_view['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-        $this->data_to_view['css_to_load']=array("select2.css","select2-bootstrap.css");
                 
+        $this->data_to_view['css_to_load']=array(
+            "plugins/typeahead/typeahead.css"
+            );
+        
+        $this->data_to_view['js_to_load']=array(
+            "plugins/typeahead/handlebars.min.js",
+            "plugins/typeahead/typeahead.bundle.min.js",
+            );
+        
+        $this->data_to_view['scripts_to_load']=array(
+            "scripts/admin/autocomplete.js",
+            );
+        
+        
         $this->data_to_view['status_dropdown']=$this->club_model->get_status_dropdown();
-        $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
+//        $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
         $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown(); 
         
         if ($action=="edit") 
@@ -88,8 +98,9 @@ class Club extends Admin_Controller {
         // set validation rules
         $this->form_validation->set_rules('club_name', 'Club Name', 'required');
         $this->form_validation->set_rules('club_status', 'Club Status', 'required');
-        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a town"]);
+//        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a town"]);
 
+        
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
@@ -100,6 +111,9 @@ class Club extends Admin_Controller {
         }
         else
         {
+//            wts($_REQUEST);
+//            die();
+            
             $db_write=$this->club_model->set_club($action, $id);
             if ($db_write)
             {

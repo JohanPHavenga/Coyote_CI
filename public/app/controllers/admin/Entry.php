@@ -73,13 +73,18 @@ class Entry extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;      
         
-//        $this->data_to_view['js_to_load']=array("select2.js");
-//        $this->data_to_view['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
-//        $this->data_to_view['css_to_load']=array("select2.css","select2-bootstrap.css");
+        $this->data_to_view['css_to_load']=array(
+            "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+            );
         
-        $this->data_to_view['js_to_load']=array("moment.js", "bootstrap-datetimepicker.min.js");
-        $this->data_to_view['js_script_to_load']="$('.entry_time').datetimepicker({format: 'HH:mm:ss'});";
-        $this->data_to_view['css_to_load']=array("bootstrap-datetimepicker.min.css");
+        $this->data_to_view['js_to_load']=array(
+            "plugins/moment.min.js",
+            "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+            );
+        
+        $this->data_to_view['scripts_to_load']=array(
+            "scripts/admin/components-date-time-pickers.js",
+            );
                 
         $this->data_to_view['race_dropdown']=$this->race_model->get_race_dropdown();
         $this->data_to_view['user_dropdown']=$this->user_model->get_user_dropdown();
