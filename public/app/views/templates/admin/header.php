@@ -47,7 +47,7 @@
                     <div class="page-header">
                         <!-- BEGIN HEADER TOP -->
                         <div class="page-header-top">
-                            <div class="container-fluid">
+                            <div class="container">
                                 <!-- BEGIN LOGO -->
                                 <div class="page-logo">
                                     <a href="index.php">
@@ -66,7 +66,7 @@
                         <!-- END HEADER TOP -->
                         <!-- BEGIN HEADER MENU -->
                         <div class="page-header-menu">
-                            <div class="container-fluid">
+                            <div class="container">
                                 <!-- BEGIN MEGA MENU -->
                                 <div class="hor-menu  ">
                                     <?php include('topmenu.php'); ?>
@@ -89,7 +89,7 @@
                           <!-- BEGIN CONTENT BODY -->
                           <!-- BEGIN PAGE HEAD-->
                           <div class="page-head">
-                              <div class="container-fluid">
+                              <div class="container">
                                   <!-- BEGIN PAGE TITLE -->
                                   <div class="page-title">
                                       <h1>
@@ -102,7 +102,7 @@
                           <!-- END PAGE HEAD-->
                           <!-- BEGIN PAGE CONTENT BODY -->
                           <div class="page-content">
-                              <div class="container-fluid">
+                              <div class="container">
                                   <?php
                                     if (isset($crumbs)) {
                                         echo "<ul class='page-breadcrumb breadcrumb'>";

@@ -8,6 +8,27 @@ class User extends Admin_Controller {
     {
         parent::__construct();
         $this->load->model('user_model');
+        
+        $this->data_to_view['side_menu_arr']=[
+            "home"=>[
+                "url"=>"home",
+                "text"=>"Overview",
+                "icon"=>"home",
+                "class"=>"",
+                ],
+            "view"=>[
+                "url"=>"view",
+                "text"=>"List",
+                "icon"=>"info",
+                "class"=>"",
+                ],
+            "import"=>[
+                "url"=>"import",
+                "text"=>"Import",
+                "icon"=>"cloud-upload",
+                "class"=>"",
+                ],            
+        ];
     }
     
     public function _remap($method, $params = array())
@@ -18,9 +39,89 @@ class User extends Admin_Controller {
         }   
         else 
         {
-            $this->view($params);
+            $this->home($params);
         }
     }
+    
+    public function home() {
+        $this->data_to_view['title'] = "Users"; 
+        $this->data_to_view['side_menu_arr']['home']['class']="active";
+        
+         // load view
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view("/admin/user/home", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
+    }
+    
+    public function import($submit=NULL) {
+        
+        $this->load->helper('form');
+        $this->load->library('upload');
+        
+        $this->data_to_view['title'] = "Import Users"; 
+        $this->data_to_view['form_url']="/admin/user/import/submit"; 
+        $this->data_to_view['side_menu_arr']['import']['class']="active"; 
+        
+        $config['upload_path']          = $this->upload_path;
+        $config['allowed_types']        = 'csv';
+        $config['max_size']             = 8192;
+        $this->upload->initialize($config);
+        
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            if (!empty($submit)) 
+            {
+                $this->data_to_view['error'] = $this->upload->display_errors();
+            }
+            
+            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view("/admin/user/import", $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_view);
+        }
+        else 
+        {
+            // TO DO. WRITE a CSV parser
+            $this->data_to_view['file_meta_data'] = $this->upload->data();
+            $this->data_to_view['file_data'] = $this->csv_handler($this->upload->data('full_path'));                
+            
+            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view("/admin/user/import_success", $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_view);
+        }
+
+    }
+    
+    public function import_done() {
+        // load helpers / libraries
+        $this->load->helper('form');
+        wts($config);
+
+        $this->data_to_view['title'] = "Import Complete"; 
+        $this->data_to_view['side_menu_arr']['import']['class']="active";
+        
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+                $this->data_to_view['form_url']="/admin/user/import_done";   
+                $this->data_to_view['error'] = $this->upload->display_errors();
+                
+//                wts($this->upload->data);
+
+                $this->load->view($this->header_url, $this->data_to_view);
+                $this->load->view('/admin/user/import', $this->data_to_view);
+                $this->load->view($this->footer_url, $this->data_to_view);
+        }
+        else
+        {
+                $this->data_to_view['upload_data'] = $this->upload->data();
+
+                $this->load->view($this->header_url, $this->data_to_view);
+                $this->load->view('/admin/user/import_success', $this->data_to_view);
+                $this->load->view($this->footer_url, $this->data_to_view);
+        }
+
+    }
+    
+   
     
     public function view() {  
         // load helpers / libraries

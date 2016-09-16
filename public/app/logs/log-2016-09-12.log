@@ -1,0 +1,23 @@
+ERROR - 2016-09-12 08:45:43 --> 404 Page Not Found: Faviconico/index
+ERROR - 2016-09-12 08:45:49 --> 404 Page Not Found: admin/Faviconico/index
+ERROR - 2016-09-12 11:47:17 --> 404 Page Not Found: admin/Faviconico/index
+ERROR - 2016-09-12 11:47:34 --> 404 Page Not Found: Faviconico/index
+ERROR - 2016-09-12 11:56:13 --> 404 Page Not Found: Assets/pages
+ERROR - 2016-09-12 11:56:44 --> 404 Page Not Found: Assets/pages
+ERROR - 2016-09-12 12:09:47 --> 404 Page Not Found: admin/Page_user_profile_1_helphtml/index
+ERROR - 2016-09-12 12:09:47 --> 404 Page Not Found: Faviconico/index
+ERROR - 2016-09-12 12:22:25 --> Severity: Notice --> Undefined variable: side_manu_arr /var/www/public/app/views/admin/user/home.php 35
+ERROR - 2016-09-12 12:24:35 --> 404 Page Not Found: admin/View/index
+ERROR - 2016-09-12 14:02:28 --> 404 Page Not Found: admin/Admin/user
+ERROR - 2016-09-12 14:13:20 --> Severity: Notice --> Undefined variable: return_url /var/www/public/app/views/admin/user/import.php 44
+ERROR - 2016-09-12 14:14:12 --> Severity: Warning --> Missing argument 1 for User::create() /var/www/public/app/controllers/admin/User.php 121
+ERROR - 2016-09-12 14:14:12 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 132
+ERROR - 2016-09-12 14:14:12 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 133
+ERROR - 2016-09-12 14:14:12 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 142
+ERROR - 2016-09-12 14:14:12 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 158
+ERROR - 2016-09-12 14:15:02 --> Severity: Warning --> Missing argument 1 for User::create() /var/www/public/app/controllers/admin/User.php 121
+ERROR - 2016-09-12 14:15:02 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 132
+ERROR - 2016-09-12 14:15:02 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 133
+ERROR - 2016-09-12 14:15:02 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 142
+ERROR - 2016-09-12 14:15:02 --> Severity: Notice --> Undefined variable: action /var/www/public/app/controllers/admin/User.php 158
+ERROR - 2016-09-12 14:18:25 --> Severity: Warning --> Missing argument 1 for User::import() /var/www/public/app/controllers/admin/User.php 56

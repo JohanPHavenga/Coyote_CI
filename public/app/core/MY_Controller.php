@@ -26,6 +26,7 @@ class Admin_Controller extends MY_Controller {
     public $footer_url="/templates/admin/footer";
     public $profile_url="/admin/dashboard/profile";
     public $logout_url="/login/logout";
+    public $upload_path="./uploads/admin/";
     
 //    public $crumbs=[];
     
@@ -65,6 +66,7 @@ class Admin_Controller extends MY_Controller {
         
     }
     
+    
     function url_disect() {
         $url_info=[];
         $url_info["base_url"]=base_url();
@@ -73,6 +75,16 @@ class Admin_Controller extends MY_Controller {
         
         return $url_info;
     }
+    
+    function csv_handler($file_path) {
+        $csv = array_map('str_getcsv', file($file_path));
+        array_walk($csv, function(&$a) use ($csv) {
+          $a = array_combine($csv[0], $a);
+        });
+        array_shift($csv);           
+        return $csv;
+    }
+    
     
 }
 
