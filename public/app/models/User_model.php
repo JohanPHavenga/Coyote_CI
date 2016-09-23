@@ -6,20 +6,20 @@ class User_model extends CI_Model {
         $this->load->database();
     }
 
-    
-    private function hash_pass($password) 
+
+    private function hash_pass($password)
     {
         return sha1($password."37");
     }
-    
+
     public function record_count() {
         return $this->db->count_all("users");
     }
-    
+
 
     public function get_user_list($limit, $start)
     {
-        $this->db->limit($limit, $start);    
+        $this->db->limit($limit, $start);
 
         $this->db->select("users.*, club_name");
         $this->db->from("users");
@@ -34,7 +34,7 @@ class User_model extends CI_Model {
         }
         return false;
     }
-    
+
 
     public function get_user_dropdown() {
         $this->db->select("user_id, user_name, user_surname");
@@ -50,15 +50,15 @@ class User_model extends CI_Model {
         }
         return false;
     }
-    
+
 
     public function get_user_detail($id)
     {
-        if( ! ($id)) 
+        if( ! ($id))
         {
-            return false;  
-        } 
-        else 
+            return false;
+        }
+        else
         {
             $this->db->select("users.*, club_id");
             $this->db->from("users");
@@ -73,31 +73,41 @@ class User_model extends CI_Model {
         }
 
     }
-    
 
-    public function set_user($action, $id)
-    {            
-        $user_data = array(
-                    'user_name' => $this->input->post('user_name'),
-                    'user_surname' => $this->input->post('user_surname'),
-                    'user_username' => $this->input->post('user_username'),
-                    'user_password' => $this->hash_pass($this->input->post('user_password')),
-                    'club_id' => $this->input->post('club_id'),
-                );
 
-        switch ($action) {                    
-            case "add":                     
+    public function set_user($action, $id, $user_data=[])
+    {
+        // POSTED DATA
+        if (empty($user_data))
+        {
+          $user_data = array(
+                      'user_name' => $this->input->post('user_name'),
+                      'user_surname' => $this->input->post('user_surname'),
+                      'user_username' => $this->input->post('user_username'),
+                      'user_password' => $this->hash_pass($this->input->post('user_password')),
+                      'club_id' => $this->input->post('club_id'),
+                  );
+           $role_arr=$this->input->post('role_id');
+       } else {
+           $role_arr = [];
+       }
+
+        switch ($action) {
+            case "add":
                 $this->db->trans_start();
-                $this->db->insert('users', $user_data);  
+                $this->db->insert('users', $user_data);
                     // get event ID from Insert
-                $user_id=$this->db->insert_id();          
+                $user_id=$this->db->insert_id();
+
                 // update data array
-                foreach ($this->input->post('role_id') as $role_id) {
+                if (empty($role_arr)) { $role_arr = [2]; } // set role_arr to 'user' for new users
+                foreach ($role_arr as $role_id) {
                     $this->db->insert('user_role', ["user_id"=>$user_id,"role_id"=>$role_id]);
-                }                
-                $this->db->trans_complete();  
-                return $this->db->trans_status();               
-                
+                }
+
+                $this->db->trans_complete();
+                return $this->db->trans_status();
+
             case "edit":
                 // add updated date to both data arrays
                 $user_data['updated_date']=date("Y-m-d H:i:s");
@@ -110,17 +120,22 @@ class User_model extends CI_Model {
                 // start SQL transaction
                 $this->db->trans_start();
                 $this->db->update('users', $user_data, array('user_id' => $id));
-                
-                // delete uit user_role
-                $this->db->where('user_id', $id);
-                $this->db->delete('user_role');
-                // add nuwe entries
-                foreach ($this->input->post('role_id') as $role_id) {
-                    $this->db->insert('user_role', ["user_id"=>$id,"role_id"=>$role_id]);
-                }                
-                
+
+
+                if ($role_arr) {
+                    // delete uit user_role
+                    $this->db->where('user_id', $id);
+                    $this->db->delete('user_role');
+
+                    // add nuwe entries
+                    foreach ($role_arr as $role_id) {
+                        $this->db->insert('user_role', ["user_id"=>$id,"role_id"=>$role_id]);
+                    }
+                }
+
                 $this->db->trans_complete();
                 return $this->db->trans_status();
+
             default:
                 show_404();
                 break;
@@ -143,22 +158,22 @@ class User_model extends CI_Model {
             return $this->db->trans_status();
         }
     }
-    
-    
+
+
     public function check_login($login_type="user")
-    {            
+    {
         $user_data = array(
                     'user_username' => $this->input->post('user_username'),
                     'user_password' => $this->hash_pass($this->input->post('user_password')),
                 );
-                
+
         $this->db->select("users.user_id, user_name, user_surname, role_id");
         $this->db->from("users");
         if ($login_type=="admin") {
-            $this->db->join("user_role","users.user_id=user_role.user_id"); 
+            $this->db->join("user_role","users.user_id=user_role.user_id");
             $user_data["role_id"]=1;
         }
-        $this->db->where($user_data); 
+        $this->db->where($user_data);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -167,12 +182,12 @@ class User_model extends CI_Model {
         return false;
 
     }
-    
+
     private function check_password($password)
-    {            
+    {
         $this->db->where('user_password', $password);
         $this->db->from('users');
         return $this->db->count_all_results();
     }
-    
+
 }
