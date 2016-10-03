@@ -23,18 +23,11 @@
                     <span class="caption-subject font-dark bold uppercase">Import Data</span>
                 </div>
             </div>
-            <ul>
-            <?php foreach ($file_meta_data as $item => $value):?>
-            <li><?php echo $item;?>: <?php echo $value;?></li>
-            <?php endforeach; ?>
-            </ul>
-            
-            <?php
-                wts($file_data);
-            ?>
+
+            <p>Upload complete.</p>
 
             <div class='btn-group'>
-                <?= fbuttonLink('../import','Upload Another File'); ?>
+                <?= fbuttonLink('./import','Upload Another File'); ?>
             </div>
         </div>
     </div>

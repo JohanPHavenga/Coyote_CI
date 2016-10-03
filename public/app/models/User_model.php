@@ -90,6 +90,7 @@ class User_model extends CI_Model {
            $role_arr=$this->input->post('role_id');
        } else {
            $role_arr = [];
+           if (isset($user_data['user_password'])) { $user_data['user_password']=$this->hash_pass($user_data['user_password']); }
        }
 
         switch ($action) {
@@ -112,7 +113,7 @@ class User_model extends CI_Model {
                 // add updated date to both data arrays
                 $user_data['updated_date']=date("Y-m-d H:i:s");
                 //check of password wat gepost is alreeds gehash is
-                if ($this->check_password($this->input->post('user_password')))
+                if (@$this->check_password($user_data['user_password'],$id))
                 {
                     unset($user_data['user_password']);
                 }
@@ -183,11 +184,19 @@ class User_model extends CI_Model {
 
     }
 
-    private function check_password($password)
+    private function check_password($password, $id)
     {
         $this->db->where('user_password', $password);
+        $this->db->where('user_id', $id);
         $this->db->from('users');
         return $this->db->count_all_results();
+    }
+
+    public function export()
+    {
+        $this->db->select("users.user_id, user_name, user_surname, user_username, club_id");
+        $this->db->from("users");
+        return $query = $this->db->get();
     }
 
 }

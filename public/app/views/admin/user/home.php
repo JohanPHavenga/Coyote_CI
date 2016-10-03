@@ -17,12 +17,11 @@
     </div>
     <div class="col-md-9">
         <div class="portlet light">
-            Hallo
-            
+            Users home page
+
             <?php
-                wts($side_menu_arr);
+                // wts($side_menu_arr);
             ?>
         </div>
     </div>
 </div>
-

@@ -53,13 +53,16 @@ class User extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_view);
     }
 
+
+
     public function import($submit=NULL) {
 
         $this->load->helper('form');
         $this->load->library('upload');
+        $this->load->library('table');
 
         $this->data_to_view['title'] = "Import Users";
-        $this->data_to_view['form_url']="/admin/user/import/submit";
+        $this->data_to_view['form_url']="/admin/user/import/confirm";
         $this->data_to_view['side_menu_arr']['import']['class']="active";
 
         $config['upload_path']          = $this->upload_path;
@@ -80,48 +83,26 @@ class User extends Admin_Controller {
         }
         else
         {
-            // TO DO. WRITE a CSV parser
-            $this->data_to_view['file_meta_data'] = $this->upload->data();
-            $this->data_to_view['file_data'] = $this->csv_handler($this->upload->data('full_path'));
 
-            foreach ($this->data_to_view['file_data'] as $entity) {
-                //reset($entity);
-                $id = array_shift($entity);
+            if ($submit=="confirm") {
+                // get file data and meta data
+                // $this->data_to_view['file_meta_data'] = $this->upload->data();
+                $file_data = $this->csv_handler($this->upload->data('full_path'));
+                $sum_data=$this->csv_data_for_import($file_data);
 
-                if ($id>0) {
-                    $action="edit";
-                } else {
-                    $action="add";
-                }
+                // set to session
+                $_SESSION['sum_data']=$sum_data;
+                // send to view
+                $this->data_to_view['sum_data']=$sum_data;
 
-                foreach ($entity as $key => $value) {
-                    if (!empty($value)) {
-                        $user_data[$key]=$value;
-                    }
-                }
-                $db_write=$this->user_model->set_user($action, $id, $user_data);
-                unset($user_data);
+                $this->load->view($this->header_url, $this->data_to_view);
+                $this->load->view("/admin/user/import_confirm", $this->data_to_view);
+                $this->load->view($this->footer_url, $this->data_to_view);
+
+            } else {
+                die("Upload failure");
             }
 
-            if ($db_write)
-            {
-                $alert="User list has been updated";
-                $status="success";
-            }
-            else
-            {
-                $alert="Error committing to the database";
-                $status="danger";
-            }
-
-            $this->session->set_flashdata([
-                'alert'=>$alert,
-                'status'=>$status,
-                ]);
-
-            $this->load->view($this->header_url, $this->data_to_view);
-            $this->load->view("/admin/user/import_success", $this->data_to_view);
-            $this->load->view($this->footer_url, $this->data_to_view);
         }
 
     }
@@ -129,31 +110,40 @@ class User extends Admin_Controller {
     public function import_done() {
         // load helpers / libraries
         $this->load->helper('form');
-        wts($config);
+        $db_write=false;
+        if (isset($_SESSION['sum_data'])) {
+            // wts($_SESSION['sum_data']);
+            // die();
+            foreach ($_SESSION['sum_data'] as $action=>$entry_list) {
+                foreach ($entry_list as $id=>$user_data) {
+                    $db_write=$this->user_model->set_user($action, $id, $user_data);
+                }
+            }
+            unset($_SESSION['sum_data']);
+        }
+
+        if ($db_write)
+        {
+            $alert="User list has been updated";
+            $status="success";
+        }
+        else
+        {
+            $alert="Error committing to the database";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata([
+            'alert'=>$alert,
+            'status'=>$status,
+            ]);
 
         $this->data_to_view['title'] = "Import Complete";
         $this->data_to_view['side_menu_arr']['import']['class']="active";
 
-        if ( ! $this->upload->do_upload('userfile'))
-        {
-                $this->data_to_view['form_url']="/admin/user/import_done";
-                $this->data_to_view['error'] = $this->upload->display_errors();
-
-//                wts($this->upload->data);
-
-                $this->load->view($this->header_url, $this->data_to_view);
-                $this->load->view('/admin/user/import', $this->data_to_view);
-                $this->load->view($this->footer_url, $this->data_to_view);
-        }
-        else
-        {
-                $this->data_to_view['upload_data'] = $this->upload->data();
-
-                $this->load->view($this->header_url, $this->data_to_view);
-                $this->load->view('/admin/user/import_success', $this->data_to_view);
-                $this->load->view($this->footer_url, $this->data_to_view);
-        }
-
+        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view('/admin/user/import_success', $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_view);
     }
 
 
@@ -299,6 +289,18 @@ class User extends Admin_Controller {
         }
     }
 
+
+    public function export(){
+        $this->load->dbutil();
+        $this->load->helper('download');
+        /* get the object   */
+        $export = $this->user_model->export();
+        /*  pass it to db utility function  */
+        $new_report = $this->dbutil->csv_from_result($export);
+        /*  Force download the file */
+        force_download('users.csv', $new_report);
+        /*  Done    */
+    }
 
 
 }
