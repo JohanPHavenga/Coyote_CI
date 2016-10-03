@@ -8,7 +8,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Metronic | Clean</title>
+        <title>Road Running</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -20,13 +20,13 @@
         <!-- END GLOBAL MANDATORY STYLES -->
         <?php
             // load extra CSS files from controller
-            if (isset($css_to_load)) : 
+            if (isset($css_to_load)) :
             foreach ($css_to_load as $row):
-                $css_link=base_url($row);        
+                $css_link=base_url($row);
                 echo "<link href='$css_link' rel='stylesheet'>";
             endforeach;
             endif;
-        ?>    
+        ?>
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="<?= base_url('css/admin/components-rounded.min.css'); ?>" rel="stylesheet" id="style_components" type="text/css" />
         <link href="<?= base_url('css/admin/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
@@ -36,10 +36,10 @@
         <link href="<?= base_url('css/admin/theme.min.css'); ?>" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?= base_url('css/admin/custom.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
+        <link rel="shortcut icon" href="<?= base_url('ci-icon.ico');?>" /> </head>
     <!-- END HEAD -->
 
-    <body class="page-container-bg-solid">
+        <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
         <div class="page-wrapper">
             <div class="page-wrapper-row">
                 <div class="page-wrapper-top">
@@ -72,14 +72,14 @@
                                     <?php include('topmenu.php'); ?>
                                 </div>
                                 <!-- END MEGA MENU -->
-                            </div>    
+                            </div>
                         </div>
                         <!-- END HEADER MENU -->
                     </div>
                     <!-- END HEADER -->
                 </div>
             </div>
-            
+
             <div class="page-wrapper-row full-height">
               <div class="page-wrapper-middle">
                   <!-- BEGIN CONTAINER -->
@@ -106,9 +106,9 @@
                                   <?php
                                     if (isset($crumbs)) {
                                         echo "<ul class='page-breadcrumb breadcrumb'>";
-                                            foreach ($crumbs as $text=>$link) 
+                                            foreach ($crumbs as $text=>$link)
                                             {
-                                                if (empty($link)) 
+                                                if (empty($link))
                                                 {
                                                     echo "<li><span>$text</span></li>";
                                                 } else {
@@ -126,11 +126,11 @@
                                         if($this->session->flashdata('alert'))
                                         {
                                             $alert_msg=$this->session->flashdata('alert');
-                                            if ( ! ($this->session->flashdata('status'))) 
+                                            if ( ! ($this->session->flashdata('status')))
                                             {
                                                 $status='warning';
                                             }
-                                            else 
+                                            else
                                             {
                                                 $status=$this->session->flashdata('status');
                                             }
