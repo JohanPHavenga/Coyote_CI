@@ -1,82 +1,71 @@
 <!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
 <html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
+        <title>RoadRunning.co.za | Running Event Listing Site</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title><?= $title; ?></title>
-        <link rel="shortcut icon" type="image/x-icon" href="fe_icon.ico" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&amp;subset=all' rel='stylesheet' type='text/css'>
+        <link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN: BASE PLUGINS  -->
+        <link href="<?= base_url('plugins/revo-slider/css/settings.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/revo-slider/css/layers.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/revo-slider/css/navigation.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('plugins/cubeportfolio/css/cubeportfolio.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <!-- END: PAGE STYLES -->
+        <!-- BEGIN THEME STYLES -->
+        <link href="<?= base_url('css/plugins.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/components.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
+        <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
+        <!-- END THEME STYLES -->
+        <link rel="shortcut icon" href="<?= base_url('img/favicon.ico'); ?>" /> </head>
 
-        <!-- Bootstrap -->
-        <link href="<?= base_url('css/bootstrap.min.css'); ?>" rel="stylesheet">    
-        <link href="<?= base_url('css/bootstrap-theme.min.css'); ?>" rel="stylesheet">
-        <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet">
+    <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        <?php include_once('shared_head.php'); ?>
-    </head>
-    <body>
-            
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Coyote</a>
+          ga('create', 'UA-85900175-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+        <!-- BEGIN: LAYOUT/HEADERS/HEADER-1 -->
+        <!-- BEGIN: HEADER -->
+        <header class="c-layout-header c-layout-header-4 c-layout-header-default-mobile" data-minimize-offset="80">
+            <div class="c-navbar">
+                <div class="container">
+                    <div class="c-navbar-wrapper clearfix">
+                        <div class="c-brand c-pull-left">
+                            <a href="/" class="c-logo">
+                                <img src="<?= base_url('img/logo.png'); ?>" alt="JANGO" class="c-desktop-logo">
+                                <img src="<?= base_url('img/logo.png'); ?>" alt="JANGO" class="c-desktop-logo-inverse">
+                                <img src="<?= base_url('img/logo.png'); ?>" alt="JANGO" class="c-mobile-logo"> </a>
+                            <!-- <button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
+                                <span class="c-line"></span>
+                                <span class="c-line"></span>
+                                <span class="c-line"></span>
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/about">About</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <?php
-                            if ($this->session->has_userdata('user_logged_in')) {
-                            ?>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$this->session->user['user_name'];?> <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="">Profile</a></li>
-                                    <li><a href="/login/logout">Logout</a></li>
-                                </ul>
-                            <?php
-                            } else {
-                            ?>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/login">User Login</a></li>
-                                    <li><a href="/login/admin">Admin Login</a></li>
-                                </ul>
-                            <?php
-                            }
-                        ?>
-                    </li>
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
-    
-    <div class="container theme-showcase" role="main">
-        
-        <h1><?php echo $title; ?></h1>
-        
-        <?php
-        // alert message on top of the page
-        // set flashdata [alert|status]
-        if($this->session->flashdata('alert'))
-        {
-            $alert_msg=$this->session->flashdata('alert');
-            if ( ! ($this->session->flashdata('status'))) 
-            {
-                $status='warning';
-            }
-            else 
-            {
-                $status=$this->session->flashdata('status');
-            }
-            echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
-        }
+        </header>
+        <!-- END: HEADER -->
+        <!-- END: LAYOUT/HEADERS/HEADER-1 -->

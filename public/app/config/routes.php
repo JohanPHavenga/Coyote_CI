@@ -63,3 +63,4 @@ $route['admin'] = 'admin/dashboard';
 
 //basic pages running through PAGES controller
 $route['about'] = 'pages/about';
+$route['mailer'] = 'pages/mailer';

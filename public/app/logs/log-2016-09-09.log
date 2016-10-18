@@ -1,2 +1,0 @@
-ERROR - 2016-09-09 09:19:35 --> Severity: Error --> Unsupported operand types /var/www/public/app/controllers/admin/Town.php 34
-ERROR - 2016-09-09 09:20:05 --> Severity: Notice --> Array to string conversion /var/www/public/app/controllers/admin/Town.php 34

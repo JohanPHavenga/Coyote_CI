@@ -1,5 +1,0 @@
-ERROR - 2016-08-26 14:04:42 --> Severity: Notice --> Undefined variable: form_url /var/www/public/app/views/login/adminlogin.php 8
-ERROR - 2016-08-26 14:05:00 --> Severity: Notice --> Undefined variable: form_url /var/www/public/app/views/login/adminlogin.php 8
-ERROR - 2016-08-26 14:05:03 --> Severity: Notice --> Undefined variable: form_url /var/www/public/app/views/login/adminlogin.php 8
-ERROR - 2016-08-26 14:11:27 --> Severity: Notice --> Undefined variable: form_url /var/www/public/app/views/login/adminlogin.php 8
-ERROR - 2016-08-26 14:32:22 --> 404 Page Not Found: Faviconico/index
