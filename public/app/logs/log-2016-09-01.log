@@ -1,9 +1,0 @@
-ERROR - 2016-09-01 14:06:06 --> Severity: Warning --> mysqli::real_connect(): MySQL server has gone away /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
-ERROR - 2016-09-01 14:06:06 --> Severity: Warning --> mysqli::real_connect(): Error reading result set's header /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
-ERROR - 2016-09-01 14:06:06 --> Severity: Warning --> mysqli::real_connect(): (HY000/2006): MySQL server has gone away /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
-ERROR - 2016-09-01 14:06:06 --> Unable to connect to the database
-ERROR - 2016-09-01 14:06:12 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): Connection refused /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
-ERROR - 2016-09-01 14:06:12 --> Unable to connect to the database
-ERROR - 2016-09-01 14:07:11 --> Severity: Error --> Call to undefined function hash_pass() /var/www/public/app/models/User_model.php 129
-ERROR - 2016-09-01 14:11:15 --> Severity: 4096 --> Object of class CI_DB_mysqli_result could not be converted to string /var/www/public/app/controllers/Login.php 47
-ERROR - 2016-09-01 14:20:38 --> Severity: Error --> Cannot use object of type CI_Session as array /var/www/public/app/views/pages/home.php 5

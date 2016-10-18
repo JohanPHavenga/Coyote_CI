@@ -1,6 +1,0 @@
-ERROR - 2016-08-31 12:02:57 --> 404 Page Not Found: admin/Ci-iconico/index
-ERROR - 2016-08-31 12:03:32 --> Severity: Notice --> Undefined offset: 1 /var/www/public/app/controllers/admin/Delete.php 22
-ERROR - 2016-08-31 12:03:32 --> Severity: Notice --> Undefined offset: 2 /var/www/public/app/controllers/admin/Delete.php 23
-ERROR - 2016-08-31 12:03:43 --> 404 Page Not Found: Faviconico/index
-ERROR - 2016-08-31 12:03:43 --> 404 Page Not Found: Sponsor/view
-ERROR - 2016-08-31 12:12:44 --> Severity: Error --> Call to undefined method Race_model::remove_event() /var/www/public/app/controllers/admin/Race.php 139
