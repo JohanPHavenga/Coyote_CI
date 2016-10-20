@@ -61,6 +61,7 @@ class Pages extends Frontend_Controller {
         }
         else
         {
+<<<<<<< HEAD
             $this->load->library('email');
             $config['mailtype'] = 'html';
             $this->email->initialize($config);
@@ -87,6 +88,8 @@ class Pages extends Frontend_Controller {
             $this->load->view('pages/home', $data);
             $this->load->view('templates/footer', $data);
             // $this->input->post('event_name')
+=======
+>>>>>>> refs/heads/Rework-to-Admin2
         }
     }
 
