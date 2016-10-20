@@ -47,7 +47,7 @@ class Pages extends Frontend_Controller {
         $this->form_validation->set_rules('dname', 'Name', 'required');
         $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('dphone', 'Phone', 'alpha_numeric_spaces');
-        $this->form_validation->set_rules('dmsg', 'Comment', 'required|alpha_numeric_spaces');
+        $this->form_validation->set_rules('dmsg', 'Comment', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
@@ -61,17 +61,17 @@ class Pages extends Frontend_Controller {
         }
         else
         {
-<<<<<<< HEAD
             $this->load->library('email');
             $config['mailtype'] = 'html';
+            $config['smtp_host'] = 'mail.my-cupcakes.co.za';
             $this->email->initialize($config);
 
-            $this->email->from($this->input->post('ename'), $this->input->post('demail'));
+            $this->email->from($this->input->post('demail'), $this->input->post('dname'));
             $this->email->to('johan.havenga@gmail.com');
-            // $this->email->cc('another@another-example.com');
+            $this->email->cc('monicahav@gmail.com');
             // $this->email->bcc('them@their-example.com');
 
-            $this->email->subject('RoadRunning Comment');
+            $this->email->subject('RoadRunning.co.za Comment');
 
             $msg_arr[]="Name: ".$this->input->post('dname');
             $msg_arr[]="Email: ".$this->input->post('demail');
@@ -87,9 +87,6 @@ class Pages extends Frontend_Controller {
             $this->load->view('templates/header', $data);
             $this->load->view('pages/home', $data);
             $this->load->view('templates/footer', $data);
-            // $this->input->post('event_name')
-=======
->>>>>>> refs/heads/Rework-to-Admin2
         }
     }
 
