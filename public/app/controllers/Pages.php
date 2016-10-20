@@ -36,23 +36,58 @@ class Pages extends Frontend_Controller {
     }
 
     public function mailer() {
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $data['title'] = "Mailer"; // Capitalize the first letter
+        $data['page'] = "mailer";
+
         // set validation rules
-        $this->form_validation->set_rules('dname', 'Your Name', 'required');
-        $this->form_validation->set_rules('demail', 'Your Email', 'required|valid_email');
-        $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
-        $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an event"]);
-        $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsort"]);
+        $this->form_validation->set_rules('dname', 'Name', 'required');
+        $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('dphone', 'Phone', 'alpha_numeric_spaces');
+        $this->form_validation->set_rules('dmsg', 'Comment', 'required|alpha_numeric_spaces');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->data_to_view['return_url']=$this->return_url;
-            $this->load->view($this->header_url, $this->data_to_view);
-            $this->load->view($this->create_url, $this->data_to_view);
-            $this->load->view($this->footer_url, $this->data_to_view);
+                $data['form_data']=$_POST;
+                $data['email_send']=false;
+
+                $this->load->view('templates/header', $data);
+                $this->load->view('pages/home', $data);
+                $this->load->view('templates/footer', $data);
         }
         else
         {
+            $this->load->library('email');
+            $config['mailtype'] = 'html';
+            $this->email->initialize($config);
+
+            $this->email->from($this->input->post('ename'), $this->input->post('demail'));
+            $this->email->to('johan.havenga@gmail.com');
+            // $this->email->cc('another@another-example.com');
+            // $this->email->bcc('them@their-example.com');
+
+            $this->email->subject('RoadRunning Comment');
+
+            $msg_arr[]="Name: ".$this->input->post('dname');
+            $msg_arr[]="Email: ".$this->input->post('demail');
+            $msg_arr[]="Phone: ".$this->input->post('dphone');
+            $msg_arr[]="Comment: ".$this->input->post('dmsg');
+            $msg=implode("<br>",$msg_arr);
+
+            $this->email->message($msg);
+
+            $this->email->send();
+
+            $data['email_send']=true;
+            $this->load->view('templates/header', $data);
+            $this->load->view('pages/home', $data);
+            $this->load->view('templates/footer', $data);
+            // $this->input->post('event_name')
+        }
     }
 
 }

@@ -8,7 +8,7 @@
                 <ul>
                     <!--BEGIN: SLIDE #1 -->
                     <li data-transition="fade" data-slotamount="1" data-masterspeed="1000">
-                        <img alt="" src="img/bg-43.jpg" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <img alt="" src="<?= base_url('img/bg-43.jpg');?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption customin customout" data-x="center" data-y="center" data-hoffset="" data-voffset="-50" data-speed="500" data-start="1000" data-transform_idle="o:1;" data-transform_in="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;"
                         data-transform_out="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="600">
                             <h3 class="c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block"> ROADRUNNING.CO.ZA
@@ -22,7 +22,7 @@
                     <!--END -->
                     <!--BEGIN: SLIDE #2 -->
                     <li data-transition="fade" data-slotamount="1" data-masterspeed="1000">
-                        <img alt="" src="img/bg-20.jpg" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <img alt="" src="<?= base_url('img/bg-20.jpg'); ?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption customin customout" data-x="center" data-y="center" data-hoffset="" data-voffset="-50" data-speed="500" data-start="1000" data-transform_idle="o:1;" data-transform_in="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;"
                         data-transform_out="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:600;e:Back.easeInOut;" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="600">
                             <h3 class="c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block"> LISTING ALL RUNNING
@@ -92,23 +92,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="contact">
                         <div class="c-contact">
                             <div class="c-content-title-1">
                                 <h3 class="c-font-uppercase c-font-bold">Keep in touch</h3>
                                 <div class="c-line-left"></div>
                                 <p class="c-font-lowercase">Our proverbial door is always open to comments and ideas. Please send us a message using the form below.</p>
                             </div>
-
-                            <?php echo form_open('mailer'); ?>
+                            <?php
+                            if ($_POST) {
+                                if(!@$email_send) {
+                                    echo '<div class="alert alert-danger" role="alert">';
+                                    echo validation_errors();
+                                    echo '</div>';
+                                } else {
+                                    echo '<div class="alert alert-success" role="alert">';
+                                    echo "Thank you for contacting us. Your message has successfully been send.";
+                                    echo '</div>';
+                                }
+                            }
+                            ?>
+                            <?php echo form_open('pages/mailer#contact'); ?>
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'dname', 'name'=>'dname', 'placeholder'=>'Your Name', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <?php echo form_input(array('id'=>'dname', 'name'=>'dname', 'value'=>@$form_data['dname'], 'placeholder'=>'Your Name', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'demail', 'name'=>'demail', 'placeholder'=>'Your Email', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <?php echo form_input(array('id'=>'demail', 'name'=>'demail', 'value'=>@$form_data['demail'], 'placeholder'=>'Your Email', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'value'=>@$form_data['dphone'], 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                 <div class="form-group">
-                                    <?php echo form_textarea(array('id'=>'dmsg', 'name'=>'dmsg', 'placeholder'=>'Write comment here ...', 'rows'=>'8', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <?php echo form_textarea(array('id'=>'dmsg', 'name'=>'dmsg', 'value'=>@$form_data['dmsg'], 'placeholder'=>'Write comment here ...', 'rows'=>'8', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                     <?php echo form_button(array('type'=>'submit', 'class'=>'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-square','content'=>'Submit')); ?>
                             <?php echo form_close(); ?>
 
