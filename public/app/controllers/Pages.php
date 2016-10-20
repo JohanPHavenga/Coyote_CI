@@ -53,6 +53,7 @@ class Pages extends Frontend_Controller {
         }
         else
         {
+        }
     }
 
 }
