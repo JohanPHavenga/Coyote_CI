@@ -48,9 +48,9 @@ class User extends Admin_Controller {
         $this->data_to_view['side_menu_arr']['home']['class']="active";
 
          // load view
-        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/user/home", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
 
@@ -77,9 +77,9 @@ class User extends Admin_Controller {
                 $this->data_to_view['error'] = $this->upload->display_errors();
             }
 
-            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view("/admin/user/import", $this->data_to_view);
-            $this->load->view($this->footer_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
         {
@@ -95,9 +95,9 @@ class User extends Admin_Controller {
                 // send to view
                 $this->data_to_view['sum_data']=$sum_data;
 
-                $this->load->view($this->header_url, $this->data_to_view);
+                $this->load->view($this->header_url, $this->data_to_header);
                 $this->load->view("/admin/user/import_confirm", $this->data_to_view);
-                $this->load->view($this->footer_url, $this->data_to_view);
+                $this->load->view($this->footer_url, $this->data_to_footer);
 
             } else {
                 die("Upload failure");
@@ -141,9 +141,9 @@ class User extends Admin_Controller {
         $this->data_to_view['title'] = "Import Complete";
         $this->data_to_view['side_menu_arr']['import']['class']="active";
 
-        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('/admin/user/import_success', $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
 
@@ -178,7 +178,7 @@ class User extends Admin_Controller {
         }
 
         // load view
-        $this->load->view($this->header_url, $this->data_to_view);
+        $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view($this->view_url, $this->data_to_view);
         $this->load->view($this->footer_url);
     }
@@ -223,9 +223,9 @@ class User extends Admin_Controller {
         {
             if ($action=="add") { $this->data_to_view['user_detail']['role_id'][]=2; }
             $this->data_to_view['return_url']=$this->return_url;
-            $this->load->view($this->header_url, $this->data_to_view);
+            $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view($this->create_url, $this->data_to_view);
-            $this->load->view($this->footer_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
         {
@@ -300,6 +300,20 @@ class User extends Admin_Controller {
         /*  Force download the file */
         force_download('users.csv', $new_report);
         /*  Done    */
+    }
+
+
+    public function profile() {
+        // load helpers / libraries
+        $this->load->library('table');
+
+        $this->data_to_view['title'] ="User Profile";
+
+
+        // load view
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('/admin/user/profile', $this->data_to_view);
+        $this->load->view($this->footer_url);
     }
 
 

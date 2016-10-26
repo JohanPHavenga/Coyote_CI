@@ -3,13 +3,13 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="icon-edit font-dark"></i>
-                    <span class="caption-subject font-dark bold uppercase">List Data</span>
+                    <i class="icon-list font-yellow-casablanca"></i>
+                    <span class="caption-subject bold font-yellow-casablanca uppercase">List Data</span>
                 </div>
             </div>
             <div class="portlet-body">
-                <?php 
-                if ( ! (empty($list))) 
+                <?php
+                if ( ! (empty($list)))
                 {
                     // pagination links
                     echo fpagination(@$pagination);
@@ -49,5 +49,3 @@
         </div>
     </div>
 </div>
-
-

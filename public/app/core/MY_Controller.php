@@ -19,7 +19,9 @@ class MY_Controller extends CI_Controller {
  */
 class Admin_Controller extends MY_Controller {
 
+    public $data_to_header=[];
     public $data_to_view=[];
+    public $data_to_footer=[];
 
     public $view_url="/admin/list";
     public $header_url="/templates/admin/header";
@@ -56,13 +58,16 @@ class Admin_Controller extends MY_Controller {
                 $crumb_uri.="/".$segs[$x];
             }
 
-            if ($segs[$x]=="admin") { $segs[$x]="dashboard"; }
-            if ($segs[$x]=="delete") { $this->data_to_view['crumbs']=[]; break; }
+            if ($segs[$x]=="admin") { $segs[$x]="home"; }
+                        if ($segs[$x]=="dashboard") { continue; }
+            if ($segs[$x]=="delete") { $this->data_to_header['crumbs']=[]; break; }
 
-            $this->data_to_view['crumbs'][ucfirst($segs[$x])]=$crumb_uri;
+            $this->data_to_header['crumbs'][ucfirst($segs[$x])]=$crumb_uri;
 
             if ($x==3) { break; }
         }
+
+        $this->data_to_header['menu_array']=$this->set_admin_menu_array();
 
     }
 
@@ -115,6 +120,111 @@ class Admin_Controller extends MY_Controller {
 
         return $sum_data;
     }
+
+    function set_admin_menu_array() {
+        return [
+            // Dashboard
+            [
+                "text"=>"Dashboard",
+                "url"=>'admin',
+                "icon"=>"home",
+                "seg0"=>['dashboard'],
+                "submenu"=>[
+                    [
+                    "text"=>"Dashboard",
+                    "url"=>'admin/dashboard',
+                    "icon"=>"bar-chart",
+                    ],
+                    [
+                    "text"=>"Search",
+                    "url"=>'admin/dashboard/search',
+                    "icon"=>"magnifier",
+                    ],
+                ],
+            ],
+            // Events
+            [
+                "text"=>"Events",
+                "url"=>'admin/event',
+                "icon"=>"rocket",
+                "seg0"=>['event','edition','race'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Events",
+                    "url"=>'admin/event/view',
+                    ],
+                    [
+                    "text"=>"List All Editions",
+                    "url"=>'admin/edition/view',
+                    ],
+                    [
+                    "text"=>"List All Races",
+                    "url"=>'admin/race/view',
+                    ],
+                ],
+            ],
+            // Users
+            [
+                "text"=>"Users",
+                "url"=>'admin/user',
+                "icon"=>"users",
+                "seg0"=>['user','entry','asanumber'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Users",
+                    "url"=>'admin/user/view',
+                    ],
+                    [
+                    "text"=>"List All Entries",
+                    "url"=>'admin/entry/view',
+                    ],
+                    [
+                    "text"=>"List All ASA Numbers",
+                    "url"=>'admin/asanumber/view',
+                    ],
+                ],
+            ],
+            // Clubs
+            [
+                "text"=>"Clubs",
+                "url"=>'admin/club',
+                "icon"=>"badge",
+                "seg0"=>['club'],
+            ],
+            // Sponsors
+            [
+                "text"=>"Sponsors",
+                "url"=>'admin/sponsor',
+                "icon"=>"wallet",
+                "seg0"=>['sponsor'],
+            ],
+            // Static info
+            [
+                "text"=>"Static Info",
+                "url"=>'admin/role',
+                "icon"=>"settings",
+                "seg0"=>['role','town','province'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Role",
+                    "url"=>'admin/role/view',
+                    ],
+                    [
+                    "text"=>"List All Towns",
+                    "url"=>'admin/town/view',
+                    ],
+                    [
+                    "text"=>"List All Provinces",
+                    "url"=>'admin/province/view',
+                    ],
+                ],
+            ],
+        ];
+
+    }
+
+
+
 
 
 }

@@ -8,7 +8,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Road Running</title>
+        <title>RoadRunning | Admin</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
@@ -47,7 +47,7 @@
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="index.html">
+                    <a href="<?= base_url('admin'); ?>">
                         <img src="<?= base_url('img/admin/logo-default.png'); ?>" alt="logo" class="logo-default" /> </a>
                     <div class="menu-toggler sidebar-toggler">
                         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -63,35 +63,19 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-plus"></i>&nbsp;
-                            <span class="hidden-sm hidden-xs">New&nbsp;</span>&nbsp;
+                            <span class="hidden-sm hidden-xs">Import&nbsp;</span>&nbsp;
                             <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="javascript:;">
-                                    <i class="icon-docs"></i> New Post </a>
+                                    <i class="icon-docs"></i> Result Set </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
-                                    <i class="icon-tag"></i> New Comment </a>
+                                    <i class="icon-info"></i> Event Information </a>
                             </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-share"></i> Share </a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-flag"></i> Comments
-                                    <span class="badge badge-success">4</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <i class="icon-users"></i> Feedbacks
-                                    <span class="badge badge-danger">2</span>
-                                </a>
-                            </li>
+                            <!-- <li class="divider"> </li> -->
                         </ul>
                     </div>
                 </div>
@@ -100,7 +84,7 @@
                 <div class="page-top">
                     <!-- BEGIN HEADER SEARCH BOX -->
                     <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
-                    <form class="search-form search-form-expanded" action="page_general_search_3.html" method="GET">
+                    <form class="search-form search-form-expanded" action="<?= base_url('admin/dashboard/search/'); ?>" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search..." name="query">
                             <span class="input-group-btn">
@@ -123,32 +107,12 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
-                                        <a href="page_user_profile_1.html">
+                                        <a href="<?= base_url('admin/user/profile');?>">
                                             <i class="icon-user"></i> My Profile </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_calendar.html">
-                                            <i class="icon-calendar"></i> My Calendar </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_inbox.html">
-                                            <i class="icon-envelope-open"></i> My Inbox
-                                            <span class="badge badge-danger"> 3 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="app_todo_2.html">
-                                            <i class="icon-rocket"></i> My Tasks
-                                            <span class="badge badge-success"> 7 </span>
-                                        </a>
                                     </li>
                                     <li class="divider"> </li>
                                     <li>
-                                        <a href="page_user_lock_1.html">
-                                            <i class="icon-lock"></i> Lock Screen </a>
-                                    </li>
-                                    <li>
-                                        <a href="page_user_login_1.html">
+                                        <a href="<?= base_url('login/logout');?>">
                                             <i class="icon-key"></i> Log Out </a>
                                     </li>
                                 </ul>
@@ -200,7 +164,7 @@
                                           echo "<li><span>$text</span></li>";
                                       } else {
                                           echo "<li>";
-                                          if ($text=="Dashboard") { echo '<i class="icon-home"></i> '; }
+                                          if ($text=="Home") { echo '<i class="icon-home"></i> '; }
                                           echo "<a href='$link'>$text</a> <i class='fa fa-angle-right'></i></li> ";
                                       }
                                   }
@@ -226,8 +190,3 @@
                         echo "<div class='note note-$status' role='alert'>$alert_msg</div>";
                     }
                     ?>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-xs-12 col-sm-12">
-                            <div class="portlet light ">
-                                <div class="portlet-body">

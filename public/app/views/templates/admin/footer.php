@@ -1,10 +1,3 @@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END PORTRET -->
-
-
             </div>
             <!-- END CONTENT BODY -->
         </div>

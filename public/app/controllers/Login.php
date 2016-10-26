@@ -1,6 +1,6 @@
 <?php
 class Login extends Frontend_Controller {
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -8,34 +8,34 @@ class Login extends Frontend_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
     }
-    
+
     // check if method exists, if not calls "view" method
     public function _remap($method, $params = array())
-    {        
+    {
         if (method_exists($this, $method))
         {
             return call_user_func_array(array($this, $method), $params);
-        }   
-        else 
+        }
+        else
         {
             $this->userlogin($method, $params = array());
         }
-    } 
-    
-    
-    public function logout() 
+    }
+
+
+    public function logout()
     {
         $this->session->sess_destroy();
-        redirect("/");  
+        redirect("/");
     }
-    
+
     public function userlogin()
     {
         $data['title'] = "User Login";
-        $data['form_url'] = '/login/userlogin/submit';  
-        $data['error_url'] = '/login';  
+        $data['form_url'] = '/login/userlogin/submit';
+        $data['error_url'] = '/login';
         $data['success_url'] = '/';
-        
+
         // set validation rules
         $this->form_validation->set_rules('user_username', 'Username', 'required');
         $this->form_validation->set_rules('user_password', 'Password', 'required');
@@ -49,9 +49,9 @@ class Login extends Frontend_Controller {
         }
         else
         {
-            
+
             $check_login=$this->user_model->check_login();
-            
+
             if ($check_login)
             {
                 $this->session->set_userdata("user_logged_in",true);
@@ -61,32 +61,32 @@ class Login extends Frontend_Controller {
                     'status'=>"success",
                     ]);
 
-                redirect($data['success_url']);  
+                redirect($data['success_url']);
             }
-            else 
-            {                
+            else
+            {
                 $this->session->set_flashdata([
                     'alert'=>"Login Failed",
                     'status'=>"danger",
                     ]);
 
-                redirect($data['error_url']);  
+                redirect($data['error_url']);
             }
-            
+
             die("Login failure");
-            
+
         }
 
     }
-    
+
     public function admin()
     {
-        
+
         $data['title'] = "Admin Login";
-        $data['form_url'] = '/login/admin/submit';  
-        $data['error_url'] = '/login/admin';  
+        $data['form_url'] = '/login/admin/submit';
+        $data['error_url'] = '/login/admin';
         $data['success_url'] = '/admin';
-        
+
         // set validation rules
         $this->form_validation->set_rules('user_username', 'Username', 'required');
         $this->form_validation->set_rules('user_password', 'Password', 'required');
@@ -101,33 +101,33 @@ class Login extends Frontend_Controller {
         else
         {
             $check_login=$this->user_model->check_login("admin");
-            
+
             if ($check_login)
-            {                
+            {
                 $this->session->set_userdata("admin_logged_in",true);
                 $this->session->set_userdata("admin_user",$check_login);
-                
+
                 $this->session->set_flashdata([
                     'alert'=>"Login successfull",
                     'status'=>"success",
                     ]);
 
-                redirect($data['success_url']);  
+                redirect($data['success_url']);
             }
-            else 
-            {                
+            else
+            {
                 $this->session->set_flashdata([
                     'alert'=>"Login Failed",
                     'status'=>"danger",
                     ]);
 
-                redirect($data['error_url']);  
+                redirect($data['error_url']);
             }
-            
+
             die("Login failure");
-            
+
         }
 
     }
-        
+
 }

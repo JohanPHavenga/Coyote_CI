@@ -25,7 +25,31 @@
     <div class="c-content-box c-size-md c-bg-white">
         <div class="container">
             <div class="row">
+                <div class="col-sm-12">
+                <?php
+                // alert message on top of the page
+                // set flashdata [alert|status]
+                if($this->session->flashdata('alert'))
+                {
+                    $alert_msg=$this->session->flashdata('alert');
+                    if ( ! ($this->session->flashdata('status')))
+                    {
+                        $status='warning';
+                    }
+                    else
+                    {
+                        $status=$this->session->flashdata('status');
+                    }
+                    echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
+                    // <div class="alert alert-danger" role="alert">
+                }
+                ?>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-sm-6 col-md-4">
+
                     <?php
                         echo validation_errors();
 

@@ -13,6 +13,10 @@
                     if ($this->session->has_userdata('admin_logged_in')) {
                         wts($this->session->admin_user);
                     }
+
+                    // $segs = $this->uri->segment_array();
+                    // array_shift($segs);
+                    // wts($segs);
                 ?>
             </div>
         </div>
