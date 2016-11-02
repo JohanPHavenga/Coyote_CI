@@ -68,11 +68,11 @@
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="javascript:;">
+                                <a href="<?= base_url('admin/entry'); ?>">
                                     <i class="icon-docs"></i> Result Set </a>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="<?= base_url('admin/event/import'); ?>">
                                     <i class="icon-info"></i> Event Information </a>
                             </li>
                             <!-- <li class="divider"> </li> -->

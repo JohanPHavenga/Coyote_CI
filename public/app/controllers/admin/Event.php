@@ -173,5 +173,189 @@ class Event extends Admin_Controller {
     }
 
 
+    public function import($submit=NULL) {
+
+        $this->load->helper('form');
+        $this->load->library('upload');
+        $this->load->library('table');
+
+        $this->data_to_header['title'] = "Import Events";
+        $this->data_to_view['form_url']="/admin/event/import/confirm";
+
+        $config['upload_path']          = $this->upload_path;
+        $config['allowed_types']        = 'csv';
+        $config['max_size']             = 8192;
+        $this->upload->initialize($config);
+
+        if ( ! $this->upload->do_upload('eventfile'))
+        {
+            if (!empty($submit))
+            {
+                $this->data_to_view['error'] = $this->upload->display_errors();
+            }
+
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view("/admin/event/import", $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
+        }
+        else
+        {
+
+            if ($submit=="confirm") {
+                // get file data and meta data
+                // $this->data_to_view['file_meta_data'] = $this->upload->data();
+                $file_data = $this->csv_handler($this->upload->data('full_path'));
+                $sum_data=$this->formulate_events_data($file_data);
+
+                // set to session
+                $_SESSION['sum_data']=$sum_data;
+                // send to view
+                $this->data_to_view['sum_data']=$sum_data;
+
+                $this->load->view($this->header_url, $this->data_to_header);
+                $this->load->view("/admin/event/import", $this->data_to_view);
+                $this->load->view($this->footer_url, $this->data_to_footer);
+
+            } else {
+                die("Upload failure");
+            }
+
+        }
+
+    }
+
+    // IDEE
+    // doen event data. pass volle array na edition formualte met die paramater for key field. bring dan array terug met alle editions in daardie
+
+    private function formulate_events_data($event_data) {
+
+        $return_arr=[];
+        $event_field_list=$this->get_event_field_list();
+
+        $n=0;
+        foreach ($event_data as $le) {
+            $n++;
+            // as daaar 'n event ID is
+            if ($le['event_id']) {
+                $event_action="edit";
+                $event_key_field="event_id";
+            } else {
+                $event_action="add";
+                $event_key_field="event_name";
+            }
+            $event_key_value=trim($le[$event_key_field]);
+
+            // set event level data
+            foreach ($event_field_list as $event_field) {
+                $return_arr[$event_action][$event_key_value][$event_field]=$le[$event_field];
+            }
+
+            // add edition information
+            $edition_data=$this->formulate_edition_data($event_data, $event_key_field, $event_key_value);
+            $return_arr[$event_action][$event_key_value]['edition_data']=$edition_data;
+
+            // if ($le['edition_id']) {
+            //     $edition_action="edit";
+            //     $edition_key_field="edition_id";
+            // } else {
+            //     $edition_action="add";
+            //     $edition_key_field="edition_name";
+            // }
+            // $return_arr[$event_action][$le[$event_key_field]]['edition_data'][$edition_action][$le[$edition_key_field]] = $edition_data;
+            //
+            //
+            // // add race information
+            // $race_data=$this->formulate_race_data($le);
+            //
+            // if ($le['race_id']) {
+            //     $race_action="edit";
+            //     $race_key_field="race_id";
+            // } else {
+            //     $race_action="add";
+            //     $race_key_field="race_name";
+            // }
+            // $return_arr[$event_action][$le[$event_key_field]]['edition_data'][$edition_action][$le[$edition_key_field]]['race_data'][$race_action][$le[$race_key_field]] = $race_data;
+        }
+
+        return $return_arr;
+
+    }
+
+    private function formulate_edition_data($event_data, $event_key_field, $event_key_value) {
+        $edition_field_list=$this->get_edition_field_list();
+
+        foreach ($event_data as $le) {
+            if (trim($le[$event_key_field])==$event_key_value) {
+                if ($le['edition_id']) {
+                    $edition_action="edit";
+                    $edition_key_field="edition_id";
+                } else {
+                    $edition_action="add";
+                    $edition_key_field="edition_name";
+                }
+                $edition_key_value=trim($le[$edition_key_field]);
+
+                // set event level data
+                foreach ($edition_field_list as $edition_field) {
+                    $return_arr[$edition_action][$edition_key_value][$edition_field]=$le[$edition_field];
+                }
+
+                // add race information
+                $race_data=$this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
+                $return_arr[$edition_action][$edition_key_value]['race_data']=$race_data;
+
+                // add race information
+                $race_data=$this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
+                $return_arr[$edition_action][$edition_key_value]['race_data']=$race_data;
+
+
+            }
+        }
+        // // set edition level data
+        // foreach ($edition_field_list as $edition_field) {
+        //     $return_arr[$edition_field]=$le[$edition_field];
+        // }
+
+        return $return_arr;
+    }
+
+    private function formulate_race_data($event_data, $edition_key_field, $edition_key_value) {
+        $race_field_list=$this->get_race_field_list();
+
+        foreach ($event_data as $le) {
+            if (trim($le[$edition_key_field])==$edition_key_value) {
+                if ($le['race_id']) {
+                    $race_action="edit";
+                    $race_key_field="race_id";
+                } else {
+                    $race_action="add";
+                    $race_key_field="race_name";
+                }
+                $race_key_value=trim($le[$race_key_field]);
+
+                // set event level data
+                foreach ($race_field_list as $race_field) {
+                    $return_arr[$race_action][$race_key_value][$race_field]=$le[$race_field];
+                }
+
+                // full list item
+                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
+            }
+        }
+
+        return $return_arr;
+    }
+
+    private function get_event_field_list() {
+        return ['event_id','event_name'];
+    }
+    private function get_edition_field_list() {
+        return ['edition_id','edition_name','edition_date','edition_address','edition_gps'];
+    }
+    private function get_race_field_list() {
+        return ['race_id','race_name','race_distance','race_time'];
+    }
+
+
 
 }

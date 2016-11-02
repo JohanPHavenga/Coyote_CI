@@ -88,7 +88,7 @@ class User extends Admin_Controller {
                 // get file data and meta data
                 // $this->data_to_view['file_meta_data'] = $this->upload->data();
                 $file_data = $this->csv_handler($this->upload->data('full_path'));
-                $sum_data=$this->csv_data_for_import($file_data);
+                $sum_data=$this->csv_flat_table_import($file_data);
 
                 // set to session
                 $_SESSION['sum_data']=$sum_data;

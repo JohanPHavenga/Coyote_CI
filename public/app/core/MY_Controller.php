@@ -92,7 +92,7 @@ class Admin_Controller extends MY_Controller {
         return $csv;
     }
 
-    function csv_data_for_import($file_data)
+    function csv_flat_table_import($file_data)
     {
         foreach ($file_data as $entity) {
             //reset($entity);
@@ -152,6 +152,10 @@ class Admin_Controller extends MY_Controller {
                     [
                     "text"=>"List All Events",
                     "url"=>'admin/event/view',
+                    ],
+                    [
+                    "text"=>"Import Events",
+                    "url"=>'admin/event/import',
                     ],
                     [
                     "text"=>"List All Editions",
