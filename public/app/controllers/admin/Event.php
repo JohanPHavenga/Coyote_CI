@@ -200,17 +200,14 @@ class Event extends Admin_Controller {
         }
         else
         {
-
             if ($submit=="confirm") {
                 // get file data and meta data
                 // $this->data_to_view['file_meta_data'] = $this->upload->data();
                 $file_data = $this->csv_handler($this->upload->data('full_path'));
-                $sum_data=$this->formulate_events_data($file_data);
+                $_SESSION['import_event_data']=$this->formulate_events_data($file_data);
 
-                // set to session
-                $_SESSION['sum_data']=$sum_data;
                 // send to view
-                $this->data_to_view['sum_data']=$sum_data;
+                $this->data_to_view['import_event_data']=$_SESSION['import_event_data'];
 
                 $this->load->view($this->header_url, $this->data_to_header);
                 $this->load->view("/admin/event/import", $this->data_to_view);
@@ -224,10 +221,50 @@ class Event extends Admin_Controller {
 
     }
 
+
+    function run_import() {
+
+        $debug=false;
+
+        foreach ($_SESSION['import_event_data'] as $action=>$event_list) {
+
+            foreach ($event_list as $id=>$event) {
+                // set die event_data array
+                $event_field_list=$this->get_event_field_list();
+                foreach ($event_field_list as $event_field) {
+                    // as daar 'n value is
+                    if ($event[$event_field]) {
+                        $event_data[$event_field]=$event[$event_field];
+                    }
+                }
+                $db_write=$this->event_model->set_event($action, $id, $event_data, $debug);
+
+                // foreach ($event['edition_data'] as $edition_action=>$edition_list) {
+                //     $data[$k].="<br>&nbsp;Edition: [<b>".$edition_action."</b>]";
+                //     foreach ($edition_list as $edition) {
+                //         $data[$k].="<br>&nbsp;&nbsp;".$edition['edition_name']." - ".$edition['edition_date']."";
+                //
+                //         foreach ($edition['race_data'] as $race_action=>$race_list) {
+                //             $data[$k].="<br>&nbsp;&nbsp;&nbsp;Race: [<b>".$race_action."</b>]";
+                //             foreach ($race_list as $race) {
+                //                 $data[$k].="<br>&nbsp;&nbsp;&nbsp;&nbsp;".$race['race_name']." - ".$race['race_distance']."";
+                //             }
+                //         }
+                //     }
+                // }
+                unset($event_data);
+            }
+        }
+        wts($_SESSION['import_event_data']);
+        die("i run");
+    }
+
+
     // IDEE
     // doen event data. pass volle array na edition formualte met die paramater for key field. bring dan array terug met alle editions in daardie
 
     private function formulate_events_data($event_data) {
+        $this->load->model('town_model');
 
         $return_arr=[];
         $event_field_list=$this->get_event_field_list();
@@ -247,6 +284,9 @@ class Event extends Admin_Controller {
 
             // set event level data
             foreach ($event_field_list as $event_field) {
+                if (($event_field=='town_id')&&($le[$event_field]<1)) {
+                    $le[$event_field]=$this->town_model->get_town_id($le['town_name']);
+                }
                 $return_arr[$event_action][$event_key_value][$event_field]=$le[$event_field];
             }
 
@@ -254,27 +294,6 @@ class Event extends Admin_Controller {
             $edition_data=$this->formulate_edition_data($event_data, $event_key_field, $event_key_value);
             $return_arr[$event_action][$event_key_value]['edition_data']=$edition_data;
 
-            // if ($le['edition_id']) {
-            //     $edition_action="edit";
-            //     $edition_key_field="edition_id";
-            // } else {
-            //     $edition_action="add";
-            //     $edition_key_field="edition_name";
-            // }
-            // $return_arr[$event_action][$le[$event_key_field]]['edition_data'][$edition_action][$le[$edition_key_field]] = $edition_data;
-            //
-            //
-            // // add race information
-            // $race_data=$this->formulate_race_data($le);
-            //
-            // if ($le['race_id']) {
-            //     $race_action="edit";
-            //     $race_key_field="race_id";
-            // } else {
-            //     $race_action="add";
-            //     $race_key_field="race_name";
-            // }
-            // $return_arr[$event_action][$le[$event_key_field]]['edition_data'][$edition_action][$le[$edition_key_field]]['race_data'][$race_action][$le[$race_key_field]] = $race_data;
         }
 
         return $return_arr;
@@ -347,10 +366,10 @@ class Event extends Admin_Controller {
     }
 
     private function get_event_field_list() {
-        return ['event_id','event_name'];
+        return ['event_id','event_name','event_address','town_id'];
     }
     private function get_edition_field_list() {
-        return ['edition_id','edition_name','edition_date','edition_address','edition_gps'];
+        return ['edition_id','edition_name','edition_date','edition_gps'];
     }
     private function get_race_field_list() {
         return ['race_id','race_name','race_distance','race_time'];

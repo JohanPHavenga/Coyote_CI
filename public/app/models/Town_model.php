@@ -5,15 +5,15 @@ class Town_model extends CI_Model {
         {
             $this->load->database();
         }
-        
+
         public function record_count() {
             return $this->db->count_all("towns");
         }
-        
+
         public function get_town_list($limit, $start)
         {
             $this->db->limit($limit, $start);
-            
+
             $this->db->select("*");
             $this->db->from("towns");
             $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
@@ -27,8 +27,8 @@ class Town_model extends CI_Model {
             }
             return false;
 
-        }        
-        
+        }
+
         public function get_town_dropdown() {
             $this->db->select("town_id, town_name, province_name");
             $this->db->from("towns");
@@ -45,9 +45,9 @@ class Town_model extends CI_Model {
             }
             return false;
         }
-        
+
         public function town_search($ss)
-        {            
+        {
             $this->db->select("town_id, town_name, province_name");
             $this->db->from("towns");
             $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
@@ -66,5 +66,22 @@ class Town_model extends CI_Model {
             return false;
 
         }
-        
+
+
+        public function get_town_id($town_name)
+        {
+            $this->db->select("town_id");
+            $this->db->from("towns");
+            $this->db->where('town_name', $town_name);
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result_array() as $row) {
+                    $town_id=$row['town_id'];
+                }
+                return $town_id;
+            }
+            return false;
+
+        }
 }
