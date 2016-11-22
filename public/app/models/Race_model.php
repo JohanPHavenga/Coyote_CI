@@ -5,15 +5,15 @@ class Race_model extends CI_Model {
         {
             $this->load->database();
         }
-        
+
         public function record_count() {
             return $this->db->count_all("races");
         }
-        
+
         public function get_race_list($limit, $start)
         {
-            $this->db->limit($limit, $start);    
-            
+            $this->db->limit($limit, $start);
+
             $this->db->select("races.*, edition_name");
             $this->db->from("races");
             $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
@@ -28,7 +28,7 @@ class Race_model extends CI_Model {
             return false;
 
         }
-        
+
          public function get_race_dropdown() {
             $this->db->select("race_id, race_name");
             $this->db->from("races");
@@ -43,14 +43,14 @@ class Race_model extends CI_Model {
             }
             return false;
         }
-        
+
         public function get_race_detail($id)
         {
-            if( ! ($id)) 
+            if( ! ($id))
             {
-                return false;  
-            } 
-            else 
+                return false;
+            }
+            else
             {
                 $this->db->select("races.*, edition_name");
                 $this->db->from("races");
@@ -65,54 +65,67 @@ class Race_model extends CI_Model {
             }
 
         }
-        
-        public function set_race($action, $id)
-        {            
-            $race_data = array(
-                        'race_name' => $this->input->post('race_name'),
-                        'race_distance' => $this->input->post('race_distance'),
-                        'race_date' => $this->input->post('race_date'),
-                        'race_status' => $this->input->post('race_status'),
-                        'edition_id' => $this->input->post('edition_id'),
-                    );       
-            
-            switch ($action) {                    
-                case "add":                     
-                    $this->db->trans_start();
-                    $this->db->insert('races', $race_data);  
-                    $this->db->trans_complete();  
-                    return $this->db->trans_status();               
-                case "edit":
-                    // add updated date to both data arrays
-                    $race_data['updated_date']=date("Y-m-d H:i:s");
-                    
-                    // start SQL transaction
-                    $this->db->trans_start();
-                    $this->db->update('races', $race_data, array('race_id' => $id));                  
-                    $this->db->trans_complete();  
-                    return $this->db->trans_status();    
-                default:
-                    show_404();
-                    break;
-            }
-            
-        }
-        
-        
-        public function remove_race($id) {
-            if( ! ($id)) 
+
+        public function set_race($action, $id, $race_data=[], $debug=false)
+        {
+
+            // POSTED DATA
+            if (empty($event_data))
             {
-                return false;  
-            } 
-            else 
+                $race_data = array(
+                            'race_name' => $this->input->post('race_name'),
+                            'race_distance' => $this->input->post('race_distance'),
+                            'race_date' => $this->input->post('race_date'),
+                            'race_status' => $this->input->post('race_status'),
+                            'edition_id' => $this->input->post('edition_id'),
+                        );
+            } else {
+                if (!isset($race_data['race_status'])) { $race_data['race_status'] = 1; }
+            }
+
+            if ($debug) {
+                echo "<b>Race Transaction</b>";
+                wts($action);
+                // wts($id);
+                wts($race_data);
+            } else {
+                switch ($action) {
+                    case "add":
+                        $this->db->trans_start();
+                        $this->db->insert('races', $race_data);
+                        $this->db->trans_complete();
+                        return $this->db->trans_status();
+                    case "edit":
+                        // add updated date to both data arrays
+                        $race_data['updated_date']=date("Y-m-d H:i:s");
+
+                        // start SQL transaction
+                        $this->db->trans_start();
+                        $this->db->update('races', $race_data, array('race_id' => $id));
+                        $this->db->trans_complete();
+                        return $this->db->trans_status();
+                    default:
+                        show_404();
+                        break;
+                }
+            }
+        }
+
+
+        public function remove_race($id) {
+            if( ! ($id))
+            {
+                return false;
+            }
+            else
             {
                 // only race needed, SQL key constraints used to remove records from organizing_club
                 $this->db->trans_start();
-                $this->db->delete('races', array('race_id' => $id));               
-                $this->db->trans_complete();  
-                return $this->db->trans_status();    
+                $this->db->delete('races', array('race_id' => $id));
+                $this->db->trans_complete();
+                return $this->db->trans_status();
             }
         }
-        
-        
+
+
 }

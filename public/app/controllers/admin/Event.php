@@ -223,12 +223,19 @@ class Event extends Admin_Controller {
 
 
     function run_import() {
+        $this->load->model('edition_model');
+        $this->load->model('race_model');
+        $debug=true;
 
-        $debug=false;
+        $event_data=[];
+        $edition_data=[];
+        $race_data=[];
 
-        foreach ($_SESSION['import_event_data'] as $action=>$event_list) {
 
-            foreach ($event_list as $id=>$event) {
+        // EVENTS
+        foreach ($_SESSION['import_event_data'] as $event_action=>$event_list) {
+
+            foreach ($event_list as $event_id=>$event) {
                 // set die event_data array
                 $event_field_list=$this->get_event_field_list();
                 foreach ($event_field_list as $event_field) {
@@ -237,21 +244,57 @@ class Event extends Admin_Controller {
                         $event_data[$event_field]=$event[$event_field];
                     }
                 }
-                $db_write=$this->event_model->set_event($action, $id, $event_data, $debug);
+                // write to DB
+                if (!empty($event_data)) {
+                    $db_write=$this->event_model->set_event($event_action, $event_id, $event_data, $debug);
+                }
 
-                // foreach ($event['edition_data'] as $edition_action=>$edition_list) {
-                //     $data[$k].="<br>&nbsp;Edition: [<b>".$edition_action."</b>]";
-                //     foreach ($edition_list as $edition) {
-                //         $data[$k].="<br>&nbsp;&nbsp;".$edition['edition_name']." - ".$edition['edition_date']."";
-                //
-                //         foreach ($edition['race_data'] as $race_action=>$race_list) {
-                //             $data[$k].="<br>&nbsp;&nbsp;&nbsp;Race: [<b>".$race_action."</b>]";
-                //             foreach ($race_list as $race) {
-                //                 $data[$k].="<br>&nbsp;&nbsp;&nbsp;&nbsp;".$race['race_name']." - ".$race['race_distance']."";
-                //             }
-                //         }
-                //     }
-                // }
+
+                // EDITIONS
+                foreach ($event['edition_data'] as $edition_action=>$edition_list) {
+
+                    foreach ($edition_list as $edition_id=>$edition) {
+                        // set die edition_data array
+                        $edition_field_list=$this->get_edition_field_list();
+                        foreach ($edition_field_list as $edition_field) {
+                            // as daar 'n value is
+                            if ($edition[$edition_field]) {
+                                $edition_data[$edition_field]=$edition[$edition_field];
+                            }
+                        }
+
+                        // write to DB
+                        if (!empty($edition_data)) {
+                            $db_write=$this->edition_model->set_edition($edition_action, $edition_id, $edition_data, $debug);
+                        }
+
+
+                        // RACES
+                        foreach ($edition['race_data'] as $race_action=>$race_list) {
+
+                            foreach ($race_list as $race_id=>$race) {
+                                // set die race_data array
+                                $race_field_list=$this->get_race_field_list();
+                                foreach ($race_field_list as $race_field) {
+                                    // as daar 'n value is
+                                    if ($race[$race_field]) {
+                                        $race_data[$race_field]=$race[$race_field];
+                                    }
+                                }
+
+                                // write to DB
+                                if (!empty($race_data)) {
+                                    $db_write=$this->race_model->set_race($race_action, $race_id, $race_data, $debug);
+                                }
+
+                                unset($race_data);
+                            }
+                        }
+
+                        unset($edition_data);
+                    }
+                }
+
                 unset($event_data);
             }
         }
@@ -369,7 +412,7 @@ class Event extends Admin_Controller {
         return ['event_id','event_name','event_address','town_id'];
     }
     private function get_edition_field_list() {
-        return ['edition_id','edition_name','edition_date','edition_gps'];
+        return ['edition_id','edition_name','edition_date','edition_gps','edition_url'];
     }
     private function get_race_field_list() {
         return ['race_id','race_name','race_distance','race_time'];

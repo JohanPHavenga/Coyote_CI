@@ -87,7 +87,7 @@ class Event_model extends CI_Model {
             }
 
             if ($debug) {
-                echo "<b>Transaction</b>";
+                echo "<b>Event Transaction</b>";
                 wts($action);
                 // wts($id);
                 wts($event_data);
