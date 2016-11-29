@@ -159,6 +159,10 @@ class Admin_Controller extends MY_Controller {
                     "url"=>'admin/event/import',
                     ],
                     [
+                    "text"=>"Export Events",
+                    "url"=>'admin/event/export',
+                    ],
+                    [
                     "text"=>"List All Editions",
                     "url"=>'admin/edition/view',
                     ],

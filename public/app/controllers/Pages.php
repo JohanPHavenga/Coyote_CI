@@ -1,6 +1,12 @@
 <?php
 class Pages extends Frontend_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('event_model');
+    }
+
     // check if method exists, if not calls "view" method
     public function _remap($method, $params = array())
     {
@@ -27,15 +33,28 @@ class Pages extends Frontend_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $data['title'] = ucfirst($page); // Capitalize the first letter
-        $data['page'] = $page;
+
+        if ($page=="home") {
+            $data['title']="Running Event Listing Site";
+            $data['race_summary']=$this->formualte_event_list_summary();
+        } else {
+            $data['title'] = ucfirst($page); // Capitalize the first letter
+        }
 
         $this->load->view('templates/header', $data);
         $this->load->view('pages/'.$page, $data);
         $this->load->view('templates/footer', $data);
     }
 
-    public function mailer() {
+    private function formualte_event_list_summary()
+    {
+        // setup fields needed for summary call
+        $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+        return $this->event_model->get_event_list_summary($field_arr, date("Y-m-d"));
+    }
+
+    public function mailer()
+    {
 
         $this->load->helper('form');
         $this->load->library('form_validation');

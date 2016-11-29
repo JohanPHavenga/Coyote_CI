@@ -161,7 +161,7 @@ class Edition_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 foreach ($query->result() as $row)
                 {
-                        $data[date("Y-m",strtotime($row->edition_date))]=date("F Y",strtotime($row->edition_date));
+                    $data[date("Y-m",strtotime($row->edition_date))]=date("F Y",strtotime($row->edition_date));
                 }
 
                 return $data;

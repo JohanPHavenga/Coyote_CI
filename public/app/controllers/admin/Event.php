@@ -344,19 +344,49 @@ class Event extends Admin_Controller {
 
 
     public function run_export() {
+        $date_from=NULL;
+        $date_to=NULL;
+
         $this->load->dbutil();
         $this->load->helper('download');
 
         $date=$this->input->post('time_period');
         // set filename
-        if ($date) {
+        if ($this->input->post('time_period')) {
+            $date=$this->input->post('time_period');
             $filename="events_".str_replace("-","",$date).".csv";
+            $date_from=$date."-01";
+            $date_to=date("Y-m-t", strtotime($date_from));
         } else {
             $filename="events_generic.csv";
         }
 
+        // get events field list to sync up with the import
+        $event_field_arr=$this->get_event_field_list();
+        foreach ($event_field_arr as $field) {
+            if ($field=="event_id") { $field="events.event_id"; }
+            if ($field=="town_id") { $field="towns.town_id"; }
+            $field_arr[]=$field;
+        }
+        // add town name to make it easy for the user
+        $field_arr[]="town_name";
+
+        // get editions field list to sync up with the import
+        $edition_field_arr=$this->get_edition_field_list();
+        foreach ($edition_field_arr as $field) {
+            if ($field=="edition_id") { $field="editions.edition_id"; }
+            if ($field=="latitude_num") { $field="editions.latitude_num"; }
+            if ($field=="longitude_num") { $field="editions.longitude_num"; }
+            $field_arr[]=$field;
+        }
+        // get events field list to sync up with the import
+        $race_field_arr=$this->get_race_field_list();
+        foreach ($race_field_arr as $field) {
+            $field_arr[]=$field;
+        }
+
         /* get the object   */
-        $export = $this->event_model->export($date);
+        $export = $this->event_model->get_event_list_data($field_arr, $date_from, $date_to);
         /*  pass it to db utility function  */
         $new_report = $this->dbutil->csv_from_result($export);
         /*  Force download the file */

@@ -152,23 +152,75 @@ class Event_model extends CI_Model {
         }
 
 
-        public function export($date)
-        {
-            $this->db->select('events.event_id, event_name, edition_id, edition_name, edition_date');
+
+        public function get_event_list_data($field_arr, $date_form, $date_to=NULL) {
+            //'events.event_id, event_name, edition_id, edition_name, edition_date'
+
+            $this->db->select($field_arr);
             $this->db->from("events");
             $this->db->join('editions', 'editions.event_id = events.event_id');
+            $this->db->join('races', 'races.edition_id = editions.edition_id');
+            $this->db->join('towns', 'towns.town_id = events.town_id');
 
-
-
-            if ($date) {
-                $from_date=$date."-01";
-                $to_date=$date."-31";
-                $this->db->where("(edition_date BETWEEN '$from_date' AND '$to_date')");
+            if ($date_form) {
+                if (!isset($date_to)) {
+                    $this->db->where("edition_date >", $date_form);
+                } else {
+                    $this->db->where("(edition_date BETWEEN '$date_form' AND '$date_to')");
+                }
+            } else {
+                $this->db->where("events.event_id", 0);
             }
 
             $this->db->order_by("edition_date", "asc");
 
-            return $query = $this->db->get();
+            return $this->db->get();
+        }
+
+
+
+        public function get_event_list_summary($field_arr, $date_form, $date_to=NULL)
+        {
+            $query=$this->get_event_list_data($field_arr, $date_form, $date_to);
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result_array() as $row) {
+                    foreach ($field_arr as $field) {
+                        // vir as daar 'n veld is met 'n table naam vooraan
+                        if (strpos($field, ".") !== false) {
+                            $pieces = explode(".", $field);
+                            $field=$pieces[1];
+                        }
+
+                        switch ($field) {
+                            case "race_distance":
+                                $value=floatval($row[$field])."km";
+                                if (isset($data[date("Y-m-01",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
+                                    $value=$data[date("Y-m-01",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
+                                }
+                            break;
+                            case "race_time":
+                                if (date("H",strtotime($row[$field])) >  0) { $value = "Morning";  }
+                                if (date("H",strtotime($row[$field])) >  12) { $value = "Afternoon";  }
+                                if (date("H",strtotime($row[$field])) >  17) { $value = "Evening";  }
+                                if (date("H",strtotime($row[$field])) >  21) { $value = "Night";  }
+                            break;
+                            case "edition_date":
+                                $value=date("Y-m-d",strtotime($row[$field]));
+                            break;
+                            default:
+                                $value=$row[$field];
+                            break;
+                        }
+
+                        $data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field]=$value;
+
+                    }
+                }
+                return $data;
+            }
+            return false;
+
         }
 
 

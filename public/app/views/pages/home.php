@@ -39,8 +39,65 @@
         </div>
     </section>
     <!-- END: LAYOUT/SLIDERS/REVO-SLIDER-4 -->
-    <!-- BEGIN: CONTENT/FEATURES/FEATURES-1 -->
+
+
+
     <div class="c-content-box c-size-md c-bg-white">
+        <div class="container">
+            <div class="row">
+                <?php
+                if ($race_summary) {
+                    foreach ($race_summary as $month=>$edition_list) {
+                        ?>
+                        <div class="c-content-title-1">
+                            <h3 class="c-center c-font-dark c-font-uppercase">Races in <?=$month;?></h3>
+                            <div class="c-line-center c-theme-bg"></div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Event</th>
+                                        <th>Place</th>
+                                        <th>Race Distances</th>
+                                        <th>Time of Day</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        foreach ($edition_list as $edition_id=>$edition) {
+                                            echo "<tr>";
+                                                echo "<th scope='row' style='width: 10%'>".$edition['edition_date']."</th>";
+                                                echo "<td style='width: 40%'>".$edition['edition_name']."</td>";
+                                                echo "<td style='width: 25%'>".$edition['town_name']."</td>";
+                                                echo "<td style='width: 15%'>".$edition['race_distance']."</td>";
+                                                echo "<td style='width: 10%'>".$edition['race_time']."</td>";
+                                            echo "</tr>";
+                                        }
+                                     ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <div class="c-content-title-1">
+                        <h3 class="c-center c-font-dark c-font-uppercase">Event Information</h3>
+                        <div class="c-line-center c-theme-bg"></div>
+                    </div>
+                    <p>There is currently no event data to display. Please chack back again shortly.</p>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- BEGIN: CONTENT/FEATURES/FEATURES-1 -->
+    <div class="c-content-box c-size-md c-bg-grey-1">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4">

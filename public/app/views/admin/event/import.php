@@ -36,7 +36,7 @@
                 ?>
         </div>
         <div class="m-heading-1 border-green m-bordered">
-            <h3>Impoty file format guideline</h3>
+            <h3>Import file format guideline</h3>
             <p> Below click to either download the generic sample file or choose to pull data from a spesific month to manupulate.</p>
             <p> Download the
                 <a class="btn red btn-outline" href="/admin/event/run_export" >generic sample file</a> or

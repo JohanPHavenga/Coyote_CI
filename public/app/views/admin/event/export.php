@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-edit font-dark"></i>
-                    <span class="caption-subject font-dark bold uppercase">Export Event Data</span>
+                    <span class="caption-subject font-dark bold uppercase">Export event data for a timeperiod</span>
                 </div>
             </div>
             <?php
@@ -28,6 +28,17 @@
 
                 // wts($time_period);
                 ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-edit font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">Export blank template</span>
+                </div>
+            </div>
+            <a class="btn red" href="/admin/event/run_export">Get generic sample file</a>
         </div>
     </div>
 </div>
