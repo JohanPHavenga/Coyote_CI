@@ -66,16 +66,16 @@ class Race_model extends CI_Model {
 
         }
 
-        public function set_race($action, $id, $race_data=[], $debug=false)
+        public function set_race($action, $race_id, $race_data=[], $debug=false)
         {
 
             // POSTED DATA
-            if (empty($event_data))
+            if (empty($race_data))
             {
                 $race_data = array(
                             'race_name' => $this->input->post('race_name'),
                             'race_distance' => $this->input->post('race_distance'),
-                            'race_date' => $this->input->post('race_date'),
+                            'race_time' => $this->input->post('race_time'),
                             'race_status' => $this->input->post('race_status'),
                             'edition_id' => $this->input->post('edition_id'),
                         );
@@ -86,27 +86,37 @@ class Race_model extends CI_Model {
             if ($debug) {
                 echo "<b>Race Transaction</b>";
                 wts($action);
-                // wts($id);
+                // wts($race_id);
                 wts($race_data);
             } else {
                 switch ($action) {
                     case "add":
                         $this->db->trans_start();
                         $this->db->insert('races', $race_data);
+                        // get edition ID from Insert
+                        $race_id=$this->db->insert_id();
                         $this->db->trans_complete();
-                        return $this->db->trans_status();
+                        break;
                     case "edit":
                         // add updated date to both data arrays
                         $race_data['updated_date']=date("Y-m-d H:i:s");
 
                         // start SQL transaction
                         $this->db->trans_start();
-                        $this->db->update('races', $race_data, array('race_id' => $id));
+                        $this->db->update('races', $race_data, array('race_id' => $race_id));
                         $this->db->trans_complete();
-                        return $this->db->trans_status();
+                        break;
                     default:
                         show_404();
                         break;
+                }
+
+                // return ID if transaction successfull
+                if ($this->db->trans_status())
+                {
+                    return $race_id;
+                } else {
+                    return false;
                 }
             }
         }

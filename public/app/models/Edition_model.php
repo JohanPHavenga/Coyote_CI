@@ -68,7 +68,7 @@ class Edition_model extends CI_Model {
 
         }
 
-        public function set_edition($action, $id, $edition_data=[], $debug=false)
+        public function set_edition($action, $edition_id, $edition_data=[], $debug=false)
         {
             // POSTED DATA
             if (empty($edition_data))
@@ -79,16 +79,16 @@ class Edition_model extends CI_Model {
                             'edition_date' => $this->input->post('edition_date'),
                             'event_id' => $this->input->post('event_id'),
                         );
-                $edition_sponsor_data = ["edition_id"=>$id,"sponsor_id"=>$this->input->post('sponsor_id')];
+                $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];
             } else {
-                $edition_sponsor_data = ["edition_id"=>$id,"sponsor_id"=>4];
+                $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
                 if (!isset($edition_data['edition_status'])) { $edition_data['edition_status'] = 1; }
             }
 
             if ($debug) {
                 echo "<b>Edition Transaction</b>";
                 wts($action);
-                // wts($id);
+                // wts($edition_id);
                 wts($edition_data);
             } else {
 
@@ -102,7 +102,7 @@ class Edition_model extends CI_Model {
                         $edition_sponsor_data["edition_id"]=$edition_id;
                         $this->db->insert('edition_sponsor', $edition_sponsor_data);
                         $this->db->trans_complete();
-                        return $this->db->trans_status();
+                        break;
                     case "edit":
                         // add updated date to both data arrays
                         $edition_data['updated_date']=date("Y-m-d H:i:s");
@@ -110,19 +110,26 @@ class Edition_model extends CI_Model {
                         // start SQL transaction
                         $this->db->trans_start();
                         // chcek if record already exists
-                        $item_exists = $this->db->get_where('edition_sponsor', array('edition_id' => $id, 'sponsor_id' => $this->input->post('sponsor_id')));
+                        $item_exists = $this->db->get_where('edition_sponsor', array('edition_id' => $edition_id, 'sponsor_id' => $this->input->post('sponsor_id')));
                         if ($item_exists->num_rows() == 0)
                         {
                             $edition_sponsor_data['updated_date']=date("Y-m-d H:i:s");
-                            $this->db->delete('edition_sponsor', array('edition_id' => $id));
+                            $this->db->delete('edition_sponsor', array('edition_id' => $edition_id));
                             $this->db->insert('edition_sponsor', $edition_sponsor_data);
                         }
-                        $this->db->update('editions', $edition_data, array('edition_id' => $id));
+                        $this->db->update('editions', $edition_data, array('edition_id' => $edition_id));
                         $this->db->trans_complete();
-                        return $this->db->trans_status();
+                        break;
                     default:
                         show_404();
                         break;
+                }
+                // return ID if transaction successfull
+                if ($this->db->trans_status())
+                {
+                    return $edition_id;
+                } else {
+                    return false;
                 }
 
             }
@@ -143,6 +150,23 @@ class Edition_model extends CI_Model {
                 $this->db->trans_complete();
                 return $this->db->trans_status();
             }
+        }
+
+        public function get_timeperiod() {
+            $this->db->select("edition_date");
+            $this->db->from("editions");
+            $this->db->group_by("MONTH(edition_date)");
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row)
+                {
+                        $data[date("Y-m",strtotime($row->edition_date))]=date("F Y",strtotime($row->edition_date));
+                }
+
+                return $data;
+            }
+            return [];
         }
 
 

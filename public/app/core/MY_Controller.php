@@ -62,7 +62,8 @@ class Admin_Controller extends MY_Controller {
                         if ($segs[$x]=="dashboard") { continue; }
             if ($segs[$x]=="delete") { $this->data_to_header['crumbs']=[]; break; }
 
-            $this->data_to_header['crumbs'][ucfirst($segs[$x])]=$crumb_uri;
+            $segs[$x]=str_replace("_"," ",$segs[$x]);
+            $this->data_to_header['crumbs'][ucwords($segs[$x])]=$crumb_uri;
 
             if ($x==3) { break; }
         }
@@ -228,6 +229,15 @@ class Admin_Controller extends MY_Controller {
     }
 
 
+    function get_event_field_list() {
+        return ['event_id','event_name','town_id'];
+    }
+    function get_edition_field_list() {
+        return ['edition_id','edition_name','edition_date','latitude_num','longitude_num','edition_url','edition_address'];
+    }
+    function get_race_field_list() {
+        return ['race_id','race_name','race_distance','race_time'];
+    }
 
 
 

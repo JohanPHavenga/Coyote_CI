@@ -223,19 +223,19 @@ class Event extends Admin_Controller {
 
 
     function run_import() {
+        // debug not to write to DB
+        $debug=0;
+
         $this->load->model('edition_model');
         $this->load->model('race_model');
-        $debug=true;
 
-        $event_data=[];
-        $edition_data=[];
-        $race_data=[];
-
+        $event_data=$edition_data=$race_data=[];
 
         // EVENTS
         foreach ($_SESSION['import_event_data'] as $event_action=>$event_list) {
 
             foreach ($event_list as $event_id=>$event) {
+
                 // set die event_data array
                 $event_field_list=$this->get_event_field_list();
                 foreach ($event_field_list as $event_field) {
@@ -246,8 +246,9 @@ class Event extends Admin_Controller {
                 }
                 // write to DB
                 if (!empty($event_data)) {
-                    $db_write=$this->event_model->set_event($event_action, $event_id, $event_data, $debug);
+                    $event_id=$this->event_model->set_event($event_action, $event_id, $event_data, $debug);
                 }
+
 
 
                 // EDITIONS
@@ -265,7 +266,8 @@ class Event extends Admin_Controller {
 
                         // write to DB
                         if (!empty($edition_data)) {
-                            $db_write=$this->edition_model->set_edition($edition_action, $edition_id, $edition_data, $debug);
+                            $edition_data['event_id']=$event_id;
+                            $edition_id=$this->edition_model->set_edition($edition_action, $edition_id, $edition_data, $debug);
                         }
 
 
@@ -284,7 +286,8 @@ class Event extends Admin_Controller {
 
                                 // write to DB
                                 if (!empty($race_data)) {
-                                    $db_write=$this->race_model->set_race($race_action, $race_id, $race_data, $debug);
+                                    $race_data['edition_id']=$edition_id;
+                                    $race_id=$this->race_model->set_race($race_action, $race_id, $race_data, $debug);
                                 }
 
                                 unset($race_data);
@@ -298,9 +301,72 @@ class Event extends Admin_Controller {
                 unset($event_data);
             }
         }
-        wts($_SESSION['import_event_data']);
-        die("i run");
+
+        // go to view
+        $this->session->set_flashdata([
+            'alert'=>"Upload Successfull",
+            'status'=>"success",
+            ]);
+
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Event"=> "/admin/event",
+                   "Import"=> "/admin/event/import",
+                   "Success"=> "",
+                   ];
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/event/import_success", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+
+        // wts($_SESSION['import_event_data']);
+        // die("i run");
     }
+
+
+    public function export() {
+
+        $this->load->helper('form');
+        $this->load->library('upload');
+        $this->load->model('edition_model');
+
+        $this->data_to_header['title'] = "Export Events";
+        $this->data_to_view['form_url']="/admin/event/run_export";
+
+        $this->data_to_view['time_period'] = $this->edition_model->get_timeperiod();
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/event/export", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+
+    }
+
+
+    public function run_export() {
+        $this->load->dbutil();
+        $this->load->helper('download');
+
+        $date=$this->input->post('time_period');
+        // set filename
+        if ($date) {
+            $filename="events_".str_replace("-","",$date).".csv";
+        } else {
+            $filename="events_generic.csv";
+        }
+
+        /* get the object   */
+        $export = $this->event_model->export($date);
+        /*  pass it to db utility function  */
+        $new_report = $this->dbutil->csv_from_result($export);
+        /*  Force download the file */
+        force_download($filename, $new_report);
+        /*  Done    */
+
+    }
+
+
+
 
 
     // IDEE
@@ -407,17 +473,5 @@ class Event extends Admin_Controller {
 
         return $return_arr;
     }
-
-    private function get_event_field_list() {
-        return ['event_id','event_name','event_address','town_id'];
-    }
-    private function get_edition_field_list() {
-        return ['edition_id','edition_name','edition_date','edition_gps','edition_url'];
-    }
-    private function get_race_field_list() {
-        return ['race_id','race_name','race_distance','race_time'];
-    }
-
-
 
 }
