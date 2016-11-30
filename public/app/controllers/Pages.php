@@ -36,7 +36,7 @@ class Pages extends Frontend_Controller {
 
         if ($page=="home") {
             $data['title']="Running Event Listing Site";
-            $data['race_summary']=$this->formualte_event_list_summary();
+            $data['race_summary']=$this->get_event_list_summary();
         } else {
             $data['title'] = ucfirst($page); // Capitalize the first letter
         }
@@ -46,12 +46,23 @@ class Pages extends Frontend_Controller {
         $this->load->view('templates/footer', $data);
     }
 
-    private function formualte_event_list_summary()
+
+    public function my_404($page = 'home')
     {
-        // setup fields needed for summary call
-        $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
-        return $this->event_model->get_event_list_summary($field_arr, date("Y-m-d"));
+        $this->output->set_status_header('404');
+        $data['title']="Page not found";
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('pages/404', $data);
+        $this->load->view('templates/footer', $data);
     }
+
+
+    private function get_event_list_summary()
+    {
+        return $this->event_model->get_event_list_summary(date("Y-m-d"));
+    }
+
 
     public function mailer()
     {

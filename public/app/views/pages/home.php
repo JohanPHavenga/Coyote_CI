@@ -132,7 +132,7 @@
             <div class="c-content-feedback-1 c-option-1">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="c-container c-bg-green c-bg-img-bottom-right" style="background-image:url(assets/base/img/content/misc/feedback_box_1.png)">
+                        <div class="c-container c-bg-green c-bg-img-bottom-right" style="background-image:url(img/feedback_box_1.png)">
                             <div class="c-content-title-1 c-inverse">
                                 <h3 class="c-font-uppercase c-font-bold">About us</h3>
                                 <div class="c-line-left"></div>
@@ -141,7 +141,7 @@
                                     Our goal is to fill that void and hope to make this a national project one day. The mission is to become the number one road running events listing site in the country.</p>
                             </div>
                         </div>
-                        <div class="c-container c-bg-grey-1 c-bg-img-bottom-right" style="background-image:url(assets/base/img/content/misc/feedback_box_2.png)">
+                        <div class="c-container c-bg-grey-1 c-bg-img-bottom-right" style="background-image:url(img/feedback_box_2.png)">
                             <div class="c-content-title-1">
                                 <h3 class="c-font-uppercase c-font-bold">When will the site go live?</h3>
                                 <div class="c-line-left"></div>

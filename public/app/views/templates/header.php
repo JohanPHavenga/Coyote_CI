@@ -18,10 +18,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <meta content="" name="description" />
-        <meta content="" name="author" />
+        <meta content="Listing all road running events in and around Cape Town in a modern, easy to compare fashsion" name="description" />
+        <meta content="Johan Havenga" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&amp;subset=all' rel='stylesheet' type='text/css'>
+        <!-- <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'> -->
         <link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
@@ -40,7 +40,7 @@
         <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
         <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->
-        <link rel="shortcut icon" href="<?= base_url('img/favicon.ico'); ?>" /> </head>
+        <link rel="shortcut icon" href="<?= base_url('favicon.ico'); ?>" /> </head>
 
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
         <script>
@@ -49,7 +49,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-85900175-1', 'auto');
+          ga('create', 'UA-85900175-2', 'auto');
           ga('send', 'pageview');
 
         </script>

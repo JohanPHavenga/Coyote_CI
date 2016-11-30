@@ -164,7 +164,7 @@ class Event_model extends CI_Model {
 
             if ($date_form) {
                 if (!isset($date_to)) {
-                    $this->db->where("edition_date >", $date_form);
+                    $this->db->where("edition_date >=", $date_form);
                 } else {
                     $this->db->where("(edition_date BETWEEN '$date_form' AND '$date_to')");
                 }
@@ -179,8 +179,10 @@ class Event_model extends CI_Model {
 
 
 
-        public function get_event_list_summary($field_arr, $date_form, $date_to=NULL)
+        public function get_event_list_summary($date_form, $date_to=NULL)
         {
+            // setup fields needed for summary call
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
             $query=$this->get_event_list_data($field_arr, $date_form, $date_to);
 
             if ($query->num_rows() > 0) {
@@ -195,8 +197,8 @@ class Event_model extends CI_Model {
                         switch ($field) {
                             case "race_distance":
                                 $value=floatval($row[$field])."km";
-                                if (isset($data[date("Y-m-01",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
-                                    $value=$data[date("Y-m-01",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
+                                if (isset($data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
+                                    $value=$data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
                                 }
                             break;
                             case "race_time":
