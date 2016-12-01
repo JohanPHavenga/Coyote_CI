@@ -31,10 +31,10 @@ class Login extends Frontend_Controller {
 
     public function userlogin()
     {
-        $data['title'] = "User Login";
-        $data['form_url'] = '/login/userlogin/submit';
-        $data['error_url'] = '/login';
-        $data['success_url'] = '/';
+        $this->data_to_header['title'] = "User Login";
+        $this->data_to_view['form_url'] = '/login/userlogin/submit';
+        $this->data_to_view['error_url'] = '/login';
+        $this->data_to_view['success_url'] = '/';
 
         // set validation rules
         $this->form_validation->set_rules('user_username', 'Username', 'required');
@@ -43,9 +43,9 @@ class Login extends Frontend_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('login/userlogin', $data);
-            $this->load->view('templates/footer', $data);
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view('login/userlogin', $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
         {
@@ -61,7 +61,7 @@ class Login extends Frontend_Controller {
                     'status'=>"success",
                     ]);
 
-                redirect($data['success_url']);
+                redirect($this->data_to_view['success_url']);
             }
             else
             {
@@ -70,7 +70,7 @@ class Login extends Frontend_Controller {
                     'status'=>"danger",
                     ]);
 
-                redirect($data['error_url']);
+                redirect($this->data_to_view['error_url']);
             }
 
             die("Login failure");
@@ -82,10 +82,10 @@ class Login extends Frontend_Controller {
     public function admin()
     {
 
-        $data['title'] = "Admin Login";
-        $data['form_url'] = '/login/admin/submit';
-        $data['error_url'] = '/login/admin';
-        $data['success_url'] = '/admin';
+        $this->data_to_header['title'] = "Admin Login";
+        $this->data_to_view['form_url'] = '/login/admin/submit';
+        $this->data_to_view['error_url'] = '/login/admin';
+        $this->data_to_view['success_url'] = '/admin';
 
         // set validation rules
         $this->form_validation->set_rules('user_username', 'Username', 'required');
@@ -94,9 +94,9 @@ class Login extends Frontend_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header', $data);
-            $this->load->view('login/adminlogin', $data);
-            $this->load->view('templates/footer');
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view('login/adminlogin', $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
         {
@@ -112,7 +112,7 @@ class Login extends Frontend_Controller {
                     'status'=>"success",
                     ]);
 
-                redirect($data['success_url']);
+                redirect($this->data_to_view['success_url']);
             }
             else
             {
@@ -121,7 +121,7 @@ class Login extends Frontend_Controller {
                     'status'=>"danger",
                     ]);
 
-                redirect($data['error_url']);
+                redirect($this->data_to_view['error_url']);
             }
 
             die("Login failure");

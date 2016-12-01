@@ -112,7 +112,7 @@ class Edition extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->edition_model->set_edition($action, $id);
+            $db_write=$this->edition_model->set_edition($action, $id, [], true);
             if ($db_write)
             {
                 $alert="Event has been updated";

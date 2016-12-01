@@ -35,26 +35,27 @@ class Pages extends Frontend_Controller {
 
 
         if ($page=="home") {
-            $data['title']="Running Event Listing Site";
-            $data['race_summary']=$this->get_event_list_summary();
+            $this->data_to_header['section']="home";
+            $this->data_to_header['title']="Running Event Listing Site";
+            $this->data_to_view['race_summary']=$this->get_event_list_summary();
         } else {
-            $data['title'] = ucfirst($page); // Capitalize the first letter
+            $this->data_to_header['title'] = ucfirst($page); // Capitalize the first letter
         }
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('pages/'.$page, $data);
-        $this->load->view('templates/footer', $data);
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('pages/'.$page, $this->data_to_view);
+        $this->load->view('templates/footer', $this->data_to_footer);
     }
 
 
     public function my_404($page = 'home')
     {
         $this->output->set_status_header('404');
-        $data['title']="Page not found";
+        $this->data_to_header['title']="Page not found";
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('pages/404', $data);
-        $this->load->view('templates/footer', $data);
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('pages/404', $this->data_to_view);
+        $this->load->view('templates/footer', $this->data_to_footer);
     }
 
 
@@ -70,8 +71,8 @@ class Pages extends Frontend_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $data['title'] = "Mailer"; // Capitalize the first letter
-        $data['page'] = "mailer";
+        $this->data_to_header['title'] = "Mailer"; // Capitalize the first letter
+        $this->data_to_view['page'] = "mailer";
 
         // set validation rules
         $this->form_validation->set_rules('dname', 'Name', 'required');
@@ -82,12 +83,12 @@ class Pages extends Frontend_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-                $data['form_data']=$_POST;
-                $data['email_send']=false;
+                $this->data_to_view['form_data']=$_POST;
+                $this->data_to_view['email_send']=false;
 
-                $this->load->view('templates/header', $data);
-                $this->load->view('pages/home', $data);
-                $this->load->view('templates/footer', $data);
+                $this->load->view($this->header_url, $this->data_to_header);
+                $this->load->view('pages/home', $this->data_to_view);
+                $this->load->view('templates/footer', $this->data_to_footer);
         }
         else
         {
@@ -113,10 +114,10 @@ class Pages extends Frontend_Controller {
 
             $this->email->send();
 
-            $data['email_send']=true;
-            $this->load->view('templates/header', $data);
-            $this->load->view('pages/home', $data);
-            $this->load->view('templates/footer', $data);
+            $this->data_to_view['email_send']=true;
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view('pages/home', $this->data_to_view);
+            $this->load->view('templates/footer', $this->data_to_footer);
         }
     }
 

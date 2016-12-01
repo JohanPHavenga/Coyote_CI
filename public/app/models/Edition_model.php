@@ -14,11 +14,13 @@ class Edition_model extends CI_Model {
         {
             $this->db->limit($limit, $start);
 
-            $this->db->select("editions.*, event_name, sponsor_name");
+            $this->db->select("editions.edition_id, edition_name, edition_date, edition_status, edition_address, event_name, sponsor_name");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
             $this->db->join('edition_sponsor', 'editions.edition_id=edition_sponsor.edition_id', 'left');
             $this->db->join('sponsors', 'sponsors.sponsor_id=edition_sponsor.sponsor_id', 'left');
+
+            $this->db->order_by('editions.edition_id', 'ASC');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -90,6 +92,7 @@ class Edition_model extends CI_Model {
                 wts($action);
                 // wts($edition_id);
                 wts($edition_data);
+                die();
             } else {
 
                 switch ($action) {

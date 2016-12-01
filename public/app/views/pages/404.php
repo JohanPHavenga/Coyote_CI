@@ -32,7 +32,8 @@
                 </div>
                 <div class="c-center">
                     <p>The page you are looking for could not be found.</p>
-                    <p><a class="btn c-btn-grey" href="/" >Back Home</a></p>
+                    <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
+                        <i class="icon-home"></i> Home</a></p>
                 </div>
             </div>
         </div>

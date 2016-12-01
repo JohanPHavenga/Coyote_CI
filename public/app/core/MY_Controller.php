@@ -5,11 +5,43 @@
  *
  */
 class MY_Controller extends CI_Controller {
-                      // or MX_Controller if you use HMVC, linked above
+
+    public $data_to_header=["section"=>""];
+    public $data_to_view=[];
+    public $data_to_footer=["admin_login"=>"/login/admin"];
+
+    public $header_url='templates/header';
+    public $footer_url='templates/footer';
+
     function __construct()
     {
         parent::__construct();
         // Load shared resources here or in autoload.php
+        $this->data_to_header["menu_array"]=$this->set_top_menu_array();
+    }
+
+    function set_top_menu_array() {
+        return [
+            // Dashboard
+            [
+                "text"=>"Home",
+                "url"=>'/',
+                "section"=>'home',
+            ],
+            // Events
+            [
+                "text"=>"Events",
+                "url"=>'/events',
+                "section"=>'events',
+            ],
+            // Events
+            [
+                "text"=>"Contact Us",
+                "url"=>'/#contact',
+                "section"=>'',
+            ],
+
+        ];
     }
 }
 

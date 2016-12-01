@@ -8,5 +8,14 @@
 
 <url>
   <loc>http://www.roadrunning.co.za/</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/events</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/login/admin</loc>
+  <changefreq>weekly</changefreq>
 </url>
 </urlset>

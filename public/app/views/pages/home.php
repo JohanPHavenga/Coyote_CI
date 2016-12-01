@@ -8,7 +8,7 @@
                 <ul>
                     <!--BEGIN: SLIDE #1 -->
                     <li data-transition="fade" data-slotamount="1" data-masterspeed="1000">
-                        <img alt="" src="<?= base_url('img/bg-43.jpg');?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <img alt="" src="<?= base_url('img/bg-01.jpg');?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption customin customout" data-x="center" data-y="center" data-hoffset="" data-voffset="-50" data-speed="500" data-start="1000" data-transform_idle="o:1;" data-transform_in="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;"
                         data-transform_out="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="600">
                             <h3 class="c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block"> ROADRUNNING.CO.ZA
@@ -22,11 +22,12 @@
                     <!--END -->
                     <!--BEGIN: SLIDE #2 -->
                     <li data-transition="fade" data-slotamount="1" data-masterspeed="1000">
-                        <img alt="" src="<?= base_url('img/bg-20.jpg'); ?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <img alt="" src="<?= base_url('img/bg-05.jpg'); ?>" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat">
                         <div class="tp-caption customin customout" data-x="center" data-y="center" data-hoffset="" data-voffset="-50" data-speed="500" data-start="1000" data-transform_idle="o:1;" data-transform_in="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;"
                         data-transform_out="rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:600;e:Back.easeInOut;" data-splitin="none" data-splitout="none" data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="600">
-                            <h3 class="c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block"> LISTING ALL RUNNING
-                                <br>EVENTS IN CAPE TOWN AND SURROUNDS </h3>
+                            <h3 class="c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block"> Our Goal is to list all
+                                <br>road running events
+                                <br>in and around Cape Town </h3>
                         </div>
                         <div class="tp-caption lft" data-x="center" data-y="center" data-voffset="110" data-speed="900" data-start="2000" data-transform_idle="o:1;" data-transform_in="x:100;y:100;rX:120;scaleX:0.75;scaleY:0.75;o:0;s:900;e:Back.easeInOut;"
                         data-transform_out="x:100;y:100;rX:120;scaleX:0.75;scaleY:0.75;o:0;s:900;e:Back.easeInOut;">
@@ -50,7 +51,7 @@
                     foreach ($race_summary as $month=>$edition_list) {
                         ?>
                         <div class="c-content-title-1">
-                            <h3 class="c-center c-font-dark c-font-uppercase">Races in <?=$month;?></h3>
+                            <h3 class="c-center c-font-dark c-font-uppercase">Upcoming races in <?=$month;?></h3>
                             <div class="c-line-center c-theme-bg"></div>
                         </div>
                         <div class="table-responsive">
@@ -68,11 +69,11 @@
                                     <?php
                                         foreach ($edition_list as $edition_id=>$edition) {
                                             echo "<tr>";
-                                                echo "<th scope='row' style='width: 10%'>".$edition['edition_date']."</th>";
-                                                echo "<td style='width: 40%'>".$edition['edition_name']."</td>";
-                                                echo "<td style='width: 25%'>".$edition['town_name']."</td>";
-                                                echo "<td style='width: 15%'>".$edition['race_distance']."</td>";
-                                                echo "<td style='width: 10%'>".$edition['race_time']."</td>";
+                                                echo "<th scope='row'>".$edition['edition_date']."</th>";
+                                                echo "<td>".$edition['edition_name']."</td>";
+                                                echo "<td>".$edition['town_name']."</td>";
+                                                echo "<td>".$edition['race_distance']."</td>";
+                                                echo "<td>".$edition['race_time']."</td>";
                                             echo "</tr>";
                                         }
                                      ?>
@@ -104,7 +105,7 @@
                     <div class="c-content-feature-1 wow animate fadeInUp">
                         <div class="c-content-line-icon c-theme c-icon-29"></div>
                         <h3 class="c-font-uppercase c-font-bold">Listing Events</h3>
-                        <p class="c-font-thin">We will be listing all road running events in and around Cape Town in a modern, easy to compare fashsion.</p>
+                        <p class="c-font-thin">Our goal is to list all road running events in and around Cape Town in a modern, easy to compare fashsion.</p>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -178,7 +179,7 @@
                                     <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'value'=>@$form_data['dphone'], 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                 <div class="form-group">
                                     <?php echo form_textarea(array('id'=>'dmsg', 'name'=>'dmsg', 'value'=>@$form_data['dmsg'], 'placeholder'=>'Write comment here ...', 'rows'=>'8', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                    <?php echo form_button(array('type'=>'submit', 'class'=>'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-square','content'=>'Submit')); ?>
+                                    <?php echo form_button(array('type'=>'submit', 'class'=>'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round','content'=>'Submit')); ?>
                             <?php echo form_close(); ?>
 
                         </div>

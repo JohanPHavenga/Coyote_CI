@@ -21,7 +21,7 @@
         <meta content="Listing all road running events in and around Cape Town in a modern, easy to compare fashsion" name="description" />
         <meta content="Johan Havenga" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <!-- <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'> -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
         <link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
@@ -64,12 +64,29 @@
                                 <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-desktop-logo">
                                 <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-desktop-logo-inverse">
                                 <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo"> </a>
-                            <!-- <button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
+                            <button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
                                 <span class="c-line"></span>
                                 <span class="c-line"></span>
                                 <span class="c-line"></span>
-                            </button> -->
+                            </button>
                         </div>
+
+                        <nav class="c-mega-menu c-pull-right c-mega-menu-dark c-mega-menu-dark-mobile c-fonts-uppercase c-fonts-bold">
+                            <ul class="nav navbar-nav c-theme-nav">
+                                <?php
+                                    foreach ($menu_array as $menu_item) {
+                                        if ($section==$menu_item['section']) {
+                                            $mc="c-active";
+                                        } else {
+                                            $mc="";
+                                        }
+                                        echo "<li class='$mc'>";
+                                        echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
+                                        echo "</li>";
+                                    }
+                                ?>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

@@ -4,10 +4,10 @@
         <div class="c-postfooter c-bg-dark-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12 c-col">
+                    <div class="col-md-6 col-sm-9 col-xs-9 c-col">
                         <p class="c-copyright c-font-grey">2016 &copy; RoadRunning.co.za
                             <span class="c-font-grey-3">All Rights Reserved.</span>
-                            <a href="/login/admin">Admin Login</a>
+                            <a href="<?=$admin_login;?>">Admin&nbsp;Login</a>
                         </p>
                     </div>
                 </div>
