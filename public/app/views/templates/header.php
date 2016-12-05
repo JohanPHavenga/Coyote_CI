@@ -60,10 +60,12 @@
                 <div class="container">
                     <div class="c-navbar-wrapper clearfix">
                         <div class="c-brand c-pull-left">
-                            <a href="/" class="c-logo">
-                                <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-desktop-logo">
-                                <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-desktop-logo-inverse">
-                                <img src="<?= base_url('img/logo.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo"> </a>
+                            <a href="/" class="c-logo ">
+                                <?php $img_url="img/logo-vec-37.png";?>
+                                <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo">
+                                <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo-inverse">
+                                <img src="<?= base_url('img/logo-vec-27.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo">
+                            </a>
                             <button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
                                 <span class="c-line"></span>
                                 <span class="c-line"></span>
