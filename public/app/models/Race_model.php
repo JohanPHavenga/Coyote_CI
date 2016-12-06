@@ -10,13 +10,16 @@ class Race_model extends CI_Model {
             return $this->db->count_all("races");
         }
 
-        public function get_race_list($limit, $start)
+        public function get_race_list($limit, $start, $edition_id=0)
         {
             $this->db->limit($limit, $start);
 
             $this->db->select("races.*, edition_name");
             $this->db->from("races");
             $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            if ($edition_id>0) {
+                $this->db->where('races.edition_id', $edition_id);
+            }
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

@@ -83,7 +83,13 @@
                                             $mc="";
                                         }
                                         echo "<li class='$mc'>";
-                                        echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
+                                            if ($menu_item['text']=="Contact Us") {
+                                                    echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
+                                            }
+                                            else
+                                            {
+                                                echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
+                                            }
                                         echo "</li>";
                                     }
                                 ?>

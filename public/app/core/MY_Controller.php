@@ -31,13 +31,13 @@ class MY_Controller extends CI_Controller {
             // Events
             [
                 "text"=>"Events",
-                "url"=>'/events',
+                "url"=>'/event/calendar',
                 "section"=>'events',
             ],
             // Events
             [
                 "text"=>"Contact Us",
-                "url"=>'/#contact',
+                "url"=>"/#contact",
                 "section"=>'',
             ],
 

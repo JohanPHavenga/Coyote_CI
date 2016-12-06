@@ -2,6 +2,9 @@
     .c-layout-header .c-brand {
         margin-top: 32px;
     }
+    .c-page-on-scroll.c-layout-header-fixed .c-layout-header .c-brand {
+        margin-top: 15px;
+    }
 }
 
 @media (max-width: 991px) {

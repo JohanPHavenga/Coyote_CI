@@ -6,9 +6,26 @@ class Edition_model extends CI_Model {
             $this->load->database();
         }
 
-        public function record_count() {
+        public function record_count()
+        {
             return $this->db->count_all("editions");
         }
+
+
+        public function get_edition_id_from_name($edition_nmae)
+        {
+            $this->db->select("edition_id");
+            $this->db->from("editions");
+            $this->db->where('edition_name', $edition_nmae);
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $result=$query->result_array();
+                return $result[0]['edition_id'];
+            }
+            return false;
+        }
+
 
         public function get_edition_list($limit, $start)
         {
@@ -30,10 +47,11 @@ class Edition_model extends CI_Model {
                 return $data;
             }
             return false;
-
         }
 
-        public function get_edition_dropdown() {
+
+        public function get_edition_dropdown()
+        {
             $this->db->select("edition_id, edition_name");
             $this->db->from("editions");
             $query = $this->db->get();
@@ -47,6 +65,7 @@ class Edition_model extends CI_Model {
             }
             return false;
         }
+
 
         public function get_edition_detail($id)
         {
@@ -67,8 +86,31 @@ class Edition_model extends CI_Model {
                 }
                 return false;
             }
-
         }
+
+        public function get_edition_detail_full($id)
+        {
+            if( ! ($id))
+            {
+                return false;
+            }
+            else
+            {
+                $this->db->select("events.*,editions.*, sponsors.*");
+                $this->db->from("editions");
+                $this->db->join('events', 'events.event_id=editions.event_id', 'left');
+                $this->db->join('edition_sponsor', 'editions.edition_id=edition_sponsor.edition_id', 'left');
+                $this->db->join('sponsors', 'sponsors.sponsor_id=edition_sponsor.sponsor_id', 'left');
+                $this->db->where('editions.edition_id', $id);
+                $query = $this->db->get();
+
+                if ($query->num_rows() > 0) {
+                    return $query->row_array();
+                }
+                return false;
+            }
+        }
+
 
         public function set_edition($action, $edition_id, $edition_data=[], $debug=false)
         {
@@ -140,7 +182,8 @@ class Edition_model extends CI_Model {
         }
 
 
-        public function remove_edition($id) {
+        public function remove_edition($id)
+        {
             if( ! ($id))
             {
                 return false;
@@ -155,7 +198,9 @@ class Edition_model extends CI_Model {
             }
         }
 
-        public function get_timeperiod() {
+
+        public function get_timeperiod()
+        {
             $this->db->select("edition_date");
             $this->db->from("editions");
             $this->db->group_by("MONTH(edition_date)");

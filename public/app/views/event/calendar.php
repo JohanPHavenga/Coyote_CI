@@ -4,11 +4,15 @@
     <div class="c-layout-breadcrumbs-1 c-fonts-uppercase c-fonts-bold">
         <div class="container">
             <div class="c-page-title c-pull-left">
-                <h3 class="c-font-uppercase c-font-sbold">List all Events</h3>
+                <h3 class="c-font-uppercase c-font-sbold">Events Calendar</h3>
             </div>
             <ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">
                 <li>
-                    <a href="/events">Events</a>
+                    <a href="/event/calendar">Calendar</a>
+                </li>
+                <li>/</li>
+                <li>
+                    <a href="/event/calendar">Events</a>
                 </li>
                 <li>/</li>
                 <li>
@@ -20,6 +24,27 @@
     <!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-1 -->
 
     <!-- BEGIN: PAGE CONTENT -->
+
+    <?php
+    // alert message on top of the page
+    // set flashdata [alert|status]
+    if($this->session->flashdata('alert'))
+    {
+        $alert_msg=$this->session->flashdata('alert');
+        if ( ! ($this->session->flashdata('status')))
+        {
+            $status='warning';
+        }
+        else
+        {
+            $status=$this->session->flashdata('status');
+        }
+        echo "<div class='c-content-box c-size-sm' style='padding-bottom: 0;'>";
+        echo "<div class='container'><div class='row'>";
+        echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
+        echo "</div></div></div>";
+    }
+    ?>
 
     <!-- BEGIN: CONTENT/FEATURES/FEATURES-1 -->
     <div class="c-content-box c-size-md c-bg-white">
@@ -35,7 +60,7 @@
                             <div class="c-line-center c-theme-bg"></div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
@@ -43,17 +68,19 @@
                                         <th>Place</th>
                                         <th>Race Distances</th>
                                         <th>Time of Day</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                         foreach ($edition_list as $edition_id=>$edition) {
                                             echo "<tr>";
-                                                echo "<th scope='row'>".$edition['edition_date']."</th>";
+                                                echo "<th scope='row'><a href='/event/".urlencode($edition['edition_name'])."'>".$edition['edition_date']."</a></th>";
                                                 echo "<td>".$edition['edition_name']."</td>";
                                                 echo "<td>".$edition['town_name']."</td>";
                                                 echo "<td>".$edition['race_distance']."</td>";
                                                 echo "<td>".$edition['race_time']."</td>";
+                                                echo "<td style='padding: 2px; text-align: center;'><a href='/event/".urlencode($edition['edition_name'])."' class='btn c-theme-btn c-btn-border-2x c-btn-square'>DETAIL</a></td>";
                                             echo "</tr>";
                                         }
                                      ?>
