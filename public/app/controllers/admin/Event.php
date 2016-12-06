@@ -78,12 +78,12 @@ class Event extends Admin_Controller {
             "plugins/typeahead/typeahead.css"
             );
 
-        $this->data_to_view['js_to_load']=array(
+        $this->data_to_footer['js_to_load']=array(
             "plugins/typeahead/handlebars.min.js",
             "plugins/typeahead/typeahead.bundle.min.js",
             );
 
-        $this->data_to_view['scripts_to_load']=array(
+        $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/autocomplete.js",
             );
 
@@ -335,6 +335,7 @@ class Event extends Admin_Controller {
         $this->data_to_view['form_url']="/admin/event/run_export";
 
         $this->data_to_view['time_period'] = $this->edition_model->get_timeperiod();
+        $this->data_to_view['time_period']['all'] = "All Data";
 
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/event/export", $this->data_to_view);
@@ -352,11 +353,17 @@ class Event extends Admin_Controller {
 
         $date=$this->input->post('time_period');
         // set filename
-        if ($this->input->post('time_period')) {
-            $date=$this->input->post('time_period');
-            $filename="events_".str_replace("-","",$date).".csv";
-            $date_from=$date."-01";
-            $date_to=date("Y-m-t", strtotime($date_from));
+        if ($date) {
+            if ($date=="all") {
+                $filename="events_all.csv";
+                $date_from="2016-01-01";
+                $date_to=NULL;
+            } else {
+                $filename="events_".str_replace("-","",$date).".csv";
+                $date_from=$date."-01";
+                $date_to=date("Y-m-t", strtotime($date_from));
+
+            }
         } else {
             $filename="events_generic.csv";
         }
@@ -426,7 +433,7 @@ class Event extends Admin_Controller {
                 if (($event_field=='town_id')&&($le[$event_field]<1)) {
                     $le[$event_field]=$this->town_model->get_town_id($le['town_name']);
                 }
-                $return_arr[$event_action][$event_key_value][$event_field]=$le[$event_field];
+                $return_arr[$event_action][$event_key_value][$event_field]=trim($le[$event_field]);
             }
 
             // add edition information

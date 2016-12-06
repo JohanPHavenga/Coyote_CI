@@ -91,6 +91,17 @@ class Login extends Frontend_Controller {
         $this->form_validation->set_rules('user_username', 'Username', 'required');
         $this->form_validation->set_rules('user_password', 'Password', 'required');
 
+        $crumbs=[
+            "Admin Login"=>"",
+            "Home"=>"/",
+        ];
+        // set title bar
+        $this->data_to_view["title_bar"]=$this->render_topbar_html(
+            [
+                "title"=>$this->data_to_header['title'],
+                "crumbs"=>$crumbs,
+            ]);
+
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {

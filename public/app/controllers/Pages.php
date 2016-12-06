@@ -38,13 +38,34 @@ class Pages extends Frontend_Controller {
             $this->data_to_header['section']="home";
             $this->data_to_header['title']="Running Event Listing Site";
             $this->data_to_view['race_summary']=$this->get_event_list_summary();
+
+            $this->data_to_header['css_to_load']=array(
+                "plugins/revo-slider/css/settings.css",
+                "plugins/revo-slider/css/layers.css",
+                "plugins/revo-slider/css/navigation.css",
+
+                );
+
+            $this->data_to_footer['js_to_load']=array(
+                "plugins/revo-slider/js/jquery.themepunch.tools.min.js",
+                "plugins/revo-slider/js/jquery.themepunch.revolution.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.slideanims.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.layeranimation.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.navigation.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.video.min.js",
+                );
+
+            $this->data_to_footer['scripts_to_load']=array(
+                "scripts/revo-slider/slider-4.js",
+                );
+
         } else {
             $this->data_to_header['title'] = ucfirst($page); // Capitalize the first letter
         }
 
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/'.$page, $this->data_to_view);
-        $this->load->view('templates/footer', $this->data_to_footer);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
 
@@ -53,9 +74,21 @@ class Pages extends Frontend_Controller {
         $this->output->set_status_header('404');
         $this->data_to_header['title']="Page not found";
 
+        $crumbs=[
+            "404"=>"",
+            "Home"=>"/",
+        ];
+
+        // set title bar
+        $this->data_to_view["title_bar"]=$this->render_topbar_html(
+            [
+                "title"=>"Page not found",
+                "crumbs"=>$crumbs,
+            ]);
+
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/404', $this->data_to_view);
-        $this->load->view('templates/footer', $this->data_to_footer);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
 
@@ -88,7 +121,7 @@ class Pages extends Frontend_Controller {
 
                 $this->load->view($this->header_url, $this->data_to_header);
                 $this->load->view('pages/home', $this->data_to_view);
-                $this->load->view('templates/footer', $this->data_to_footer);
+                $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
         {
@@ -117,7 +150,7 @@ class Pages extends Frontend_Controller {
             $this->data_to_view['email_send']=true;
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view('pages/home', $this->data_to_view);
-            $this->load->view('templates/footer', $this->data_to_footer);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         }
     }
 

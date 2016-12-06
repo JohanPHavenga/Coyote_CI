@@ -11,11 +11,67 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>http://www.roadrunning.co.za/events</loc>
+  <loc>http://www.roadrunning.co.za/event/calendar</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Taal+Monument+10km+Nite+Race</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Growthpoint+Properties+Sundowner+10km</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/The+RCS+GUGS+Reconciliation+Day+Race</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Cashkows.com+Onrus+10km+%26+6km+Fun+Run</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/+The+Nutribullet+Bay+to+Bay</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Fry%27s+Hohenort+2017</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/STBB+Red+Hill+Marathon+and+Classic+2017</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/JOINTEze+Dan+Luyt+15km</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
   <loc>http://www.roadrunning.co.za/login/admin</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Blueboost+Winelands+Marathon+and+Half+Marathon+</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/JP21+2016</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Franschhoek+Athletics+Club+15+%26+5km+Klaas+Maffa+Road+Race</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Lynne+New+Estates+Edgemead+Classic</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Metropolitan+10k</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.roadrunning.co.za/event/Beachcomber+Race+Against+Crime</loc>
   <changefreq>weekly</changefreq>
 </url>
 </urlset>

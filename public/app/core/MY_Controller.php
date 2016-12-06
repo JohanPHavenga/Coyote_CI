@@ -6,43 +6,12 @@
  */
 class MY_Controller extends CI_Controller {
 
-    public $data_to_header=["section"=>""];
-    public $data_to_view=[];
-    public $data_to_footer=["admin_login"=>"/login/admin"];
-
-    public $header_url='templates/header';
-    public $footer_url='templates/footer';
-
     function __construct()
     {
         parent::__construct();
-        // Load shared resources here or in autoload.php
-        $this->data_to_header["menu_array"]=$this->set_top_menu_array();
+        // Load any front-end only dependencies
     }
 
-    function set_top_menu_array() {
-        return [
-            // Dashboard
-            [
-                "text"=>"Home",
-                "url"=>'/',
-                "section"=>'home',
-            ],
-            // Events
-            [
-                "text"=>"Events",
-                "url"=>'/event/calendar',
-                "section"=>'events',
-            ],
-            // Events
-            [
-                "text"=>"Contact Us",
-                "url"=>"/#contact",
-                "section"=>'',
-            ],
-
-        ];
-    }
 }
 
 /**
@@ -285,9 +254,107 @@ class Admin_Controller extends MY_Controller {
  */
 class Frontend_Controller extends MY_Controller {
 
+    public $data_to_header=["section"=>""];
+    public $data_to_view=[];
+    public $data_to_footer=["admin_login"=>"/login/admin"];
+
+    public $header_url='templates/header';
+    public $footer_url='templates/footer';
+
+    public $crumbs_arr=[];
+
     function __construct()
     {
         parent::__construct();
-        // Load any front-end only dependencies
+        // Load shared resources here or in autoload.php
+        $this->crumbs_arr=$this->set_crumbs();
+        $this->data_to_header["title_bar"]=$this->render_topbar_html(["crumbs"=>$this->crumbs_arr]);
+        $this->data_to_header["menu_array"]=$this->set_top_menu_array();
     }
+
+    function set_top_menu_array() {
+        return [
+            // Dashboard
+            [
+                "text"=>"Home",
+                "url"=>'/',
+                "section"=>'home',
+            ],
+            // Events
+            [
+                "text"=>"Events",
+                "url"=>'/event/calendar',
+                "section"=>'events',
+            ],
+            // Events
+            [
+                "text"=>"Contact Us",
+                "url"=>"/#contact",
+                "section"=>'',
+            ],
+
+        ];
+    }
+
+    function set_crumbs() {
+        // setup auto crumbs from URI
+        $segs = $this->uri->segment_array();
+        $crumb_uri= substr(base_url(),0,-1);
+        $total_segments=$this->uri->total_segments();
+        $crumbs['Home']=base_url();
+        for ($x = 1; $x <= $total_segments; $x++) {
+
+            if (($x==$total_segments) || ($x==3))
+            {
+                $crumb_uri="";
+            } else {
+                $crumb_uri.="/".$segs[$x];
+            }
+
+            // make controller prural
+            if ($x==1) { $segs[$x]= $segs[$x]."s"; }
+
+            // if ($segs[$x]=="admin") { $segs[$x]="home"; }
+            // if ($segs[$x]=="dashboard") { continue; }
+            // if ($segs[$x]=="delete") { $this->data_to_header['crumbs']=[]; break; }
+
+            $segs[$x]=str_replace("_"," ",$segs[$x]);
+            $crumbs[ucwords($segs[$x])]=$crumb_uri;
+
+            if ($x==3) { break; }
+        }
+
+        return array_reverse($crumbs);
+
+    }
+
+    function render_topbar_html($params) {
+        if (isset($params['sub_title']))
+        {
+            $return_html='<div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold">';
+        } else {
+            $return_html='<div class="c-layout-breadcrumbs-1 c-fonts-uppercase c-fonts-bold">';
+        }
+        $return_html.='<div class="container">';
+
+            // heading
+            $return_html.='<div class="c-page-title c-pull-left">';
+                if (isset($params['title'])) { $return_html.='<h3 class="c-font-uppercase c-font-sbold">'.$params['title'].'</h3>'; }
+                if (isset($params['sub_title'])) { $return_html.='<h4 class="">'.$params['sub_title'].'</h4>'; }
+            $return_html.='</div>';
+
+            // crumbs
+            $return_html.='<ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">';
+            foreach ($params['crumbs'] as $display=>$url) {
+                $return_html.='<li><a href="'.$url.'">'.urldecode($display).'</a></li>';
+                if ($display!="Home") { $return_html.="<li>/</li>"; }
+            }
+            $return_html.='</ul>';
+
+        $return_html.='</div>';
+        $return_html.='</div>';
+
+        return $return_html;
+    }
+
 }

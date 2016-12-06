@@ -63,17 +63,19 @@
                                         <th>Place</th>
                                         <th>Race Distances</th>
                                         <th>Time of Day</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                         foreach ($edition_list as $edition_id=>$edition) {
                                             echo "<tr>";
-                                                echo "<th scope='row'>".$edition['edition_date']."</th>";
+                                                echo "<th scope='row'><a href='/event/".urlencode($edition['edition_name'])."'>".$edition['edition_date']."</a></th>";
                                                 echo "<td>".$edition['edition_name']."</td>";
                                                 echo "<td>".$edition['town_name']."</td>";
                                                 echo "<td>".$edition['race_distance']."</td>";
                                                 echo "<td>".$edition['race_time']."</td>";
+                                                echo "<td style='padding: 2px; text-align: center;'><a href='/event/".urlencode($edition['edition_name'])."' class='btn c-theme-btn c-btn-border-2x c-btn-square'>DETAIL</a></td>";
                                             echo "</tr>";
                                         }
                                      ?>

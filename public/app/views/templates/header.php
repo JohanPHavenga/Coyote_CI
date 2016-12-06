@@ -28,12 +28,15 @@
         <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
-        <!-- BEGIN: BASE PLUGINS  -->
-        <link href="<?= base_url('plugins/revo-slider/css/settings.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/revo-slider/css/layers.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/revo-slider/css/navigation.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/cubeportfolio/css/cubeportfolio.min.css'); ?>" rel="stylesheet" type="text/css" />
-        <!-- END: PAGE STYLES -->
+        <?php
+            // load extra CSS files from controller
+            if (isset($css_to_load)) :
+            foreach ($css_to_load as $row):
+                $css_link=base_url($row);
+                echo "<link href='$css_link' rel='stylesheet'>";
+            endforeach;
+            endif;
+        ?>
         <!-- BEGIN THEME STYLES -->
         <link href="<?= base_url('css/plugins.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('css/components.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
