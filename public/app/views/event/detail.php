@@ -53,13 +53,19 @@
                                             <?php
                                             if ($event_detail['edition_url']) {
                                             ?>
-                                                <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-md c-btn-bold c-btn-round" target="_blank" href="<?=$event_detail['edition_url']?>">
-                                                View Event Website</a>
+                                                <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" target="_blank" href="<?=$event_detail['edition_url']?>">
+                                                <i class="icon-share-alt"></i> View Event Website</a>
                                                 <?php
                                                 }
                                              ?>
-                                            <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-md c-btn-bold c-btn-round" href="/event">
-                                            <i class="icon-calendar"></i> Events Calendar</a>
+                                         </p>
+                                         <p>
+                                            <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" href="/event/ics/<?=$event_detail['edition_id'];?>">
+                                            <i class="icon-cloud-download"></i> Download Calendar Reminder</a>
+                                        </p>
+                                         <p>
+                                            <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" href="/event">
+                                            <i class="icon-calendar"></i> Back to Events Calendar</a>
                                         </p>
                                     </div>
                                 </div>

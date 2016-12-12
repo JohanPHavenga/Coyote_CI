@@ -46,6 +46,7 @@
     <div class="c-content-box c-size-md c-bg-white">
         <div class="container">
             <div class="row">
+                <!-- <iframe src="https://www.google.com/maps/d/embed?mid=17TXInRKBOmBmhK1wqkj0a71FQUg" width="640" height="480"></iframe> -->
                 <?php
                 if ($race_summary) {
                     foreach ($race_summary as $month=>$edition_list) {

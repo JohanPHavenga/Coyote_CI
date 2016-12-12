@@ -104,5 +104,38 @@ class Event extends Frontend_Controller {
 
     }
 
+    function ics($edition_id) {
+
+        $this->load->model('edition_model');
+        $this->load->model('race_model');
+
+        $edition_info['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
+        $edition_info['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+
+
+        $this->data_to_view['summary']=$edition_info['event_detail']['edition_name'];
+        // get time
+        $date=$edition_info['event_detail']['edition_date'];
+        $time="23:59:00";
+        foreach ($edition_info['event_detail']['race_list'] as $race) {
+            $race_time=$race['race_time'];
+            if ($race_time<$time) { $time=$race_time; }
+        }
+        $this->data_to_view['datestart']=strtotime(str_replace("00:00:00",$time,$date));
+        $this->data_to_view['dateend']=$this->data_to_view['datestart']+(5*60*60);
+        $this->data_to_view['address']=$edition_info['event_detail']['edition_address'];
+        $this->data_to_view['uri']="http://wwww.roadrunning.co.za/event/".urlencode($edition_info['event_detail']['edition_name']);
+        $this->data_to_view['description']='';
+        $this->data_to_view['filename']='RoadRunning_Event_'.$edition_id.".ics";
+        $this->data_to_view['uid']=$edition_id;
+
+        $this->load->view("/scripts/ics", $this->data_to_view);
+
+        // wts($this->data_to_view);
+        // wts($edition_info);
+        // die($edition_id);
+
+    }
+
 
 }
