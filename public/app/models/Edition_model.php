@@ -12,11 +12,11 @@ class Edition_model extends CI_Model {
         }
 
 
-        public function get_edition_id_from_name($edition_nmae)
+        public function get_edition_id_from_name($edition_name)
         {
             $this->db->select("edition_id");
             $this->db->from("editions");
-            $this->db->where('edition_name', $edition_nmae);
+            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
