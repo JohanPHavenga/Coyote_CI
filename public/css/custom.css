@@ -23,6 +23,7 @@
 {
   position: relative;
 }
+
 .effect2:before, .effect2:after
 {
   z-index: -1;
@@ -44,6 +45,7 @@
   left: auto;
 }
 
-footer a {
+footer a
+{
     color: #fff;
 }

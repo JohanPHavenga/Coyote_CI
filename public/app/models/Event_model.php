@@ -208,7 +208,7 @@ class Event_model extends CI_Model {
                                 if (date("H",strtotime($row[$field])) >  21) { $value = "Night";  }
                             break;
                             case "edition_date":
-                                $value=date("Y-m-d",strtotime($row[$field]));
+                                $value=date("D d M Y",strtotime($row[$field]));
                             break;
                             case "edition_name":
                                 $value=$row[$field];
