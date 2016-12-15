@@ -63,6 +63,9 @@ class Pages extends Frontend_Controller {
             $this->data_to_header['title'] = ucfirst($page); // Capitalize the first letter
         }
 
+        // wts($this->data_to_footer);
+        // exit();
+
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/'.$page, $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);

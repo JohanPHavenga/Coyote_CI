@@ -12,7 +12,7 @@ class MY_Controller extends CI_Controller {
         // Load any front-end only dependencies
     }
 
-    
+
 
 }
 
@@ -268,10 +268,16 @@ class Frontend_Controller extends MY_Controller {
     function __construct()
     {
         parent::__construct();
+
+        if (!isset($_SESSION['area_list'])) {
+            $_SESSION['area_list'] = $this->get_area_list();
+        }
+
         // Load shared resources here or in autoload.php
         $this->crumbs_arr=$this->set_crumbs();
         $this->data_to_header["title_bar"]=$this->render_topbar_html(["crumbs"=>$this->crumbs_arr]);
         $this->data_to_header["menu_array"]=$this->set_top_menu_array();
+        $this->data_to_footer["area_list"]=$_SESSION['area_list'];
     }
 
     function set_top_menu_array() {
@@ -357,6 +363,13 @@ class Frontend_Controller extends MY_Controller {
         $return_html.='</div>';
 
         return $return_html;
+    }
+
+
+    function get_area_list() {
+        $this->load->model('event_model');
+        $area_list = $this->event_model->get_area_list();
+        return $area_list;
     }
 
 }
