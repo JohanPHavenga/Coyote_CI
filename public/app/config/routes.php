@@ -67,3 +67,11 @@ $route['mailer'] = 'pages/mailer';
 $route['404'] = 'pages/my_404';
 
 // redirect
+$route['capetown'] = 'landing/cape+town';
+$route['CapeTown'] = 'landing/cape+town';
+$route['overberg'] = 'landing/overberg';
+$route['Overberg'] = 'landing/overberg';
+$route['winelands'] = 'landing/winelands';
+$route['Winelands'] = 'landing/winelands';
+$route['westcoast'] = 'landing/westcoast';
+$route['WestCoast'] = 'landing/westcoast';
