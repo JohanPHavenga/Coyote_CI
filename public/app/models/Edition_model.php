@@ -17,6 +17,11 @@ class Edition_model extends CI_Model {
             $this->db->select("edition_id");
             $this->db->from("editions");
             $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
+            $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
+
+            // echo $this->db->get_compiled_select();
+            // exit();
+
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

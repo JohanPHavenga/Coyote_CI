@@ -242,7 +242,9 @@ class Event_model extends CI_Model {
                             case "edition_name":
                                 $value=$row[$field];
                                 // sit veld by vir edition_url
-                                $data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".urlencode(str_replace("'","",$row[$field]));
+                                // sanatize name
+                                $edition_url_name=urlencode(str_replace("'","",str_replace("/"," ",$row[$field])));
+                                $data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
                             break;
                             default:
                                 $value=$row[$field];
