@@ -365,21 +365,30 @@ class Frontend_Controller extends MY_Controller {
         return $return_html;
     }
 
-    function render_races_table_html($race_summary) {
+    function render_races_table_html($race_summary, $page="other") {
         $return_html_arr=[];
 
         if ($race_summary) {
             $n=0;
             foreach ($race_summary as $month=>$edition_list) {
 
-                $return_html_arr[]='<div class="c-content-title-1">';
-                $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Races in '.$month.'</h3>';
-                $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
-                $return_html_arr[]='</div>';
+                if ($page=="home") {
+                    $return_html_arr[]='<div class="c-content-title-1">';
+                    $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Races in '.$month.'</h3>';
+                    $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
+                    $return_html_arr[]='</div>';
+                }
+
 
                 $return_html_arr[]='<div class="table-responsive">';
                 $return_html_arr[]='<table class="table table-bordered" style="margin-bottom: 40px;">';
-                $return_html_arr[]='<thead><tr><th>Date</th><th>Event</th><th>Place</th><th>Race Distances</th><th>Time of Day</th><th></th></tr></thead>';
+
+                $return_html_arr[]="<thead>";
+                if ($page!="home") {
+                    $return_html_arr[]="<tr><th colspan='6' class='table-head-blue'>Races in $month</th></tr>";
+                }
+                $return_html_arr[]="<tr><th>Date</th><th>Event</th><th>Place</th><th>Race Distances</th><th>Time of Day</th><th></th></tr>";
+                $return_html_arr[]="</thead>";
 
                 $return_html_arr[]='<tbody>';
 
@@ -395,15 +404,13 @@ class Frontend_Controller extends MY_Controller {
                                 }
 
                 $return_html_arr[]='</tbody>';
+
                 $return_html_arr[]='</table>';
                 $return_html_arr[]='</div>';
             }
+
         } else {
-            $return_html_arr[]='<div class="c-content-title-1">';
-            $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Event Information</h3>';
-            $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
-            $return_html_arr[]='</div>';
-            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p>';
+            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
         }
 
         return implode("", $return_html_arr);

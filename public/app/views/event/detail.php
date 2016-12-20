@@ -7,6 +7,7 @@
     <div class="c-content-box c-size-md c-bg-white">
         <div class="container">
 
+            <?= $notice; ?>
 
             <div class="c-shop-product-details-2">
                 <div class="row">

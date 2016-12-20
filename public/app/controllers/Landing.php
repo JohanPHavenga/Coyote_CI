@@ -29,6 +29,7 @@ class Landing extends Frontend_Controller {
 
         $race_list=[];
         $race_list=$this->event_model->get_event_list_summary(date("Y-m-d"), NULL, $area_name);
+
         // wts($race_list);
         // die();
 
@@ -48,7 +49,7 @@ class Landing extends Frontend_Controller {
 
         // set data to the view
         $this->data_to_view["area"]=$area_name;
-        $this->data_to_view["race_summary"]=$race_list;
+        $this->data_to_view["race_list_html"]=$this->render_races_table_html($race_list);
         // set title bar
         $crumbs=[
             "Races in ".ucwords($area_name)=>"",

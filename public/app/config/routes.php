@@ -73,5 +73,5 @@ $route['overberg'] = 'landing/overberg';
 $route['Overberg'] = 'landing/overberg';
 $route['winelands'] = 'landing/winelands';
 $route['Winelands'] = 'landing/winelands';
-$route['westcoast'] = 'landing/westcoast';
-$route['WestCoast'] = 'landing/westcoast';
+$route['westcoast'] = 'landing/west+coast';
+$route['WestCoast'] = 'landing/west+coast';

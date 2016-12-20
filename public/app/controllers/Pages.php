@@ -40,7 +40,7 @@ class Pages extends Frontend_Controller {
 
             // get races for the next 3 months
             $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-d",strtotime("+3 months")));
-            $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary);
+            $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary, "home");
 
             $this->data_to_header['css_to_load']=array(
                 "plugins/revo-slider/css/settings.css",

@@ -28,9 +28,14 @@ class Event extends Frontend_Controller {
         $this->load->library('table');
 
         $this->data_to_header['title']="Events Calendar";
-        $race_summary = $this->event_model->get_event_list_summary(date("Y-m-d"));
 
-        $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary);
+        // get race info
+        $upcoming_race_summary = $this->event_model->get_event_list_summary(date("Y-m-d"));
+        $past_race_summary = $this->event_model->get_event_list_summary("2000-01-01",date("Y-m-d"));
+        // render html
+        $this->data_to_view['upcoming_race_list_html']=$this->render_races_table_html($upcoming_race_summary);
+        $this->data_to_view['past_race_list_html']=$this->render_races_table_html($past_race_summary);
+
 
         $this->data_to_header['css_to_load']=array();
         $this->data_to_footer['js_to_load']=array();
@@ -83,6 +88,12 @@ class Event extends Frontend_Controller {
         // get event details
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+
+        // check if events is in the past
+        $this->data_to_view['notice']='';
+        if ($this->data_to_view['event_detail']['edition_date'] < date("Y-m-d")) {
+            $this->data_to_view['notice']="<div class='alert alert-warning' role='alert'>Please note that you are viewing an event that has happend in the past.</div>";
+        }
 
         $crumbs=[
             "Details"=>"",
