@@ -365,6 +365,50 @@ class Frontend_Controller extends MY_Controller {
         return $return_html;
     }
 
+    function render_races_table_html($race_summary) {
+        $return_html_arr=[];
+
+        if ($race_summary) {
+            $n=0;
+            foreach ($race_summary as $month=>$edition_list) {
+
+                $return_html_arr[]='<div class="c-content-title-1">';
+                $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Races in '.$month.'</h3>';
+                $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
+                $return_html_arr[]='</div>';
+
+                $return_html_arr[]='<div class="table-responsive">';
+                $return_html_arr[]='<table class="table table-bordered" style="margin-bottom: 40px;">';
+                $return_html_arr[]='<thead><tr><th>Date</th><th>Event</th><th>Place</th><th>Race Distances</th><th>Time of Day</th><th></th></tr></thead>';
+
+                $return_html_arr[]='<tbody>';
+
+                                foreach ($edition_list as $edition_id=>$edition) {
+                                    $return_html_arr[]= "<tr>";
+                                        $return_html_arr[]= "<th scope='row'><a href='".$edition['edition_url']."'>".$edition['edition_date']."</a></th>";
+                                        $return_html_arr[]= "<td>".$edition['edition_name']."</td>";
+                                        $return_html_arr[]= "<td>".$edition['town_name']."</td>";
+                                        $return_html_arr[]= "<td>".$edition['race_distance']."</td>";
+                                        $return_html_arr[]= "<td>".$edition['race_time']."</td>";
+                                        $return_html_arr[]= "<td style='padding: 2px; text-align: center;'><a href='".$edition['edition_url']."' class='btn c-theme-btn c-btn-border-2x c-btn-square'>DETAIL</a></td>";
+                                    $return_html_arr[]= "</tr>";
+                                }
+
+                $return_html_arr[]='</tbody>';
+                $return_html_arr[]='</table>';
+                $return_html_arr[]='</div>';
+            }
+        } else {
+            $return_html_arr[]='<div class="c-content-title-1">';
+            $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Event Information</h3>';
+            $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
+            $return_html_arr[]='</div>';
+            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p>';
+        }
+
+        return implode("", $return_html_arr);
+    }
+
 
     function get_area_list() {
         $this->load->model('event_model');

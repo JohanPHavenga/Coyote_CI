@@ -28,7 +28,9 @@ class Event extends Frontend_Controller {
         $this->load->library('table');
 
         $this->data_to_header['title']="Events Calendar";
-        $this->data_to_view["race_summary"] = $this->event_model->get_event_list_summary("2000-01-01");
+        $race_summary = $this->event_model->get_event_list_summary(date("Y-m-d"));
+
+        $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary);
 
         $this->data_to_header['css_to_load']=array();
         $this->data_to_footer['js_to_load']=array();

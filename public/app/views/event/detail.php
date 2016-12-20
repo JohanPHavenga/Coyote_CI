@@ -38,6 +38,7 @@
                                     <?php
                                     foreach ($event_detail['race_list'] as $race) {
                                         echo "<p>";
+                                        echo $race['race_name']." - ";
                                         echo $race['race_distance']+0;
                                         echo "km - start time: ";
                                         echo date("H:i",strtotime($race['race_time']));

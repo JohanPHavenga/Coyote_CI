@@ -48,53 +48,11 @@
             <div class="row">
                 <!-- <iframe src="https://www.google.com/maps/d/embed?mid=17TXInRKBOmBmhK1wqkj0a71FQUg" width="640" height="480"></iframe> -->
                 <?php
-                if ($race_summary) {
-                    foreach ($race_summary as $month=>$edition_list) {
-                        ?>
-                        <div class="c-content-title-1">
-                            <h3 class="c-center c-font-dark c-font-uppercase">Upcoming races in <?=$month;?></h3>
-                            <div class="c-line-center c-theme-bg"></div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Event</th>
-                                        <th>Place</th>
-                                        <th>Race Distances</th>
-                                        <th>Time of Day</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        foreach ($edition_list as $edition_id=>$edition) {
-                                            echo "<tr>";
-                                                echo "<th scope='row'><a href='".$edition['edition_url']."'>".$edition['edition_date']."</a></th>";
-                                                echo "<td>".$edition['edition_name']."</td>";
-                                                echo "<td>".$edition['town_name']."</td>";
-                                                echo "<td>".$edition['race_distance']."</td>";
-                                                echo "<td>".$edition['race_time']."</td>";
-                                                echo "<td style='padding: 2px; text-align: center;'><a href='".$edition['edition_url']."' class='btn c-theme-btn c-btn-border-2x c-btn-square'>DETAIL</a></td>";
-                                            echo "</tr>";
-                                        }
-                                     ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php
-                    }
-                } else {
-                    ?>
-                    <div class="c-content-title-1">
-                        <h3 class="c-center c-font-dark c-font-uppercase">Event Information</h3>
-                        <div class="c-line-center c-theme-bg"></div>
-                    </div>
-                    <p>There is currently no event data to display. Please chack back again shortly.</p>
-                    <?php
-                }
+                echo $race_list_html;
                 ?>
+
+                <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/event/calendar">
+                <i class="icon-calendar"></i> View More Races</a></p>
             </div>
         </div>
     </div>

@@ -37,7 +37,10 @@ class Pages extends Frontend_Controller {
         if ($page=="home") {
             $this->data_to_header['section']="home";
             $this->data_to_header['title']="Running Event Listing Site";
-            $this->data_to_view['race_summary']=$this->get_event_list_summary();
+
+            // get races for the next 3 months
+            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-d",strtotime("+3 months")));
+            $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary);
 
             $this->data_to_header['css_to_load']=array(
                 "plugins/revo-slider/css/settings.css",
@@ -92,12 +95,6 @@ class Pages extends Frontend_Controller {
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/404', $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
-    }
-
-
-    private function get_event_list_summary()
-    {
-        return $this->event_model->get_event_list_summary(date("Y-m-d"));
     }
 
 
