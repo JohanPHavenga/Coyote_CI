@@ -42,18 +42,23 @@
     <!-- END: LAYOUT/SLIDERS/REVO-SLIDER-4 -->
 
 
-
-    <div class="c-content-box c-size-md c-bg-white">
+    <div class="c-content-box c-size-md ">
         <div class="container">
-            <div class="row">
-                <!-- <iframe src="https://www.google.com/maps/d/embed?mid=17TXInRKBOmBmhK1wqkj0a71FQUg" width="640" height="480"></iframe> -->
-                <?php
-                echo $race_list_html;
-                ?>
-
-                <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/event/calendar">
-                <i class="icon-calendar"></i> View More Races</a></p>
+            <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide mobile-hide" style="padding: 0;">
+                <div class="c-container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="c-content-title-1">
+                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> Upcoming Running Events</h3>
+                                <div class="c-line-center c-theme-bg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <?php
+            echo $race_list_html;
+            ?>
         </div>
     </div>
 

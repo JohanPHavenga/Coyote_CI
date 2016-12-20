@@ -12,6 +12,14 @@
         margin-top: 19px;
     }
 }
+
+
+.cbp-caption-expand .cbp-l-caption-body {
+    font-size: 17px;
+    padding-left: 30px;
+    line-height: 1.4em;
+}
+
 .table > thead > tr > th {
     font-weight: bold;
     background: #eee;

@@ -12,8 +12,6 @@ class MY_Controller extends CI_Controller {
         // Load any front-end only dependencies
     }
 
-
-
 }
 
 /**
@@ -365,6 +363,47 @@ class Frontend_Controller extends MY_Controller {
         return $return_html;
     }
 
+
+    function render_races_accordian_html($race_summary) {
+        // generate html for the accordian holding event data
+        $return_html_arr=[];
+        if ($race_summary) {
+            $return_html_arr[]='<div class="cbp-panel">';
+                $return_html_arr[]='<div id="filters-container" class="cbp-l-filters-underline">';
+                    $return_html_arr[]='<div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div>';
+                    $month_list=array_keys($race_summary);
+                        foreach ($month_list as $month) {
+                            $return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
+                        }
+                    $return_html_arr[]='</div>';
+
+                $return_html_arr[]='<div id="grid-container" class="cbp cbp-l-grid-faq">';
+                    foreach ($race_summary as $month=>$edition_list) {
+                        foreach ($edition_list as $edition_id=>$edition) {
+                        $return_html_arr[]='<div class="cbp-item '.$month.'">';
+                            $return_html_arr[]='<div class="cbp-caption">';
+                                $return_html_arr[]='<div class="cbp-caption-defaultWrap">';
+                                    $return_html_arr[]='<i class="fa fa-check-circle-o"></i> <b>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].' </div>';
+                                $return_html_arr[]='<div class="cbp-caption-activeWrap">';
+                                    $return_html_arr[]='<div class="cbp-l-caption-body">';
+                                        $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
+                                        $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
+                                        $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
+                                        $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                        $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+
+                        $return_html_arr[]='</div></div></div></div>';
+                        }
+                    }
+                $return_html_arr[]='</div>';
+            $return_html_arr[]='</div>';
+        } else {
+            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
+        }
+
+        return implode("", $return_html_arr);
+    }
+
     function render_races_table_html($race_summary, $page="other") {
         $return_html_arr=[];
 
@@ -374,7 +413,7 @@ class Frontend_Controller extends MY_Controller {
 
                 if ($page=="home") {
                     $return_html_arr[]='<div class="c-content-title-1">';
-                    $return_html_arr[]='<h3 class="c-center c-font-dark c-font-uppercase">Races in '.$month.'</h3>';
+                    $return_html_arr[]='<h3 class="c-font-34 c-center c-font-bold c-font-uppercase">Races in '.$month.'</h3>';
                     $return_html_arr[]='<div class="c-line-center c-theme-bg"></div>';
                     $return_html_arr[]='</div>';
                 }

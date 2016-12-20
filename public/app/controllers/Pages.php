@@ -30,23 +30,22 @@ class Pages extends Frontend_Controller {
                 show_404();
         }
 
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-
-
         if ($page=="home") {
+            $this->load->helper('form');
+            $this->load->library('form_validation');
+
             $this->data_to_header['section']="home";
             $this->data_to_header['title']="Running Event Listing Site";
 
             // get races for the next 3 months
-            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-d",strtotime("+3 months")));
-            $this->data_to_view['race_list_html']=$this->render_races_table_html($race_summary, "home");
+            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-t",strtotime("+3 months")));
+            $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "home");
 
             $this->data_to_header['css_to_load']=array(
                 "plugins/revo-slider/css/settings.css",
                 "plugins/revo-slider/css/layers.css",
                 "plugins/revo-slider/css/navigation.css",
-
+                "plugins/cubeportfolio/css/cubeportfolio.min.css",
                 );
 
             $this->data_to_footer['js_to_load']=array(
@@ -55,11 +54,12 @@ class Pages extends Frontend_Controller {
                 "plugins/revo-slider/js/extensions/revolution.extension.slideanims.min.js",
                 "plugins/revo-slider/js/extensions/revolution.extension.layeranimation.min.js",
                 "plugins/revo-slider/js/extensions/revolution.extension.navigation.min.js",
-                "plugins/revo-slider/js/extensions/revolution.extension.video.min.js",
+                "plugins/cubeportfolio/js/jquery.cubeportfolio.min.js",
                 );
 
             $this->data_to_footer['scripts_to_load']=array(
                 "scripts/revo-slider/slider-4.js",
+                "scripts/events.js",
                 );
 
         } else {
@@ -71,6 +71,41 @@ class Pages extends Frontend_Controller {
 
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/'.$page, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+
+
+    public function about() {
+
+        $this->data_to_header['section']="home";
+        $this->data_to_header['title']="About Us";
+
+        $this->data_to_header['css_to_load']=array(
+            "plugins/cubeportfolio/css/cubeportfolio.min.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "plugins/cubeportfolio/js/jquery.cubeportfolio.min.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/events.js",
+            );
+
+        // set crumbs
+        $crumbs=[
+            "About Us"=>"",
+            "Home"=>"/",
+        ];
+        // set title bar
+        $this->data_to_header["title_bar"]=$this->render_topbar_html(
+            [
+                "title"=>$this->data_to_header['title'],
+                "crumbs"=>$crumbs,
+            ]);
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('pages/about', $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 

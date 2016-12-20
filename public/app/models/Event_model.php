@@ -226,8 +226,8 @@ class Event_model extends CI_Model {
                         switch ($field) {
                             case "race_distance":
                                 $value=floatval($row[$field])."km";
-                                if (isset($data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
-                                    $value=$data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
+                                if (isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
+                                    $value=$data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
                                 }
                             break;
                             case "race_time":
@@ -244,14 +244,14 @@ class Event_model extends CI_Model {
                                 // sit veld by vir edition_url
                                 // sanatize name
                                 $edition_url_name=urlencode(str_replace("'","",str_replace("/"," ",$row[$field])));
-                                $data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
+                                $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
                             break;
                             default:
                                 $value=$row[$field];
                             break;
                         }
 
-                        $data[date("F Y",strtotime($row['edition_date']))][$row['edition_id']][$field]=$value;
+                        $data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field]=$value;
 
                     }
                 }
