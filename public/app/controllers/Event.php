@@ -31,10 +31,10 @@ class Event extends Frontend_Controller {
 
         // get race info
         $upcoming_race_summary = $this->event_model->get_event_list_summary(date("Y-m-d"));
-        $past_race_summary = $this->event_model->get_event_list_summary("2000-01-01",date("Y-m-d"));
+        $past_race_summary = $this->event_model->get_event_list_summary("2000-01-01",date("Y-m-d"), NULL, "DESC");
         // render html
-        $this->data_to_view['upcoming_race_list_html']=$this->render_races_table_html($upcoming_race_summary);
-        $this->data_to_view['past_race_list_html']=$this->render_races_table_html($past_race_summary);
+        $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($upcoming_race_summary);
+        $this->data_to_view['past_race_list_html']=$this->render_races_accordian_html($past_race_summary);
 
 
         $this->data_to_header['css_to_load']=array();

@@ -66,7 +66,9 @@
                     <div role="tabpanel" class="tab-pane fade" id="past">
                         <ul class="c-tab-items">
                             <li class="row">
-                                <?=$past_race_list_html;?>
+                                <div class="col-md-12">
+                                    <?=$past_race_list_html;?>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -76,8 +78,10 @@
 
 
             <div class="row">
-                <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
-                <i class="icon-home"></i> Home</a></p>
+                <div class="col-md-12">
+                    <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
+                    <i class="icon-home"></i> Home</a></p>
+                </div>
             </div>
     </div>
     <!-- END: CONTENT/FEATURES/FEATURES-1 -->

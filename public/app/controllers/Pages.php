@@ -38,8 +38,8 @@ class Pages extends Frontend_Controller {
             $this->data_to_header['title']="Running Event Listing Site";
 
             // get races for the next 3 months
-            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-t",strtotime("+3 months")));
-            $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "home");
+            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-d",strtotime("+3 months")));
+            $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "Next 3 Months");
 
             $this->data_to_header['css_to_load']=array(
                 "plugins/revo-slider/css/settings.css",

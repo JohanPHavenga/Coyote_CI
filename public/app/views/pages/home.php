@@ -43,19 +43,7 @@
 
 
     <div class="c-content-box c-size-md ">
-        <div class="container">
-            <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide mobile-hide" style="padding: 0;">
-                <div class="c-container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="c-content-title-1">
-                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> Upcoming Running Events</h3>
-                                <div class="c-line-center c-theme-bg"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container">            
             <?php
             echo $race_list_html;
             ?>

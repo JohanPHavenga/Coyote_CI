@@ -364,7 +364,122 @@ class Frontend_Controller extends MY_Controller {
     }
 
 
-    function render_races_accordian_html($race_summary) {
+
+    function render_races_accordian_html($race_summary, $filter_title="All") {
+        // generate html for the accordian holding event data
+        $return_html_arr=[];
+        if ($race_summary) {
+            $return_html_arr[]='<div class="row c-page-faq-2">';
+
+                $return_html_arr[]='<div class="col-sm-3">';
+                $return_html_arr[]='<ul class="nav nav-tabs c-faq-tabs" data-tabs="tabs">';
+                    $return_html_arr[]='<li class="active"><a href="#all" data-toggle="tab">'.$filter_title.'</a></li>';
+                    $month_list=array_keys($race_summary);
+                        foreach ($month_list as $month) {
+                            $return_html_arr[]='<li><a href="#'.$month.'" data-toggle="tab">'.$month.'</a></li>';
+                            //$return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
+                        }
+                    $return_html_arr[]='</ul></div>'; // close col-sm-3
+
+
+                $return_html_arr[]='<div class="col-sm-9">';
+                    $return_html_arr[]='<div class="tab-content">';
+
+
+                    $return_html_arr[]='<div class="tab-pane active" id="all">';
+                        $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events over the next 3 months</h3><div class="c-line-left"></div></div>';
+                        $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion" role="tablist">';
+
+                            $n=0;
+
+                            foreach ($race_summary as $month=>$edition_list) {
+                                foreach ($edition_list as $edition_id=>$edition) {
+
+                                    $return_html_arr[]='<div class="panel">';
+                                        $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$edition_id.'">';
+                                            $return_html_arr[]='<h4 class="panel-title">';
+                                                $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">
+                                                    <i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> '.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</a>';
+                                            $return_html_arr[]='</h4>';
+                                        $return_html_arr[]='</div>';
+                                        if ($n==0) { $act="in"; } else { $act=""; }
+                                        $return_html_arr[]='<div id="collapse'.$edition_id.'" class="panel-collapse collapse '.$act.'" role="tabpanel" aria-labelledby="heading'.$edition_id.'">';
+                                            $return_html_arr[]='<div class="panel-body">';
+                                            $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
+                                            $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
+                                            $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
+                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                            $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+                                            $return_html_arr[]='</div>';
+                                        $return_html_arr[]='</div>';
+                                    $return_html_arr[]='</div>';
+                                    $n++;
+                                }
+                            }
+
+
+                            $return_html_arr[]='</div></div>'; //c-content-accordion-1 + panel-group
+                        $return_html_arr[]='</div>'; // tab-pane
+
+
+                        // maande
+                        foreach ($race_summary as $month=>$edition_list) {
+
+                        $return_html_arr[]='<div class="tab-pane" id="'.$month.'">';
+                            $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events in '.$month.'</h3><div class="c-line-left"></div></div>';
+                            $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion" role="tablist">';
+
+                                    $n=0;
+                                    foreach ($edition_list as $edition_id=>$edition) {
+
+                                        $uid=$n.$edition_id;
+
+                                        $return_html_arr[]='<div class="panel">';
+                                            $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$uid.'">';
+                                                $return_html_arr[]='<h4 class="panel-title">';
+                                                    $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$uid.'" aria-expanded="true" aria-controls="collapse'.$uid.'">
+                                                        <i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> '.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</a>';
+                                                $return_html_arr[]='</h4>';
+                                            $return_html_arr[]='</div>';
+                                            if ($n==0) { $act="in"; } else { $act=""; }
+                                            $return_html_arr[]='<div id="collapse'.$uid.'" class="panel-collapse collapse '.$act.'" role="tabpanel" aria-labelledby="heading'.$uid.'">';
+                                                $return_html_arr[]='<div class="panel-body">';
+                                                $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
+                                                $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
+                                                $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
+                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                                $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+                                                $return_html_arr[]='</div>';
+                                            $return_html_arr[]='</div>';
+                                        $return_html_arr[]='</div>';
+
+                                        $n++;
+                                    }
+
+
+                                $return_html_arr[]='</div></div>'; //c-content-accordion-1 + panel-group
+                            $return_html_arr[]='</div>'; // tab-pane
+                        }
+
+
+
+
+
+
+                    $return_html_arr[]='</div>'; // tab-content
+                $return_html_arr[]='</div>'; // close col-sm-9
+
+            $return_html_arr[]='</div>'; // close row c-page-faq-2
+        } else {
+            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
+        }
+
+        return implode("", $return_html_arr);
+    }
+
+
+
+    function render_races_accordian_html_old($race_summary) {
         // generate html for the accordian holding event data
         $return_html_arr=[];
         if ($race_summary) {

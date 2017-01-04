@@ -176,7 +176,7 @@ class Event_model extends CI_Model {
         }
 
 
-        public function get_event_list_data($field_arr, $date_form, $date_to=NULL, $area=NULL) {
+        public function get_event_list_data($field_arr, $date_form, $date_to, $area, $sort) {
             //'events.event_id, event_name, edition_id, edition_name, edition_date'
 
             $this->db->select($field_arr);
@@ -201,18 +201,18 @@ class Event_model extends CI_Model {
                 $this->db->where("events.event_id", 0);
             }
 
-            $this->db->order_by("edition_date", "asc");
+            $this->db->order_by("edition_date", $sort);
 
             return $this->db->get();
         }
 
 
 
-        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL)
+        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL, $sort="ASC")
         {
             // setup fields needed for summary call
             $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
-            $query=$this->get_event_list_data($field_arr, $date_form, $date_to, $area);
+            $query=$this->get_event_list_data($field_arr, $date_form, $date_to, $area, $sort);
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
