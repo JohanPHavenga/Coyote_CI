@@ -28,7 +28,7 @@ class Landing extends Frontend_Controller {
         $area_name=urldecode($area);
 
         $race_list=[];
-        $race_list=$this->event_model->get_event_list_summary(date("Y-m-d"), NULL, $area_name);
+        $race_list=$this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d"),"area"=>$area_name]);
 
         // wts($race_list);
         // die();

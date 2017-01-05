@@ -208,11 +208,22 @@ class Event_model extends CI_Model {
 
 
 
-        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL, $sort="ASC")
+//        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL, $sort="ASC")
+        public function get_event_list_summary($from,$params)
         {
             // setup fields needed for summary call
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
-            $query=$this->get_event_list_data($field_arr, $date_form, $date_to, $area, $sort);
+            if ($from=="date_range") {
+                $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+                if (!isset($params['date_to'])) { $params['date_to']=NULL; }
+                if (!isset($params['area'])) { $params['area']=NULL; }
+                if (!isset($params['sort'])) { $params['sort']="ASC"; }
+                $query=$this->get_event_list_data($field_arr, $params['date_from'], $params['date_to'], $params['area'], $params['sort']);
+            } 
+            elseif ($from=="search")
+            {
+                $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+                $query=$this->search_events($params['ss']);
+            }
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
@@ -259,6 +270,42 @@ class Event_model extends CI_Model {
             }
             return false;
 
+        }
+        
+        
+        public function search_events($ss) {
+            
+            // NOTE I removed areas because that breaks the search for towns that does not belong to an area
+            
+            $search_result=[];
+            
+            $field_arr=["events.event_id","event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+            
+            $this->db->select($field_arr);
+            
+            $this->db->from("events");
+            
+            $this->db->join('editions', 'editions.event_id = events.event_id');
+            $this->db->join('races', 'races.edition_id = editions.edition_id');
+            $this->db->join('towns', 'towns.town_id = events.town_id');
+//            $this->db->join('town_area', 'towns.town_id = town_area.town_id');
+//            $this->db->join('areas', 'areas.area_id = town_area.area_id');
+            
+//            $this->db->where("edition_date >=", date("Y-m-d"));
+            
+            $this->db->group_start();
+//            $this->db->like("area_name", $ss);
+            $this->db->or_like("event_name", $ss);
+            $this->db->or_like("edition_name", $ss);
+            $this->db->or_like("town_name", $ss);
+            $this->db->group_end();
+            
+            $this->db->order_by("edition_date", "ASC");            
+            
+//            echo $this->db->get_compiled_select();
+            
+            return $this->db->get();
+            
         }
 
 

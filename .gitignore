@@ -50,3 +50,6 @@ Temporary Items
 .vagrant
 *.log
 *.csv
+/nbproject/private/
+nbproject/project.properties
+nbproject/project.xml

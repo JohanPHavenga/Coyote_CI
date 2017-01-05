@@ -65,6 +65,7 @@ $route['admin'] = 'admin/dashboard';
 $route['about'] = 'pages/about';
 $route['mailer'] = 'pages/mailer';
 $route['404'] = 'pages/my_404';
+$route['search'] = 'pages/search';
 
 // redirect
 $route['capetown'] = 'landing/cape+town';

@@ -38,7 +38,7 @@ class Pages extends Frontend_Controller {
             $this->data_to_header['title']="Running Event Listing Site";
 
             // get races for the next 3 months
-            $race_summary=$this->event_model->get_event_list_summary(date("Y-m-d"),date("Y-m-d",strtotime("+3 months")));
+            $race_summary=$this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d"),"date_to"=>date("Y-m-d",strtotime("+3 months"))]);
             $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "Next 3 Months");
 
             $this->data_to_header['css_to_load']=array(
@@ -74,6 +74,40 @@ class Pages extends Frontend_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
+    
+    public function search() {
+
+        $this->data_to_view['search_results']=$this->event_model->get_event_list_summary($from="search",$params=["ss"=>$_GET['query']]);
+            
+        $this->data_to_header['section']="home";
+        $this->data_to_header['title']="Event Search Results";
+
+        $this->data_to_header['css_to_load']=array(
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            );
+
+        // set crumbs
+        $crumbs=[
+            "Search Results"=>"",
+            "Home"=>"/",
+        ];
+        // set title bar
+        $this->data_to_header["title_bar"]=$this->render_topbar_html(
+            [
+                "title"=>$this->data_to_header['title'],
+                "crumbs"=>$crumbs,
+            ]);
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('pages/search', $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
 
     public function about() {
 

@@ -92,7 +92,17 @@
                                 <span class="c-line"></span>
                                 <span class="c-line"></span>
                             </button>
+                            <button class="c-search-toggler" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
+                        
+                        <!-- BEGIN: QUICK SEARCH -->
+                        <form class="c-quick-search" action="<?= base_url("search"); ?>">
+                            <input type="text" name="query" placeholder="Search for an event" value="" class="form-control" autocomplete="off">
+                            <span class="c-theme-link">&times;</span>
+                        </form>
+                        <!-- END: QUICK SEARCH -->
 
                         <nav class="c-mega-menu c-pull-right c-mega-menu-dark c-mega-menu-dark-mobile c-fonts-uppercase c-fonts-bold">
                             <ul class="nav navbar-nav c-theme-nav">
@@ -114,6 +124,11 @@
                                         echo "</li>";
                                     }
                                 ?>
+                                <li class="c-search-toggler-wrapper">
+                                    <a href="#" class="c-btn-icon c-search-toggler">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
