@@ -371,7 +371,7 @@ class Frontend_Controller extends MY_Controller {
         if ($race_summary) {
             $return_html_arr[]='<div class="row c-page-faq-2">';
 
-                $return_html_arr[]='<div class="col-sm-3">';
+                $return_html_arr[]='<div class="col-sm-3 hidden-xs">';
                 $return_html_arr[]='<ul class="nav nav-tabs c-faq-tabs" data-tabs="tabs">';
                     $return_html_arr[]='<li class="active"><a href="#all" data-toggle="tab">'.$filter_title.'</a></li>';
                     $month_list=array_keys($race_summary);
