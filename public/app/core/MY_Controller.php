@@ -398,8 +398,9 @@ class Frontend_Controller extends MY_Controller {
                                     $return_html_arr[]='<div class="panel">';
                                         $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$edition_id.'">';
                                             $return_html_arr[]='<h4 class="panel-title">';
-                                                $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">
-                                                    <i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> '.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</a>';
+                                                $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
+                                                $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</td></tr></table>';
+                                                $return_html_arr[]='</a>';
                                             $return_html_arr[]='</h4>';
                                         $return_html_arr[]='</div>';
                                         if ($n==0) { $act="in"; } else { $act=""; }

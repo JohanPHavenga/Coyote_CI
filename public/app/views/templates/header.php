@@ -38,8 +38,8 @@
             endif;
         ?>
         <!-- BEGIN THEME STYLES -->
-        <link href="<?= base_url('css/plugins.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('css/components.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/components.min.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
         <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->

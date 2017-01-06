@@ -26,9 +26,18 @@
     .c-page-faq-2 .c-content-accordion-1 .panel > .panel-heading > .panel-title > a {
         font-size: 16px;
         font-weight: bold;
+        padding: 8px 0px;
     }
     
+    .c-page-faq-2 .c-content-accordion-1 .panel>.panel-collapse>.panel-body {
+        padding-left: 23px;
+    }
+    
+    
+    
 }
+
+table.accordian td:first-child { padding: 0 8px 0 0; }
 
 
 .c-content-tab-4.c-opt-5 > .tab-content .c-tab-items > li p
