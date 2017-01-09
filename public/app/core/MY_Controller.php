@@ -387,7 +387,9 @@ class Frontend_Controller extends MY_Controller {
 
 
                     $return_html_arr[]='<div class="tab-pane active" id="all">';
-                        $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events over the next 3 months</h3><div class="c-line-left"></div></div>';
+                        if ($filter_title=="Next 3 Months") {
+                            $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events over the next 3 months</h3><div class="c-line-left"></div></div>';
+                        }
                         $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion" role="tablist">';
 
                             $n=0;
@@ -399,7 +401,7 @@ class Frontend_Controller extends MY_Controller {
                                         $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$edition_id.'">';
                                             $return_html_arr[]='<h4 class="panel-title">';
                                                 $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
-                                                $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</td></tr></table>';
+                                                $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td></tr></table>';
                                                 $return_html_arr[]='</a>';
                                             $return_html_arr[]='</h4>';
                                         $return_html_arr[]='</div>';

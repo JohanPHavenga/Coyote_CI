@@ -49,7 +49,7 @@ class Landing extends Frontend_Controller {
 
         // set data to the view
         $this->data_to_view["area"]=$area_name;
-        $this->data_to_view["race_list_html"]=$this->render_races_table_html($race_list);
+        $this->data_to_view["race_list_html"]=$this->render_races_accordian_html($race_list);
         // set title bar
         $crumbs=[
             "Races in ".ucwords($area_name)=>"",

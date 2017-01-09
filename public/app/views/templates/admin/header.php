@@ -19,13 +19,13 @@
         <link href="<?= base_url('plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END GLOBAL MANDATORY STYLES -->
         <?php
-            // load extra CSS files from controller
-            if (isset($css_to_load)) :
+        // load extra CSS files from controller
+        if (isset($css_to_load)) :
             foreach ($css_to_load as $row):
-                $css_link=base_url($row);
+                $css_link = base_url($row);
                 echo "<link href='$css_link' rel='stylesheet'>";
             endforeach;
-            endif;
+        endif;
         ?>
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="<?= base_url('css/admin/components-rounded.min.css'); ?>" rel="stylesheet" id="style_components" type="text/css" />
@@ -36,7 +36,7 @@
         <link href="<?= base_url('css/admin/theme.min.css'); ?>" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<?= base_url('css/admin/custom.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="<?= base_url('ci-icon.ico');?>" />
+        <link rel="shortcut icon" href="<?= base_url('ci-icon.ico'); ?>" />
     </head>
     <!-- END HEAD -->
 
@@ -107,12 +107,12 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
-                                        <a href="<?= base_url('admin/user/profile');?>">
+                                        <a href="<?= base_url('admin/user/profile'); ?>">
                                             <i class="icon-user"></i> My Profile </a>
                                     </li>
                                     <li class="divider"> </li>
                                     <li>
-                                        <a href="<?= base_url('login/logout');?>">
+                                        <a href="<?= base_url('login/logout'); ?>">
                                             <i class="icon-key"></i> Log Out </a>
                                     </li>
                                 </ul>
@@ -151,41 +151,64 @@
                 <div class="page-content">
                     <!-- BEGIN PAGE HEADER-->
 
-                    <h1 class="page-title"> <?= (isset($title) ? $title : 'Page Title');?></h1>
+                    <h1 class="page-title"> <?= (isset($title) ? $title : 'Page Title'); ?></h1>
 
                     <div class="page-bar">
                         <?php
-                          if (isset($crumbs)) {
-                              echo "<ul class='page-breadcrumb'>";
-                                  foreach ($crumbs as $text=>$link)
-                                  {
-                                      if (empty($link))
-                                      {
-                                          echo "<li><span>$text</span></li>";
-                                      } else {
-                                          echo "<li>";
-                                          if ($text=="Home") { echo '<i class="icon-home"></i> '; }
-                                          echo "<a href='$link'>$text</a> <i class='fa fa-angle-right'></i></li> ";
-                                      }
-                                  }
-                              echo "</ul>";
-                          }
+                        if (isset($crumbs)) {
+                            echo "<ul class='page-breadcrumb'>";
+                            foreach ($crumbs as $text => $link) {
+                                if (empty($link)) {
+                                    echo "<li><span>$text</span></li>";
+                                } else {
+                                    echo "<li>";
+                                    if ($text == "Home") {
+                                        echo '<i class="icon-home"></i> ';
+                                    }
+                                    echo "<a href='$link'>$text</a> <i class='fa fa-angle-right'></i></li> ";
+                                }
+                            }
+                            echo "</ul>";
+                        }
+
+                        if (isset($page_action_list)) {
+                            ?>
+                            <div class="page-toolbar">
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"> Actions
+                                        <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <?php
+                                            foreach ($page_action_list as $action) {                                                
+                                                if ($action['name']=="divider") {
+                                                    echo '<li class="divider"> </li>';
+                                                } else {
+                                                    echo "<li>";
+                                                        echo "<a href='".$action['uri']."'>";
+                                                        echo "<i class='".$action['icon']."'></i> ";
+                                                        echo $action['name']."</a>";
+                                                    echo "</li>";
+                                                }
+                                            }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <?php
+                        }
                         ?>
                     </div>
 
                     <?php
                     // alert message on top of the page
                     // set flashdata [alert|status]
-                    if($this->session->flashdata('alert'))
-                    {
-                        $alert_msg=$this->session->flashdata('alert');
-                        if ( ! ($this->session->flashdata('status')))
-                        {
-                            $status='warning';
-                        }
-                        else
-                        {
-                            $status=$this->session->flashdata('status');
+                    if ($this->session->flashdata('alert')) {
+                        $alert_msg = $this->session->flashdata('alert');
+                        if (!($this->session->flashdata('status'))) {
+                            $status = 'warning';
+                        } else {
+                            $status = $this->session->flashdata('status');
                         }
                         echo "<div class='note note-$status' role='alert'>$alert_msg</div>";
                     }

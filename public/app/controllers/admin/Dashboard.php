@@ -32,6 +32,46 @@ class Dashboard extends Admin_Controller {
                    "Home"=>"/admin",
                    "Dashboard"=>"",
                    ];
+        
+        $this->data_to_footer['js_to_load']=array(
+            );
+
+        if ($page=="dashboard") {
+            $this->load->model('event_model');
+            $event_count=$this->event_model->record_count();
+            
+            $this->load->model('edition_model');
+            $edition_count=$this->edition_model->record_count();
+            
+            $this->load->model('race_model');
+            $race_count=$this->race_model->record_count();
+            
+            $this->data_to_view['dashboard_stats_list']=
+                    [
+                        [
+                        "text"=>"Number of Events",
+                        "number"=>$event_count,
+                        "font-color"=>"green-sharp",
+                        "icon"=>"icon-pie-chart", 
+                        "uri"=>"/admin/event/view",
+                        ],
+                        [
+                        "text"=>"Number of Editions",
+                        "number"=>$edition_count,
+                        "font-color"=>"red-haze",
+                        "icon"=>"icon-pie-chart", 
+                        "uri"=>"/admin/edition/view",
+                        ], 
+                        [
+                        "text"=>"Number of Races",
+                        "number"=>$race_count,
+                        "font-color"=>"blue-sharp",
+                        "icon"=>"icon-pie-chart", 
+                        "uri"=>"/admin/race/view",
+                        ],
+                        //font-purple-soft
+                    ];
+        }
 
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view($this->view_url, $this->data_to_view);

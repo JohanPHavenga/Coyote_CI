@@ -22,7 +22,7 @@ var ComponentsTypeahead = function () {
             templates: {
             empty: [
               '<div class="empty-message">',
-                'unable to find any Best Picture winners that match the current query',
+                'unable to find town',
               '</div>'
             ].join('\n'),
             suggestion: Handlebars.compile('<div><strong>{{value}}</strong> – {{id}}</div>')

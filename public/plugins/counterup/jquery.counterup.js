@@ -25,7 +25,7 @@
 
         var counterUpper = function() {
             var divisions = $settings.time / $settings.delay;
-            var num = $this.text();
+            var num = $this.attr('data-value');
             var nums = [num];
             var isComma = /[0-9]+,[0-9]+/.test(num);
             num = num.replace(/,/g, '');

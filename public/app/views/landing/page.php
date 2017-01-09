@@ -40,11 +40,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            
                 <?php
                 echo $race_list_html;
                 ?>
-            </div>
             <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
                 <i class="icon-home"></i> Home</a></p>
 

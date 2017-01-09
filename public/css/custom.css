@@ -33,7 +33,9 @@
         padding-left: 23px;
     }
     
-    
+    .c-content-tab-4.c-opt-5 > .tab-content .c-tab-items > li p {
+        padding: 0 0 0 6px;
+    }
     
 }
 

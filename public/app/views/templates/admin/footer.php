@@ -40,12 +40,13 @@
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<?= base_url('scripts/admin/app.min.js');?>" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
+        
         <?php
         // load script files from controller
             if (isset($scripts_to_load)) :
                 foreach ($scripts_to_load as $row):
                     $js_link=base_url($row);
-                    echo "<script src='$js_link' type='text/javascript'></script>";
+                    echo "<script src='$js_link'  ></script>";
                 endforeach;
             endif;
         ?>
