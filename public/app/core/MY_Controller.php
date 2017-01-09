@@ -369,14 +369,17 @@ class Frontend_Controller extends MY_Controller {
         // generate html for the accordian holding event data
         $return_html_arr=[];
         if ($race_summary) {
+            
+            $rand=rand(1,500);
+            
             $return_html_arr[]='<div class="row c-page-faq-2">';
 
                 $return_html_arr[]='<div class="col-sm-3 hidden-xs">';
                 $return_html_arr[]='<ul class="nav nav-tabs c-faq-tabs" data-tabs="tabs">';
-                    $return_html_arr[]='<li class="active"><a href="#all" data-toggle="tab">'.$filter_title.'</a></li>';
+                    $return_html_arr[]='<li class="active"><a href="#all'.$rand.'" data-toggle="tab">'.$filter_title.'</a></li>';
                     $month_list=array_keys($race_summary);
                         foreach ($month_list as $month) {
-                            $return_html_arr[]='<li><a href="#'.$month.'" data-toggle="tab">'.$month.'</a></li>';
+                            $return_html_arr[]='<li><a href="#'.$month.$rand.'" data-toggle="tab">'.$month.'</a></li>';
                             //$return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
                         }
                     $return_html_arr[]='</ul></div>'; // close col-sm-3
@@ -386,11 +389,11 @@ class Frontend_Controller extends MY_Controller {
                     $return_html_arr[]='<div class="tab-content">';
 
 
-                    $return_html_arr[]='<div class="tab-pane active" id="all">';
+                    $return_html_arr[]='<div class="tab-pane active" id="all'.$rand.'">';
                         if ($filter_title=="Next 3 Months") {
                             $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events over the next 3 months</h3><div class="c-line-left"></div></div>';
                         }
-                        $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion" role="tablist">';
+                        $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion'.$rand.'" role="tablist">';
 
                             $n=0;
 
@@ -400,7 +403,7 @@ class Frontend_Controller extends MY_Controller {
                                     $return_html_arr[]='<div class="panel">';
                                         $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$edition_id.'">';
                                             $return_html_arr[]='<h4 class="panel-title">';
-                                                $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
+                                                $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$rand.'" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
                                                 $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td></tr></table>';
                                                 $return_html_arr[]='</a>';
                                             $return_html_arr[]='</h4>';
@@ -424,13 +427,15 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[]='</div></div>'; //c-content-accordion-1 + panel-group
                         $return_html_arr[]='</div>'; // tab-pane
 
+                        $m=0;
 
                         // maande
                         foreach ($race_summary as $month=>$edition_list) {
-
-                        $return_html_arr[]='<div class="tab-pane" id="'.$month.'">';
+                        $m++;
+                            
+                        $return_html_arr[]='<div class="tab-pane" id="'.$month.$rand.'">';
                             $return_html_arr[]='<div class="c-content-title-1"><h3 class="c-font-uppercase c-font-bold">Events in '.$month.'</h3><div class="c-line-left"></div></div>';
-                            $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion" role="tablist">';
+                            $return_html_arr[]='<div class="c-content-accordion-1"><div class="panel-group" id="accordion'.$month.$rand.'" role="tablist">';
 
                                     $n=0;
                                     foreach ($edition_list as $edition_id=>$edition) {
@@ -440,8 +445,9 @@ class Frontend_Controller extends MY_Controller {
                                         $return_html_arr[]='<div class="panel">';
                                             $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$uid.'">';
                                                 $return_html_arr[]='<h4 class="panel-title">';
-                                                    $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$uid.'" aria-expanded="true" aria-controls="collapse'.$uid.'">
-                                                        <i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> '.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].'</a>';
+                                                    $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$month.$rand.'" href="#collapse'.$uid.'" aria-expanded="true" aria-controls="collapse'.$uid.'">';
+                                                    $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td></tr></table>';
+                                                    $return_html_arr[]='</a>';
                                                 $return_html_arr[]='</h4>';
                                             $return_html_arr[]='</div>';
                                             if ($n==0) { $act="in"; } else { $act=""; }
