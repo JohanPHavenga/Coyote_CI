@@ -71,6 +71,26 @@ class Dashboard extends Admin_Controller {
                         ],
                         //font-purple-soft
                     ];
+            
+            // actions on the toolbar
+            $this->data_to_header['page_action_list']=
+                    [
+                        [
+                            "name"=>"Add Event",
+                            "icon"=>"rocket",
+                            "uri"=>"event/create/add",
+                        ],
+                        [
+                            "name"=>"Add Edition",
+                            "icon"=>"calendar",
+                            "uri"=>"edition/create/add",
+                        ],
+                        [
+                            "name"=>"Add Race",
+                            "icon"=>"trophy",
+                            "uri"=>"race/create/add",
+                        ],
+                    ];
         }
 
         $this->load->view($this->header_url, $this->data_to_header);

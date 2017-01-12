@@ -10,15 +10,19 @@ class Event_model extends CI_Model {
             return $this->db->count_all("events");
         }
 
-        public function get_event_list($limit, $start)
+        public function get_event_list($limit=NULL, $start=NULL)
         {
-            $this->db->limit($limit, $start);
+            if (isset($limit)&&isset($start)) {
+                $this->db->limit($limit, $start);
+            }
 
-            $this->db->select("events.*, town_name, club_name");
+            $this->db->select("events.*, town_name, club_name, area_name");
             $this->db->from("events");
             $this->db->join('towns', 'events.town_id=towns.town_id', 'left');
             $this->db->join('organising_club', 'events.event_id=organising_club.event_id', 'left');
             $this->db->join('clubs', 'clubs.club_id=organising_club.club_id', 'left');
+            $this->db->join('town_area', 'towns.town_id=town_area.town_id', 'left');
+            $this->db->join('areas', 'areas.area_id=town_area.area_id', 'left');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

@@ -25,37 +25,50 @@ class Event extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
-
-        // pagination
-        // pagination config
-        $per_page=50;
-        $uri_segment=4;
-        $total_rows=$this->event_model->record_count();
-        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $data["pagination"]=$this->pagination->create_links();
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-
-        $this->data_to_view["list"] = $this->event_model->get_event_list($per_page, $page);
+        
+        $this->data_to_view["event_data"] = $this->event_model->get_event_list();
+        $this->data_to_view['heading']=["ID","Event Name","Status","Date Created","Town","Areas","Actions"];
+        
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_view['delete_arr']=["controller"=>"event","id_field"=>"event_id"];
         $this->data_to_header['title'] = "List of Events";
-
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),1);
-        }
-
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Events"=>"/admin/event",
+                   "List"=>"",
+                   ];
+        
+        $this->data_to_header['page_action_list']=
+                [
+                    [
+                        "name"=>"Add Event",
+                        "icon"=>"rocket",
+                        "uri"=>"event/create/add",
+                    ],
+                ];
+        
         $this->data_to_view['url']=$this->url_disect();
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view("/admin/event/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -74,7 +87,7 @@ class Event extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
-        $this->data_to_view['css_to_load']=array(
+        $this->data_to_header['css_to_load']=array(
             "plugins/typeahead/typeahead.css"
             );
 
@@ -133,8 +146,43 @@ class Event extends Admin_Controller {
         }
     }
 
+    
+    public function delete($event_id=0) {
+        
+//        echo $event_id;
+//        exit();
 
-    public function delete($confirm=false) {
+        if (($event_id==0) AND (!is_int($event_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$event_id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);
+            die();
+        }
+
+        // get event detail for nice delete message
+        $event_detail=$this->event_model->get_event_detail($event_id);
+        // delete record
+        $db_del=$this->event_model->remove_event($event_id);
+        
+        if ($db_del)
+        {
+            $msg="Event has successfully been deleted: ".$event_detail['event_name'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$event_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
+       
+    
+
+    public function delete_old($confirm=false) {
 
         $id=$this->encryption->decrypt($this->input->post('event_id'));
 

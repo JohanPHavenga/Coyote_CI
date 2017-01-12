@@ -33,7 +33,7 @@
             if (isset($js_to_load)) :
                 foreach ($js_to_load as $row):
                     $js_link=base_url($row);
-                    echo "<script src='$js_link' type='text/javascript'></script>";
+                    echo "<script src='$js_link' type='text/javascript'></script> ";
                 endforeach;
             endif;
         ?>
@@ -46,7 +46,7 @@
             if (isset($scripts_to_load)) :
                 foreach ($scripts_to_load as $row):
                     $js_link=base_url($row);
-                    echo "<script src='$js_link'  ></script>";
+                    echo "<script src='$js_link'  ></script> ";
                 endforeach;
             endif;
         ?>

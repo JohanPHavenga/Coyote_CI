@@ -184,9 +184,9 @@
                                                 if ($action['name']=="divider") {
                                                     echo '<li class="divider"> </li>';
                                                 } else {
-                                                    echo "<li>";
-                                                        echo "<a href='".$action['uri']."'>";
-                                                        echo "<i class='".$action['icon']."'></i> ";
+                                                    echo "<li>";                                                        
+                                                        echo "<a href='".base_url("admin/".$action['uri'])."'>";
+                                                        echo "<i class='icon-".$action['icon']."'></i> ";
                                                         echo $action['name']."</a>";
                                                     echo "</li>";
                                                 }

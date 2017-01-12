@@ -49,6 +49,51 @@ if ( ! function_exists('fdateYear'))
 }
 
 // ================================================================
+// Formulate Lables
+// ================================================================
+if ( ! function_exists('flable')) 
+{
+    function flable($text="",$status="default",$size=NULL) 
+    {
+        if ($size)
+        {
+            $l_size="label-".$size;
+        } 
+        else 
+        {
+            $l_size=NULL;
+        }
+        return "<span class='label $l_size label-$status'> $text </span>";      
+    }
+}
+
+
+if ( ! function_exists('flableStatus')) 
+{
+    function flableStatus($status_num) 
+    {
+        switch ($status_num) {
+            case 1:
+                $text="Active";
+                $status="success";
+                break;
+            case 2:
+                $text="Not Active";
+                $status="danger";
+                break;
+            default:
+                $text="No Status";
+                $status="warning";
+                break;
+        }
+       
+        return flable($text, $status, "sm");      
+    }
+}
+
+
+
+// ================================================================
 // Formulate Buttons
 // ================================================================
 if ( ! function_exists('fbutton')) 
@@ -105,16 +150,38 @@ if ( ! function_exists('fbuttonLinkGroup'))
 }
 
 
+if ( ! function_exists('fbuttonActionGroup')) 
+{
+    function fbuttonActionGroup($action_array) 
+    {
+        $html="<div class='btn-group'>";
+        $html.="<button class='btn btn-xs default dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false'> Actions <i class='fa fa-angle-down'></i></button>";
+        $html.="<ul class='dropdown-menu pull-left' role='menu'>";
+        foreach ($action_array as $action_item) {
+            // confirmation
+            if (isset($action_item['confirmation_text'])) {
+               $confirm="data-toggle='confirmation' data-original-title='".$action_item['confirmation_text']."'";
+            } else {
+                $confirm="";
+            }
+            $html.="<li><a href='".$action_item['url']."' $confirm><i class='".$action_item['icon']."'></i> ".$action_item['text']." </a>";
+        }
+        $html.="</ul></div>";
+        
+        return $html;
+    }
+}
+
 // ====================================s============================
 // Formulate Tables
 // ================================================================
 
 if ( ! function_exists('ftable')) 
 {
-    function ftable() 
+    function ftable($id="") 
     {
         $template = array(
-                'table_open' => '<table class="table table-striped table-bordered table-hover">'
+                'table_open' => '<table class="table table-striped table-bordered table-hover order-column" id="'.$id.'">'
         );
         return $template;
     }
