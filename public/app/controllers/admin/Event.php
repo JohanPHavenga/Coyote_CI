@@ -83,7 +83,7 @@ class Event extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "Event Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 

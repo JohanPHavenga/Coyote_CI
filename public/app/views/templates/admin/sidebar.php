@@ -41,7 +41,7 @@
                         if (@in_array($segs[1],$section['seg1'])) {
                             echo "<span class='selected'></span>";
                         }
-                        echo "</li>";
+                        echo "</a></li>";
                     }
 
                 echo "</ul>";

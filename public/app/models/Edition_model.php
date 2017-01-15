@@ -32,15 +32,16 @@ class Edition_model extends CI_Model {
         }
 
 
-        public function get_edition_list($limit, $start)
+        public function get_edition_list($limit=NULL, $start=NULL)
         {
-            $this->db->limit($limit, $start);
+            
+            if (isset($limit)&&isset($start)) {
+                $this->db->limit($limit, $start);
+            }
 
-            $this->db->select("editions.edition_id, edition_name, edition_date, edition_status, edition_address, event_name, sponsor_name");
+            $this->db->select("editions.edition_id, edition_name, edition_date, edition_status, edition_address, event_name");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
-            $this->db->join('edition_sponsor', 'editions.edition_id=edition_sponsor.edition_id', 'left');
-            $this->db->join('sponsors', 'sponsors.sponsor_id=edition_sponsor.sponsor_id', 'left');
 
             $this->db->order_by('editions.edition_id', 'ASC');
             $query = $this->db->get();

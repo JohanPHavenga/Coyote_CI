@@ -39,7 +39,7 @@ class Landing extends Frontend_Controller {
         }
         else
         {
-            $this->data_to_header['title']="Road Running Events in ".$area_name;
+            $this->data_to_header['title']="Road Running Events in ".ucwords($area_name);
         }
 
         // set data to view

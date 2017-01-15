@@ -149,11 +149,15 @@ class Admin_Controller extends MY_Controller {
                 "text"=>"Events",
                 "url"=>'admin/event',
                 "icon"=>"rocket",
-                "seg0"=>['event','edition','race'],
+                "seg0"=>['event','race'],
                 "submenu"=>[
                     [
                     "text"=>"List All Events",
                     "url"=>'admin/event/view',
+                    ],
+                    [
+                    "text"=>"Add Event",
+                    "url"=>'admin/event/create/add',
                     ],
                     [
                     "text"=>"Import Events",
@@ -164,15 +168,29 @@ class Admin_Controller extends MY_Controller {
                     "url"=>'admin/event/export',
                     ],
                     [
-                    "text"=>"List All Editions",
-                    "url"=>'admin/edition/view',
-                    ],
-                    [
                     "text"=>"List All Races",
                     "url"=>'admin/race/view',
                     ],
                 ],
             ],
+            // Editions
+            [
+                "text"=>"Editions",
+                "url"=>'admin/edition',
+                "icon"=>"calendar",
+                "seg0"=>['edition'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Editions",
+                    "url"=>'admin/edition/view',
+                    ],
+                    [
+                    "text"=>"Add Edition",
+                    "url"=>'admin/edition/create/add',
+                    ],
+                ],
+            ],
+            
             // Users
             [
                 "text"=>"Users",
@@ -216,7 +234,11 @@ class Admin_Controller extends MY_Controller {
                 "seg0"=>['role','town','province'],
                 "submenu"=>[
                     [
-                    "text"=>"List All Role",
+                    "text"=>"List All Areas",
+                    "url"=>'admin/area/view',
+                    ],
+                    [
+                    "text"=>"List All Roles",
                     "url"=>'admin/role/view',
                     ],
                     [

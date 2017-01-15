@@ -22,38 +22,52 @@ class Edition extends Admin_Controller {
         }
     }
 
-    public function view() {
+    public function view() {        
         // load helpers / libraries
         $this->load->library('table');
-
-        // pagination
-        // pagination config
-        $per_page=50;
-        $uri_segment=4;
-        $total_rows=$this->edition_model->record_count();
-        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $this->data_to_view["pagination"]=$this->pagination->create_links();
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-
-        $this->data_to_view["list"] = $this->edition_model->get_edition_list($per_page, $page);
+        
+        $this->data_to_view["edition_data"] = $this->edition_model->get_edition_list();
+        $this->data_to_view['heading']=["ID","Edition Name","Status","Edition Date","Event Name","Actions"];
+        
         $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_view['delete_arr']=["controller"=>"edition","id_field"=>"edition_id"];
-        $this->data_to_header['title'] = uri_string();
+        $this->data_to_header['title'] = "List of Editions";
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Editions"=>"/admin/edition",
+                   "List"=>"",
+                   ];
+        
+        $this->data_to_header['page_action_list']=
+                [
+                    [
+                        "name"=>"Add Edition",
+                        "icon"=>"calendar",
+                        "uri"=>"edition/create/add",
+                    ],
+                ];
+        
+        $this->data_to_view['url']=$this->url_disect();
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
 
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-            $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
-        }
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view("/admin/edition/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -72,16 +86,16 @@ class Edition extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
-        $this->data_to_view['css_to_load']=array(
+        $this->data_to_header['css_to_load']=array(
             "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
             );
 
-        $this->data_to_view['js_to_load']=array(
+        $this->data_to_footer['js_to_load']=array(
             "plugins/moment.min.js",
             "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
             );
 
-        $this->data_to_view['scripts_to_load']=array(
+        $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/components-date-time-pickers.js",
             );
 

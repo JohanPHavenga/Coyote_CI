@@ -38,6 +38,7 @@ class Event_model extends CI_Model {
         public function get_event_dropdown() {
             $this->db->select("event_id, event_name");
             $this->db->from("events");
+            $this->db->order_by("event_name");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

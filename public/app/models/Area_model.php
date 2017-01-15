@@ -1,5 +1,5 @@
 <?php
-class Sponsor_model extends CI_Model {
+class Area_model extends CI_Model {
 
         public function __construct()
         {
@@ -7,20 +7,20 @@ class Sponsor_model extends CI_Model {
         }
         
         public function record_count() {
-            return $this->db->count_all("sponsors");
+            return $this->db->count_all("areas");
         }
         
-        public function get_sponsor_list($limit, $start)
+        public function get_area_list($limit, $start)
         {
             $this->db->limit($limit, $start);    
             
-            $this->db->select("sponsors.*");
-            $this->db->from("sponsors");
+            $this->db->select("areas.*");
+            $this->db->from("areas");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
-                    $data[$row['sponsor_id']] = $row;
+                    $data[$row['area_id']] = $row;
                 }
                 return $data;
             }
@@ -28,16 +28,15 @@ class Sponsor_model extends CI_Model {
 
         }
         
-        public function get_sponsor_dropdown() {
-            $this->db->select("sponsor_id, sponsor_name");
-            $this->db->from("sponsors");
-            $this->db->order_by("sponsor_name");
+        public function get_area_dropdown() {
+            $this->db->select("area_id, area_name");
+            $this->db->from("areas");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['sponsor_id']] = $row['sponsor_name'];
+                    $data[$row['area_id']] = $row['area_name'];
                 }
 //                return array_slice($data, 0, 500, true);
                 return $data;
@@ -45,7 +44,7 @@ class Sponsor_model extends CI_Model {
             return false;
         }
         
-        public function get_sponsor_detail($id)
+        public function get_area_detail($id)
         {
             if( ! ($id)) 
             {
@@ -53,7 +52,7 @@ class Sponsor_model extends CI_Model {
             } 
             else 
             {
-                $query = $this->db->get_where('sponsors', array('sponsor_id' => $id));
+                $query = $this->db->get_where('areas', array('area_id' => $id));
 
                 if ($query->num_rows() > 0) {
                     return $query->row_array();
@@ -63,19 +62,19 @@ class Sponsor_model extends CI_Model {
 
         }
         
-        public function set_sponsor($action, $id)
+        public function set_area($action, $id)
         {            
             $data = array(
-                        'sponsor_name' => $this->input->post('sponsor_name'),
-                        'sponsor_status' => $this->input->post('sponsor_status'),
+                        'area_name' => $this->input->post('area_name'),
+                        'area_status' => $this->input->post('area_status'),
                     );            
             
             switch ($action) {                    
                 case "add": 
-                    return $this->db->insert('sponsors', $data);                    
+                    return $this->db->insert('areas', $data);                    
                 case "edit":
                     $data['updated_date']=date("Y-m-d H:i:s");
-                    return $this->db->update('sponsors', $data, array('sponsor_id' => $id));
+                    return $this->db->update('areas', $data, array('area_id' => $id));
                     
                 default:
                     show_404();
@@ -85,7 +84,7 @@ class Sponsor_model extends CI_Model {
         }
         
         
-        public function remove_sponsor($id) {
+        public function remove_area($id) {
             if( ! ($id)) 
             {
                 return false;  
@@ -93,7 +92,7 @@ class Sponsor_model extends CI_Model {
             else 
             {
                 $this->db->trans_start();
-                $this->db->delete('sponsors', array('sponsor_id' => $id));             
+                $this->db->delete('areas', array('area_id' => $id));             
                 $this->db->trans_complete();  
                 return $this->db->trans_status();    
             }
