@@ -5,41 +5,44 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-list font-dark"></i>
-                    <span class="caption-subject bold uppercase"> List of all editions</span>
+                    <span class="caption-subject bold uppercase"> List of all races</span>
                 </div>
             </div>
             <div class="portlet-body">
 
 <?php
-                if ( ! (empty($edition_data)))
+                if ( ! (empty($race_data)))
                 {
                     // create table
-                    $this->table->set_template(ftable('editions_table'));
+                    $this->table->set_template(ftable('races_table'));
                     $this->table->set_heading($heading);
-                    foreach ($edition_data as $id=>$data_entry) {
+                    foreach ($race_data as $id=>$data_entry) {
                         
                         $action_array=[
                                 [
-                                "url"=>"/admin/edition/create/edit/".$data_entry['edition_id'],
+                                "url"=>"/admin/race/create/edit/".$data_entry['race_id'],
                                 "text"=>"Edit",
                                 "icon"=>"icon-pencil",
                                 ],
                                 [
-                                "url"=>"/admin/edition/delete/".$data_entry['edition_id'],
+                                "url"=>"/admin/race/delete/".$data_entry['race_id'],
                                 "text"=>"Delete",
                                 "icon"=>"icon-dislike",
-                                "confirmation_text"=>"<b>Are you sure?</b> <br>Note, this will also delete all races linked to this edition",
+                                "confirmation_text"=>"<b>Are you sure?</b>",
                                 ],
                             ];
                         
         
-                        $row['id']=$data_entry['edition_id'];
-                        $row['name']=$data_entry['edition_name'];
-                        $row['status']=flableStatus($data_entry['edition_status']);
-                        $row['date']=fdateShort($data_entry['edition_date']);
-                        $row['event']=$data_entry['event_name'];
+                        $row['id']=$data_entry['race_id'];
+                        $row['name']=$data_entry['race_name'];                        
+                        $row['edition']=$data_entry['edition_name'];
+                        $row['distance']=fraceDistance($data_entry['race_distance']);
+                        $row['time']=ftimeSort($data_entry['race_time']);
+                        $row['status']=flableStatus($data_entry['race_status']);
                         $row['actions']= fbuttonActionGroup($action_array);
-                        $this->table->add_row($row);
+                        
+                        $this->table->add_row($row['id'], $row['name'], $row['edition'], array('data' => $row['distance'], 'align' => 'right'), $row['time'],$row['status'],$row['actions']);
+//                        $this->table->add_row($row);
                         unset($row);
                     }
                     echo $this->table->generate();
@@ -53,7 +56,7 @@
                 // add button
                 if (@$create_link)
                 {
-                echo fbuttonLink($create_link."/add","Add Edition","primary");
+                echo fbuttonLink($create_link."/add","Add Races","primary");
                 }
                 ?>
             

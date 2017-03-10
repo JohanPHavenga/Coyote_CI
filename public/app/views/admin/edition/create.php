@@ -24,6 +24,7 @@
                         'required'      => '',
                     ]);
 
+                echo "<p class='help-block' style='font-style: italic;'> Remember to always add the year at the end of the edition name </p>";
                 echo "</div>";
 
                 //  EVENT LINK
@@ -87,6 +88,7 @@
                         'value'         => set_value('latitude_num', @$edition_detail['latitude_num']),
                         'class'         => 'form-control',
                     ]);
+                echo "<p class='help-block' style='font-style: italic;'> Ex: -33.844204 </p>";
                 echo "</div>";
                 echo "<div class='col-md-3 col-sm-6'>";
                 echo form_input([
@@ -95,6 +97,7 @@
                         'value'         => set_value('longitude_num', @$edition_detail['longitude_num']),
                         'class'         => 'form-control',
                     ]);
+                echo "<p class='help-block' style='font-style: italic;'> Ex: 19.015049 </p>";
                 echo "</div>";
                 echo "</div>";
 

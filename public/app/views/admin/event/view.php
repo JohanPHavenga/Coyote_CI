@@ -28,7 +28,7 @@
                                 "url"=>"/admin/event/delete/".$data_entry['event_id'],
                                 "text"=>"Delete",
                                 "icon"=>"icon-dislike",
-                                "confirmation_text"=>"<b>Are you sure?</b> <br>Note, this will also delete all editions and reaces linked to this event",
+                                "confirmation_text"=>"<b>Are you sure?</b> <br>Note, this will also delete all editions and races linked to this event",
                                 ],
                             ];
                         

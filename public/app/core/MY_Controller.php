@@ -149,7 +149,7 @@ class Admin_Controller extends MY_Controller {
                 "text"=>"Events",
                 "url"=>'admin/event',
                 "icon"=>"rocket",
-                "seg0"=>['event','race'],
+                "seg0"=>['event'],
                 "submenu"=>[
                     [
                     "text"=>"List All Events",
@@ -166,10 +166,6 @@ class Admin_Controller extends MY_Controller {
                     [
                     "text"=>"Export Events",
                     "url"=>'admin/event/export',
-                    ],
-                    [
-                    "text"=>"List All Races",
-                    "url"=>'admin/race/view',
                     ],
                 ],
             ],
@@ -190,7 +186,23 @@ class Admin_Controller extends MY_Controller {
                     ],
                 ],
             ],
-            
+             // Races
+            [
+                "text"=>"Races",
+                "url"=>'admin/race',
+                "icon"=>"trophy",
+                "seg0"=>['race'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Races",
+                    "url"=>'admin/race/view',
+                    ],
+                    [
+                    "text"=>"Add Race",
+                    "url"=>'admin/race/create/add',
+                    ],
+                ],
+            ],
             // Users
             [
                 "text"=>"Users",

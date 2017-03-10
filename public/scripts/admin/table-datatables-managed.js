@@ -114,6 +114,62 @@ var TableDatatablesManaged = function () {
 
     }
     
+    
+    var initRacesTable = function () {
+
+        var table = $('#races_table');
+
+        // begin first table
+        table.dataTable({
+
+            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ records",
+                "infoEmpty": "No records found",
+                "infoFiltered": "(filtered1 from _MAX_ total records)",
+                "lengthMenu": "Show _MENU_",
+                "search": "Search:",
+                "zeroRecords": "No matching records found",
+                "paginate": {
+                    "previous":"Prev",
+                    "next": "Next",
+                    "last": "Last",
+                    "first": "First"
+                }
+            },
+
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+
+            "lengthMenu": [
+                [5, 10, 50, -1],
+                [5, 10, 50, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 10,            
+            "columnDefs": [
+                {  // set default column settings
+                    'orderable': false,
+                    'targets': [1,6]
+                }, 
+                {
+                    "searchable": false,
+                    "targets": [0]
+                },
+            ],
+            "order": [
+                [2, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        var tableWrapper = jQuery('#races_table_wrapper');
+
+    }
+    
 
     return {
 
@@ -125,6 +181,7 @@ var TableDatatablesManaged = function () {
 
             initEventsTable();
             initEditionsTable();
+            initRacesTable();
         }
 
     };

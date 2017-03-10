@@ -205,6 +205,10 @@ class Event_model extends CI_Model {
             } else {
                 $this->db->where("events.event_id", 0);
             }
+            
+            $this->db->where("events.event_status", 1);
+            $this->db->where("editions.edition_status", 1);
+            $this->db->where("races.race_status", 1);
 
             $this->db->order_by("edition_date", $sort);
 
@@ -304,6 +308,10 @@ class Event_model extends CI_Model {
             $this->db->or_like("edition_name", $ss);
             $this->db->or_like("town_name", $ss);
             $this->db->group_end();
+            
+            $this->db->where("events.event_status", 1);
+            $this->db->where("editions.edition_status", 1);
+            $this->db->where("races.race_status", 1);
             
             $this->db->order_by("edition_date", "ASC");            
             

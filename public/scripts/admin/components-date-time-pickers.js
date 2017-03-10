@@ -29,10 +29,11 @@ var ComponentsDateTimePickers = function () {
 
             $('.timepicker-24').timepicker({
                 autoclose: true,
-                minuteStep: 1,
+                minuteStep: 5,
                 secondStep: 1,
-                showSeconds: true,
-                showMeridian: false
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '07:00'
             });
 
             // handle input group button click

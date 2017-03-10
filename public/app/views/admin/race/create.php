@@ -26,16 +26,16 @@
                 echo "</div>";
 
                 echo "<div class='form-group'>";
-                echo form_label('Date and Time', 'race_date');
-                echo '<div class="input-group input-medium date form_datetime">';
+                echo form_label('Time', 'race_time');
+                echo '<div class="input-group input-small">';
                 echo form_input([
-                        'name'          => 'race_date',
-                        'id'            => 'race_date',
-                        'value'         => set_value('race_date', @fdateLong($race_detail['race_date'],false)),
-                        'class'         => 'form-control',
-                        'readonly'      => '',
+                        'name'          => 'race_time',
+                        'id'            => 'race_time',
+                        'value'         => set_value('race_time', ftimeSort(@$race_detail['race_time'],false)),
+                        'class'         => 'form-control timepicker timepicker-24',
+                        'required'      => '',
                     ]);    
-                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button></div>';
+                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
                 echo "</div>";
                 
                 
@@ -46,7 +46,6 @@
                         'id'            => 'race_distance',
                         'value'         => set_value('race_distance', @$race_detail['race_distance']),
                         'class'         => 'form-control input-small',
-                        'type'          => 'number',
                         'required'      => '',
                     ]);    
                 echo "</div>";

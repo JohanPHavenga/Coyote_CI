@@ -1,8 +1,27 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
 // ================================================================
-// Formulate Dates
+// Formulate display of race distance
+// ================================================================
+
+if ( ! function_exists('fraceDistance'))
+{
+    function fraceDistance($distance) 
+    {
+        if ($distance)
+        {
+            return floatval($distance)." km";
+        } else {
+            return false;
+        }
+    }
+}
+
+
+// ================================================================
+// Formulate Dates / TIME
 // ================================================================
 if ( ! function_exists('fdateShort'))
 {
@@ -42,6 +61,19 @@ if ( ! function_exists('fdateYear'))
         if ($date)
         {
             return date("Y",strtotime($date));
+        } else {
+            return false;
+        }
+    }
+}
+
+if ( ! function_exists('ftimeSort'))
+{
+    function ftimeSort($time) 
+    {
+        if ($time)
+        {
+            return date("H:i",strtotime($time));
         } else {
             return false;
         }

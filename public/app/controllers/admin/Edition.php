@@ -82,7 +82,7 @@ class Edition extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "Edition Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
@@ -147,8 +147,44 @@ class Edition extends Admin_Controller {
         }
     }
 
+    
+    
+    public function delete($edition_id=0) {
+        
+//        echo $edition_id;
+//        exit();
 
-    public function delete($confirm=false) {
+        if (($edition_id==0) AND (!is_int($edition_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$edition_id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);
+            die();
+        }
+
+        // get edition detail for nice delete message
+        $edition_detail=$this->edition_model->get_edition_detail($edition_id);
+        // delete record
+        $db_del=$this->edition_model->remove_edition($edition_id);
+        
+        if ($db_del)
+        {
+            $msg="Edition has successfully been deleted: ".$edition_detail['edition_name'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$edition_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
+    
+    
+
+    public function delete_old($confirm=false) {
 
         $id=$this->encryption->decrypt($this->input->post('edition_id'));
 

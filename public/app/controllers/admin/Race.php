@@ -25,6 +25,56 @@ class Race extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
+        
+        $this->data_to_view["race_data"] = $this->race_model->get_race_list();
+        $this->data_to_view['heading']=["ID","Race Name","Edition","Race Distance","Race Time","Status","Actions"];
+        
+        $this->data_to_view['create_link']=$this->create_url;
+        $this->data_to_header['title'] = "List of Races";
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Races"=>"/admin/race",
+                   "List"=>"",
+                   ];
+        
+        $this->data_to_header['page_action_list']=
+                [
+                    [
+                        "name"=>"Add Race",
+                        "icon"=>"trophy",
+                        "uri"=>"race/create/add",
+                    ],
+                ];
+        
+        $this->data_to_view['url']=$this->url_disect();
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
+
+        // load view
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/race/view", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
+    
+    public function view_old() {
+        // load helpers / libraries
+        $this->load->library('table');
 
         // pagination
         // pagination config
@@ -44,7 +94,7 @@ class Race extends Admin_Controller {
         $this->data_to_view["list"] = $this->race_model->get_race_list($per_page, $page);
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_view['delete_arr']=["controller"=>"race","id_field"=>"race_id"];
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "List of Races";
 
         // as daar data is
         if ($this->data_to_view["list"]) {
@@ -67,20 +117,20 @@ class Race extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "Race Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
-        $this->data_to_view['css_to_load']=array(
-            "plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
+        $this->data_to_header['css_to_load']=array(
+            "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
             );
 
-        $this->data_to_view['js_to_load']=array(
+        $this->data_to_header['js_to_load']=array(
             "plugins/moment.min.js",
-            "plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+            "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
             );
 
-        $this->data_to_view['scripts_to_load']=array(
+        $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/components-date-time-pickers.js",
             );
 
@@ -92,12 +142,14 @@ class Race extends Admin_Controller {
         {
         $this->data_to_view['race_detail']=$this->race_model->get_race_detail($id);
         $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+        } else {
+            $this->data_to_view['race_detail']=[];
         }
 
         // set validation rules
         $this->form_validation->set_rules('race_name', 'Race Name', 'required');
         $this->form_validation->set_rules('race_distance', 'Race distance', 'required|numeric');
-        $this->form_validation->set_rules('race_date', 'Race date', 'required');
+        $this->form_validation->set_rules('race_time', 'Race time', 'required');
         $this->form_validation->set_rules('race_status', 'Race status', 'required');
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an edition"]);
 
@@ -131,9 +183,42 @@ class Race extends Admin_Controller {
             redirect($this->return_url);
         }
     }
+    
+     public function delete($race_id=0) {
+        
+//        echo $race_id;
+//        exit();
+
+        if (($race_id==0) AND (!is_int($race_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$race_id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);
+            die();
+        }
+
+        // get race detail for nice delete message
+        $race_detail=$this->race_model->get_race_detail($race_id);
+        // delete record
+        $db_del=$this->race_model->remove_race($race_id);
+        
+        if ($db_del)
+        {
+            $msg="Race has successfully been deleted: ".$race_detail['race_name'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$race_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
 
 
-    public function delete($confirm=false) {
+    public function delete_old($confirm=false) {
 
         $id=$this->encryption->decrypt($this->input->post('race_id'));
 

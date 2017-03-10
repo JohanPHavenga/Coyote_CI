@@ -53,3 +53,5 @@ Temporary Items
 /nbproject/private/
 nbproject/project.properties
 nbproject/project.xml
+public/mix/jira_user_list.php
+public/mix/jira_user_list.zip
