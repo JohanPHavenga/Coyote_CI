@@ -169,10 +169,22 @@
     // load script files from controller
         if (isset($scripts_to_load)) :
             foreach ($scripts_to_load as $row):
-                $js_link=base_url($row);
+                if (substr($row, 0,4)=="http") {
+                    $js_link=$row;
+                } else {
+                    $js_link=base_url($row);
+                }
                 echo "<script src='$js_link' type='text/javascript'></script>";
             endforeach;
         endif;
+        
+        if (isset($scripts_to_display)) {
+            echo "<script>";
+                foreach ($scripts_to_display as $script) {
+                    echo $script;
+                }
+            echo "</script>";
+        }
     ?>
     <!-- END: PAGE SCRIPTS -->
     <!-- END: LAYOUT/BASE/BOTTOM -->

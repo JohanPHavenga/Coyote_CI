@@ -222,5 +222,87 @@ class Pages extends Frontend_Controller {
             $this->load->view($this->footer_url, $this->data_to_footer);
         }
     }
+    
+    
+    // test for the new race page
+    // to be deleted
+    public function race() {
+
+        $this->data_to_header['section']="home";
+        $this->data_to_header['title']="Tygerberg 30km";
+
+        // set crumbs
+        $crumbs=[
+            "Tygerberg 30km"=>"",
+            "Events"=>"/event/calendar",
+            "Home"=>"/",
+        ];
+        // set title bar
+        $this->data_to_header["title_bar"]=$this->render_topbar_html(
+            [
+                "crumbs"=>$crumbs,
+            ]);
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/cubeportfolio/css/cubeportfolio.min.css",
+            "plugins/owl-carousel/assets/owl.carousel.css",
+            "plugins/fancybox/jquery.fancybox.css",
+            "plugins/slider-for-bootstrap/css/slider.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "plugins/cubeportfolio/js/jquery.cubeportfolio.min.js",
+            "plugins/owl-carousel/owl.carousel.min.js",
+            "plugins/fancybox/jquery.fancybox.pack.js",
+            "plugins/smooth-scroll/jquery.smooth-scroll.js",
+            "plugins/slider-for-bootstrap/js/bootstrap-slider.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "http://maps.google.com/maps/api/js?sensor=true",
+            "plugins/gmaps/gmaps.js",
+//            "scripts/contact.js"
+            );
+        
+        // script to add gmaps to the page
+        $this->data_to_footer['scripts_to_display'][]="            
+            var PageContact = function() {
+            
+                var _init = function() {
+                    var mapbg = new GMaps({
+                            div: '#gmapbg',
+                            lat: -33.799011,
+                            lng: 18.623957,
+                            scrollwheel: false
+                    });
+
+                    mapbg.addMarker({
+                            lat: -33.799011,
+                            lng: 18.623957,
+                            title: 'Your Location',
+                            infoWindow: {
+                                    content: '<h3>Tyger Run/Walk 2017</h3><p>25, Lorem Lis Street, Orange C, California, US</p>'
+                            }
+                    });
+                }
+
+                return {
+                    init: function() {
+                        _init();
+                    }
+
+                };
+            }();
+
+            $(document).ready(function() {
+                PageContact.init();
+            });";
+        
+        $this->data_to_footer['lat']="3.118823";
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view('pages/race', $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
 
 }
