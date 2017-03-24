@@ -40,6 +40,18 @@
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
+ */ 
+ $ini_array = parse_ini_file("server_config.ini");
+// print_r($ini_array);
+// exit();
+ 
+ define("DB_LOCATION", $ini_array['db_location']);
+ define("BASE_PATH", $ini_array['base_path']);
+
+/*
+ *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
  *
  * You can load different configurations depending on your
  * current environment. Setting the environment also influences
@@ -53,8 +65,8 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
+    define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $ini_array['server']);
+    
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

@@ -367,6 +367,18 @@ class Frontend_Controller extends MY_Controller {
         return array_reverse($crumbs);
 
     }
+    
+    function render_crumbs($crumb_arr) {
+        // crumbs
+        $return_html='<ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">';
+        foreach ($crumb_arr as $display=>$url) {
+            $return_html.='<li><a href="'.$url.'">'.urldecode($display).'</a></li>';
+            if ($display!="Home") { $return_html.="<li>/</li>"; }
+        }
+        $return_html.='</ul>';
+
+        return $return_html;
+    }
 
     function render_topbar_html($params) {
         if (isset($params['sub_title']))
@@ -383,13 +395,9 @@ class Frontend_Controller extends MY_Controller {
                 if (isset($params['sub_title'])) { $return_html.='<h4 class="">'.$params['sub_title'].'</h4>'; }
             $return_html.='</div>';
 
-            // crumbs
-            $return_html.='<ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">';
-            foreach ($params['crumbs'] as $display=>$url) {
-                $return_html.='<li><a href="'.$url.'">'.urldecode($display).'</a></li>';
-                if ($display!="Home") { $return_html.="<li>/</li>"; }
-            }
-            $return_html.='</ul>';
+            $return_html .= $this->render_crumbs($params['crumbs']);
+            
+            
 
         $return_html.='</div>';
         $return_html.='</div>';
