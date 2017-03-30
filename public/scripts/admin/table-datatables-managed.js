@@ -154,7 +154,7 @@ var TableDatatablesManaged = function () {
             "columnDefs": [
                 {  // set default column settings
                     'orderable': false,
-                    'targets': [1,6]
+                    'targets': [3,5]
                 }, 
                 {
                     "searchable": false,
@@ -162,7 +162,7 @@ var TableDatatablesManaged = function () {
                 },
             ],
             "order": [
-                [2, "asc"]
+                [1, "asc"]
             ] // set first column as a default sort by asc
         });
 

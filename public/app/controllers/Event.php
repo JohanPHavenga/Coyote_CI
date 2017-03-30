@@ -137,9 +137,9 @@ class Event extends Frontend_Controller {
                     mapbg.addMarker({
                             lat: ".$this->data_to_view['event_detail']['latitude_num'].",
                             lng: ".$this->data_to_view['event_detail']['longitude_num'].",
-                            title: '".$this->data_to_view['event_detail']['edition_address']."',
+                            title: '". html_escape($this->data_to_view['event_detail']['edition_address'])."',
                             infoWindow: {
-                                    content: '<h3>".$this->data_to_view['event_detail']['edition_name']."</h3><p>".$this->data_to_view['event_detail']['edition_address']."</p>'
+                                    content: '<h3>".html_escape($this->data_to_view['event_detail']['edition_name'])."</h3><p>".html_escape($this->data_to_view['event_detail']['edition_address'])."</p>'
                             }
                     });
                 }

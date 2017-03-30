@@ -30,8 +30,13 @@
                                     <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
                                     <?php
                                         }
+                                        if (isset($event_detail['user_email'])) {
+                                            $contact_email=$event_detail['user_email'];
+                                        } else {
+                                            $contact_email="info@roadrunning.co.za";
+                                        }
                                     ?>
-                                    <a href="mailto:info@roadrunning.co.za?subject=Race infor enquiry from roadrunning.co.za">info@roadrunning.co.za</a>
+                                    <a href="mailto:<?=$contact_email;?>?subject=Race info enquiry from roadrunning.co.za"><?=$contact_email;?></a>
                                 </p>
                             </div>
                             <div class="c-section">
@@ -147,7 +152,7 @@
     </div>
     
     <?php
-//        wts($event_detail);
+        wts($event_detail);
     ?>
     
 </div>

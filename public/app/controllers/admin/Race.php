@@ -27,7 +27,7 @@ class Race extends Admin_Controller {
         $this->load->library('table');
         
         $this->data_to_view["race_data"] = $this->race_model->get_race_list();
-        $this->data_to_view['heading']=["ID","Race Name","Edition","Race Distance","Race Time","Status","Actions"];
+        $this->data_to_view['heading']=["ID","Edition","Race Distance","Race Time","Status","Actions"];
         
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_header['title'] = "List of Races";
@@ -111,6 +111,7 @@ class Race extends Admin_Controller {
     public function create($action, $id=0) {
         // additional models
         $this->load->model('edition_model');
+        $this->load->model('racetype_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -137,6 +138,7 @@ class Race extends Admin_Controller {
 
         $this->data_to_view['edition_dropdown']=$this->edition_model->get_edition_dropdown();
         $this->data_to_view['status_dropdown']=$this->race_model->get_status_dropdown();
+        $this->data_to_view['racetype_dropdown']=$this->racetype_model->get_racetype_dropdown();
 
         if ($action=="edit")
         {
@@ -147,11 +149,12 @@ class Race extends Admin_Controller {
         }
 
         // set validation rules
-        $this->form_validation->set_rules('race_name', 'Race Name', 'required');
         $this->form_validation->set_rules('race_distance', 'Race distance', 'required|numeric');
         $this->form_validation->set_rules('race_time', 'Race time', 'required');
         $this->form_validation->set_rules('race_status', 'Race status', 'required');
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an edition"]);
+        $this->form_validation->set_rules('race_fee_licenced', "Race Fee Licenced", 'numeric');
+        $this->form_validation->set_rules('race_fee_unlicenced', "Race Fee Unlicenced", 'numeric');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)

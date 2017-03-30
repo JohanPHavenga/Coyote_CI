@@ -261,6 +261,10 @@ class Admin_Controller extends MY_Controller {
                     "text"=>"List All Provinces",
                     "url"=>'admin/province/view',
                     ],
+                    [
+                    "text"=>"List All Racetypes",
+                    "url"=>'admin/racetype/view',
+                    ],
                 ],
             ],
         ];

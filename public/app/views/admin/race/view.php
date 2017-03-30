@@ -33,15 +33,14 @@
                             ];
                         
         
-                        $row['id']=$data_entry['race_id'];
-                        $row['name']=$data_entry['race_name'];                        
+                        $row['id']=$data_entry['race_id'];                  
                         $row['edition']=$data_entry['edition_name'];
                         $row['distance']=fraceDistance($data_entry['race_distance']);
                         $row['time']=ftimeSort($data_entry['race_time']);
                         $row['status']=flableStatus($data_entry['race_status']);
                         $row['actions']= fbuttonActionGroup($action_array);
                         
-                        $this->table->add_row($row['id'], $row['name'], $row['edition'], array('data' => $row['distance'], 'align' => 'right'), $row['time'],$row['status'],$row['actions']);
+                        $this->table->add_row($row['id'], $row['edition'], array('data' => $row['distance'], 'align' => 'right'), $row['time'],$row['status'],$row['actions']);
 //                        $this->table->add_row($row);
                         unset($row);
                     }

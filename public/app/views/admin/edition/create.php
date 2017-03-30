@@ -19,7 +19,7 @@
                 echo form_input([
                         'name'          => 'edition_name',
                         'id'            => 'edition_name',
-                        'value'         => set_value('edition_name', @$edition_detail['edition_name']),
+                        'value'         => utf8_encode($edition_detail['edition_name']),
                         'class'         => 'form-control input-xlarge',
                         'required'      => '',
                     ]);
@@ -71,7 +71,7 @@
                 echo form_input([
                         'name'          => 'edition_address',
                         'id'            => 'edition_address',
-                        'value'         => set_value('edition_url', @$edition_detail['edition_address']),
+                        'value'         => utf8_encode($edition_detail['edition_address']),
                         'class'         => 'form-control',
                     ]);
 
@@ -85,7 +85,7 @@
                 echo form_input([
                         'name'          => 'latitude_num',
                         'id'            => 'latitude_num',
-                        'value'         => set_value('latitude_num', @$edition_detail['latitude_num']),
+                        'value'         => utf8_encode($edition_detail['latitude_num']),
                         'class'         => 'form-control',
                     ]);
                 echo "<p class='help-block' style='font-style: italic;'> Ex: -33.844204 </p>";
@@ -94,7 +94,7 @@
                 echo form_input([
                         'name'          => 'longitude_num',
                         'id'            => 'longitude_num',
-                        'value'         => set_value('longitude_num', @$edition_detail['longitude_num']),
+                        'value'         => utf8_encode($edition_detail['longitude_num']),
                         'class'         => 'form-control',
                     ]);
                 echo "<p class='help-block' style='font-style: italic;'> Ex: 19.015049 </p>";

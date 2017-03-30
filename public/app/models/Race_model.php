@@ -84,6 +84,9 @@ class Race_model extends CI_Model {
                             'race_time' => $this->input->post('race_time'),
                             'race_status' => $this->input->post('race_status'),
                             'edition_id' => $this->input->post('edition_id'),
+                            'racetype_id' => $this->input->post('racetype_id'),
+                            'race_fee_licenced' => $this->input->post('race_fee_licenced'),
+                            'race_fee_unlicenced' => $this->input->post('race_fee_unlicenced'),
                         );
             } else {
                 if (!isset($race_data['race_status'])) { $race_data['race_status'] = 1; }

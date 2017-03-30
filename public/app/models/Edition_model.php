@@ -103,9 +103,11 @@ class Edition_model extends CI_Model {
             }
             else
             {
-                $this->db->select("events.*,editions.*, sponsors.*, towns.town_name");
+                $this->db->select("events.*,editions.*, sponsors.*, users.user_email, towns.town_name");
                 $this->db->from("editions");
                 $this->db->join('events', 'events.event_id=editions.event_id', 'left');
+                $this->db->join('edition_user', 'editions.edition_id=edition_user.edition_id', 'left');
+                $this->db->join('users', 'users.user_id=edition_user.user_id', 'left');
                 $this->db->join('edition_sponsor', 'editions.edition_id=edition_sponsor.edition_id', 'left');
                 $this->db->join('sponsors', 'sponsors.sponsor_id=edition_sponsor.sponsor_id', 'left');
                 $this->db->join('towns', 'towns.town_id=events.town_id', 'left');
