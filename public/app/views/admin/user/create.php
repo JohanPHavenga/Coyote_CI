@@ -34,7 +34,27 @@
                         'class'         => 'form-control',
                         'required'      => '',
                     ]);
-
+                echo "</div>";
+                
+                echo "<div class='form-group'>";
+                echo form_label('Email', 'user_email');
+                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>';
+                echo form_input([
+                        'name'          => 'user_email',
+                        'id'            => 'user_email',
+                        'value'         => set_value('user_email', @$user_detail['user_email']),
+                        'class'         => 'form-control',
+                    ]);
+                echo "</span></div></div>";
+                
+                echo "<div class='form-group'>";
+                echo form_label('Phone', 'user_contact');
+                echo form_input([
+                        'name'          => 'user_contact',
+                        'id'            => 'user_contact',
+                        'value'         => set_value('user_contact', @$user_detail['user_contact']),
+                        'class'         => 'form-control input-small',
+                    ]);
                 echo "</div>";
 
                 echo "<div class='form-group'>";
@@ -44,9 +64,7 @@
                         'id'            => 'user_username',
                         'value'         => set_value('user_username', @$user_detail['user_username']),
                         'class'         => 'form-control',
-                        'required'      => '',
                     ]);
-
                 echo "</div>";
 
                 echo "<div class='form-group'>";
@@ -57,7 +75,6 @@
                         'value'         => set_value('user_password', @$user_detail['user_password']),
                         'class'         => 'form-control',
                         'type'          => 'password',
-                        'required'      => '',
                     ]);
 
                 echo "</div>";
@@ -65,7 +82,8 @@
 
                 echo "<div class='form-group'>";
                 echo form_label('Role', 'role_id');
-                echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"2"]);        
+//                echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"2"]);      
+                echo form_multiselect('role_id[]', $role_dropdown, @$user_detail['role_id'], ["id"=>"role_id","class"=>"form-control", "size"=>"3"]);        
                 echo "</div>";
 
                 echo "<div class='form-group'>";

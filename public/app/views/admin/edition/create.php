@@ -102,6 +102,12 @@
                 echo "</div>";
 
                 echo "</div>";
+                
+                //  Contact
+                echo "<div class='form-group'>";
+                echo form_label('Contact Person', 'user_id');
+                echo form_dropdown('user_id', $contact_dropdown, @$edition_detail['user_id'], ["id"=>"user_id","class"=>"form-control input-xlarge"]);        
+                echo "</div>";
 
                 //  SPONSOR
                 echo "<div class='form-group'>";

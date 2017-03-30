@@ -9,7 +9,11 @@ class User_model extends CI_Model {
 
     private function hash_pass($password)
     {
-        return sha1($password."37");
+        if ($password) {
+            return sha1($password."37");
+        } else {
+            return NULL;
+        }
     }
 
     public function record_count() {
@@ -36,9 +40,13 @@ class User_model extends CI_Model {
     }
 
 
-    public function get_user_dropdown() {
+    public function get_user_dropdown($id=NULL) {
         $this->db->select("user_id, user_name, user_surname");
         $this->db->from("users");
+        if (isset($id)) {
+            $this->db->join('user_role', 'user_id', 'left');
+            $this->db->where("role_id", $id);
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -83,6 +91,8 @@ class User_model extends CI_Model {
           $user_data = array(
                       'user_name' => $this->input->post('user_name'),
                       'user_surname' => $this->input->post('user_surname'),
+                      'user_email' => $this->input->post('user_email'),
+                      'user_contact' => $this->input->post('user_contact'),
                       'user_username' => $this->input->post('user_username'),
                       'user_password' => $this->hash_pass($this->input->post('user_password')),
                       'club_id' => $this->input->post('club_id'),
@@ -113,7 +123,7 @@ class User_model extends CI_Model {
                 // add updated date to both data arrays
                 $user_data['updated_date']=date("Y-m-d H:i:s");
                 //check of password wat gepost is alreeds gehash is
-                if (@$this->check_password($user_data['user_password'],$id))
+                if (@$this->check_password($this->input->post('user_password'),$id))
                 {
                     unset($user_data['user_password']);
                 }

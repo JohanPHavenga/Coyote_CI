@@ -75,6 +75,7 @@ class Edition extends Admin_Controller {
     public function create($action, $id=0) {
         // additional models
         $this->load->model('sponsor_model');
+        $this->load->model('user_model');
         $this->load->model('event_model');
 
         // load helpers / libraries
@@ -99,6 +100,7 @@ class Edition extends Admin_Controller {
             "scripts/admin/components-date-time-pickers.js",
             );
 
+        $this->data_to_view['contact_dropdown']=$this->user_model->get_user_dropdown(3);
         $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown();
         $this->data_to_view['event_dropdown']=$this->event_model->get_event_dropdown();
         $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
@@ -113,6 +115,7 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_name', 'Edition Name', 'required');
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
         $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
+        $this->form_validation->set_rules('edition_url', 'URL', 'valid_url');
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an event"]);
         $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsort"]);
 

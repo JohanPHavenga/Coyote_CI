@@ -81,9 +81,10 @@ class Edition_model extends CI_Model {
             }
             else
             {
-                $this->db->select("editions.*, sponsor_id");
+                $this->db->select("editions.*, sponsor_id, user_id");
                 $this->db->from("editions");
                 $this->db->join('edition_sponsor', 'edition_id', 'left');
+                $this->db->join('edition_user', 'edition_id', 'left');
                 $this->db->where('edition_id', $id);
                 $query = $this->db->get();
 
@@ -129,10 +130,16 @@ class Edition_model extends CI_Model {
                             'edition_status' => $this->input->post('edition_status'),
                             'edition_date' => $this->input->post('edition_date'),
                             'event_id' => $this->input->post('event_id'),
+                            'edition_url' => $this->input->post('edition_url'),
+                            'edition_address' => $this->input->post('edition_address'),
+                            'latitude_num' => $this->input->post('latitude_num'),
+                            'longitude_num' => $this->input->post('longitude_num'),
                         );
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];
+                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$this->input->post('user_id')];
             } else {
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
+                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>1];
                 if (!isset($edition_data['edition_status'])) { $edition_data['edition_status'] = 1; }
             }
 
@@ -150,9 +157,12 @@ class Edition_model extends CI_Model {
                         $this->db->insert('editions', $edition_data);
                         // get edition ID from Insert
                         $edition_id=$this->db->insert_id();
-                        // update data array
+                        // update sponser array
                         $edition_sponsor_data["edition_id"]=$edition_id;
                         $this->db->insert('edition_sponsor', $edition_sponsor_data);
+                        // update user array
+                        $edition_user_data["edition_id"]=$edition_id;
+                        $this->db->insert('edition_user', $edition_user_data);
                         $this->db->trans_complete();
                         break;
                     case "edit":
@@ -168,6 +178,14 @@ class Edition_model extends CI_Model {
                             $edition_sponsor_data['updated_date']=date("Y-m-d H:i:s");
                             $this->db->delete('edition_sponsor', array('edition_id' => $edition_id));
                             $this->db->insert('edition_sponsor', $edition_sponsor_data);
+                        }
+                        // chcek if record already exists
+                        $item_exists = $this->db->get_where('edition_user', array('edition_id' => $edition_id, 'user_id' => $this->input->post('user_id')));
+                        if ($item_exists->num_rows() == 0)
+                        {
+                            $edition_user_data['updated_date']=date("Y-m-d H:i:s");
+                            $this->db->delete('edition_user', array('edition_id' => $edition_id));
+                            $this->db->insert('edition_user', $edition_user_data);
                         }
                         $this->db->update('editions', $edition_data, array('edition_id' => $edition_id));
                         $this->db->trans_complete();

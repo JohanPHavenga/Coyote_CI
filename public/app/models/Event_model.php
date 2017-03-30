@@ -181,8 +181,18 @@ class Event_model extends CI_Model {
         }
 
 
-        public function get_event_list_data($field_arr, $date_form, $date_to, $area, $sort) {
+        public function get_event_list_data($params) {
             //'events.event_id, event_name, edition_id, edition_name, edition_date'
+            
+//            wts($params);
+//            exit();
+            
+            // field_arr is compulsary
+            $field_arr=$params['field_arr'];
+            
+            // set default sort
+            if (!isset($params['sort'])) { $params['sort']="ASC"; }
+            $sort=$params['sort'];            
 
             $this->db->select($field_arr);
             $this->db->from("events");
@@ -190,20 +200,20 @@ class Event_model extends CI_Model {
             $this->db->join('races', 'races.edition_id = editions.edition_id');
             $this->db->join('towns', 'towns.town_id = events.town_id');
 
-            if ($area) {
+            if (isset($params['area'])) {
                 $this->db->join('town_area', 'towns.town_id = town_area.town_id');
                 $this->db->join('areas', 'areas.area_id = town_area.area_id');
-                $this->db->where("area_name", $area);
+                $this->db->where("area_name", $params['area']);
             }
 
-            if ($date_form) {
-                if (!isset($date_to)) {
-                    $this->db->where("edition_date >=", $date_form);
+            if (isset($params['date_from'])) {
+                if (!isset($params['date_to'])) {
+                    $this->db->where("edition_date >=", $params['date_from']);
                 } else {
-                    $this->db->where("(edition_date BETWEEN '$date_form' AND '$date_to')");
+                    $this->db->where("(edition_date BETWEEN '".$params['date_from']."' AND '".$params['date_to']."')");
                 }
             } else {
-                $this->db->where("events.event_id", 0);
+                $this->db->where("events.event_id", $params['event_id']);
             }
             
             $this->db->where("events.event_status", 1);
@@ -220,19 +230,41 @@ class Event_model extends CI_Model {
 //        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL, $sort="ASC")
         public function get_event_list_summary($from,$params)
         {
+//            wts($from);
+//            wts($params);
+//            exit();
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
             // setup fields needed for summary call
             if ($from=="date_range") {
-                $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
                 if (!isset($params['date_to'])) { $params['date_to']=NULL; }
                 if (!isset($params['area'])) { $params['area']=NULL; }
                 if (!isset($params['sort'])) { $params['sort']="ASC"; }
-                $query=$this->get_event_list_data($field_arr, $params['date_from'], $params['date_to'], $params['area'], $params['sort']);
+                $query=$this->get_event_list_data(
+                        [
+                        "field_arr"=>$field_arr,
+                        "date_from"=>$params['date_from'], 
+                        "date_to"=>$params['date_to'], 
+                        "area"=>$params['area'], 
+                        "sort"=>$params['sort'],
+                        ]
+                        );
             } 
             elseif ($from=="search")
             {
-                $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
                 $query=$this->search_events($params['ss']);
+            } 
+            elseif ($from=="id") 
+            {
+                $query=$this->get_event_list_data(
+                        [
+                        "field_arr"=>$field_arr,                            
+                        "event_id"=>$params['event_id'],
+                        ]
+                        );
+                
             }
+            
+            
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
@@ -264,7 +296,13 @@ class Event_model extends CI_Model {
                                 // sit veld by vir edition_url
                                 // sanatize name
                                 $edition_url_name=urlencode(str_replace("'","",str_replace("/"," ",$row[$field])));
-                                $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
+                                
+                                // remove the month and id from array
+//                                if ($from=="id") {
+//                                    $data["edition_url"]="/event/".$edition_url_name;
+//                                } else {
+                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
+//                                }
                             break;
                             default:
                                 $value=$row[$field];
@@ -275,7 +313,11 @@ class Event_model extends CI_Model {
 
                     }
                 }
-                return $data;
+                if ($from=="id") {
+                    return $data[date("F",strtotime($row['edition_date']))][$row['edition_id']];
+                } else {
+                    return $data;
+                }
             }
             return false;
 

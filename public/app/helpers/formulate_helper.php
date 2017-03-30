@@ -80,6 +80,19 @@ if ( ! function_exists('ftimeSort'))
     }
 }
 
+if ( ! function_exists('fdateToCal'))
+{
+    function fdateToCal($timestamp) {
+        if ($timestamp)
+        {
+            return date('Ymd\THis', $timestamp);
+//            return date('Ymd\THis\Z', $timestamp-(2*60*60)); // google does not like the Z
+        } else {
+            return false;
+        }
+    }
+}
+
 // ================================================================
 // Formulate Lables
 // ================================================================

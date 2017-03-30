@@ -441,7 +441,13 @@ class Event extends Admin_Controller {
         }
 
         /* get the object   */
-        $export = $this->event_model->get_event_list_data($field_arr, $date_from, $date_to);
+        $export = $this->event_model->get_event_list_data(
+                [
+                "field_arr"=>$field_arr,
+                "date_from"=>$date_from,
+                "date_to"=>$date_to,
+                ]
+                );
         /*  pass it to db utility function  */
         $new_report = $this->dbutil->csv_from_result($export);
         /*  Force download the file */

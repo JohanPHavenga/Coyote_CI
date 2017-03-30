@@ -47,6 +47,8 @@
  
  define("DB_LOCATION", $ini_array['db_location']);
  define("BASE_PATH", $ini_array['base_path']);
+ 
+ define("GOOGLE_MAP_URL", $ini_array['google_maps_url']);
 
 /*
  *---------------------------------------------------------------

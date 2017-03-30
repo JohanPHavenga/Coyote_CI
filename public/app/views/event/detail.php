@@ -1,110 +1,154 @@
 <!-- BEGIN: PAGE CONTAINER -->
 <div class="c-layout-page">
-    <?= $title_bar; ?>
-    <!-- BEGIN: PAGE CONTENT -->
 
-    <!-- BEGIN: CONTENT/FEATURES/FEATURES-1 -->
-    <div class="c-content-box c-size-md c-bg-white">
+    <div class="c-content-box c-size-md c-bg-img-top c-no-padding c-pos-relative">
         <div class="container">
-
-            <?= $notice; ?>
-
-            <div class="c-shop-product-details-2">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="map" style="width: 100%; height: 500px;"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="c-product-meta">
-                            <div class="c-content-title-1">
-                                <h3 class="c-font-uppercase c-font-bold"><?= $event_detail['edition_name'];?></h3>
-                                <div class="c-line-left"></div>
+            <div class="c-content-contact-1 c-opt-1">
+                <div class="row" data-auto-height=".c-height" style="min-height: 628px;">
+                    <div class="col-sm-7 c-desktop"></div>
+                    <div class="col-sm-5" style="padding: 0;">
+                        <div class="c-body" style="padding: 45px 45px 35px 40px;">
+                            <div class="c-section">
+                                <h3><?= $event_detail['edition_name'];?></h3>
                             </div>
-                            <!-- <div class="c-product-review">
-                                <?= date("Y-m-d",strtotime($event_detail['edition_date']))." in ".$event_detail['town_name'];?>
+                            <div class="c-section">
+                                <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">General</div>
+                                <p>
+                                    <b><?= date("d F Y",strtotime($event_detail['edition_date']));?></b><br>
+                                    <?= $event_detail['edition_address']; ?><br>
+                                    <?= $event_detail['town_name']; ?><br>
+                                    <?= $event_detail['summary']['race_time']; ?> Race<br>
+                                </p>
                             </div>
-                            <div class="c-product-price">$99.00</div>
-                            <div class="c-product-short-desc"> Lorem ipsum dolor ut sit ame dolore adipiscing elit, sed nonumy nibh sed euismod laoreet dolore magna aliquarm erat volutpat Nostrud duis molestie at dolore. </div> -->
-                            <div class="row c-product-variant">
-                                <div class="col-sm-12 col-xs-12">
-                                    <p class="c-product-margin-1 c-font-uppercase c-font-bold">Where:</p>
-                                    <p><?=$event_detail['edition_address']."<br>".$event_detail['town_name'];?></p>
-                                </div>
-                                <div class="col-sm-12 col-xs-12">
-                                    <p class="c-product-margin-1 c-font-uppercase c-font-bold">When:</p>
-                                    <p><?= date("Y-m-d",strtotime($event_detail['edition_date']));?></p>
-                                </div>
-                                <div class="col-sm-12 col-xs-12">
-                                    <p class="c-product-margin-1 c-font-uppercase c-font-bold">Races:</p>
+                            <div class="c-section">
+                                <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">Entries</div>
+                                <p>                                    
                                     <?php
-                                    foreach ($event_detail['race_list'] as $race) {
-                                        echo "<p>";
-                                        echo $race['race_name']." - ";
-                                        echo $race['race_distance']+0;
-                                        echo "km - start time: ";
-                                        echo date("H:i",strtotime($race['race_time']));
-                                        echo "</p>";
-                                    }
+                                        if ($event_detail['edition_url']) {
+                                            $url_segments=parse_url($event_detail['edition_url']);
                                     ?>
-                                </div>
+                                    <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                    <?php
+                                        }
+                                    ?>
+                                    <a href="mailto:info@roadrunning.co.za?subject=Race infor enquiry from roadrunning.co.za">info@roadrunning.co.za</a>
+                                </p>
                             </div>
-                            <div class="c-product-add-cart">
-                                <div class="row">
-                                    <div class="col-sm-12 col-xs-12 c-margin-t-20">
-                                        <p>
-                                            <?php
-                                            if ($event_detail['edition_url']) {
-                                            ?>
-                                                <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" target="_blank" href="<?=$event_detail['edition_url']?>">
-                                                <i class="icon-share-alt"></i> View Event Website</a>
-                                                <?php
-                                                }
-                                             ?>
-                                         </p>
-                                         <p>
-                                            <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" href="/event/ics/<?=$event_detail['edition_id'];?>">
-                                            <i class="icon-cloud-download"></i> Download Calendar Reminder</a>
-                                        </p>
-                                         <p>
-                                            <a class="btn c-theme-btn c-btn-border-2x c-btn-uppercase btn-sm c-btn-bold c-btn-round" href="/event">
-                                            <i class="icon-calendar"></i> Back to Events Calendar</a>
-                                        </p>
-                                    </div>
-                                </div>
+                            <div class="c-section">
+                                <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">More</div>
+                                <br/>
+                                <ul class="c-content-iconlist-1 c-theme">
+                                    <li>
+                                        <a href="/event/ics/<?=$event_detail['edition_id'];?>" title="Outlook Calender Reminder Download">
+                                            <i class="fa fa-calendar-plus-o"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?=$event_detail['google_cal_url']?>" target="_blank" title="Google Calender Reminder">
+                                            <i class="fa fa-google"></i>
+                                        </a>
+                                    </li>
+<!--                                    <li>
+                                        <a href="#" title=""View event facebook page">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title=""View race information">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                    </li>-->
+                                </ul>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="gmapbg" class="c-content-contact-1-gmap" style="height: 630px;"></div>
     </div>
-
+    
+    <div class="c-content-box c-size-md c-bg-grey-1" style="clear: all;">
+        <div class="container">
+            
+            <?= $notice; ?>
+            
+            <div class="c-content-bar-2 c-opt-1">
+                <div class="row" data-auto-height="true">
+                    <div class="col-md-12">
+                        <!-- Begin: Title 1 component -->
+                        <div class="c-content-title-1" data-height="height" style="height: 167px;">
+                            <h3 class="c-font-uppercase c-font-bold"><?=$event_detail['edition_name'];?></h3>
+                            <p class="c-font-uppercase c-font-sbold"> Annual <?=$event_detail['event_name'];?> <br><?=$event_detail['summary']['race_distance'];?> </p>
+                            <?php
+                                if ($event_detail['edition_url']) {
+                                ?>
+                                <a href="<?=$event_detail['edition_url'];?>" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">Enter Now</a>
+                                <?php
+                                }
+                            ?>
+                        </div>
+                        <!-- End-->
+                    </div>
+<!--                    <div class="col-md-6">
+                        <div class="c-content-v-center"">
+                            <img src="../img/events/tyger_walk_run.jpg" style="max-width: 500px"/>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <?php
-        // wts($event_detail);
+        $box_color='';
+        foreach ($event_detail['race_list'] as $race) {
+            ?>
+            <div class="c-content-box c-size-md <?=$box_color;?>">
+                <div class="container">
+                    <div class="c-content-bar-2 c-opt-1">
+                        <div class="row" data-auto-height="true">
+                            <div class="col-md-6">
+                                <!-- Begin: Title 1 component -->
+                                <div class="c-content-title-1" data-height="height" style="height: 167px;">
+                                    <h3 class="c-font-uppercase c-font-sbold"><?=$race['race_distance']+0;?>km Race</h3>
+                                    <p class="c-font"> Start time: <?=ftimeSort($race['race_time']);?></p>
+                                </div>
+                                <!-- End-->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="c-content-v-center"">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+            if ($box_color=="c-bg-grey-1") { $box_color=''; } else { $box_color="c-bg-grey-1"; }
+        }
     ?>
-
-
-    <!-- END: PAGE CONTENT -->
+    
+    <div class="c-content-box c-size-md <?=$box_color;?>">
+        <div class="container">
+            <div class="c-content-bar-2 c-opt-1">
+                <div class="row" data-auto-height="true">
+                    <div class="col-md-6">
+                        <p>
+                            <a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold" href="/event">
+                            <i class="icon-arrow-left"></i> Back to Events Calendar</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <?php
+//        wts($event_detail);
+    ?>
+    
 </div>
 <!-- END: PAGE CONTAINER -->
-
-<script>
-  function initMap() {
-    var myLatLng = {lat: <?= $event_detail['latitude_num'];?>, lng: <?= $event_detail['longitude_num'];?>};
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
-      center: myLatLng
-    });
-
-    var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: '<?= $event_detail['event_name'];?>'
-    });
-  }
-</script>
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6v1yh3HTOju-2iQ1xyfoYcDqIoOw-078&callback=initMap">
-</script>
