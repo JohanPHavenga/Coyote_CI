@@ -35,12 +35,27 @@
         
                         $row['id']=$data_entry['race_id'];                  
                         $row['edition']=$data_entry['edition_name'];
+                        $row['racetype']=$data_entry['racetype_name'];
                         $row['distance']=fraceDistance($data_entry['race_distance']);
                         $row['time']=ftimeSort($data_entry['race_time']);
+                        if ($data_entry['race_fee_licenced']) {
+                            $row['fees']=fdisplayCurrency($data_entry['race_fee_licenced'])."/".fdisplayCurrency($data_entry['race_fee_unlicenced']);
+                        } else {
+                            $row['fees']="Not Set";
+                        }
                         $row['status']=flableStatus($data_entry['race_status']);
                         $row['actions']= fbuttonActionGroup($action_array);
                         
-                        $this->table->add_row($row['id'], $row['edition'], array('data' => $row['distance'], 'align' => 'right'), $row['time'],$row['status'],$row['actions']);
+                        $this->table->add_row(
+                                $row['id'], 
+                                $row['edition'], 
+                                $row['racetype'],
+                                array('data' => $row['distance'], 'align' => 'right'), 
+                                $row['time'],
+                                $row['fees'],
+                                $row['status'],
+                                $row['actions']
+                                );
 //                        $this->table->add_row($row);
                         unset($row);
                     }
@@ -55,7 +70,7 @@
                 // add button
                 if (@$create_link)
                 {
-                echo fbuttonLink($create_link."/add","Add Races","primary");
+                echo fbuttonLink($create_link."/add","Add Race","primary");
                 }
                 ?>
             

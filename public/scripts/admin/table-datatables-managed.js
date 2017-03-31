@@ -154,7 +154,7 @@ var TableDatatablesManaged = function () {
             "columnDefs": [
                 {  // set default column settings
                     'orderable': false,
-                    'targets': [3,5]
+                    'targets': [3,5,7]
                 }, 
                 {
                     "searchable": false,

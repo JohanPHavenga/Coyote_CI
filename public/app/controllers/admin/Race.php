@@ -27,7 +27,7 @@ class Race extends Admin_Controller {
         $this->load->library('table');
         
         $this->data_to_view["race_data"] = $this->race_model->get_race_list();
-        $this->data_to_view['heading']=["ID","Edition","Race Distance","Race Time","Status","Actions"];
+        $this->data_to_view['heading']=["ID","Edition","Race Type","Race Distance","Race Time","Race Fees","Status","Actions"];
         
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_header['title'] = "List of Races";

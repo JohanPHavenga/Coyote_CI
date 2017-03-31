@@ -19,6 +19,23 @@ if ( ! function_exists('fraceDistance'))
     }
 }
 
+// ================================================================
+// Formulate Currency
+// ================================================================
+if ( ! function_exists('fdisplayCurrency'))
+{
+    function fdisplayCurrency($amount, $des=0) 
+    {
+        if ($amount)
+        {            
+            return "R".number_format($amount, $des, '.', '');
+        } else {
+            return false;
+        }
+    }
+}
+
+
 
 // ================================================================
 // Formulate Dates / TIME

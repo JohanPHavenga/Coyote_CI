@@ -152,7 +152,7 @@
     </div>
     
     <?php
-        wts($event_detail);
+//        wts($event_detail);
     ?>
     
 </div>

@@ -16,9 +16,10 @@ class Race_model extends CI_Model {
                 $this->db->limit($limit, $start);
             }
 
-            $this->db->select("races.*, edition_name");
+            $this->db->select("races.*, edition_name, racetype_name");
             $this->db->from("races");
             $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
             if ($edition_id>0) {
                 $this->db->where('races.edition_id', $edition_id);
             }
