@@ -132,6 +132,7 @@ class Event extends Frontend_Controller {
                             lat: ".$this->data_to_view['event_detail']['latitude_num'].",
                             lng: ".$map_long.",
                             scrollwheel: false
+                            
                     });
 
                     mapbg.addMarker({
@@ -248,7 +249,7 @@ class Event extends Frontend_Controller {
         $date=$edition_info['event_detail']['edition_date'];
         $time="23:59:00";
         foreach ($edition_info['event_detail']['race_list'] as $race) {
-            $race_time=$race['race_time'];
+            $race_time=$race['race_time_start'];
             if ($race_time<$time) { $time=$race_time; }
         }
         $this->data_to_view['datestart']=strtotime(str_replace("00:00:00",$time,$date));
@@ -277,7 +278,7 @@ class Event extends Frontend_Controller {
         $date=$params['edition_date'];
         $time="23:59:00";
         foreach ($params['race_list'] as $race) {
-            $race_time=$race['race_time'];
+            $race_time=$race['race_time_start'];
             if ($race_time<$time) { $time=$race_time; }
         }
         $sdate=strtotime(str_replace("00:00:00",$time,$date));

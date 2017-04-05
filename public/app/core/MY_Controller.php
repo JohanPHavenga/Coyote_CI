@@ -279,7 +279,7 @@ class Admin_Controller extends MY_Controller {
         return ['edition_id','edition_name','edition_date','latitude_num','longitude_num','edition_url','edition_address'];
     }
     function get_race_field_list() {
-        return ['race_id','race_name','race_distance','race_time'];
+        return ['race_id','race_name','race_distance','race_time_start'];
     }
 
 
@@ -460,7 +460,7 @@ class Frontend_Controller extends MY_Controller {
                                             $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                             $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                             $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
                                             $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                             $return_html_arr[]='</div>';
                                         $return_html_arr[]='</div>';
@@ -502,7 +502,7 @@ class Frontend_Controller extends MY_Controller {
                                                 $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                                 $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                                 $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
                                                 $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                                 $return_html_arr[]='</div>';
                                             $return_html_arr[]='</div>';
@@ -559,7 +559,7 @@ class Frontend_Controller extends MY_Controller {
                                         $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                         $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                         $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                        $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time']."</p>";
+                                        $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
                                         $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
 
                         $return_html_arr[]='</div></div></div></div>';
@@ -607,7 +607,7 @@ class Frontend_Controller extends MY_Controller {
                                         $return_html_arr[]= "<td>".$edition['edition_name']."</td>";
                                         $return_html_arr[]= "<td>".$edition['town_name']."</td>";
                                         $return_html_arr[]= "<td>".$edition['race_distance']."</td>";
-                                        $return_html_arr[]= "<td>".$edition['race_time']."</td>";
+                                        $return_html_arr[]= "<td>".$edition['race_time_start']."</td>";
                                         $return_html_arr[]= "<td style='padding: 2px; text-align: center;'><a href='".$edition['edition_url']."' class='btn c-theme-btn c-btn-border-2x c-btn-square'>DETAIL</a></td>";
                                     $return_html_arr[]= "</tr>";
                                 }

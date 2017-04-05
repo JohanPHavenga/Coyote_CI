@@ -27,14 +27,28 @@
                 
 
                 echo "<div class='form-group'>";
-                echo form_label('Time', 'race_time');
+                echo form_label('Start Time', 'race_time_start');
                 echo '<div class="input-group input-small">';
                 echo form_input([
-                        'name'          => 'race_time',
-                        'id'            => 'race_time',
-                        'value'         => set_value('race_time', ftimeSort(@$race_detail['race_time'],false)),
+                        'name'          => 'race_time_start',
+                        'id'            => 'race_time_start',
+                        'value'         => set_value('race_time_start', ftimeSort(@$race_detail['race_time_start'],false)),
                         'class'         => 'form-control timepicker timepicker-24',
                         'required'      => '',
+                    ]);    
+                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
+                echo "</div>";
+                
+                
+
+                echo "<div class='form-group'>";
+                echo form_label('Cut-off Time', 'race_time_end');
+                echo '<div class="input-group input-small">';
+                echo form_input([
+                        'name'          => 'race_time_end',
+                        'id'            => 'race_time_end',
+                        'value'         => set_value('race_time_end', ftimeSort(@$race_detail['race_time_end'],false)),
+                        'class'         => 'form-control timepicker timepicker-24',
                     ]);    
                 echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
                 echo "</div>";
@@ -50,7 +64,7 @@
                 echo form_label('Race Type', 'racetype_id');
                 echo form_dropdown('racetype_id', $racetype_dropdown, @$race_detail['racetype_id'], ["id"=>"racetype_id","class"=>"form-control input-small"]);        
                 echo "</div>";
-
+                
                 echo "<div class='form-group'>";
                 echo form_label('Edition', 'edition_id');
                 echo form_dropdown('edition_id', $edition_dropdown, @$race_detail['edition_id'], ["id"=>"edition_id","class"=>"form-control"]);        
@@ -58,28 +72,49 @@
                 
                 
                 echo "<div class='form-group'>";
-                echo form_label('Race Fee Licenced', 'race_fee_licenced');
+                echo form_label('Senior Race Fee Licenced', 'race_fee_senior_licenced');
                 echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
                 echo form_input([
-                        'name'          => 'race_fee_licenced',
-                        'id'            => 'race_fee_licenced',
-                        'value'         => @$race_detail['race_fee_licenced'],
+                        'name'          => 'race_fee_senior_licenced',
+                        'id'            => 'race_fee_senior_licenced',
+                        'value'         => @$race_detail['race_fee_senior_licenced'],
                         'class'         => 'form-control input-xsmall',
                     
                     ]);
-
                 echo "</div></div>";
                 
                 echo "<div class='form-group'>";
-                echo form_label('Race Fee Unlicenced', 'race_fee_unlicenced');
+                echo form_label('Senior Race Fee Unlicenced', 'race_fee_senior_unlicenced');
                 echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
                 echo form_input([
-                        'name'          => 'race_fee_unlicenced',
-                        'id'            => 'race_fee_unlicenced',
-                        'value'         => @$race_detail['race_fee_unlicenced'],
+                        'name'          => 'race_fee_senior_unlicenced',
+                        'id'            => 'race_fee_senior_unlicenced',
+                        'value'         => @$race_detail['race_fee_senior_unlicenced'],
                         'class'         => 'form-control input-xsmall',
                     ]);
-
+                echo "</div></div>";
+                
+                 echo "<div class='form-group'>";
+                echo form_label('Junior Race Fee Licenced', 'race_fee_junior_licenced');
+                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                echo form_input([
+                        'name'          => 'race_fee_junior_licenced',
+                        'id'            => 'race_fee_junior_licenced',
+                        'value'         => @$race_detail['race_fee_junior_licenced'],
+                        'class'         => 'form-control input-xsmall',
+                    
+                    ]);
+                echo "</div></div>";
+                
+                echo "<div class='form-group'>";
+                echo form_label('Junior Race Fee Unlicenced', 'race_fee_junior_unlicenced');
+                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                echo form_input([
+                        'name'          => 'race_fee_junior_unlicenced',
+                        'id'            => 'race_fee_junior_unlicenced',
+                        'value'         => @$race_detail['race_fee_junior_unlicenced'],
+                        'class'         => 'form-control input-xsmall',
+                    ]);
                 echo "</div></div>";
                 
                 echo "<div class='form-group'>";
@@ -93,8 +128,20 @@
 
                 echo "<p class='help-block' style='font-style: italic;'>(optional)</p></div>";
                 
+                //  Race Notes
+                echo "<div class='form-group'>";
+                echo form_label('Race Notes', 'race_notes');
+                echo form_textarea([
+                        'name'          => 'race_notes',
+                        'id'            => 'race_notes',
+                        'value'         => utf8_encode(@$race_detail['race_notes']),
+                    ]);
+
+                echo "</div>";
+                
+                //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton();
+                echo fbutton($text="Submit",$type="submit",$status="primary");
                 echo fbuttonLink($return_url,"Cancel");
                 echo "</div>";
 

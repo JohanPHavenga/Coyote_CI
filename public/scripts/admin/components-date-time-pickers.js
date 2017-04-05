@@ -32,8 +32,7 @@ var ComponentsDateTimePickers = function () {
                 minuteStep: 5,
                 secondStep: 1,
                 showSeconds: false,
-                showMeridian: false,
-                defaultTime: '07:00'
+                showMeridian: false
             });
 
             // handle input group button click

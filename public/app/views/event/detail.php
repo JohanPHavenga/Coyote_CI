@@ -17,7 +17,7 @@
                                     <b><?= date("d F Y",strtotime($event_detail['edition_date']));?></b><br>
                                     <?= $event_detail['edition_address']; ?><br>
                                     <?= $event_detail['town_name']; ?><br>
-                                    <?= $event_detail['summary']['race_time']; ?> Race<br>
+                                    <?= $event_detail['summary']['race_time_start']; ?> Race<br>
                                 </p>
                             </div>
                             <div class="c-section">
@@ -118,7 +118,7 @@
                                 <!-- Begin: Title 1 component -->
                                 <div class="c-content-title-1" data-height="height" style="height: 167px;">
                                     <h3 class="c-font-uppercase c-font-sbold"><?=$race['race_distance']+0;?>km Race</h3>
-                                    <p class="c-font"> Start time: <?=ftimeSort($race['race_time']);?></p>
+                                    <p class="c-font"> Start time: <?=ftimeSort($race['race_time_start']);?></p>
                                 </div>
                                 <!-- End-->
                             </div>

@@ -89,15 +89,18 @@ class Edition extends Admin_Controller {
 
         $this->data_to_header['css_to_load']=array(
             "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+            "plugins/bootstrap-summernote/summernote.css",
             );
 
         $this->data_to_footer['js_to_load']=array(
             "plugins/moment.min.js",
             "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+            "plugins/bootstrap-summernote/summernote.min.js",
             );
 
         $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/components-date-time-pickers.js",
+            "scripts/admin/components-editors.js",
             );
 
         $this->data_to_view['contact_dropdown']=$this->user_model->get_user_dropdown(3);
@@ -117,7 +120,8 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
         $this->form_validation->set_rules('edition_url', 'URL', 'valid_url');
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an event"]);
-        $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsort"]);
+        $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsor"]);
+        $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Contact Person"]);
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
@@ -132,7 +136,7 @@ class Edition extends Admin_Controller {
             $db_write=$this->edition_model->set_edition($action, $id, [], false);
             if ($db_write)
             {
-                $alert="Event has been updated";
+                $alert="Edition information has been updated";
                 $status="success";
             }
             else

@@ -37,9 +37,9 @@
                         $row['edition']=$data_entry['edition_name'];
                         $row['racetype']=$data_entry['racetype_name'];
                         $row['distance']=fraceDistance($data_entry['race_distance']);
-                        $row['time']=ftimeSort($data_entry['race_time']);
-                        if ($data_entry['race_fee_licenced']) {
-                            $row['fees']=fdisplayCurrency($data_entry['race_fee_licenced'])."/".fdisplayCurrency($data_entry['race_fee_unlicenced']);
+                        $row['time']=ftimeSort($data_entry['race_time_start']);
+                        if ($data_entry['race_fee_senior_licenced']) {
+                            $row['fees']=fdisplayCurrency($data_entry['race_fee_senior_licenced'])."/".fdisplayCurrency($data_entry['race_fee_senior_unlicenced']);
                         } else {
                             $row['fees']="Not Set";
                         }

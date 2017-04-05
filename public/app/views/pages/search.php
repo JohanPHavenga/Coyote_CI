@@ -35,7 +35,7 @@
                                             <p class="c-desc c-font-16 c-font-thin">
                                                 <?=$event['town_name'];?><br>
                                                 <?=$event['race_distance'];?><br>
-                                                <?=$event['race_time'];?> Race
+                                                <?=$event['race_time_start'];?> Race
                                             </p>
                                             <p class="c-price c-font-26 c-font-thin"><?=$event['edition_date'];?></p>
                                         </div>

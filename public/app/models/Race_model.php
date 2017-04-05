@@ -24,6 +24,7 @@ class Race_model extends CI_Model {
                 $this->db->where('races.edition_id', $edition_id);
             }
             $this->db->where('races.race_status', 1);
+            $this->db->order_by('races.race_distance', 'DESC');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -82,12 +83,16 @@ class Race_model extends CI_Model {
                 $race_data = array(
                             'race_name' => $this->input->post('race_name'),
                             'race_distance' => $this->input->post('race_distance'),
-                            'race_time' => $this->input->post('race_time'),
+                            'race_time_start' => $this->input->post('race_time_start'),
+                            'race_time_end' => $this->input->post('race_time_end'),
                             'race_status' => $this->input->post('race_status'),
                             'edition_id' => $this->input->post('edition_id'),
                             'racetype_id' => $this->input->post('racetype_id'),
-                            'race_fee_licenced' => $this->input->post('race_fee_licenced'),
-                            'race_fee_unlicenced' => $this->input->post('race_fee_unlicenced'),
+                            'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced'),
+                            'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
+                            'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
+                            'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
+                            'race_notes' => $this->input->post('race_notes'),
                         );
             } else {
                 if (!isset($race_data['race_status'])) { $race_data['race_status'] = 1; }
@@ -98,6 +103,7 @@ class Race_model extends CI_Model {
                 wts($action);
                 // wts($race_id);
                 wts($race_data);
+                exit();
             } else {
                 switch ($action) {
                     case "add":

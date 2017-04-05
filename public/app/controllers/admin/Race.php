@@ -124,15 +124,18 @@ class Race extends Admin_Controller {
 
         $this->data_to_header['css_to_load']=array(
             "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+            "plugins/bootstrap-summernote/summernote.css",
             );
 
         $this->data_to_header['js_to_load']=array(
             "plugins/moment.min.js",
             "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+            "plugins/bootstrap-summernote/summernote.min.js",
             );
 
         $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/components-date-time-pickers.js",
+            "scripts/admin/components-editors.js",
             );
 
 
@@ -142,20 +145,22 @@ class Race extends Admin_Controller {
 
         if ($action=="edit")
         {
-        $this->data_to_view['race_detail']=$this->race_model->get_race_detail($id);
-        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+            $this->data_to_view['race_detail']=$this->race_model->get_race_detail($id);
+            $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         } else {
             $this->data_to_view['race_detail']=[];
+            $this->data_to_view['race_detail']['racetype_id']=4;
         }
 
         // set validation rules
         $this->form_validation->set_rules('race_distance', 'Race distance', 'required|numeric');
-        $this->form_validation->set_rules('race_time', 'Race time', 'required');
+        $this->form_validation->set_rules('race_time_start', 'Race time', 'required');
         $this->form_validation->set_rules('race_status', 'Race status', 'required');
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an edition"]);
-        $this->form_validation->set_rules('race_fee_licenced', "Race Fee Licenced", 'numeric');
-        $this->form_validation->set_rules('race_fee_unlicenced', "Race Fee Unlicenced", 'numeric');
-
+        $this->form_validation->set_rules('race_fee_senior_licenced', "Senior Race Fee Licenced", 'numeric');
+        $this->form_validation->set_rules('race_fee_senior_unlicenced', "Senior Race Fee Unlicenced", 'numeric');
+        $this->form_validation->set_rules('race_fee_junior_licenced', "Junior Race Fee Licenced", 'numeric');
+        $this->form_validation->set_rules('race_fee_junior_unlicenced', "Junior Race Fee Unlicenced", 'numeric');
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
@@ -166,7 +171,7 @@ class Race extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->race_model->set_race($action, $id);
+            $db_write=$this->race_model->set_race($action, $id, [], false);
             if ($db_write)
             {
                 $alert="Race has been updated";

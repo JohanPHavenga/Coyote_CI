@@ -221,6 +221,7 @@ class Event_model extends CI_Model {
             $this->db->where("races.race_status", 1);
 
             $this->db->order_by("edition_date", $sort);
+            $this->db->order_by("race_distance", "DESC");
 
             return $this->db->get();
         }
@@ -233,7 +234,7 @@ class Event_model extends CI_Model {
 //            wts($from);
 //            wts($params);
 //            exit();
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time_start"];
             // setup fields needed for summary call
             if ($from=="date_range") {
                 if (!isset($params['date_to'])) { $params['date_to']=NULL; }
@@ -282,7 +283,7 @@ class Event_model extends CI_Model {
                                     $value=$data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
                                 }
                             break;
-                            case "race_time":
+                            case "race_time_start":
                                 if (date("H",strtotime($row[$field])) >  0) { $value = "Morning";  }
                                 if (date("H",strtotime($row[$field])) >  12) { $value = "Afternoon";  }
                                 if (date("H",strtotime($row[$field])) >  17) { $value = "Evening";  }
@@ -330,7 +331,7 @@ class Event_model extends CI_Model {
             
             $search_result=[];
             
-            $field_arr=["events.event_id","event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time"];
+            $field_arr=["events.event_id","event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time_start"];
             
             $this->db->select($field_arr);
             
@@ -355,7 +356,8 @@ class Event_model extends CI_Model {
             $this->db->where("editions.edition_status", 1);
             $this->db->where("races.race_status", 1);
             
-            $this->db->order_by("edition_date", "ASC");            
+            $this->db->order_by("edition_date", "ASC");   
+            $this->db->order_by("race_distance", "DESC");         
             
 //            echo $this->db->get_compiled_select();
             

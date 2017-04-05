@@ -127,6 +127,9 @@ class Edition_model extends CI_Model {
             // POSTED DATA
             if (empty($edition_data))
             {
+//                wts($_POST);
+//                exit();
+                if (empty($this->input->post('edition_date_end'))) { $end_date=NULL; } else { $end_date=$this->input->post('edition_date_end'); }
                 $edition_data = array(
                             'edition_name' => $this->input->post('edition_name'),
                             'edition_status' => $this->input->post('edition_status'),
@@ -134,8 +137,13 @@ class Edition_model extends CI_Model {
                             'event_id' => $this->input->post('event_id'),
                             'edition_url' => $this->input->post('edition_url'),
                             'edition_address' => $this->input->post('edition_address'),
+                            'edition_address_end' => $this->input->post('edition_address_end'),
                             'latitude_num' => $this->input->post('latitude_num'),
                             'longitude_num' => $this->input->post('longitude_num'),
+                            'edition_date_end' => $end_date,
+                            'edition_logo' => $this->input->post('edition_logo'),
+                            'edition_description' => $this->input->post('edition_description'),
+                            'edition_entry_detail' => $this->input->post('edition_entry_detail'),
                         );
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];
                 $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$this->input->post('user_id')];
