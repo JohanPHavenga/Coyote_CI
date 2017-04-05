@@ -28,8 +28,8 @@
         <meta content="Listing all road running events in and around Cape Town in a modern, easy to compare fashsion" name="description" />
         <meta content="Johan Havenga" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <!--<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>-->
         <link href="<?= base_url('css/roboto-condensed.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/roboto.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />

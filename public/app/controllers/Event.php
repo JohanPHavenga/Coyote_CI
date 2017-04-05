@@ -132,7 +132,6 @@ class Event extends Frontend_Controller {
                             lat: ".$this->data_to_view['event_detail']['latitude_num'].",
                             lng: ".$map_long.",
                             scrollwheel: false
-                            
                     });
 
                     mapbg.addMarker({
