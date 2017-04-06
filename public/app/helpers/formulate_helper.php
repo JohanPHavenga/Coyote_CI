@@ -12,7 +12,7 @@ if ( ! function_exists('fraceDistance'))
     {
         if ($distance)
         {
-            return floatval($distance)." km";
+            return floatval($distance)."km";
         } else {
             return false;
         }

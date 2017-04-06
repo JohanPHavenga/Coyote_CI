@@ -30,6 +30,17 @@ class Race_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
                     $data[$row['race_id']] = $row;
+                    switch ($row['racetype_id']) {
+                        case 4: $data[$row['race_id']]['racetype_abbr'] = "R"; break;
+                        case 5: $data[$row['race_id']]['racetype_abbr'] = "W"; break;
+                        case 6: $data[$row['race_id']]['racetype_abbr'] = "R/W"; break;
+                        default: 
+                            $data[$row['race_id']]['racetype_abbr'] = "R";  
+                            $data[$row['race_id']]['racetype_name'] = "Run";
+                            break;
+                    }
+                    
+                    $data[$row['race_id']]['race_color']=$this->get_race_color($row['race_distance']);
                 }
                 return $data;
             }
@@ -88,6 +99,7 @@ class Race_model extends CI_Model {
                             'race_status' => $this->input->post('race_status'),
                             'edition_id' => $this->input->post('edition_id'),
                             'racetype_id' => $this->input->post('racetype_id'),
+                            'race_fee_flat' => $this->input->post('race_fee_flat'),
                             'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced'),
                             'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
                             'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
@@ -151,6 +163,42 @@ class Race_model extends CI_Model {
                 $this->db->trans_complete();
                 return $this->db->trans_status();
             }
+        }
+        
+        
+        function get_race_color($distance) {
+        
+            switch (true) {
+                case $distance <= 5:
+                    $color = 'green';
+                    break;
+
+                case $distance <= 10:
+                    $color = 'yellow-1';
+                    break;
+
+                case $distance <= 21:
+                    $color = 'brown';
+                    break;
+
+                case $distance == 21.1:
+                    $color = 'blue';
+                    break;
+
+                case $distance <= 42.1:
+                    $color = 'blue-2';
+                    break;
+
+                case $distance == 42.2:
+                    $color = 'red';
+                    break;
+
+                default:
+                    $color = 'purple';
+                    break;
+            }
+
+            return $color;
         }
 
 

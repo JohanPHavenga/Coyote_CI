@@ -631,5 +631,7 @@ class Frontend_Controller extends MY_Controller {
         $area_list = $this->event_model->get_area_list();
         return $area_list;
     }
+    
+    
 
 }

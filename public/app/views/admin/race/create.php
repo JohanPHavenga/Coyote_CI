@@ -72,6 +72,19 @@
                 
                 
                 echo "<div class='form-group'>";
+                echo form_label('Flat Race Fee', 'race_fee_flat');
+                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                echo form_input([
+                        'name'          => 'race_fee_flat',
+                        'id'            => 'race_fee_flat',
+                        'value'         => @$race_detail['race_fee_flat'],
+                        'class'         => 'form-control input-xsmall',
+                    
+                    ]);
+                echo "</div>";
+                echo "<p class='help-block' style='font-style: italic;'>Note if set this is the old fee that will display</p></div>";
+                
+                echo "<div class='form-group'>";
                 echo form_label('Senior Race Fee Licenced', 'race_fee_senior_licenced');
                 echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
                 echo form_input([

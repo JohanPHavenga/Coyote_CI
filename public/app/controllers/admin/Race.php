@@ -157,6 +157,7 @@ class Race extends Admin_Controller {
         $this->form_validation->set_rules('race_time_start', 'Race time', 'required');
         $this->form_validation->set_rules('race_status', 'Race status', 'required');
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an edition"]);
+        $this->form_validation->set_rules('race_fee_flat', "Race Flat Fee", 'numeric');
         $this->form_validation->set_rules('race_fee_senior_licenced', "Senior Race Fee Licenced", 'numeric');
         $this->form_validation->set_rules('race_fee_senior_unlicenced', "Senior Race Fee Unlicenced", 'numeric');
         $this->form_validation->set_rules('race_fee_junior_licenced', "Junior Race Fee Licenced", 'numeric');
