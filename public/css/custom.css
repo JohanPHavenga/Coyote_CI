@@ -7,16 +7,12 @@ h1 {
     font-size: 45px;
 }
 
-
 table.accordian td:first-child { padding: 0 8px 0 0; }
-
 
 .c-content-tab-4.c-opt-5 > .tab-content .c-tab-items > li p
 {
     color: #3f444a;
 }
-
-
 
 .cbp-caption-expand .cbp-l-caption-body {
     font-size: 17px;
@@ -116,9 +112,9 @@ div.c-lg-hidden { display: none; }
 }
 
 @media (max-width: 768px) {    
-    .c-content-title-1 > h3 {
+/*    .c-content-title-1 > h3 {
         margin-bottom: 10px;
-    }
+    }*/
     .c-content-title-1 > h3.c-font-uppercase {
         font-size: 24px;
     }

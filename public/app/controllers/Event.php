@@ -162,7 +162,14 @@ class Event extends Frontend_Controller {
             $this->data_to_view['notice']="<div class='alert alert-warning' role='alert'>Please note that you are viewing an event that has happend in the past.</div>";
         }
 
-
+        // SET META DATA// SET META DATA
+        $this->data_to_header['meta_description']=
+                $this->data_to_view['event_detail']['summary']['event_name']." in ".
+                $this->data_to_view['event_detail']['summary']['town_name']." on ".
+                $this->data_to_view['event_detail']['summary']['edition_date'].". ".
+                $this->data_to_view['event_detail']['summary']['race_time_start']." race including the follwing distances: ".
+                $this->data_to_view['event_detail']['summary']['race_distance'];
+        
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/event/detail", $this->data_to_view);

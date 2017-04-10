@@ -1,3 +1,8 @@
+<?php
+    if (isset($title)) { $page_title=$title; } else { $page_title="Running Event Listing Site"; }
+    if (isset($meta_description)) { $descrip=$meta_description; } else { $descrip="Listing all road running events in and around Cape Town in a modern, easy to compare fashion"; }
+?>
+
 <!DOCTYPE html>
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -13,19 +18,12 @@
             enable_page_level_ads: true
           });
         </script>
-        <meta charset="utf-8" />
-        <?php
-            if ($title) {
-                $page_title=$title;
-            } else {
-                $page_title="Running Event Listing Site";
-            }
-        ?>
+        <meta charset="utf-8" />        
         <title><?=$page_title;?> | RoadRunning.co.za</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <meta content="Listing all road running events in and around Cape Town in a modern, easy to compare fashsion" name="description" />
+        <meta content="<?=$descrip;?>" name="description" />
         <meta content="Johan Havenga" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="<?= base_url('css/roboto-condensed.css'); ?>" rel="stylesheet" type="text/css" />

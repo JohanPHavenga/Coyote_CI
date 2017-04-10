@@ -93,7 +93,7 @@
                     <div class="col-md-6">
                         <p class="c-font-sbold c-margin-b-20"> Annual <?=$event_detail['event_name'];?>
                             <?php
-                                if (!empty($event_detail['sponsor_name'])) {
+                                if ((!empty($event_detail['sponsor_name'])) && ($event_detail['sponsor_name']!="No sponsor")) {
                                     echo " brought to you by ".$event_detail['sponsor_name'];
                                 }
                             ?>
@@ -196,7 +196,7 @@
                                     ?>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-3 col-sm-12">
                                 <div class="c-content c-column-even c-padding-adjustment">
                                     <div class="c-row c-font-19"><span class="c-sub-title">Start Time: </span> <?=ftimeSort($race['race_time_start']);?></div>
                                     <?php
@@ -260,9 +260,9 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 c-sm-hidden">
                                 <div class="row">
-                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3 c-md-hidden"></div>
                                     <div class="col-md-6">
                                         <div class="c-content-v-center c-bg-<?=$race['race_color'];?>" data-height="height" style="height: 100px;">
                                             <div class="c-wrapper">
@@ -289,9 +289,26 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                           
 
                         </div>
                     </div>
+                    
+                     
+                    <div class="row">
+                        <div class="c-content-pricing-1 c-opt-1">
+                            <div class="col-md-12 c-lg-hidden">
+                                <div class="row">
+                                    <div class="col-md-12" style="padding-top: 10px;">
+                                        <?=$race['race_notes'];?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>  
             <?php
