@@ -26,9 +26,15 @@
                                     <?php
                                         if ($event_detail['edition_url']) {
                                             $url_segments=parse_url($event_detail['edition_url']);
-                                    ?>
-                                    <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
-                                    <?php
+                                            ?>
+                                            <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                            <?php
+                                            
+                                        } elseif ($event_detail['edition_url_entry']) {
+                                            $url_segments=parse_url($event_detail['edition_url_entry']);
+                                            ?>
+                                            <a href="<?=$event_detail['edition_url_entry'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                            <?php
                                         }
                                         if (isset($event_detail['user_email'])) {
                                             $contact_email=$event_detail['user_email'];
@@ -99,9 +105,14 @@
                             ?>
                         </p>
                         <?php
+                            if ($event_detail['edition_url_entry']) {
+                            ?>                            
+                            <a href="<?=$event_detail['edition_url_entry'];?>" target="_blank" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">Enter Now</a>
+                            <?php                      
+                            }
                             if ($event_detail['edition_url']) {
-                            ?>
-                            <a href="<?=$event_detail['edition_url'];?>" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">Enter Now</a>
+                            ?>                            
+                            <a href="<?=$event_detail['edition_url'];?>" target="_blank" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">More Info</a>
                             <?php
                             }
                          ?>
@@ -165,7 +176,7 @@
                                 <div class="c-content c-column-odd c-padding-adjustment">
                                     <div class="c-row c-title c-font-19">Start Time</div>
                                     <?php
-                                        if (isset($race['race_time_end'])) {
+                                        if ($race['race_time_end']>0) {
                                     ?>
                                     <div class="c-row c-title c-font-19">Cut-off Time</div>
                                     <?php
@@ -200,7 +211,7 @@
                                 <div class="c-content c-column-even c-padding-adjustment">
                                     <div class="c-row c-font-19"><span class="c-sub-title">Start Time: </span> <?=ftimeSort($race['race_time_start']);?></div>
                                     <?php
-                                        if (isset($race['race_time_end'])) {
+                                        if ($race['race_time_end']>0) {
                                     ?>
                                     <div class="c-row c-font-19"><span class="c-sub-title">Cut-off Time: </span> <?=ftimeSort($race['race_time_end']);?></div>
                                     <?php

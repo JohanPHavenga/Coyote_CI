@@ -196,11 +196,12 @@ class Pages extends Frontend_Controller {
         {
             $this->load->library('email');
             $config['mailtype'] = 'html';
-            $config['smtp_host'] = 'mail.my-cupcakes.co.za';
+            $config['smtp_host'] = 'dandelion.aserv.co.za';
+            $config['smtp_port'] = '465';
             $this->email->initialize($config);
 
             $this->email->from($this->input->post('demail'), $this->input->post('dname'));
-            $this->email->to('johan.havenga@gmail.com');
+            $this->email->to('info@roadrunning.co.za');
             $this->email->cc('monicahav@gmail.com');
             // $this->email->bcc('them@their-example.com');
 

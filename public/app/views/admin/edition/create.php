@@ -71,9 +71,9 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 
                 
-                //  URL
+                //  More info URL
                 echo "<div class='form-group'>";
-                echo form_label('URL', 'edition_url');
+                echo form_label('More Info URL', 'edition_url');
                 echo form_input([
                         'name'          => 'edition_url',
                         'id'            => 'edition_url',
@@ -81,7 +81,19 @@ echo form_open_multipart($form_url);
                         'class'         => 'form-control',
                     ]);
 
-                echo "</div>";                
+                echo "</div>";  
+                
+                 //  Entry URL
+                echo "<div class='form-group'>";
+                echo form_label('Entry URL', 'edition_url_entry');
+                echo form_input([
+                        'name'          => 'edition_url_entry',
+                        'id'            => 'edition_url_entry',
+                        'value'         => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
                 
                 //  ADDRESS
                 echo "<div class='form-group'>";

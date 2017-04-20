@@ -136,6 +136,7 @@ class Edition_model extends CI_Model {
                             'edition_date' => $this->input->post('edition_date'),
                             'event_id' => $this->input->post('event_id'),
                             'edition_url' => $this->input->post('edition_url'),
+                            'edition_url_entry' => $this->input->post('edition_url_entry'),
                             'edition_address' => $this->input->post('edition_address'),
                             'edition_address_end' => $this->input->post('edition_address_end'),
                             'latitude_num' => $this->input->post('latitude_num'),
