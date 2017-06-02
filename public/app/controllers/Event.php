@@ -60,6 +60,9 @@ class Event extends Frontend_Controller {
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
 
         $edition_name=urldecode($edition_name_encoded);
+        
+//        wts($edition_name);
+//        exit();
 
         $this->load->model('edition_model');
         $this->load->model('race_model');
@@ -77,7 +80,7 @@ class Event extends Frontend_Controller {
         }
         else
         {
-            $this->data_to_header['title']=$edition_name;
+            $this->data_to_header['title']=str_replace("-"," ",$edition_name);
         }
 
         // set data to view

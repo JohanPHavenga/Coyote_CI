@@ -11,13 +11,6 @@
     <!-- BEGIN HEAD -->
 
     <head>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-8912238222537097",
-            enable_page_level_ads: true
-          });
-        </script>
         <meta charset="utf-8" />        
         <title><?=$page_title;?> | RoadRunning.co.za</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,6 +63,7 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
+        <!-- Analytics -->
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -80,6 +74,8 @@
           ga('send', 'pageview');
 
         </script>
+        
+
         <!-- BEGIN: LAYOUT/HEADERS/HEADER-1 -->
         <!-- BEGIN: HEADER -->
         <header class="c-layout-header c-layout-header-4 c-layout-header-default-mobile" data-minimize-offset="80">

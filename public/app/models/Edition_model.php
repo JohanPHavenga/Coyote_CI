@@ -14,13 +14,17 @@ class Edition_model extends CI_Model {
 
         public function get_edition_id_from_name($edition_name)
         {
+            $edition_name= str_replace("-", " ", $edition_name);
+            
+//            wts($edition_name);
+            
             $this->db->select("edition_id");
             $this->db->from("editions");
             $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
             $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
 
-            // echo $this->db->get_compiled_select();
-            // exit();
+//            echo $this->db->get_compiled_select();
+//            exit();
 
             $query = $this->db->get();
 
@@ -150,7 +154,7 @@ class Edition_model extends CI_Model {
                 $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$this->input->post('user_id')];
             } else {
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
-                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>1];
+                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>19];
                 if (!isset($edition_data['edition_status'])) { $edition_data['edition_status'] = 1; }
             }
 

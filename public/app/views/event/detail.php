@@ -1,5 +1,7 @@
 <!-- BEGIN: PAGE CONTAINER -->
 <div class="c-layout-page">
+    
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <div class="c-content-box c-size-md c-bg-img-top c-no-padding c-pos-relative">
         <div class="container">
@@ -24,16 +26,15 @@
                                 <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">Entries</div>
                                 <p>                                    
                                     <?php
-                                        if ($event_detail['edition_url']) {
-                                            $url_segments=parse_url($event_detail['edition_url']);
-                                            ?>
-                                            <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
-                                            <?php
-                                            
-                                        } elseif ($event_detail['edition_url_entry']) {
+                                        if ($event_detail['edition_url_entry']) {
                                             $url_segments=parse_url($event_detail['edition_url_entry']);
                                             ?>
                                             <a href="<?=$event_detail['edition_url_entry'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                            <?php
+                                        } elseif ($event_detail['edition_url']) {
+                                            $url_segments=parse_url($event_detail['edition_url']);
+                                            ?>
+                                            <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
                                             <?php
                                         }
                                         if (isset($event_detail['user_email'])) {
@@ -42,7 +43,7 @@
                                             $contact_email="info@roadrunning.co.za";
                                         }
                                     ?>
-                                    <a href="mailto:<?=$contact_email;?>?subject=Race info enquiry from roadrunning.co.za"><?=$contact_email;?></a>
+                                    <a href="mailto:<?=$contact_email;?>?subject=Enquiry regarding <?=$event_detail['event_name'];?> from roadrunning.co.za"><?=$contact_email;?></a>
                                 </p>
                             </div>
                             <div class="c-section">
@@ -86,17 +87,11 @@
             
             <div class="c-content-bar-2 c-opt-1">
                 <div class="row" data-auto-height="true">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <!-- Begin: Title 1 component -->
                         <div class="c-content-title-1" data-height="height">
                             <h3 class="c-font-uppercase c-font-bold"><?=$event_detail['edition_name'];?></h3>
                         </div>
-                        <!-- End-->
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-6">
                         <p class="c-font-sbold c-margin-b-20"> Annual <?=$event_detail['event_name'];?>
                             <?php
                                 if ((!empty($event_detail['sponsor_name'])) && ($event_detail['sponsor_name']!="No sponsor")) {
@@ -116,15 +111,40 @@
                             <?php
                             }
                          ?>
+                        <!-- End-->
+                    </div>
+                    <div class="col-md-6">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Details Page Right Float -->
+    <div class="c-content-box c-size-sm">
+        <div class="container">
+            <div class="c-content-bar-2 c-opt-1">
+                <div class="row" data-auto-height="true">
+                    <div class="col-md-12">
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-8912238222537097"
+                            data-ad-slot="2234707964"
+                            data-ad-format="auto"></ins>
+                       <script>
+                       (adsbygoogle = window.adsbygoogle || []).push({});
+                       </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
     <?php
     if (strlen($event_detail['edition_entry_detail'])>10) {
     ?>
-    <div class="c-content-box c-size-md">
+    <div class="c-content-box c-size-md c-bg-grey-1">
         <div class="container">
             <div class="row">            
                 <div class="col-md-12">
@@ -138,13 +158,24 @@
                         echo $event_detail['edition_entry_detail'];
                     ?>
                 </div>
+<!--                <div class="col-md-6">
+                 Details Entries 
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-8912238222537097"
+                         data-ad-slot="3291345169"
+                         data-ad-format="auto"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>-->
             </div>
         </div>
     </div>
     <?php
-        $box_color='c-bg-grey-1';
-    } else {
         $box_color='';
+    } else {
+        $box_color='c-bg-grey-1';
     }
     
     
@@ -347,11 +378,35 @@
         </div>
     </div>
     <?php
-    
-    if ($box_color=="c-bg-grey-1") { $box_color=''; } else { $box_color="c-bg-grey-1"; }
+    if ($box_color=="c-bg-grey-1") { $box_color=''; } else { $box_color="c-bg-grey-1"; }    
     }
-    ?>
     
+    
+    ?>
+    <!-- Details Page Right Float -->
+    <div class="c-content-box c-size-sm <?=$box_color;?>">
+        <div class="container">
+            <div class="c-content-bar-2 c-opt-1">
+                <div class="row" data-auto-height="true">
+                    <div class="col-md-12">
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-8912238222537097"
+                            data-ad-slot="2234707964"
+                            data-ad-format="auto"></ins>
+                       <script>
+                       (adsbygoogle = window.adsbygoogle || []).push({});
+                       </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       
+    <?php
+    if ($box_color=="c-bg-grey-1") { $box_color=''; } else { $box_color="c-bg-grey-1"; }
+    
+    ?>
     <div class="c-content-box c-size-md <?=$box_color;?>">
         <div class="container">
             <div class="c-content-bar-2 c-opt-1">

@@ -428,7 +428,19 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[]='<li><a href="#'.$month.$rand.'" data-toggle="tab">'.$month.'</a></li>';
                             //$return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
                         }
-                    $return_html_arr[]='</ul></div>'; // close col-sm-3
+                    $return_html_arr[]='</ul></div>';
+//                    
+//                    $return_html_arr[]='<div class="padding-top:20px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+//                    <!-- Events Calendar Skyscraper -->
+//                    <ins class="adsbygoogle"
+//                         style="display:inline-block;width:300px;height:600px"
+//                         data-ad-client="ca-pub-8912238222537097"
+//                         data-ad-slot="9323995969"></ins>
+//                    <script>
+//                    (adsbygoogle = window.adsbygoogle || []).push({});
+//                    </script>
+//                    </div>
+//                    </div>'; // close col-sm-3
 
 
                 $return_html_arr[]='<div class="col-sm-9">';
