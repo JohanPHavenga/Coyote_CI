@@ -24,6 +24,12 @@ echo form_open_multipart($form_url);
                         'class'         => 'form-control input-xlarge',
                         'required'      => '',
                     ]);
+                echo form_input([
+                        'name'          => 'edition_name_past',
+                        'id'            => 'edition_name_past',
+                        'value'         => utf8_encode(@$edition_detail['edition_name']),
+                        'type'         => 'hidden',
+                    ]);
 
                 echo "<p class='help-block' style='font-style: italic;'> Remember to always add the year at the end of the edition name </p>";
                 echo "</div>";

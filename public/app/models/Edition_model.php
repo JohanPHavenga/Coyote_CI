@@ -18,21 +18,39 @@ class Edition_model extends CI_Model {
             
 //            wts($edition_name);
             
+            // CHECK Editions table vir die naame
             $this->db->select("edition_id");
             $this->db->from("editions");
             $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
             $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
+//            echo $this->db->get_compiled_select(); exit();
+            $editions_query = $this->db->get();
+            
+            
+            // CHECK Editions_Past vir as die naam van die edition verander
+            $this->db->select("edition_id");
+            $this->db->from("editions_past");
+            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
+            $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
+//            echo $this->db->get_compiled_select();   exit();
 
-//            echo $this->db->get_compiled_select();
-//            exit();
+            $editions_past_query = $this->db->get();
+            
 
-            $query = $this->db->get();
-
-            if ($query->num_rows() > 0) {
-                $result=$query->result_array();
+            if ($editions_query->num_rows() > 0) 
+            {
+                $result=$editions_query->result_array();
                 return $result[0]['edition_id'];
             }
+            elseif ($editions_past_query->num_rows() > 0) 
+            {
+                $result=$editions_past_query->result_array();
+                return $result[0]['edition_id'];   
+            }
+            else 
+            {
             return false;
+            }
         }
 
 
@@ -128,6 +146,7 @@ class Edition_model extends CI_Model {
 
         public function set_edition($action, $edition_id, $edition_data=[], $debug=false)
         {
+            
             // POSTED DATA
             if (empty($edition_data))
             {
@@ -150,8 +169,10 @@ class Edition_model extends CI_Model {
                             'edition_description' => $this->input->post('edition_description'),
                             'edition_entry_detail' => $this->input->post('edition_entry_detail'),
                         );
+                
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];
                 $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$this->input->post('user_id')];
+                
             } else {
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
                 $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>19];
@@ -204,6 +225,18 @@ class Edition_model extends CI_Model {
                         }
                         $this->db->update('editions', $edition_data, array('edition_id' => $edition_id));
                         $this->db->trans_complete();
+                        
+                        
+                        // check of die naam van die edition verander het, indien wel, kryf na editions_past
+                        
+                        if ($this->input->post('edition_name_past')!=$this->input->post('edition_name'))
+                        {
+                            $this->db->trans_start();
+                            $this->db->insert('editions_past', ["edition_id"=>$edition_id,"edition_name"=>$this->input->post('edition_name_past')]);                            
+                            $this->db->trans_complete();
+                        }
+                        
+                        
                         break;
                     default:
                         show_404();
