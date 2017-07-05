@@ -115,6 +115,15 @@ class Event extends Admin_Controller {
         $this->form_validation->set_rules('event_status', 'Event Status', 'required');
         $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a town"]);
 
+        
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Event"=> "/admin/event",
+                   ucfirst($action)=> "",
+                   ];
+        
+        
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
@@ -180,46 +189,6 @@ class Event extends Admin_Controller {
         redirect($this->return_url);
     }
        
-    
-
-    public function delete_old($confirm=false) {
-
-        $id=$this->encryption->decrypt($this->input->post('event_id'));
-
-        if ($id==0) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-
-        if ($confirm=='confirm')
-        {
-            $db_del=$this->event_model->remove_event($id);
-            if ($db_del)
-            {
-                $msg="Event has been deleted";
-                $status="success";
-            }
-            else
-            {
-                $msg="Error committing to the database ID:'.$id";
-                $status="danger";
-            }
-
-            $this->session->set_flashdata('alert', $msg);
-            $this->session->set_flashdata('status', $status);
-            redirect($this->return_url);
-        }
-        else
-        {
-            $this->session->set_flashdata('alert', 'Cannot delete record');
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-    }
-
 
     public function import($submit=NULL) {
 
@@ -496,6 +465,8 @@ class Event extends Admin_Controller {
 
         }
 
+//        wts($return_arr);
+//        die();
         return $return_arr;
 
     }
@@ -541,16 +512,17 @@ class Event extends Admin_Controller {
     private function formulate_race_data($event_data, $edition_key_field, $edition_key_value) {
         $race_field_list=$this->get_race_field_list();
 
+        $k=0;
         foreach ($event_data as $le) {
             if (trim($le[$edition_key_field])==$edition_key_value) {
                 if ($le['race_id']) {
                     $race_action="edit";
                     $race_key_field="race_id";
+                    $race_key_value=$le[$race_key_field];
                 } else {
                     $race_action="add";
-                    $race_key_field="race_name";
+                    $race_key_value=$k;
                 }
-                $race_key_value=trim($le[$race_key_field]);
 
                 // set event level data
                 foreach ($race_field_list as $race_field) {
@@ -560,6 +532,7 @@ class Event extends Admin_Controller {
                 // full list item
                 // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
             }
+            $k++;
         }
 
         return $return_arr;

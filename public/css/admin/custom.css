@@ -5,3 +5,7 @@ span.compulsary { color: #e7505a; }
 label {
     font-weight: 600;
 }
+
+.table-scrollable .dataTable td>.btn-group open {
+    left: -40px;
+}

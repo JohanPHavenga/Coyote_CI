@@ -86,7 +86,7 @@
                 echo "<div class='form-group'>";
                 echo form_label('Date Created', 'created_date');
                 echo form_input([
-                        'value'         => set_value('created_date', @$edition_detail['created_date']),
+                        'value'         => set_value('created_date', @$event_detail['created_date']),
                         'class'         => 'form-control input-medium',
                         'disabled'      => ''
                     ]);
@@ -95,7 +95,7 @@
                 echo "<div class='form-group'>";
                 echo form_label('Date Updated', 'updated_date');
                 echo form_input([
-                        'value'         => set_value('updated_date', @$edition_detail['updated_date']),
+                        'value'         => set_value('updated_date', @$event_detail['updated_date']),
                         'class'         => 'form-control input-medium',
                         'disabled'      => ''
                     ]);
