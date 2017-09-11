@@ -1,0 +1,1 @@
+ERROR - 2017-07-05 14:10:10 --> Severity: Notice --> Undefined index: event_id /var/www/public/app/models/Event_model.php 216

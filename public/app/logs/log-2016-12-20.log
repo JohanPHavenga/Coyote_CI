@@ -1,0 +1,46 @@
+ERROR - 2016-12-20 12:09:24 --> Severity: Parsing Error --> syntax error, unexpected 'months' (T_STRING) /var/www/public/app/controllers/Pages.php 100
+ERROR - 2016-12-20 12:09:24 --> Severity: Parsing Error --> syntax error, unexpected 'months' (T_STRING) /var/www/public/app/controllers/Pages.php 100
+ERROR - 2016-12-20 12:29:56 --> Severity: Notice --> Undefined variable: race_list_html /var/www/public/app/views/event/calendar.php 33
+ERROR - 2016-12-20 12:35:08 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:08 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:19 --> Severity: Notice --> Use of undefined constant F - assumed 'F' /var/www/public/app/core/MY_Controller.php 375
+ERROR - 2016-12-20 12:35:50 --> Severity: Parsing Error --> syntax error, unexpected ''</h3>'' (T_CONSTANT_ENCAPSED_STRING) /var/www/public/app/core/MY_Controller.php 378
+ERROR - 2016-12-20 13:07:44 --> Severity: Notice --> Undefined variable: upcoming_race_summary /var/www/public/app/views/event/calendar.php 60
+ERROR - 2016-12-20 13:07:44 --> Severity: Notice --> Undefined variable: past_race_summary /var/www/public/app/views/event/calendar.php 67
+ERROR - 2016-12-20 13:07:44 --> Severity: Notice --> Undefined variable: race_list_html /var/www/public/app/views/event/calendar.php 78
+ERROR - 2016-12-20 13:08:01 --> Severity: Notice --> Undefined variable: race_list_html /var/www/public/app/views/event/calendar.php 78
+ERROR - 2016-12-20 13:30:42 --> Severity: Notice --> Undefined variable: <div class='alert alert-warning' role='alert'>Note that you are viewing an event in the past.</div> /var/www/public/app/views/event/detail.php 10
+ERROR - 2016-12-20 13:31:45 --> Severity: Notice --> Undefined variable: notice /var/www/public/app/views/event/detail.php 10
+ERROR - 2016-12-20 13:35:13 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/landing/page.php 33
+ERROR - 2016-12-20 13:37:22 --> Severity: Notice --> Undefined variable: heading_date /var/www/public/app/views/landing/page.php 35
+ERROR - 2016-12-20 19:45:40 --> Severity: Notice --> Undefined variable: title /var/www/public/app/views/templates/header.php 11
+ERROR - 2016-12-20 20:05:21 --> Severity: Notice --> Undefined variable: heading_date /var/www/public/app/views/pages/home.php 52
+ERROR - 2016-12-20 20:14:30 --> Severity: Parsing Error --> syntax error, unexpected ''" class="cbp-filter-item"> '' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' /var/www/public/app/core/MY_Controller.php 376
+ERROR - 2016-12-20 20:14:30 --> Severity: Parsing Error --> syntax error, unexpected ''" class="cbp-filter-item"> '' (T_CONSTANT_ENCAPSED_STRING), expecting ',' or ';' /var/www/public/app/core/MY_Controller.php 376
+ERROR - 2016-12-20 20:14:49 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 384
+ERROR - 2016-12-20 20:14:49 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 384
+ERROR - 2016-12-20 20:14:49 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 384
+ERROR - 2016-12-20 20:14:49 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 384
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:22:12 --> Severity: Notice --> Undefined index: edition_name /var/www/public/app/core/MY_Controller.php 386
+ERROR - 2016-12-20 20:33:05 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): Connection timed out /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2016-12-20 20:33:05 --> Unable to connect to the database

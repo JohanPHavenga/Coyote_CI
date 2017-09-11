@@ -1,0 +1,20 @@
+ERROR - 2016-12-21 13:09:21 --> Severity: Parsing Error --> syntax error, unexpected ''">'' (T_CONSTANT_ENCAPSED_STRING) /var/www/public/app/core/MY_Controller.php 428
+ERROR - 2016-12-21 13:09:22 --> Severity: Parsing Error --> syntax error, unexpected ''">'' (T_CONSTANT_ENCAPSED_STRING) /var/www/public/app/core/MY_Controller.php 428
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:12:01 --> Severity: Notice --> Undefined variable: act /var/www/public/app/core/MY_Controller.php 406
+ERROR - 2016-12-21 13:20:05 --> Severity: Parsing Error --> syntax error, unexpected '$return_html_arr' (T_VARIABLE) /var/www/public/app/core/MY_Controller.php 437
+ERROR - 2016-12-21 13:20:05 --> Severity: Parsing Error --> syntax error, unexpected '$return_html_arr' (T_VARIABLE) /var/www/public/app/core/MY_Controller.php 437

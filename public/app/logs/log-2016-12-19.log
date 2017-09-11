@@ -1,0 +1,111 @@
+ERROR - 2016-12-19 09:52:56 --> Non-existent class: Google
+ERROR - 2016-12-19 09:53:00 --> Non-existent class: Google
+ERROR - 2016-12-19 09:53:02 --> Non-existent class: Google
+ERROR - 2016-12-19 09:53:06 --> Non-existent class: Google
+ERROR - 2016-12-19 09:54:44 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:54:44 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:00 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:00 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:12 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:13 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:20 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:56:21 --> Severity: error --> Exception: This library must be installed via composer or by downloading the full package. See the instructions at https://github.com/google/google-api-php-client#installation. /var/www/public/app/third_party/Google/autoload.php 14
+ERROR - 2016-12-19 09:57:13 --> Severity: 16384 --> google-api-php-client's autoloader was moved to vendor/autoload.php in 2.0.0. This redirect will be removed in 2.1. Please adjust your code to use the new location. /var/www/public/app/third_party/Google/autoload.php 21
+ERROR - 2016-12-19 09:57:14 --> Severity: 16384 --> google-api-php-client's autoloader was moved to vendor/autoload.php in 2.0.0. This redirect will be removed in 2.1. Please adjust your code to use the new location. /var/www/public/app/third_party/Google/autoload.php 21
+ERROR - 2016-12-19 09:57:53 --> Severity: 16384 --> google-api-php-client's autoloader was moved to vendor/autoload.php in 2.0.0. This redirect will be removed in 2.1. Please adjust your code to use the new location. /var/www/public/app/vendor/Google/autoload.php 21
+ERROR - 2016-12-19 09:57:56 --> Severity: 16384 --> google-api-php-client's autoloader was moved to vendor/autoload.php in 2.0.0. This redirect will be removed in 2.1. Please adjust your code to use the new location. /var/www/public/app/vendor/Google/autoload.php 21
+ERROR - 2016-12-19 11:40:49 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:42:01 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:42:13 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:42:14 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:42:15 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:42:18 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:52:42 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:52:43 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:54:06 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:54:47 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:54:53 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:55:56 --> Severity: Notice --> Undefined property: Event::$google /var/www/public/app/controllers/Event.php 142
+ERROR - 2016-12-19 11:55:56 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Event.php 142
+ERROR - 2016-12-19 11:56:29 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 11:59:23 --> Severity: 16384 --> google-api-php-client's autoloader was moved to vendor/autoload.php in 2.0.0. This redirect will be removed in 2.1. Please adjust your code to use the new location. /var/www/public/app/vendor/Google/autoload.php 21
+ERROR - 2016-12-19 11:59:23 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 12:16:19 --> Severity: Warning --> require_once(/var/www/public/app/vendor/Google/autoload.php): failed to open stream: No such file or directory /var/www/public/app/libraries/Google.php 4
+ERROR - 2016-12-19 12:16:19 --> Severity: Compile Error --> require_once(): Failed opening required '/var/www/public/app/vendor/Google/autoload.php' (include_path='/var/www/public/app/vendor/Google:.:/usr/share/php:/usr/share/pear') /var/www/public/app/libraries/Google.php 4
+ERROR - 2016-12-19 12:16:51 --> Severity: Notice --> Undefined property: Pages::$google /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:16:51 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:17:06 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:17:10 --> Severity: Error --> Class 'Google_Service_Calendar_Event' not found /var/www/public/app/views/scripts/google_calendar.php 7
+ERROR - 2016-12-19 12:17:19 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:18:44 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:18:46 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:18:46 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:18:52 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:18:53 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:19:04 --> Severity: Warning --> require_once(/var/www/public/app/vendor/Google/autoload.php): failed to open stream: No such file or directory /var/www/public/app/libraries/Google.php 4
+ERROR - 2016-12-19 12:19:04 --> Severity: Compile Error --> require_once(): Failed opening required '/var/www/public/app/vendor/Google/autoload.php' (include_path='/var/www/public/app/vendor/Google:.:/usr/share/php:/usr/share/pear') /var/www/public/app/libraries/Google.php 4
+ERROR - 2016-12-19 12:19:35 --> Unable to load the requested class: Google
+ERROR - 2016-12-19 12:32:33 --> Severity: Error --> Class 'Google_Service_Calendar' not found /var/www/public/app/views/scripts/google_api_init.php 8
+ERROR - 2016-12-19 12:37:08 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:37:10 --> Severity: error --> Exception: This application must be run on the command line. /var/www/public/app/views/scripts/google_api_init.php 12
+ERROR - 2016-12-19 12:43:03 --> Severity: error --> Exception: This application must be run on the command line. /var/www/public/app/views/scripts/google_api_init.php 12
+ERROR - 2016-12-19 12:43:09 --> Non-existent class: Google
+ERROR - 2016-12-19 12:45:41 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:45:43 --> Severity: Notice --> Undefined variable: service /var/www/public/app/views/scripts/google_calendar.php 36
+ERROR - 2016-12-19 12:45:43 --> Severity: Notice --> Trying to get property of non-object /var/www/public/app/views/scripts/google_calendar.php 36
+ERROR - 2016-12-19 12:45:43 --> Severity: Error --> Call to a member function insert() on null /var/www/public/app/views/scripts/google_calendar.php 36
+ERROR - 2016-12-19 12:47:08 --> Severity: Notice --> Undefined property: Google_Client::$events /var/www/public/app/views/scripts/google_calendar.php 40
+ERROR - 2016-12-19 12:47:08 --> Severity: Error --> Call to a member function insert() on null /var/www/public/app/views/scripts/google_calendar.php 40
+ERROR - 2016-12-19 12:51:45 --> Severity: 4096 --> Argument 1 passed to Google_Service_Calendar::__construct() must be an instance of Google_Client, none given, called in /var/www/public/app/views/scripts/google_calendar.php on line 39 and defined /var/www/public/vendor/google/apiclient-services/src/Google/Service/Calendar.php 54
+ERROR - 2016-12-19 12:51:45 --> Severity: Notice --> Undefined variable: client /var/www/public/vendor/google/apiclient-services/src/Google/Service/Calendar.php 56
+ERROR - 2016-12-19 12:51:45 --> Severity: 4096 --> Argument 1 passed to Google_Service::__construct() must be an instance of Google_Client, null given, called in /var/www/public/vendor/google/apiclient-services/src/Google/Service/Calendar.php on line 56 and defined /var/www/public/vendor/google/apiclient/src/Google/Service.php 28
+ERROR - 2016-12-19 12:51:45 --> Severity: Error --> Call to a member function getLogger() on null /var/www/public/vendor/google/apiclient/src/Google/Service/Resource.php 178
+ERROR - 2016-12-19 12:51:57 --> Severity: error --> Exception: {
+ "error": {
+  "errors": [
+   {
+    "domain": "global",
+    "reason": "required",
+    "message": "Login Required",
+    "locationType": "header",
+    "location": "Authorization"
+   }
+  ],
+  "code": 401,
+  "message": "Login Required"
+ }
+}
+ /var/www/public/vendor/google/apiclient/src/Google/Http/REST.php 118
+ERROR - 2016-12-19 12:52:31 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:52:49 --> Severity: 4096 --> Argument 1 passed to Google_Service_Calendar::__construct() must be an instance of Google_Client, instance of Google_Service_Calendar_Event given, called in /var/www/public/app/views/scripts/google_calendar.php on line 39 and defined /var/www/public/vendor/google/apiclient-services/src/Google/Service/Calendar.php 54
+ERROR - 2016-12-19 12:52:49 --> Severity: 4096 --> Argument 1 passed to Google_Service::__construct() must be an instance of Google_Client, instance of Google_Service_Calendar_Event given, called in /var/www/public/vendor/google/apiclient-services/src/Google/Service/Calendar.php on line 56 and defined /var/www/public/vendor/google/apiclient/src/Google/Service.php 28
+ERROR - 2016-12-19 12:52:49 --> Severity: Error --> Call to undefined method Google_Service_Calendar_Event::getLogger() /var/www/public/vendor/google/apiclient/src/Google/Service/Resource.php 178
+ERROR - 2016-12-19 12:53:03 --> Severity: error --> Exception: {
+ "error": {
+  "errors": [
+   {
+    "domain": "global",
+    "reason": "required",
+    "message": "Login Required",
+    "locationType": "header",
+    "location": "Authorization"
+   }
+  ],
+  "code": 401,
+  "message": "Login Required"
+ }
+}
+ /var/www/public/vendor/google/apiclient/src/Google/Http/REST.php 118
+ERROR - 2016-12-19 12:53:48 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:53:53 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:53:53 --> Severity: Notice --> Undefined variable: api_ver /var/www/public/app/views/pages/about.php 12
+ERROR - 2016-12-19 12:56:49 --> Severity: Notice --> Undefined property: Pages::$google /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:56:49 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:57:06 --> Severity: Notice --> Undefined property: Pages::$Google_Client /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:57:06 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:57:56 --> Severity: Notice --> Undefined variable: Google /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:57:56 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:58:04 --> Severity: Notice --> Undefined property: Pages::$Google /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:58:04 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:58:12 --> Severity: Notice --> Undefined property: Pages::$google /var/www/public/app/controllers/Pages.php 64
+ERROR - 2016-12-19 12:58:12 --> Severity: Error --> Call to a member function getLibraryVersion() on null /var/www/public/app/controllers/Pages.php 64

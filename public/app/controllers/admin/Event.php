@@ -210,7 +210,7 @@ class Event extends Admin_Controller {
             {
                 $this->data_to_view['error'] = $this->upload->display_errors();
             }
-
+            
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view("/admin/event/import", $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
@@ -226,6 +226,14 @@ class Event extends Admin_Controller {
                 // send to view
                 $this->data_to_view['import_event_data']=$_SESSION['import_event_data'];
 
+                $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Event"=> "/admin/event",
+                   "Import" => "/admin/event/import",
+                   "Confirm" => "",
+                   ];
+                
                 $this->load->view($this->header_url, $this->data_to_header);
                 $this->load->view("/admin/event/import", $this->data_to_view);
                 $this->load->view($this->footer_url, $this->data_to_footer);

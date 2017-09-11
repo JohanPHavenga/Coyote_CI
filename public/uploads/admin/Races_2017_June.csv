@@ -1,0 +1,8 @@
+event_id,event_name,edition_id,edition_name,edition_date,race_id,race_name,race_distance,race_time,edition_address,town_id,town_name,edition_gps,latitude_num,longitude_num,edition_url
+,UWC 10km Fast & Flat,,UWC 10km Fast & Flat 2017,2017-06-03,,10k Run,10,07:30:00,"UWC Campus Modderdam Road, Bellville",,Bellville,"-33.933663, 18.626928",-33.933663, 18.626928,
+,UWC 10km Fast & Flat,,UWC 10km Fast & Flat 2017,2017-06-03,,10k Walk,10,07:40:00,"UWC Campus Modderdam Road, Bellville",,Bellville,"-33.933663, 18.626928",-33.933663, 18.626928,
+,UWC 10km Fast & Flat,,UWC 10km Fast & Flat 2017,2017-06-03,,Fun Run,5,08:00:00,"UWC Campus Modderdam Road, Bellville",,Bellville,"-33.933663, 18.626928",-33.933663, 18.626928,
+,Mamre 21 km,,Mamre 21 km 2017,2017-06-10,,Half Marathon,21.1,08:00:00,"Mamre Primary School, Atlantis",,Atlantis,"-33.515085, 18.478665",-33.515085, 18.478665,
+,Mamre 21 km,,Mamre 21 km 2017,2017-06-10,,Fun Run/Walk,5,08:15:00,"Mamre Primary School, Atlantis",,Atlantis,"-33.515085, 18.478665",-33.515085, 18.478665,
+,Dave Spence Memorial Race,,Dave Spence Memorial Race 2017,2017-06-16,,10k,10,07:30:00,"NY 49 Stadium, Gugulethu",,Gugulethu,"-33.988392, 18.566517",-33.988392, 18.566517,
+,Dave Spence Memorial Race,,Dave Spence Memorial Race 2017,2017-06-16,,Fun Run,4.2,07:40:00,"NY 49 Stadium, Gugulethu",,Gugulethu,"-33.988392, 18.566517",-33.988392, 18.566517,

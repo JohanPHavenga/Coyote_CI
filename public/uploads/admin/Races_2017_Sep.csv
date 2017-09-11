@@ -1,0 +1,10 @@
+event_id,event_name,edition_id,edition_name,edition_date,race_id,race_name,race_distance,race_time,edition_address,town_id,town_name,edition_gps,latitude_num,longitude_num,edition_url
+,Tekkie Challenge,,Medihelp Tekkie Challenge 2017,2017-09-02,,10k,10,08:00:00,"Jan Kriel School, Kuilsrivier",,Kuilsrivier,"-33.921611, 18.683817",-33.921611, 18.683817,
+,Tekkie Challenge,,Medihelp Tekkie Challenge 2017,2017-09-02,,Fun Run,5,08:15:00,"Jan Kriel School, Kuilsrivier",,Kuilsrivier,"-33.921611, 18.683817",-33.921611, 18.683817,
+,Satori Camel Run,,Satori Camel Run 2017,2017-09-03,,Camel Run,16,07:30:00,Noordhoek Sports Field,,Noordhoek,"-34.109045, 18.379798",-34.109045, 18.379798,http://www.camelrun.co.za/
+,3 Vlei 10km,,ARD 3 Vlei 10km 2017,2017-09-10,,10k,10,07:00:00,"Fairmount Secondary School, Klip Road",,Grassy Park,"-34.036874, 18.498665",-34.036874, 18.498665,
+,3 Vlei 10km,,ARD 3 Vlei 10km 2017,2017-09-10,,Fun Run,5,07:20:00,"Fairmount Secondary School, Klip Road",,Grassy Park,"-34.036874, 18.498665",-34.036874, 18.498665,
+,Cape Town Marathon,,Sanlam Cape Town Marathon 2017,2017-09-17,,Marathon,42.2,07:00:00,Green Point,,Cape Town,"-33.905016, 18.409294",-33.905016, 18.409294,http://www.capetownmarathon.com/
+,Cape Town Marathon,,Sanlam Cape Town Marathon 2017,2017-09-17,,Peace Fun Run,10,07:10:00,Green Point,,Cape Town,"-33.905016, 18.409294",-33.905016, 18.409294,http://www.capetownmarathon.com/
+,Glenwood 10km Challenge,,Glenwood Spar 10km Challenge 2017,2017-09-30,,10k,10,07:00:00,Tygerdal Goodwood,,Goodwood,"-33.894659, 18.550982",-33.894659, 18.550982,
+,Glenwood 10km Challenge,,Glenwood Spar 10km Challenge 2017,2017-09-30,,Fun Run,5,07:10:00,Tygerdal Goodwood,,Goodwood,"-33.894659, 18.550982",-33.894659, 18.550982,

@@ -1,0 +1,2 @@
+ERROR - 2017-08-18 07:31:38 --> Severity: Warning --> mysqli::real_connect(): (HY000/1049): Unknown database 'roadrjsx_coyote' /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-08-18 07:31:38 --> Unable to connect to the database

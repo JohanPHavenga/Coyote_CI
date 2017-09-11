@@ -1,0 +1,2 @@
+ERROR - 2017-04-10 19:46:01 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/public/app/views/templates/header.php 6
+ERROR - 2017-04-10 19:46:02 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/public/app/views/templates/header.php 6

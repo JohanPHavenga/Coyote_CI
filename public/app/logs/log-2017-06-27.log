@@ -1,0 +1,1 @@
+ERROR - 2017-06-27 19:15:58 --> Severity: Parsing Error --> syntax error, unexpected 'else' (T_ELSE) /var/www/public/app/models/Edition_model.php 52

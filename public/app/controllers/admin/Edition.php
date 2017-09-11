@@ -113,6 +113,11 @@ class Edition extends Admin_Controller {
         $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
         $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
+        
+        // set default contact
+        if (empty($this->data_to_view['edition_detail']['user_id'])) { $this->data_to_view['edition_detail']['user_id']=60; }        
+        // set default sponsor
+        if (empty($this->data_to_view['edition_detail']['sponsor_id'])) { $this->data_to_view['edition_detail']['sponsor_id']=4; }
 
         // set validation rules
         $this->form_validation->set_rules('edition_name', 'Edition Name', 'required');

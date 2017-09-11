@@ -1,0 +1,13 @@
+ERROR - 2017-03-31 12:16:41 --> Query error: Unknown column 'reacetype_name' in 'field list' - Invalid query: SELECT `races`.*, `edition_name`, `reacetype_name`
+FROM `races`
+LEFT JOIN `editions` ON `editions`.`edition_id`=`races`.`edition_id`
+LEFT JOIN `racetypes` ON `racetypes`.`racetype_id`=`races`.`racetype_id`
+WHERE `races`.`race_status` = 1
+ERROR - 2017-03-31 12:55:37 --> Severity: Parsing Error --> syntax error, unexpected ';', expecting ')' /var/www/public/app/helpers/formulate_helper.php 27
+ERROR - 2017-03-31 13:10:48 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 22
+ERROR - 2017-03-31 13:10:48 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 91
+ERROR - 2017-03-31 13:10:48 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 105
+ERROR - 2017-03-31 13:10:48 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 114
+ERROR - 2017-03-31 13:11:26 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 91
+ERROR - 2017-03-31 13:11:26 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 105
+ERROR - 2017-03-31 13:11:26 --> Severity: Notice --> Undefined variable: edition_detail /var/www/public/app/views/admin/edition/create.php 114

@@ -1,0 +1,8 @@
+ERROR - 2017-04-06 20:15:41 --> Severity: Notice --> Use of undefined constant fraceDistance - assumed 'fraceDistance' /var/www/public/app/views/event/detail.php 289
+ERROR - 2017-04-06 20:15:41 --> Severity: Notice --> Use of undefined constant fraceDistance - assumed 'fraceDistance' /var/www/public/app/views/event/detail.php 289
+ERROR - 2017-04-06 20:15:41 --> Severity: Notice --> Use of undefined constant fraceDistance - assumed 'fraceDistance' /var/www/public/app/views/event/detail.php 289
+ERROR - 2017-04-06 20:15:41 --> Severity: Notice --> Use of undefined constant fraceDistance - assumed 'fraceDistance' /var/www/public/app/views/event/detail.php 289
+ERROR - 2017-04-06 20:44:00 --> Severity: Error --> Call to undefined method Race_model::get_race_color() /var/www/public/app/models/Race_model.php 39
+ERROR - 2017-04-06 20:51:23 --> Severity: Notice --> Undefined index: racetype_abbr /var/www/public/app/views/event/detail.php 376
+ERROR - 2017-04-06 20:51:23 --> Severity: Notice --> Undefined index: racetype_abbr /var/www/public/app/views/event/detail.php 376
+ERROR - 2017-04-06 21:15:44 --> Severity: Parsing Error --> syntax error, unexpected ';' /var/www/public/app/views/event/detail.php 114

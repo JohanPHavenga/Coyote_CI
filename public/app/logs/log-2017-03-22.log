@@ -1,0 +1,4 @@
+ERROR - 2017-03-22 20:36:28 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/templates/footer.php 183
+ERROR - 2017-03-22 20:36:33 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/templates/footer.php 183
+ERROR - 2017-03-22 20:47:59 --> 404 Page Not Found: 
+ERROR - 2017-03-22 20:48:11 --> 404 Page Not Found: 

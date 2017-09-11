@@ -1,0 +1,8 @@
+ERROR - 2017-01-06 09:48:15 --> Severity: Parsing Error --> syntax error, unexpected '?>' /var/www/public/app/views/event/calendar.php 39
+ERROR - 2017-01-06 13:12:48 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/controllers/admin/Dashboard.php 48
+ERROR - 2017-01-06 13:13:23 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/controllers/admin/Dashboard.php 54
+ERROR - 2017-01-06 13:22:39 --> Severity: Notice --> Undefined index: uri /var/www/public/app/views/admin/dashboard/dashboard.php 20
+ERROR - 2017-01-06 13:22:39 --> Severity: Notice --> Undefined index: uri /var/www/public/app/views/admin/dashboard/dashboard.php 20
+ERROR - 2017-01-06 13:22:45 --> Severity: Notice --> Undefined index: uri /var/www/public/app/views/admin/dashboard/dashboard.php 20
+ERROR - 2017-01-06 13:22:45 --> Severity: Notice --> Undefined index: uri /var/www/public/app/views/admin/dashboard/dashboard.php 20
+ERROR - 2017-01-06 13:23:22 --> Severity: Notice --> Undefined index: query /var/www/public/app/views/admin/dashboard/search.php 12

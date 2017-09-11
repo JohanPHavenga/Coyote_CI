@@ -1,0 +1,31 @@
+ERROR - 2017-01-05 13:01:16 --> Severity: Error --> Call to undefined method Event_model::search_events() /var/www/public/app/controllers/Pages.php 80
+ERROR - 2017-01-05 13:01:18 --> Severity: Error --> Call to undefined method Event_model::search_events() /var/www/public/app/controllers/Pages.php 80
+ERROR - 2017-01-05 13:06:25 --> Severity: Notice --> Undefined variable: search_result /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-01-05 13:09:19 --> Severity: Notice --> Undefined index: event_id /var/www/public/app/models/Event_model.php 285
+ERROR - 2017-01-05 13:09:19 --> Severity: Notice --> Undefined index: event_id /var/www/public/app/models/Event_model.php 285
+ERROR - 2017-01-05 13:09:19 --> Severity: Notice --> Undefined index: event_id /var/www/public/app/models/Event_model.php 285
+ERROR - 2017-01-05 13:09:32 --> Query error: Column 'event_id' in field list is ambiguous - Invalid query: SELECT `event_id`, `event_name`, `editions`.`edition_id`, `edition_name`, `edition_date`, `town_name`, `race_distance`, `race_time`
+FROM `events`
+JOIN `editions` ON `editions`.`event_id` = `events`.`event_id`
+JOIN `races` ON `races`.`edition_id` = `editions`.`edition_id`
+JOIN `towns` ON `towns`.`town_id` = `events`.`town_id`
+JOIN `town_area` ON `towns`.`town_id` = `town_area`.`town_id`
+JOIN `areas` ON `areas`.`area_id` = `town_area`.`area_id`
+WHERE `area_name` LIKE '%red hill%' ESCAPE '!'
+OR  `event_name` LIKE '%red hill%' ESCAPE '!'
+ORDER BY `edition_date` ASC
+ERROR - 2017-01-05 13:17:47 --> Severity: Compile Error --> Non-abstract method Event_model::get_event_list_summary() must contain body /var/www/public/app/models/Event_model.php 212
+ERROR - 2017-01-05 13:18:03 --> Severity: Notice --> Undefined index: date_form /var/www/public/app/models/Event_model.php 220
+ERROR - 2017-01-05 13:18:03 --> Severity: Notice --> Undefined variable: query /var/www/public/app/models/Event_model.php 223
+ERROR - 2017-01-05 13:18:03 --> Severity: Error --> Call to a member function num_rows() on null /var/www/public/app/models/Event_model.php 223
+ERROR - 2017-01-05 13:18:23 --> Severity: Notice --> Undefined variable: query /var/www/public/app/models/Event_model.php 223
+ERROR - 2017-01-05 13:18:23 --> Severity: Error --> Call to a member function num_rows() on null /var/www/public/app/models/Event_model.php 223
+ERROR - 2017-01-05 13:27:06 --> Severity: Notice --> Undefined variable: query /var/www/public/app/models/Event_model.php 292
+ERROR - 2017-01-05 13:27:06 --> Severity: Error --> Call to a member function num_rows() on null /var/www/public/app/models/Event_model.php 228
+ERROR - 2017-01-05 13:56:39 --> Query error: No tables used - Invalid query: SELECT *
+ERROR - 2017-01-05 13:57:52 --> Query error: No tables used - Invalid query: SELECT *
+ERROR - 2017-01-05 14:18:30 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-01-05 14:19:12 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-01-05 14:20:30 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-01-05 14:21:18 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-01-05 14:21:45 --> Query error: No tables used - Invalid query: SELECT *

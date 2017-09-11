@@ -1,0 +1,10 @@
+ERROR - 2017-04-12 08:44:45 --> Severity: Warning --> mysqli::real_connect(): (HY000/1049): Unknown database 'johanffk_coyote' /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-12 08:44:45 --> Unable to connect to the database
+ERROR - 2017-04-12 08:44:46 --> Severity: Warning --> mysqli::real_connect(): (HY000/1049): Unknown database 'johanffk_coyote' /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-12 08:44:46 --> Unable to connect to the database
+ERROR - 2017-04-12 09:20:38 --> Severity: Notice --> Undefined variable: race_list_html /var/www/public/app/views/pages/home.php 48
+ERROR - 2017-04-12 09:20:38 --> 404 Page Not Found: 
+ERROR - 2017-04-12 09:20:39 --> 404 Page Not Found: 
+ERROR - 2017-04-12 09:20:57 --> Severity: Notice --> Undefined variable: race_list_html /var/www/public/app/views/pages/home.php 48
+ERROR - 2017-04-12 09:20:57 --> 404 Page Not Found: 
+ERROR - 2017-04-12 09:20:57 --> 404 Page Not Found: 

@@ -146,9 +146,58 @@ class User extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-
-
+    
     public function view() {
+        // load helpers / libraries
+        $this->load->library('table');
+        
+        $this->data_to_view["user_data"] = $this->user_model->get_user_list();
+        $this->data_to_view['heading']=["ID","User Name","User Surname","User Email","Club Name","Actions"];
+        
+        $this->data_to_view['create_link']=$this->create_url;
+        $this->data_to_header['title'] = "List of Users";
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Users"=>"/admin/user",
+                   "List"=>"",
+                   ];
+        
+        $this->data_to_header['page_action_list']=
+                [
+                    [
+                        "name"=>"Add User",
+                        "icon"=>"users",
+                        "uri"=>"user/create/add",
+                    ],
+                ];
+        
+        $this->data_to_view['url']=$this->url_disect();
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
+
+        // load view
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/user/view", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+
+
+    public function view_old() {
         // load helpers / libraries
         $this->load->library('table');
 
@@ -211,6 +260,8 @@ class User extends Admin_Controller {
         $this->data_to_view['user_detail']['role_id']=$this->role_model->get_role_list_per_user($id);
         $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
+        // set default sponsor
+        if (empty($this->data_to_view['user_detail']['club_id'])) { $this->data_to_view['user_detail']['club_id']=8; }
 
         // set validation rules
         $this->form_validation->set_rules('user_name', 'Name', 'required');

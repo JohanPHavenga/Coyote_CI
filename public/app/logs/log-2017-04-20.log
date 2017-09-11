@@ -1,0 +1,5 @@
+ERROR - 2017-04-20 18:48:43 --> Query error: Cannot add or update a child row: a foreign key constraint fails (`roadrjsx_coyote`.`races`, CONSTRAINT `FK_races_racetype_id` FOREIGN KEY (`racetype_id`) REFERENCES `racetypes` (`racetype_id`) ON DELETE CASCADE ON UPDATE CASCADE) - Invalid query: UPDATE `races` SET `race_name` = '', `race_distance` = '5', `race_time_start` = '7:00', `race_time_end` = '20:50', `race_status` = '1', `edition_id` = '125', `racetype_id` = '0', `race_fee_flat` = '23', `race_fee_senior_licenced` = '', `race_fee_senior_unlicenced` = '', `race_fee_junior_licenced` = '', `race_fee_junior_unlicenced` = '', `race_notes` = '', `updated_date` = '2017-04-20 18:48:43'
+WHERE `race_id` = '255'
+ERROR - 2017-04-20 19:15:20 --> Severity: Parsing Error --> syntax error, unexpected end of file /home/roadrjsx/public_html/app/views/event/detail.php 115
+ERROR - 2017-04-20 19:15:25 --> Severity: Parsing Error --> syntax error, unexpected end of file /home/roadrjsx/public_html/app/views/event/detail.php 115
+ERROR - 2017-04-20 19:15:52 --> Severity: Parsing Error --> syntax error, unexpected end of file /home/roadrjsx/public_html/app/views/event/detail.php 115

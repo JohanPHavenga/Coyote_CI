@@ -1,0 +1,9 @@
+ERROR - 2017-08-29 13:20:20 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:28:28 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:28:29 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:28:30 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:31:19 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:31:28 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:40:19 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:40:20 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23
+ERROR - 2017-08-29 13:41:55 --> Severity: error --> Exception: Call to undefined function utf8_encode() /var/www/public/app/views/admin/edition/create.php 23

@@ -1,0 +1,18 @@
+ERROR - 2017-02-20 19:27:52 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): Connection timed out /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-02-20 19:27:52 --> Unable to connect to the database
+ERROR - 2017-02-20 19:27:52 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No route to host /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-02-20 19:27:52 --> Unable to connect to the database
+ERROR - 2017-02-20 19:27:53 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No route to host /var/www/public/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-02-20 19:27:53 --> Unable to connect to the database
+ERROR - 2017-02-20 20:00:11 --> Query error: Unknown column 'events.events_status' in 'where clause' - Invalid query: SELECT `event_name`, `editions`.`edition_id`, `edition_name`, `edition_date`, `town_name`, `race_distance`, `race_time`
+FROM `events`
+JOIN `editions` ON `editions`.`event_id` = `events`.`event_id`
+JOIN `races` ON `races`.`edition_id` = `editions`.`edition_id`
+JOIN `towns` ON `towns`.`town_id` = `events`.`town_id`
+WHERE `edition_date` >= '2017-02-20'
+AND `events`.`events_status` = 1
+ORDER BY `edition_date` ASC
+ERROR - 2017-02-20 20:07:50 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-02-20 20:07:54 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-02-20 20:08:05 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10
+ERROR - 2017-02-20 20:08:14 --> Severity: Warning --> Invalid argument supplied for foreach() /var/www/public/app/views/pages/search.php 10

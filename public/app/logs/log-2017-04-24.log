@@ -1,0 +1,72 @@
+ERROR - 2017-04-24 06:25:22 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 06:25:22 --> Unable to connect to the database
+ERROR - 2017-04-24 06:25:22 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 09:08:16 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 09:08:16 --> Unable to connect to the database
+ERROR - 2017-04-24 09:08:17 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 10:35:54 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 10:35:54 --> Unable to connect to the database
+ERROR - 2017-04-24 10:35:54 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 10:35:55 --> Unable to connect to the database
+ERROR - 2017-04-24 10:35:55 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 10:35:55 --> Unable to connect to the database
+ERROR - 2017-04-24 10:35:55 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 10:35:55 --> Unable to connect to the database
+ERROR - 2017-04-24 10:35:55 --> Query error: No such file or directory - Invalid query: SELECT `edition_id`
+FROM `editions`
+WHERE REPLACE(edition_name, '\'', '') = 'KwikSpar Somerset Spookhill 15km 2017'
+OR REPLACE(edition_name, '/', ' ') = 'KwikSpar Somerset Spookhill 15km 2017'
+ERROR - 2017-04-24 10:35:56 --> Severity: Error --> Call to a member function num_rows() on boolean /home/roadrjsx/public_html/app/models/Edition_model.php 27
+ERROR - 2017-04-24 11:02:48 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 11:02:48 --> Unable to connect to the database
+ERROR - 2017-04-24 11:02:49 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 13:59:29 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 13:59:29 --> Unable to connect to the database
+ERROR - 2017-04-24 13:59:29 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 13:59:29 --> Unable to connect to the database
+ERROR - 2017-04-24 13:59:29 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 13:59:29 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 14:00:37 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:00:37 --> Unable to connect to the database
+ERROR - 2017-04-24 14:00:37 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 14:35:14 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:14 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:14 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:14 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:14 --> Query error: No such file or directory - Invalid query: SELECT `event_name`, `editions`.`edition_id`, `edition_name`, `edition_date`, `town_name`, `race_distance`, `race_time_start`
+FROM `events`
+JOIN `editions` ON `editions`.`event_id` = `events`.`event_id`
+JOIN `races` ON `races`.`edition_id` = `editions`.`edition_id`
+JOIN `towns` ON `towns`.`town_id` = `events`.`town_id`
+WHERE (`edition_date` BETWEEN '2017-04-24' AND '2017-07-24')
+AND `events`.`event_status` = 1
+AND `editions`.`edition_status` = 1
+AND `races`.`race_status` = 1
+ORDER BY `edition_date` ASC, `race_distance` DESC
+ERROR - 2017-04-24 14:35:14 --> Severity: Error --> Call to a member function num_rows() on boolean /home/roadrjsx/public_html/app/models/Event_model.php 270
+ERROR - 2017-04-24 14:35:32 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:32 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:32 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:32 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:32 --> Query error: No such file or directory - Invalid query: SELECT `event_name`, `editions`.`edition_id`, `edition_name`, `edition_date`, `town_name`, `race_distance`, `race_time_start`
+FROM `events`
+JOIN `editions` ON `editions`.`event_id` = `events`.`event_id`
+JOIN `races` ON `races`.`edition_id` = `editions`.`edition_id`
+JOIN `towns` ON `towns`.`town_id` = `events`.`town_id`
+WHERE (`edition_date` BETWEEN '2017-04-24' AND '2017-07-24')
+AND `events`.`event_status` = 1
+AND `editions`.`edition_status` = 1
+AND `races`.`race_status` = 1
+ORDER BY `edition_date` ASC, `race_distance` DESC
+ERROR - 2017-04-24 14:35:32 --> Severity: Error --> Call to a member function num_rows() on boolean /home/roadrjsx/public_html/app/models/Event_model.php 270
+ERROR - 2017-04-24 14:35:36 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:36 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:36 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 14:35:37 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:35:37 --> Unable to connect to the database
+ERROR - 2017-04-24 14:35:37 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 14:36:03 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No such file or directory /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 202
+ERROR - 2017-04-24 14:36:03 --> Unable to connect to the database
+ERROR - 2017-04-24 14:36:03 --> Severity: Error --> Call to a member function real_escape_string() on boolean /home/roadrjsx/public_html/syscore/database/drivers/mysqli/mysqli_driver.php 392
+ERROR - 2017-04-24 20:14:05 --> Severity: Parsing Error --> syntax error, unexpected '}' /var/www/public/app/views/event/detail.php 387
+ERROR - 2017-04-24 20:14:22 --> Severity: Parsing Error --> syntax error, unexpected end of file /var/www/public/app/views/event/detail.php 409

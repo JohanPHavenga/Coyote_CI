@@ -21,13 +21,16 @@ class User_model extends CI_Model {
     }
 
 
-    public function get_user_list($limit, $start)
-    {
-        $this->db->limit($limit, $start);
+    public function get_user_list($limit=NULL, $start=NULL)
+        {
+        if (isset($limit)&&isset($start)) {
+            $this->db->limit($limit, $start);
+        }
 
         $this->db->select("users.*, club_name");
         $this->db->from("users");
         $this->db->join('clubs', 'club_id');
+        $this->db->order_by('user_name', 'user_surname');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -47,6 +50,7 @@ class User_model extends CI_Model {
             $this->db->join('user_role', 'user_id', 'left');
             $this->db->where("role_id", $id);
         }
+        $this->db->order_by('user_name', 'user_surname');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

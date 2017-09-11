@@ -1,0 +1,168 @@
+ERROR - 2017-03-30 19:51:44 --> Query error: Unknown table 'users' - Invalid query: SELECT `events`.*, `editions`.*, `sponsors`.*, `users`.*, `towns`.`town_name`
+FROM `editions`
+LEFT JOIN `events` ON `events`.`event_id`=`editions`.`event_id`
+LEFT JOIN `edition_user` ON `editions`.`edition_id`=`edition_user`.`edition_id`
+LEFT JOIN `edition_sponsor` ON `editions`.`edition_id`=`edition_sponsor`.`edition_id`
+LEFT JOIN `sponsors` ON `sponsors`.`sponsor_id`=`edition_sponsor`.`sponsor_id`
+LEFT JOIN `towns` ON `towns`.`town_id`=`events`.`town_id`
+WHERE `editions`.`edition_id` = '120'
+ERROR - 2017-03-30 20:14:32 --> Query error: Table 'johanffk_coyote.edition_user' doesn't exist - Invalid query: SELECT `events`.*, `editions`.*, `sponsors`.*, `users`.`user_email`, `towns`.`town_name`
+FROM `editions`
+LEFT JOIN `events` ON `events`.`event_id`=`editions`.`event_id`
+LEFT JOIN `edition_user` ON `editions`.`edition_id`=`edition_user`.`edition_id`
+LEFT JOIN `users` ON `users`.`user_id`=`edition_user`.`user_id`
+LEFT JOIN `edition_sponsor` ON `editions`.`edition_id`=`edition_sponsor`.`edition_id`
+LEFT JOIN `sponsors` ON `sponsors`.`sponsor_id`=`edition_sponsor`.`sponsor_id`
+LEFT JOIN `towns` ON `towns`.`town_id`=`events`.`town_id`
+WHERE `editions`.`edition_id` = '120'
+ERROR - 2017-03-30 20:16:25 --> Query error: Table 'johanffk_coyote.edition_user' doesn't exist - Invalid query: SELECT `events`.*, `editions`.*, `sponsors`.*, `users`.`user_email`, `towns`.`town_name`
+FROM `editions`
+LEFT JOIN `events` ON `events`.`event_id`=`editions`.`event_id`
+LEFT JOIN `edition_user` ON `editions`.`edition_id`=`edition_user`.`edition_id`
+LEFT JOIN `users` ON `users`.`user_id`=`edition_user`.`user_id`
+LEFT JOIN `edition_sponsor` ON `editions`.`edition_id`=`edition_sponsor`.`edition_id`
+LEFT JOIN `sponsors` ON `sponsors`.`sponsor_id`=`edition_sponsor`.`sponsor_id`
+LEFT JOIN `towns` ON `towns`.`town_id`=`events`.`town_id`
+WHERE `editions`.`edition_id` = '120'
+ERROR - 2017-03-30 20:16:28 --> Query error: Table 'johanffk_coyote.edition_user' doesn't exist - Invalid query: SELECT `events`.*, `editions`.*, `sponsors`.*, `users`.`user_email`, `towns`.`town_name`
+FROM `editions`
+LEFT JOIN `events` ON `events`.`event_id`=`editions`.`event_id`
+LEFT JOIN `edition_user` ON `editions`.`edition_id`=`edition_user`.`edition_id`
+LEFT JOIN `users` ON `users`.`user_id`=`edition_user`.`user_id`
+LEFT JOIN `edition_sponsor` ON `editions`.`edition_id`=`edition_sponsor`.`edition_id`
+LEFT JOIN `sponsors` ON `sponsors`.`sponsor_id`=`edition_sponsor`.`sponsor_id`
+LEFT JOIN `towns` ON `towns`.`town_id`=`events`.`town_id`
+WHERE `editions`.`edition_id` = '120'
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:40 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:17:41 --> Severity: Notice --> Undefined index: name /var/www/public/app/views/admin/race/view.php 43
+ERROR - 2017-03-30 21:30:07 --> Severity: Error --> Call to undefined method Race_model::get_racetype_dropdown() /var/www/public/app/controllers/admin/Race.php 140
+ERROR - 2017-03-30 21:30:37 --> Severity: Error --> Call to undefined method Race_model::get_racetype_dropdown() /var/www/public/app/controllers/admin/Race.php 141
+ERROR - 2017-03-30 21:42:29 --> Query error: Cannot add or update a child row: a foreign key constraint fails (`johanffk_coyote`.`edition_user`, CONSTRAINT `FK_eu_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE) - Invalid query: INSERT INTO `edition_user` (`edition_id`, `user_id`, `updated_date`) VALUES ('121', '0', '2017-03-30 21:42:29')

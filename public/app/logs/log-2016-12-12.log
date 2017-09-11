@@ -1,0 +1,49 @@
+ERROR - 2016-12-12 07:10:59 --> Could not find the specified $config['composer_autoload'] path: /app/third_party/Google/autoload.php
+ERROR - 2016-12-12 07:11:00 --> Could not find the specified $config['composer_autoload'] path: /app/third_party/Google/autoload.php
+ERROR - 2016-12-12 07:12:08 --> Could not find the specified $config['composer_autoload'] path: /app/third_party/Google/autoload.php
+ERROR - 2016-12-12 07:12:22 --> Could not find the specified $config['composer_autoload'] path: /app/third_party/Google/autoload.php
+ERROR - 2016-12-12 11:43:59 --> Severity: Parsing Error --> syntax error, unexpected '","' (T_CONSTANT_ENCAPSED_STRING) /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:45:10 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Frys Hohenort 2017'' at line 3 - Invalid query: SELECT `edition_id`
+FROM `editions`
+WHERE REPLACE('edition_name',''','') = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:45:34 --> Severity: Parsing Error --> syntax error, unexpected '","' (T_CONSTANT_ENCAPSED_STRING) /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:46:15 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:46:28 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:46:31 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:47:42 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:47:51 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:47:52 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:47:57 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:47:57 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:48:02 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:48:31 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:48:32 --> Severity: Parsing Error --> syntax error, unexpected ',' /var/www/public/app/models/Edition_model.php 19
+ERROR - 2016-12-12 11:53:32 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'' at line 1 - Invalid query: SELECT SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:53:47 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'' at line 1 - Invalid query: SELECT SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:54:30 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'' at line 2 - Invalid query: SELECT *
+FROM SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:55:23 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+FROM `' at line 1 - Invalid query: SELECT SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+FROM `editions`
+ERROR - 2016-12-12 11:55:34 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM `editions`' at line 2 - Invalid query: SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+FROM `editions`
+ERROR - 2016-12-12 11:55:37 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM `editions`' at line 2 - Invalid query: SELECT edition_id FROM editions WHERE edition_name = 'Frys Hohenort 2017'
+FROM `editions`
+ERROR - 2016-12-12 11:56:18 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Frys Hohenort 2017'' at line 3 - Invalid query: SELECT `edition_id`, edition_id
+FROM `editions`
+WHERE REPLACE( string1, string_to_replace, replacement_string ) 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:56:43 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2017' at line 3 - Invalid query: SELECT `edition_id`, edition_id
+FROM `editions`
+WHERE REPLACE( string1, string_to_replace, replacement_string ) = `Frys Hohenort` 2017
+ERROR - 2016-12-12 11:57:17 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''Frys Hohenort 2017'' at line 3 - Invalid query: SELECT `edition_id`, edition_id
+FROM `editions`
+WHERE REPLACE( string1, string_to_replace, replacement_string) 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:57:39 --> Query error: Unknown column 'string1' in 'where clause' - Invalid query: SELECT `edition_id`, edition_id
+FROM `editions`
+WHERE REPLACE( string1, string_to_replace, replacement_string) = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:57:55 --> Query error: Unknown column 'string_to_replace' in 'where clause' - Invalid query: SELECT `edition_id`, edition_id
+FROM `editions`
+WHERE REPLACE(edition_name, string_to_replace, replacement_string) = 'Frys Hohenort 2017'
+ERROR - 2016-12-12 11:59:38 --> Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's Hohenort 2017'' at line 3 - Invalid query: SELECT `edition_id`
+FROM `editions`
+WHERE REPLACE(edition_name, '\'', '') = 'Fry's Hohenort 2017'

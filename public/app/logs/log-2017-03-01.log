@@ -1,0 +1,2 @@
+ERROR - 2017-03-01 19:01:15 --> Severity: Notice --> Undefined variable: race_detail /var/www/public/app/views/admin/race/create.php 34
+ERROR - 2017-03-01 19:02:04 --> Severity: Notice --> Undefined variable: race_detail /var/www/public/app/views/admin/race/create.php 34

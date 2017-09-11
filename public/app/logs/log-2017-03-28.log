@@ -1,0 +1,14 @@
+ERROR - 2017-03-28 20:14:04 --> Severity: Notice --> Undefined index: area /var/www/public/app/models/Event_model.php 200
+ERROR - 2017-03-28 20:14:04 --> Severity: Notice --> Undefined index: date_from /var/www/public/app/models/Event_model.php 206
+ERROR - 2017-03-28 20:14:04 --> Severity: Notice --> Undefined index: event_id /var/www/public/app/models/Event_model.php 213
+ERROR - 2017-03-28 20:15:25 --> Severity: Notice --> Undefined index: date_from /var/www/public/app/models/Event_model.php 206
+ERROR - 2017-03-28 20:15:53 --> Severity: Notice --> Undefined index: date_from /var/www/public/app/models/Event_model.php 206
+ERROR - 2017-03-28 20:24:47 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 20
+ERROR - 2017-03-28 20:24:47 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 21
+ERROR - 2017-03-28 20:26:38 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 20
+ERROR - 2017-03-28 20:26:38 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 21
+ERROR - 2017-03-28 20:27:05 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 20
+ERROR - 2017-03-28 20:27:05 --> Severity: Notice --> Undefined variable: event_summary /var/www/public/app/views/event/detail.php 21
+ERROR - 2017-03-28 20:50:47 --> Severity: Parsing Error --> syntax error, unexpected '$sprop' (T_VARIABLE) /var/www/public/app/controllers/Event.php 267
+ERROR - 2017-03-28 20:58:26 --> Severity: Notice --> Undefined variable: date /var/www/public/app/controllers/Event.php 275
+ERROR - 2017-03-28 20:58:28 --> Severity: Notice --> Undefined variable: date /var/www/public/app/controllers/Event.php 275

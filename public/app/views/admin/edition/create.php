@@ -262,4 +262,6 @@ echo form_open_multipart($form_url);
 
 <?php
 echo form_close();
+
+//wts($edition_detail);
 ?>

@@ -1,0 +1,14 @@
+ERROR - 2017-03-29 12:07:48 --> Severity: Notice --> Undefined index: latitude_num /var/www/public/app/controllers/Event.php 126
+ERROR - 2017-03-29 12:07:48 --> Severity: Notice --> Undefined index: longitude_num /var/www/public/app/controllers/Event.php 127
+ERROR - 2017-03-29 12:07:48 --> Severity: Notice --> Undefined index: latitude_num /var/www/public/app/controllers/Event.php 132
+ERROR - 2017-03-29 12:07:48 --> Severity: Notice --> Undefined index: longitude_num /var/www/public/app/controllers/Event.php 133
+ERROR - 2017-03-29 12:21:08 --> Severity: Notice --> Undefined index: edition-name /var/www/public/app/controllers/Event.php 138
+ERROR - 2017-03-29 19:59:45 --> Could not find the language line "form_validation_email"
+ERROR - 2017-03-29 20:33:04 --> Severity: Notice --> Undefined property: Edition::$user_model /var/www/public/app/controllers/admin/Edition.php 102
+ERROR - 2017-03-29 20:33:04 --> Severity: Error --> Call to a member function get_user_dropdown() on null /var/www/public/app/controllers/admin/Edition.php 102
+ERROR - 2017-03-29 20:33:26 --> Severity: Notice --> Undefined variable: isset /var/www/public/app/models/User_model.php 46
+ERROR - 2017-03-29 20:33:26 --> Severity: Error --> Function name must be a string /var/www/public/app/models/User_model.php 46
+ERROR - 2017-03-29 20:33:56 --> Query error: Unknown column 'role_id' in 'where clause' - Invalid query: SELECT `user_id`, `user_name`, `user_surname`
+FROM `users`
+WHERE `role_id` = 3
+ERROR - 2017-03-29 20:38:33 --> Severity: Parsing Error --> syntax error, unexpected '$this' (T_VARIABLE) /var/www/public/app/models/Edition_model.php 165
