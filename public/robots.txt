@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /login/admin
+
+Sitemap: http://www.roadrunning.co.za/sitemap.xml

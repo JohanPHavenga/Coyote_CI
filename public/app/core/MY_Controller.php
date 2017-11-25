@@ -37,6 +37,11 @@ class Admin_Controller extends MY_Controller {
     {
         parent::__construct();
         // Check login, load back end dependencies
+        
+//        wts($_SESSION);
+//        exit();
+        
+        
         if (!$this->session->has_userdata('admin_logged_in'))
         {
             $this->session->set_flashdata([
@@ -44,6 +49,7 @@ class Admin_Controller extends MY_Controller {
                     'status'=>"danger",
                     ]);
             redirect('/login/admin', 'refresh');
+            exit();
         }
 
         // setup auto crumbs from URI
@@ -321,19 +327,19 @@ class Frontend_Controller extends MY_Controller {
             // Dashboard
             [
                 "text"=>"Home",
-                "url"=>'/',
+                "url"=> base_url(),
                 "section"=>'home',
             ],
             // Events
             [
                 "text"=>"Events",
-                "url"=>'/event/calendar',
+                "url"=>base_url('/event/calendar'),
                 "section"=>'events',
             ],
             // Events
             [
                 "text"=>"Contact Us",
-                "url"=>"/#contact",
+                "url"=>base_url('/#contact'),
                 "section"=>'',
             ],
 

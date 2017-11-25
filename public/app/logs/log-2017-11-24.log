@@ -1,0 +1,2 @@
+ERROR - 2017-11-24 13:33:43 --> Severity: Notice --> Array to string conversion C:\localhost\roadrunning\public\app\controllers\Login.php 116
+ERROR - 2017-11-24 13:40:48 --> Severity: error --> Exception: syntax error, unexpected 'wts' (T_STRING), expecting function (T_FUNCTION) or const (T_CONST) C:\localhost\roadrunning\public\app\controllers\admin\Dashboard.php 4

@@ -1,0 +1,10 @@
+ERROR - 2017-11-17 12:59:05 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: YES) C:\localhost\roadrunning\public\syscore\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2017-11-17 12:59:05 --> Unable to connect to the database
+ERROR - 2017-11-17 13:13:48 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'rr_local'@'localhost' (using password: YES) C:\localhost\roadrunning\public\syscore\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2017-11-17 13:13:48 --> Unable to connect to the database
+ERROR - 2017-11-17 13:14:40 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'rr_local'@'localhost' (using password: YES) C:\localhost\roadrunning\public\syscore\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2017-11-17 13:14:40 --> Unable to connect to the database
+ERROR - 2017-11-17 13:14:41 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'rr_local'@'localhost' (using password: YES) C:\localhost\roadrunning\public\syscore\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2017-11-17 13:14:41 --> Unable to connect to the database
+ERROR - 2017-11-17 13:17:29 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'rr_local'@'localhost' (using password: YES) C:\localhost\roadrunning\public\syscore\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2017-11-17 13:17:29 --> Unable to connect to the database

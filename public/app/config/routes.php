@@ -59,7 +59,7 @@ $route['default_controller'] = 'pages/view';
 $route['404_override'] = 'pages/my_404';
 $route['translate_uri_dashes'] = FALSE;
 // for admin
-$route['admin'] = 'admin/dashboard';
+$route['admin'] = 'admin/dashboard/view';
 
 //basic pages running through PAGES controller
 $route['about'] = 'pages/about';

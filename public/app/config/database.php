@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['local'] = array(
 	'dsn'	=> '',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => 'root',
+	'hostname' => 'localhost',
+	'username' => 'rr_local',
+	'password' => 't1D!89F7TEiX',
 	'database' => 'roadrjsx_coyote',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

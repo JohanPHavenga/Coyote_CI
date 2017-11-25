@@ -370,7 +370,7 @@ $config['encryption_key'] = 'xej4QVu51sZtfCf4uGhU3AkUPWQP11lK';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'roadrunning';
+$config['sess_cookie_name'] = 'rr';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
@@ -392,8 +392,8 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
+$config['cookie_prefix']	= 'rr_';
+$config['cookie_domain']	= 'http://roadrunning/';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;

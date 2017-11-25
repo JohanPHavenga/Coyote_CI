@@ -79,9 +79,10 @@ class Login extends Frontend_Controller {
 
     }
 
-    public function admin()
+    public function admin($submit=false)
     {
 
+        
         $this->data_to_header['title'] = "Admin Login";
         $this->data_to_view['form_url'] = '/login/admin/submit';
         $this->data_to_view['error_url'] = '/login/admin';
@@ -111,10 +112,12 @@ class Login extends Frontend_Controller {
         }
         else
         {
-            $check_login=$this->user_model->check_login("admin");
+            $check_login=$this->user_model->check_login("admin");            
+            
 
             if ($check_login)
             {
+                
                 $this->session->set_userdata("admin_logged_in",true);
                 $this->session->set_userdata("admin_user",$check_login);
 
@@ -122,8 +125,10 @@ class Login extends Frontend_Controller {
                     'alert'=>"Login successfull",
                     'status'=>"success",
                     ]);
+                
 
                 redirect($this->data_to_view['success_url']);
+                exit();
             }
             else
             {
@@ -133,6 +138,7 @@ class Login extends Frontend_Controller {
                     ]);
 
                 redirect($this->data_to_view['error_url']);
+                exit();
             }
 
             die("Login failure");

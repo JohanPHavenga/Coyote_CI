@@ -96,13 +96,13 @@
                                     Our goal is to fill that void and hope to make this a national project one day. The mission is to become the number one road running events listing site in the country.</p>
                             </div>
                         </div>
-                        <div class="c-container c-bg-grey-1 c-bg-img-bottom-right" style="background-image:url(img/feedback_box_2.png)">
+<!--                        <div class="c-container c-bg-grey-1 c-bg-img-bottom-right" style="background-image:url(img/feedback_box_2.png)">
                             <div class="c-content-title-1">
                                 <h3 class="c-font-uppercase c-font-bold">When will the site go live?</h3>
                                 <div class="c-line-left"></div>
                                 <p>The goal is to have the site ready for an early 2017 launch. Watch this space!</p>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="col-md-6" id="contact">
                         <div class="c-contact">

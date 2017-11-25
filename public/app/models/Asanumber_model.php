@@ -1,5 +1,5 @@
 <?php
-class Asanumber_model extends CI_Model {
+class z_model extends CI_Model {
 
         public function __construct()
         {
