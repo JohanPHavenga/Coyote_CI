@@ -1,0 +1,4 @@
+ERROR - 2017-11-27 11:41:47 --> Severity: error --> Exception: Call to undefined method Event_model::get_status_dropdown() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 103
+ERROR - 2017-11-27 12:54:39 --> Severity: error --> Exception: Call to undefined method Event_model::get_status_dropdown() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 103
+ERROR - 2017-11-27 12:54:47 --> Severity: error --> Exception: Call to undefined method Event_model::get_status_dropdown() C:\localhost\roadrunning\public\app\controllers\admin\Edition.php 109
+ERROR - 2017-11-27 12:54:57 --> Severity: error --> Exception: Call to undefined method Event_model::get_status_dropdown() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 103
