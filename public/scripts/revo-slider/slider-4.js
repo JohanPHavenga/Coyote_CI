@@ -7,7 +7,7 @@ $(document).ready(function() {
     var api = slider.show().revolution({
         sliderType:"standard",
         sliderLayout:"fullwidth",
-        delay: 15000,    
+        delay: 7000,    
         autoHeight: 'off',
         
         touchenabled: "on",

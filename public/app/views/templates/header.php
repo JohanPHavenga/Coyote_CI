@@ -1,6 +1,6 @@
 <?php
     if (isset($title)) { $page_title=$title; } else { $page_title="Running Event Listing Site"; }
-    if (isset($meta_description)) { $descrip=$meta_description; } else { $descrip="Listing all road running events in and around Cape Town in a modern, easy to compare fashion"; }
+    if (isset($meta_description)) { $descrip=$meta_description; } else { $descrip="Listing all road running events in and around Cape Town"; }
 ?>
 
 <!DOCTYPE html>

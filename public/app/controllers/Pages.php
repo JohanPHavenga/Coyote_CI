@@ -1,10 +1,14 @@
 <?php
-class Pages extends Frontend_Controller {
+class Pages extends Frontend_Controller {    
+    
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('event_model');
+    
+        // carousel count on home page
+        $this->cc=5;
     }
 
     // check if method exists, if not calls "view" method
@@ -61,6 +65,10 @@ class Pages extends Frontend_Controller {
                 "scripts/revo-slider/slider-4.js",
                 "scripts/events.js",
                 );
+            
+            
+            $this->data_to_view['carousel_html']=$this->get_carousel_html($this->cc);            
+            
 
         } else {
             $this->data_to_header['title'] = ucfirst($page); // Capitalize the first letter
@@ -72,6 +80,70 @@ class Pages extends Frontend_Controller {
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/'.$page, $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
+    private function get_carousel_html($carousel_count) 
+    {        
+        $carousel_data=$this->get_carousel_data($carousel_count);
+              
+        $c_arr[]="<ul>";
+        for ($i = 1; $i <= $carousel_count; $i++) {  
+            $img_url="img/carousel/".$carousel_data[$i]['img'];
+            $quote=wordwrap($carousel_data[$i]['quote'], 30, "<br />\n");
+            $c_arr[]="<li data-transition='fade' data-slotamount='1' data-masterspeed='1000'>";
+                $c_arr[]="<img alt='' src='".base_url($img_url)."' data-bgposition='center center' data-bgfit='cover' data-bgrepeat='no-repeat'>";
+                $c_arr[]="<div class='tp-caption customin customout' data-x='center' data-y='center' data-hoffset='' data-voffset='-50' data-speed='500' data-start='1000' data-transform_idle='o:1;' data-transform_in='rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;' data-transform_out='rX:0.5;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;' data-splitin='none' data-splitout='none' data-elementdelay='0.1' data-endelementdelay='0.1' data-endspeed='600'>";
+                $c_arr[]="<h3 class='c-main-title-circle c-font-48 c-font-bold c-font-center c-font-uppercase c-font-white c-block'>$quote</h3>";
+                $c_arr[]="</div>";
+                $c_arr[]="<div class='tp-caption lft' data-x='center' data-y='center' data-voffset='110' data-speed='900' data-start='2000' data-transform_idle='o:1;' data-transform_in='x:100;y:100;rX:120;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;' data-transform_out='x:100;y:100;rX:120;scaleX:0.75;scaleY:0.75;o:0;s:500;e:Back.easeInOut;'></div>";
+            $c_arr[]="</li>";
+        }
+        $c_arr[]="</ul>";
+        
+        $carousel_html= implode("", $c_arr);
+        return($carousel_html);
+    }
+    
+    private function get_carousel_data($carousel_count) 
+    {        
+        $this->load->model('quote_model');
+        $this->load->helper('file');        
+        
+        // CAROUSEL stuff
+        // get random quotes
+        $quote_arr=$this->quote_model->get_quote_list();
+        $quote_count=sizeof($quote_arr);        
+
+        // get random bg image
+        $img_arr = get_filenames("img/carousel");
+        $img_count=sizeof($img_arr);
+        
+        // empty arrays for dup checks
+        $rand_quote_num_arr=[];
+        $rand_img_num_arr=[];
+        
+        for ($i = 1; $i <= $carousel_count; $i++) {
+            // get random quote
+            do {
+                $rand_quote_num=rand(0, $quote_count-1);
+            } while(in_array($rand_quote_num, $rand_quote_num_arr));
+            // add number to array to stop duplication
+            $rand_quote_num_arr[]=$rand_quote_num;
+            // add quote to return array
+            $return_arr[$i]['quote']=$quote_arr[$rand_quote_num];
+            
+            // get random image
+            do {
+                $rand_img_num=rand(0, $img_count-1);
+            } while(in_array($rand_img_num, $rand_img_num_arr));
+            // add number to array to stop duplication
+            $rand_img_num_arr[]=$rand_img_num;
+            // add img to return array
+            $return_arr[$i]['img']=$img_arr[$rand_img_num];            
+        }
+        
+        return ($return_arr);        
+                        
     }
 
     
