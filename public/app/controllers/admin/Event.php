@@ -195,6 +195,7 @@ class Event extends Admin_Controller {
         $this->load->helper('form');
         $this->load->library('upload');
         $this->load->library('table');
+        $this->load->model('racetype_model');
 
         $this->data_to_header['title'] = "Import Events";
         $this->data_to_view['form_url']="/admin/event/import/confirm";
@@ -225,6 +226,7 @@ class Event extends Admin_Controller {
 
                 // send to view
                 $this->data_to_view['import_event_data']=$_SESSION['import_event_data'];
+                $this->data_to_view['racetype_arr']=$this->racetype_model->get_racetype_list();
 
                 $this->data_to_header['crumbs'] =
                    [
@@ -253,6 +255,7 @@ class Event extends Admin_Controller {
 
         $this->load->model('edition_model');
         $this->load->model('race_model');
+        $this->load->model('user_model');
 
         $event_data=$edition_data=$race_data=[];
 
@@ -280,6 +283,30 @@ class Event extends Admin_Controller {
                 foreach ($event['edition_data'] as $edition_action=>$edition_list) {
 
                     foreach ($edition_list as $edition_id=>$edition) {
+                        
+                        // CONTACTS
+                        $contact_field_list=$this->get_contact_field_list();
+                        foreach ($contact_field_list as $contact_field) {
+                            // as daar 'n value is
+                            if ($edition[$contact_field]) {
+                                $contact_data[$contact_field]=$edition[$contact_field];
+                            }
+                        }
+                        // write to DB
+                        if (!empty($contact_data)) {
+                            if (@$contact_data['user_id']) { 
+                                $user_action="edit"; 
+                                $user_id=$contact_data['user_id'];
+                            } else { 
+                                $user_action="add";                                 
+                            }
+                            if (strlen($contact_data['user_name'])>2) { //run net as daar actually iets is
+                                $user_id=$this->user_model->set_user($user_action, @$contact_data['user_id'], $contact_data);
+                            }
+                            $edition_data['user_id']=$user_id;
+                        }
+                        
+                        
                         // set die edition_data array
                         $edition_field_list=$this->get_edition_field_list();
                         foreach ($edition_field_list as $edition_field) {
@@ -411,9 +438,16 @@ class Event extends Admin_Controller {
             if ($field=="longitude_num") { $field="editions.longitude_num"; }
             $field_arr[]=$field;
         }
-        // get events field list to sync up with the import
+        // get race field list to sync up with the import
         $race_field_arr=$this->get_race_field_list();
         foreach ($race_field_arr as $field) {
+            $field_arr[]=$field;
+        }
+        
+        // get contact field list to sync up with the import
+        $contact_field_arr=$this->get_contact_field_list();
+        foreach ($contact_field_arr as $field) {
+            if ($field=="user_id") { $field="users.user_id"; }
             $field_arr[]=$field;
         }
 
@@ -458,6 +492,9 @@ class Event extends Admin_Controller {
                 $event_key_field="event_name";
             }
             $event_key_value=trim($le[$event_key_field]);
+            
+            // check as daar niks is om te import nie, skip
+            if (empty($event_key_value)) { continue; }
 
             // set event level data
             foreach ($event_field_list as $event_field) {
@@ -480,10 +517,14 @@ class Event extends Admin_Controller {
     }
 
     private function formulate_edition_data($event_data, $event_key_field, $event_key_value) {
+        $this->load->model('user_model');
+        
         $edition_field_list=$this->get_edition_field_list();
+        $contact_field_list=$this->get_contact_field_list();
 
         foreach ($event_data as $le) {
             if (trim($le[$event_key_field])==$event_key_value) {
+                // CHECK EDITION ID FOR ACTION
                 if ($le['edition_id']) {
                     $edition_action="edit";
                     $edition_key_field="edition_id";
@@ -493,26 +534,26 @@ class Event extends Admin_Controller {
                 }
                 $edition_key_value=trim($le[$edition_key_field]);
 
-                // set event level data
+                // set edition level data
                 foreach ($edition_field_list as $edition_field) {
                     $return_arr[$edition_action][$edition_key_value][$edition_field]=$le[$edition_field];
                 }
+                
+                
+                foreach ($contact_field_list as $contact_field) {
+                     if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
+                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
+                    }
+                    $return_arr[$edition_action][$edition_key_value][$contact_field]=$le[$contact_field];
+                }
+                
 
                 // add race information
                 $race_data=$this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
                 $return_arr[$edition_action][$edition_key_value]['race_data']=$race_data;
-
-                // add race information
-                $race_data=$this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
-                $return_arr[$edition_action][$edition_key_value]['race_data']=$race_data;
-
 
             }
         }
-        // // set edition level data
-        // foreach ($edition_field_list as $edition_field) {
-        //     $return_arr[$edition_field]=$le[$edition_field];
-        // }
 
         return $return_arr;
     }

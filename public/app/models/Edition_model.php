@@ -175,7 +175,9 @@ class Edition_model extends CI_Model {
                 
             } else {
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
-                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>19];
+                // check if user_id is sent;
+                if (@$edition_data['user_id']) { $user_id=$edition_data['user_id']; unset($edition_data['user_id']); } else { $user_id=19; }
+                $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$user_id];
                 if (!isset($edition_data['edition_status'])) { $edition_data['edition_status'] = 1; }
             }
 
@@ -276,7 +278,9 @@ class Edition_model extends CI_Model {
         {
             $this->db->select("edition_date");
             $this->db->from("editions");
+            $this->db->group_by("YEAR(edition_date)");
             $this->db->group_by("MONTH(edition_date)");
+            $this->db->order_by("edition_date", "DESC");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

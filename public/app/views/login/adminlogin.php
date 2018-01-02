@@ -10,7 +10,7 @@
                 <div class="col-sm-12">
                 <?php
                 
-                echo CI_VERSION;    
+//                echo CI_VERSION;    
                 // alert message on top of the page
                 // set flashdata [alert|status]
                 if($this->session->flashdata('alert'))

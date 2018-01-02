@@ -50,6 +50,7 @@
 
                 foreach ($import_event_data as $event_action=>$event_list) {
                     $k=0;
+//                    if ($event_action=="edit") { $event_action="update"; }
                     ?>
                     <div class="portlet light">
                     <div class="portlet-title">
@@ -59,20 +60,36 @@
                         </div>
                     </div>
                     <?php
+//                    wts($racetype_arr);
                     $this->table->set_template(ftable());
+                    
+                    // Display to screen what is to be imported
                     foreach ($event_list as $event_id=>$event) {
                         $data[$k]="<b>".$event['event_name']."</b>";
-                        if (empty($event['town_id'])) { $data[$k].= " - <span style='color: red; font-weight: bold;'>Town not found!</span>"; }
+                        if ($event_action=="edit") { $data[$k].= " [#$event_id]"; }
+                        if (empty($event['town_id'])) { $data[$k].= " - <span style='color: red; font-weight: bold;'>TOWN NOT FOUND!</span>"; }
 
-                        foreach ($event['edition_data'] as $edition_action=>$edition_list) {
+                        foreach ($event['edition_data'] as $edition_action=>$edition_list) 
+                        {
                             $data[$k].="<br>&nbsp;Edition: [<b>".$edition_action."</b>]";
-                            foreach ($edition_list as $edition_id=>$edition) {
-                                $data[$k].="<br>&nbsp;&nbsp;".$edition['edition_name']." - ".$edition['edition_date']."";
+                            
+                            foreach ($edition_list as $edition_id=>$edition) 
+                            {
+                                $date=date("j F", strtotime($edition['edition_date']));
+                                $data[$k].="<br>&nbsp;<b style='color: #36c6d3'>".$edition['edition_name']."</b> on ".$date."";
+                                
+                                if ($edition['user_name']) {
+                                    $data[$k].="<br>&nbsp;Contact: ".$edition['user_name']." ".$edition['user_surname']." [#".$edition['user_id']."] (".$edition['user_email'].")";
+                                }
 
-                                foreach ($edition['race_data'] as $race_action=>$race_list) {
+                                foreach ($edition['race_data'] as $race_action=>$race_list) 
+                                {
                                     $data[$k].="<br>&nbsp;&nbsp;&nbsp;Race: [<b>".$race_action."</b>]";
-                                    foreach ($race_list as $race_id=>$race) {
-                                        $data[$k].="<br>&nbsp;&nbsp;&nbsp;&nbsp;".$race['race_name']." - ".$race['race_distance']."";
+                                    foreach ($race_list as $race_id=>$race) 
+                                    {
+                                        if (!$race['racetype_id']) { $race['racetype_id']=4; }
+                                        $racetype=$racetype_arr[$race['racetype_id']]['racetype_name'];
+                                        $data[$k].="<br>&nbsp;&nbsp;&nbsp;".$race['race_distance']."km ".$racetype."";
                                     }
                                 }
                             }
@@ -92,7 +109,7 @@
                     </div>
                     <?php
                 }
-                // @wts($import_event_data);
+//                @wts($import_event_data);
             }
         ?>
 

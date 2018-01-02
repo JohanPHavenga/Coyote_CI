@@ -285,7 +285,10 @@ class Admin_Controller extends MY_Controller {
         return ['edition_id','edition_name','edition_date','latitude_num','longitude_num','edition_url','edition_address'];
     }
     function get_race_field_list() {
-        return ['race_id','race_name','race_distance','race_time_start'];
+        return ['race_id','race_name','race_distance','race_time_start','racetype_id'];
+    }
+    function get_contact_field_list() {
+        return ['user_id','user_name','user_surname','user_email'];
     }
 
 

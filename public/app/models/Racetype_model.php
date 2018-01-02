@@ -10,7 +10,7 @@ class Racetype_model extends CI_Model {
             return $this->db->count_all("racetypes");
         }
         
-        public function get_racetype_list($limit, $start)
+        public function get_racetype_list($limit=100, $start=0)
         {
             $this->db->limit($limit, $start);    
             

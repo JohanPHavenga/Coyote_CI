@@ -19,6 +19,22 @@ class User_model extends CI_Model {
     public function record_count() {
         return $this->db->count_all("users");
     }
+    
+    public function get_user_id($email)
+    {
+        $this->db->select("user_id");
+        $this->db->from("users");
+        $this->db->where('user_email', $email);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $data = $row['user_id'];
+            }
+            return $data;
+        }
+        return false;
+    }
 
 
     public function get_user_list($limit=NULL, $start=NULL)
@@ -87,7 +103,7 @@ class User_model extends CI_Model {
     }
 
 
-    public function set_user($action, $id, $user_data=[])
+    public function set_user($action, $user_id, $user_data=[],$debug=FALSE)
     {
         // POSTED DATA
         if (empty($user_data))
@@ -115,45 +131,52 @@ class User_model extends CI_Model {
                 $user_id=$this->db->insert_id();
 
                 // update data array
-                if (empty($role_arr)) { $role_arr = [2]; } // set role_arr to 'user' for new users
+                if (empty($role_arr)) { $role_arr = [3]; } // set role_arr to 'contact' for new users
                 foreach ($role_arr as $role_id) {
                     $this->db->insert('user_role', ["user_id"=>$user_id,"role_id"=>$role_id]);
                 }
 
                 $this->db->trans_complete();
-                return $this->db->trans_status();
-
+                break;
+                
             case "edit":
                 // add updated date to both data arrays
                 $user_data['updated_date']=date("Y-m-d H:i:s");
                 //check of password wat gepost is alreeds gehash is
-                if (@$this->check_password($this->input->post('user_password'),$id))
+                if (@$this->check_password($this->input->post('user_password'),$user_id))
                 {
                     unset($user_data['user_password']);
                 }
 
                 // start SQL transaction
                 $this->db->trans_start();
-                $this->db->update('users', $user_data, array('user_id' => $id));
+                $this->db->update('users', $user_data, array('user_id' => $user_id));
 
 
                 if ($role_arr) {
                     // delete uit user_role
-                    $this->db->where('user_id', $id);
+                    $this->db->where('user_id', $user_id);
                     $this->db->delete('user_role');
 
                     // add nuwe entries
                     foreach ($role_arr as $role_id) {
-                        $this->db->insert('user_role', ["user_id"=>$id,"role_id"=>$role_id]);
+                        $this->db->insert('user_role', ["user_id"=>$user_id,"role_id"=>$role_id]);
                     }
                 }
 
                 $this->db->trans_complete();
-                return $this->db->trans_status();
+                break;
 
             default:
                 show_404();
                 break;
+        }
+        // return ID if transaction successfull
+        if ($this->db->trans_status())
+        {
+            return $user_id;
+        } else {
+            return false;
         }
 
     }

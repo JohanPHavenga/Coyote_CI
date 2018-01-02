@@ -16,3 +16,191 @@ ERROR - 2018-01-02 11:04:21 --> Severity: Notice --> Undefined variable: cc C:\l
 ERROR - 2018-01-02 11:04:21 --> Severity: Notice --> Undefined variable: return_arr C:\localhost\roadrunning\public\app\controllers\Pages.php 144
 ERROR - 2018-01-02 11:04:27 --> Severity: Notice --> Undefined variable: cc C:\localhost\roadrunning\public\app\controllers\Pages.php 69
 ERROR - 2018-01-02 11:04:27 --> Severity: Notice --> Undefined variable: return_arr C:\localhost\roadrunning\public\app\controllers\Pages.php 144
+ERROR - 2018-01-02 13:36:10 --> Severity: Notice --> Undefined index: event_id C:\localhost\roadrunning\public\app\models\Event_model.php 216
+ERROR - 2018-01-02 13:38:51 --> Severity: error --> Exception: Call to undefined method CI_DB_mysqli_driver::orber_by() C:\localhost\roadrunning\public\app\models\Edition_model.php 280
+ERROR - 2018-01-02 13:42:07 --> Severity: error --> Exception: Call to undefined method Edition_model::get_compiled_query() C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:42:52 --> Severity: 4096 --> Object of class Edition_model could not be converted to string C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:42:52 --> Severity: Notice --> Undefined property: Event::$ C:\localhost\roadrunning\public\syscore\core\Model.php 77
+ERROR - 2018-01-02 13:42:52 --> Severity: Notice --> Trying to get property of non-object C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:42:52 --> Severity: error --> Exception: Call to a member function get_compiled_select() on null C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:43:03 --> Severity: 4096 --> Object of class Edition_model could not be converted to string C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:43:03 --> Severity: Notice --> Undefined property: Event::$ C:\localhost\roadrunning\public\syscore\core\Model.php 77
+ERROR - 2018-01-02 13:43:03 --> Severity: Notice --> Trying to get property of non-object C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:43:03 --> Severity: error --> Exception: Call to a member function get_compiled_select() on null C:\localhost\roadrunning\public\app\models\Edition_model.php 281
+ERROR - 2018-01-02 13:43:22 --> Query error: No tables used - Invalid query: SELECT *
+ERROR - 2018-01-02 13:44:38 --> Query error: No tables used - Invalid query: SELECT *
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Notice --> Undefined variable: contact_field_list C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:02:53 --> Severity: Warning --> Invalid argument supplied for foreach() C:\localhost\roadrunning\public\app\controllers\admin\Event.php 509
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:15 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_name C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_surname C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:10:16 --> Severity: Notice --> Undefined index: user_email C:\localhost\roadrunning\public\app\controllers\admin\Event.php 511
+ERROR - 2018-01-02 14:13:35 --> Severity: error --> Exception: syntax error, unexpected end of file C:\localhost\roadrunning\public\app\views\admin\event\import.php 105
+ERROR - 2018-01-02 14:26:35 --> Severity: error --> Exception: Too few arguments to function Racetype_model::get_racetype_list(), 0 passed in C:\localhost\roadrunning\public\app\controllers\admin\Event.php on line 229 and exactly 2 expected C:\localhost\roadrunning\public\app\models\Racetype_model.php 13
+ERROR - 2018-01-02 15:20:30 --> Severity: error --> Exception: Unable to locate the model you have specified: User2_model C:\localhost\roadrunning\public\syscore\core\Loader.php 344
+ERROR - 2018-01-02 15:20:47 --> Severity: error --> Exception: Unable to locate the model you have specified: User2_model C:\localhost\roadrunning\public\syscore\core\Loader.php 344
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:31:26 --> Severity: Notice --> Undefined variable: contact C:\localhost\roadrunning\public\app\controllers\admin\Event.php 328
+ERROR - 2018-01-02 15:32:23 --> Severity: Notice --> Undefined property: Event::$user_model C:\localhost\roadrunning\public\app\controllers\admin\Event.php 336
+ERROR - 2018-01-02 15:32:23 --> Severity: error --> Exception: Call to a member function set_user() on null C:\localhost\roadrunning\public\app\controllers\admin\Event.php 336
+ERROR - 2018-01-02 15:32:38 --> Severity: Notice --> Undefined variable: user_data C:\localhost\roadrunning\public\app\controllers\admin\Event.php 337
+ERROR - 2018-01-02 15:32:38 --> Query error: Cannot add or update a child row: a foreign key constraint fails (`roadrjsx_coyote`.`users`, CONSTRAINT `FK_users_club_id` FOREIGN KEY (`club_id`) REFERENCES `clubs` (`club_id`)) - Invalid query: UPDATE `users` SET `user_name` = NULL, `user_surname` = NULL, `user_email` = NULL, `user_contact` = NULL, `user_username` = NULL, `club_id` = NULL, `updated_date` = '2018-01-02 15:32:38'
+WHERE `user_id` = '77'
+ERROR - 2018-01-02 15:40:43 --> Query error: Unknown column 'user_id' in 'field list' - Invalid query: UPDATE `editions` SET `user_id` = '77', `edition_id` = '181', `edition_name` = 'Fry\'s Hohenort 15km 2018', `edition_date` = '2018/01/06 00:00', `latitude_num` = '-34.019631', `longitude_num` = '18.445915', `edition_address` = 'Alphen Centre, Constantia Main Road', `event_id` = 151, `edition_status` = 1, `updated_date` = '2018-01-02 15:40:43'
+WHERE `edition_id` = 181
+ERROR - 2018-01-02 20:50:53 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 297
+ERROR - 2018-01-02 20:50:53 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\controllers\admin\Event.php 303
+ERROR - 2018-01-02 20:50:53 --> Severity: Notice --> Undefined index: user_id C:\localhost\roadrunning\public\app\models\Edition_model.php 179
+ERROR - 2018-01-02 21:02:13 --> 404 Page Not Found: 

@@ -199,7 +199,12 @@ class Event_model extends CI_Model {
             $this->db->join('editions', 'editions.event_id = events.event_id');
             $this->db->join('races', 'races.edition_id = editions.edition_id');
             $this->db->join('towns', 'towns.town_id = events.town_id');
+            $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id');
+            $this->db->join('users', 'users.user_id = edition_user.user_id');
 
+//            echo $this->db->get_compiled_select();
+//            exit();
+            
             if (isset($params['area'])) {
                 $this->db->join('town_area', 'towns.town_id = town_area.town_id');
                 $this->db->join('areas', 'areas.area_id = town_area.area_id');
@@ -223,6 +228,7 @@ class Event_model extends CI_Model {
             $this->db->order_by("edition_date", $sort);
             $this->db->order_by("race_distance", "DESC");
 
+            
             return $this->db->get();
         }
 
