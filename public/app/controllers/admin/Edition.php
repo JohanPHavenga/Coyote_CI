@@ -138,8 +138,8 @@ class Edition extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->edition_model->set_edition($action, $id, [], false);
-            if ($db_write)
+            $id=$this->edition_model->set_edition($action, $id, [], false);
+            if ($id)
             {
                 $alert="Edition information has been updated";
                 $status="success";
@@ -155,6 +155,11 @@ class Edition extends Admin_Controller {
                 'status'=>$status,
                 ]);
 
+            // save_only takes you back to the edit page.
+            if (array_key_exists("save_only", $_POST)) {
+                $this->return_url=base_url("admin/edition/create/edit/".$id);
+            }  
+            
             redirect($this->return_url);
         }
     }
@@ -193,47 +198,6 @@ class Edition extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
-    
-    
-
-    public function delete_old($confirm=false) {
-
-        $id=$this->encryption->decrypt($this->input->post('edition_id'));
-
-        if ($id==0) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-
-        if ($confirm=='confirm')
-        {
-            $db_del=$this->edition_model->remove_edition($id);
-            if ($db_del)
-            {
-                $msg="Edition has been deleted";
-                $status="success";
-            }
-            else
-            {
-                $msg="Error committing to the database ID:'.$id";
-                $status="danger";
-            }
-
-            $this->session->set_flashdata('alert', $msg);
-            $this->session->set_flashdata('status', $status);
-            redirect($this->return_url);
-        }
-        else
-        {
-            $this->session->set_flashdata('alert', 'Cannot delete record');
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-    }
-
 
 
 }

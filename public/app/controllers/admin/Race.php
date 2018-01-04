@@ -172,8 +172,8 @@ class Race extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->race_model->set_race($action, $id, [], false);
-            if ($db_write)
+            $id=$this->race_model->set_race($action, $id, [], false);
+            if ($id)
             {
                 $alert="Race has been updated";
                 $status="success";
@@ -188,6 +188,11 @@ class Race extends Admin_Controller {
                 'alert'=>$alert,
                 'status'=>$status,
                 ]);
+            
+            // save_only takes you back to the edit page.
+            if (array_key_exists("save_only", $_POST)) {
+                $this->return_url=base_url("admin/race/create/edit/".$id);
+            }  
 
             redirect($this->return_url);
         }

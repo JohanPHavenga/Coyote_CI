@@ -7,28 +7,7 @@ class User extends Admin_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model');
-
-        $this->data_to_view['side_menu_arr']=[
-            "home"=>[
-                "url"=>"home",
-                "text"=>"Overview",
-                "icon"=>"home",
-                "class"=>"",
-                ],
-            "view"=>[
-                "url"=>"view",
-                "text"=>"List",
-                "icon"=>"info",
-                "class"=>"",
-                ],
-            "import"=>[
-                "url"=>"import",
-                "text"=>"Import",
-                "icon"=>"cloud-upload",
-                "class"=>"",
-                ],
-        ];
+        $this->load->model('user_model');        
     }
 
     public function _remap($method, $params = array())
@@ -39,18 +18,8 @@ class User extends Admin_Controller {
         }
         else
         {
-            $this->home($params);
+            $this->view($params);
         }
-    }
-
-    public function home() {
-        $this->data_to_view['title'] = "Users";
-        $this->data_to_view['side_menu_arr']['home']['class']="active";
-
-         // load view
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/user/home", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
 
@@ -197,41 +166,6 @@ class User extends Admin_Controller {
     }
 
 
-    public function view_old() {
-        // load helpers / libraries
-        $this->load->library('table');
-
-        // pagination
-        // pagination config
-        $per_page=50;
-        $uri_segment=4;
-        $total_rows=$this->user_model->record_count();
-        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $this->data_to_view["pagination"]=$this->pagination->create_links();
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-
-        $this->data_to_view["list"] = $this->user_model->get_user_list($per_page, $page);
-        $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_view['delete_arr']=["controller"=>"user","id_field"=>"user_id"];
-        $this->data_to_view['title'] = uri_string();
-
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
-        }
-
-        // load view
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
-        $this->load->view($this->footer_url);
-    }
-
 
     public function create($action, $id=0) {
         // additional models
@@ -243,7 +177,7 @@ class User extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "User Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
@@ -274,7 +208,7 @@ class User extends Admin_Controller {
         // load correct view
         if ($this->form_validation->run() === FALSE)
         {
-            if ($action=="add") { $this->data_to_view['user_detail']['role_id'][]=2; }
+            if ($action=="add") { $this->data_to_view['user_detail']['role_id'][]=3; }
             $this->data_to_view['return_url']=$this->return_url;
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view($this->create_url, $this->data_to_view);
@@ -282,8 +216,8 @@ class User extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->user_model->set_user($action, $id);
-            if ($db_write)
+            $id=$this->user_model->set_user($action, $id);
+            if ($id)
             {
                 $alert="User has been updated";
                 $status="success";
@@ -298,13 +232,49 @@ class User extends Admin_Controller {
                 'alert'=>$alert,
                 'status'=>$status,
                 ]);
+            
+            // save_only takes you back to the edit page.
+            if (array_key_exists("save_only", $_POST)) {
+                $this->return_url=base_url("admin/user/create/edit/".$id);
+            }  
 
             redirect($this->return_url);
         }
     }
 
+    
+    public function delete($user_id=0) {
+        
+        if (($user_id==0) AND (!is_int($user_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$edition_id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);
+            die();
+        }
 
-    public function delete($confirm=false) {
+        // get user detail for nice delete message
+        $user_detail=$this->user_model->get_user_detail($user_id);
+        // delete record
+        $db_del=$this->user_model->remove_user($user_id);
+        
+        if ($db_del)
+        {
+            $msg="User has successfully been deleted: ".$user_detail['user_name']." ".$user_detail['user_surname'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$user_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
+    
+
+    public function delete_old ($confirm=false) {
 
         $id=$this->encryption->decrypt($this->input->post('user_id'));
 

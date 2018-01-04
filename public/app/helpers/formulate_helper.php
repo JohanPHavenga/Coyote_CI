@@ -160,7 +160,7 @@ if ( ! function_exists('flableStatus'))
 // ================================================================
 if ( ! function_exists('fbutton')) 
 {
-    function fbutton($text="Submit",$type="submit",$status="default",$size=NULL) 
+    function fbutton($text="Submit",$type="submit",$status="default",$size=NULL,$name="") 
     {
         // status: default|primary|success|warning|danger|link
         // size: lg|sm|xs
@@ -173,7 +173,7 @@ if ( ! function_exists('fbutton'))
         {
             $btn_size=NULL;
         }
-        return "<button type='$type' class='btn btn-$status $btn_size'>$text</button>";
+        return "<button type='$type' name='$name' class='btn btn-$status $btn_size'>$text</button>";
     }
 }
 

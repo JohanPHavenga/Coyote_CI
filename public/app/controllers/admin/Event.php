@@ -134,8 +134,8 @@ class Event extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->event_model->set_event($action, $id);
-            if ($db_write)
+            $id=$this->event_model->set_event($action, $id);
+            if ($id)
             {
                 $alert="Event has been updated";
                 $status="success";
@@ -150,6 +150,11 @@ class Event extends Admin_Controller {
                 'alert'=>$alert,
                 'status'=>$status,
                 ]);
+                        
+            // save_only takes you back to the edit page.
+            if (array_key_exists("save_only", $_POST)) {
+                $this->return_url=base_url("admin/event/create/edit/".$id);
+            }            
 
             redirect($this->return_url);
         }
@@ -481,17 +486,18 @@ class Event extends Admin_Controller {
         $event_field_list=$this->get_event_field_list();
 
         $n=0;
-        foreach ($event_data as $le) {
+        foreach ($event_data as $key=>$le) {
             $n++;
+//         
             // as daaar 'n event ID is
-            if ($le['event_id']) {
+            if ($le['event_id']>0) {
                 $event_action="edit";
                 $event_key_field="event_id";
             } else {
                 $event_action="add";
                 $event_key_field="event_name";
             }
-            $event_key_value=trim($le[$event_key_field]);
+            $event_key_value=trim($le[$event_key_field]);            
             
             // check as daar niks is om te import nie, skip
             if (empty($event_key_value)) { continue; }
@@ -501,7 +507,7 @@ class Event extends Admin_Controller {
                 if (($event_field=='town_id')&&($le[$event_field]<1)) {
                     $le[$event_field]=$this->town_model->get_town_id($le['town_name']);
                 }
-                $return_arr[$event_action][$event_key_value][$event_field]=trim($le[$event_field]);
+                $return_arr[$event_action][$event_key_value][$event_field]=trim(@$le[$event_field]);
             }
 
             // add edition information
@@ -510,7 +516,7 @@ class Event extends Admin_Controller {
 
         }
 
-//        wts($return_arr);
+//        wts($return_arr['edit']);
 //        die();
         return $return_arr;
 

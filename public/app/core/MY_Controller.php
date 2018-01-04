@@ -94,6 +94,8 @@ class Admin_Controller extends MY_Controller {
     {
         $csv = array_map('str_getcsv', file($file_path));
         array_walk($csv, function(&$a) use ($csv) {
+//            wts($csv[0]);
+//            wts($a);
           $a = array_combine($csv[0], $a);
         });
         array_shift($csv);
@@ -214,19 +216,15 @@ class Admin_Controller extends MY_Controller {
                 "text"=>"Users",
                 "url"=>'admin/user',
                 "icon"=>"users",
-                "seg0"=>['user','entry','asanumber'],
+                "seg0"=>['user'],
                 "submenu"=>[
                     [
                     "text"=>"List All Users",
                     "url"=>'admin/user/view',
                     ],
                     [
-                    "text"=>"List All Entries",
-                    "url"=>'admin/entry/view',
-                    ],
-                    [
-                    "text"=>"List All ASA Numbers",
-                    "url"=>'admin/asanumber/view',
+                    "text"=>"Add User",
+                    "url"=>'admin/user/create/add',
                     ],
                 ],
             ],

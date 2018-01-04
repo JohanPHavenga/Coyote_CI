@@ -182,8 +182,9 @@ echo form_open_multipart($form_url);
                 
                 //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton($text="Submit",$type="submit",$status="primary");
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
 
             ?>
@@ -251,8 +252,9 @@ echo form_open_multipart($form_url);
                 
                 //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton($text="Submit",$type="submit",$status="primary");
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
                 ?>
             </div>

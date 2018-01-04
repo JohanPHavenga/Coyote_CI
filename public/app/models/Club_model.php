@@ -20,6 +20,7 @@ class Club_model extends CI_Model {
             $this->db->join('provinces', 'province_id', 'left');
             $this->db->join('club_sponsor', 'club_id', 'left');
             $this->db->join('sponsors', 'sponsor_id', 'left');
+            $this->db->order_by('club_name');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -35,6 +36,7 @@ class Club_model extends CI_Model {
         public function get_club_dropdown() {
             $this->db->select("club_id, club_name");
             $this->db->from("clubs");
+            $this->db->order_by('club_name');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

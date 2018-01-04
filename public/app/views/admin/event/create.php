@@ -56,10 +56,11 @@
                 echo form_dropdown('club_id', $club_dropdown, @$event_detail['club_id'], ["id"=>"club_id","class"=>"form-control"]);        
                 echo "</div>";
                 
-               //  BUTTONS
+                //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton($text="Submit",$type="submit",$status="primary");
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
 
                 echo form_close();

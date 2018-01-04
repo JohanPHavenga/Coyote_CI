@@ -154,8 +154,9 @@
                 
                 //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton($text="Submit",$type="submit",$status="primary");
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
 
                 echo form_close();
@@ -163,4 +164,44 @@
             </div>
         </div>
     </div>
+    
+    <?php
+    if ($action=="edit") {
+    ?>
+    <div class="col-md-6">
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-edit font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">More information</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <?php
+                 //  DATES Created + Updated
+                echo "<div class='form-group'>";
+                echo form_label('Date Created', 'created_date');
+                echo form_input([
+                        'value'         => set_value('created_date', @$race_detail['created_date']),
+                        'class'         => 'form-control input-medium',
+                        'disabled'      => ''
+                    ]);
+
+                echo "</div>";
+                echo "<div class='form-group'>";
+                echo form_label('Date Updated', 'updated_date');
+                echo form_input([
+                        'value'         => set_value('updated_date', @$race_detail['updated_date']),
+                        'class'         => 'form-control input-medium',
+                        'disabled'      => ''
+                    ]);
+
+                echo "</div>";
+                ?>
+            </div>
+        </div>        
+    </div>
+    <?php
+    }
+    ?>
 </div>
