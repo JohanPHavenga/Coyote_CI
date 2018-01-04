@@ -246,7 +246,7 @@ class User extends Admin_Controller {
     public function delete($user_id=0) {
         
         if (($user_id==0) AND (!is_int($user_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$edition_id);
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$club_id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
             die();

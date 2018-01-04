@@ -110,8 +110,10 @@ class Edition extends Admin_Controller {
 
         if ($action=="edit")
         {
-        $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
-        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+            $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
+            $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+        } else {
+            $this->data_to_view['edition_detail']['edition_status']=1;
         }
         
         // set default contact

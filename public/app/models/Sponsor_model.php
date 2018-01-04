@@ -10,10 +10,8 @@ class Sponsor_model extends CI_Model {
             return $this->db->count_all("sponsors");
         }
         
-        public function get_sponsor_list($limit, $start)
-        {
-            $this->db->limit($limit, $start);    
-            
+        public function get_sponsor_list()
+        {           
             $this->db->select("sponsors.*");
             $this->db->from("sponsors");
             $query = $this->db->get();
@@ -63,7 +61,7 @@ class Sponsor_model extends CI_Model {
 
         }
         
-        public function set_sponsor($action, $id)
+        public function set_sponsor($action, $sponsor_id)
         {            
             $data = array(
                         'sponsor_name' => $this->input->post('sponsor_name'),
@@ -71,15 +69,31 @@ class Sponsor_model extends CI_Model {
                     );            
             
             switch ($action) {                    
-                case "add": 
-                    return $this->db->insert('sponsors', $data);                    
+                case "add":    
+                    $this->db->trans_start();
+                    $this->db->insert('sponsors', $data);     
+                    $sponsor_id=$this->db->insert_id();    
+                    $this->db->trans_complete();  
+                    break;
                 case "edit":
                     $data['updated_date']=date("Y-m-d H:i:s");
-                    return $this->db->update('sponsors', $data, array('sponsor_id' => $id));
                     
+                    // start SQL transaction
+                    $this->db->trans_start();
+                    $this->db->update('sponsors', $data, array('sponsor_id' => $sponsor_id));
+                    $this->db->trans_complete(); 
+                    break;
                 default:
                     show_404();
                     break;
+            }
+            
+            // return ID if transaction successfull
+            if ($this->db->trans_status())
+            {
+                return $sponsor_id;
+            } else {
+                return false;
             }
             
         }

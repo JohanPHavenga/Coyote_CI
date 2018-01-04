@@ -45,7 +45,7 @@ class Area extends Admin_Controller {
         $this->data_to_view["list"] = $this->area_model->get_area_list($per_page, $page);
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_view['delete_arr']=["controller"=>"area","id_field"=>"area_id"];
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "List of Areas";
 
         // as daar data is
         if ($this->data_to_view["list"]) {
@@ -68,7 +68,7 @@ class Area extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "Area Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 

@@ -12,8 +12,6 @@ echo form_open_multipart($form_url);
             </div>
             <div class="portlet-body">
             <?php  
-                echo validation_errors(); 
-
                 //  NAME
                 echo "<div class='form-group'>";
                 echo form_label('Name <span class="compulsary">*</span>', 'edition_name');
@@ -55,26 +53,26 @@ echo form_open_multipart($form_url);
                         'id'            => 'edition_date',
                         'value'         => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
                         'class'         => 'form-control',
-                        'readonly'      => '',
+//                        'readonly'      => '',
                     ]);    
                 echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
                 echo "</div>";
                 
                 //  DATE END
-                echo "<div class='form-group'>";
-                echo form_label('Edition Date End', 'edition_date_end');
-                echo '<div class="input-group input-medium date date-picker">';
-                echo form_input([
-                        'name'          => 'edition_date_end',
-                        'id'            => 'edition_date_end',
-                        'value'         => set_value('edition_date_end', @fdateShort($edition_detail['edition_date_end'])),
-                        'class'         => 'form-control',
-//                        'readonly'      => '',
-                    ]);    
-                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-                
-                echo "<p class='help-block' style='font-style: italic;'> Only if applicable </p>";
-                echo "</div>";
+//                echo "<div class='form-group'>";
+//                echo form_label('Edition Date End', 'edition_date_end');
+//                echo '<div class="input-group input-medium date date-picker">';
+//                echo form_input([
+//                        'name'          => 'edition_date_end',
+//                        'id'            => 'edition_date_end',
+//                        'value'         => set_value('edition_date_end', @fdateShort($edition_detail['edition_date_end'])),
+//                        'class'         => 'form-control',
+////                        'readonly'      => '',
+//                    ]);    
+//                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+//                
+//                echo "<p class='help-block' style='font-style: italic;'> Only if applicable </p>";
+//                echo "</div>";
                 
                 
                 //  More info URL
@@ -114,17 +112,17 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 
                 //  ADDRESS
-                echo "<div class='form-group'>";
-                echo form_label('Street Address (Race End)', 'edition_address_end');
-                echo form_input([
-                        'name'          => 'edition_address_end',
-                        'id'            => 'edition_address_end',
-                        'value'         => utf8_encode(@$edition_detail['edition_address_end']),
-                        'class'         => 'form-control',
-                    ]);
-                echo "<p class='help-block' style='font-style: italic;'> Only if it difers from the start address </p>";
-
-                echo "</div>";
+//                echo "<div class='form-group'>";
+//                echo form_label('Street Address (Race End)', 'edition_address_end');
+//                echo form_input([
+//                        'name'          => 'edition_address_end',
+//                        'id'            => 'edition_address_end',
+//                        'value'         => utf8_encode(@$edition_detail['edition_address_end']),
+//                        'class'         => 'form-control',
+//                    ]);
+//                echo "<p class='help-block' style='font-style: italic;'> Only if it difers from the start address </p>";
+//
+//                echo "</div>";
                 
                  //  GPS
                 echo "<div class='form-group'>";
@@ -154,17 +152,17 @@ echo form_open_multipart($form_url);
                 
                 
                 //  Logo
-                echo "<div class='form-group'>";
-                echo form_label('Edition Logo', 'edition_logo');
-                echo form_input([
-                        'name'          => 'edition_logo',
-                        'id'            => 'edition_logo',
-                        'value'         => @$edition_detail['edition_logo'],
-                        'type'          => 'file',
-                        'multiple'      => '',
-                        'accept'        => 'image/*',
-                    ]);
-                echo "</div>";
+//                echo "<div class='form-group'>";
+//                echo form_label('Edition Logo', 'edition_logo');
+//                echo form_input([
+//                        'name'          => 'edition_logo',
+//                        'id'            => 'edition_logo',
+//                        'value'         => @$edition_detail['edition_logo'],
+//                        'type'          => 'file',
+//                        'multiple'      => '',
+//                        'accept'        => 'image/*',
+//                    ]);
+//                echo "</div>";
                 
                 
                 
@@ -203,18 +201,6 @@ echo form_open_multipart($form_url);
             <div class="portlet-body">
                 
                 <?php
-                //  Decription
-                echo "<div class='form-group'>";
-                echo form_label('General Information', 'edition_description');
-                echo form_textarea([
-                        'name'          => 'edition_description',
-                        'id'            => 'edition_description',
-                        'value'         => utf8_encode(@$edition_detail['edition_description']),
-                    ]);
-
-                echo "</div>";
-                
-                
                 //  Entry Details
                 echo "<div class='form-group'>";
                 echo form_label('Entry Details', 'edition_entry_detail');
@@ -226,6 +212,16 @@ echo form_open_multipart($form_url);
 
                 echo "</div>";
                 
+                //  Decription
+                echo "<div class='form-group'>";
+                echo form_label('General Information', 'edition_description');
+                echo form_textarea([
+                        'name'          => 'edition_description',
+                        'id'            => 'edition_description',
+                        'value'         => utf8_encode(@$edition_detail['edition_description']),
+                    ]);
+
+                echo "</div>";
            
                 if ($action=="edit") {   
                     //  DATES Created + Updated

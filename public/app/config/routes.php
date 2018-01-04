@@ -77,3 +77,5 @@ $route['winelands'] = 'landing/winelands';
 $route['Winelands'] = 'landing/winelands';
 $route['westcoast'] = 'landing/west+coast';
 $route['WestCoast'] = 'landing/west+coast';
+$route['gardenroute'] = 'landing/garden+route';
+$route['GardenRoute'] = 'landing/garden+route';

@@ -43,7 +43,7 @@ class Town extends Admin_Controller {
         // set data
         $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
         $this->data_to_view["list"] = $this->town_model->get_town_list($per_page, $page);
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "List of Towns";
 
         // as daar data is
         if ($this->data_to_view["list"]) {

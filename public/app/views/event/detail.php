@@ -428,3 +428,7 @@
     
 </div>
 <!-- END: PAGE CONTAINER -->
+
+<?php
+    echo $structured_data;
+?>

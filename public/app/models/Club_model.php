@@ -10,9 +10,8 @@ class Club_model extends CI_Model {
             return $this->db->count_all("clubs");
         }
         
-        public function get_club_list($limit, $start)
-        {
-            $this->db->limit($limit, $start);    
+        public function get_club_list()
+        {  
             
             $this->db->select("clubs.*, town_name, province_name, sponsor_name");
             $this->db->from("clubs");
@@ -73,14 +72,14 @@ class Club_model extends CI_Model {
 
         }
         
-        public function set_club($action, $id)
+        public function set_club($action, $club_id)
         {            
             $club_data = array(
                         'club_name' => $this->input->post('club_name'),
                         'club_status' => $this->input->post('club_status'),
                         'town_id' => $this->input->post('town_id'),
                     );        
-            $club_sponsor_data = ["club_id"=>$id,"sponsor_id"=>$this->input->post('sponsor_id')];   
+            $club_sponsor_data = ["club_id"=>$club_id,"sponsor_id"=>$this->input->post('sponsor_id')];   
             
             switch ($action) {                    
                 case "add":                     
@@ -92,7 +91,7 @@ class Club_model extends CI_Model {
                     $club_sponsor_data["club_id"]=$club_id;
                     $this->db->insert('club_sponsor', $club_sponsor_data);
                     $this->db->trans_complete();  
-                    return $this->db->trans_status();               
+                    break;
                 case "edit":
                     // add updated date to both data arrays
                     $club_data['updated_date']=date("Y-m-d H:i:s");
@@ -100,19 +99,26 @@ class Club_model extends CI_Model {
                     // start SQL transaction
                     $this->db->trans_start();
                     // chcek if record already exists
-                    $item_exists = $this->db->get_where('club_sponsor', array('club_id' => $id, 'sponsor_id' => $this->input->post('sponsor_id')));
+                    $item_exists = $this->db->get_where('club_sponsor', array('club_id' => $club_id, 'sponsor_id' => $this->input->post('sponsor_id')));
                     if ($item_exists->num_rows() == 0)  
                     {
                         $club_data['updated_date']=date("Y-m-d H:i:s");
-                        $this->db->delete('club_sponsor', array('club_id' => $id));
+                        $this->db->delete('club_sponsor', array('club_id' => $club_id));
                         $this->db->insert('club_sponsor', $club_sponsor_data);                        
                     } 
-                    $this->db->update('clubs', $club_data, array('club_id' => $id));                  
+                    $this->db->update('clubs', $club_data, array('club_id' => $club_id));                  
                     $this->db->trans_complete();  
-                    return $this->db->trans_status();    
+                    break;   
                 default:
                     show_404();
                     break;
+            }
+            // return ID if transaction successfull
+            if ($this->db->trans_status())
+            {
+                return $club_id;
+            } else {
+                return false;
             }
             
         }

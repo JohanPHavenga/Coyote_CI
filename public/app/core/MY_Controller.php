@@ -234,6 +234,16 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/club',
                 "icon"=>"badge",
                 "seg0"=>['club'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Clubs",
+                    "url"=>'admin/club/view',
+                    ],
+                    [
+                    "text"=>"Add Club",
+                    "url"=>'admin/club/create/add',
+                    ],
+                ],
             ],
             // Sponsors
             [

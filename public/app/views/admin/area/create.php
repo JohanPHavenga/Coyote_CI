@@ -9,8 +9,6 @@
             </div>
             <div class="portlet-body">
             <?php 
-                echo validation_errors(); 
-
                 echo form_open($form_url); 
 
                 echo "<div class='form-group'>";

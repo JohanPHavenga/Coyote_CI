@@ -214,4 +214,14 @@
                         }
                         echo "<div class='note note-$status' role='alert'>$alert_msg</div>";
                     }
+                    
+                    // if there was a post, check for validation errors
+                    if ($_POST)
+                    {
+                        if (validation_errors()) {
+                            echo "<div class='note note-danger' role='alert'>";                        
+                            echo validation_errors(); 
+                            echo "</div>";
+                        }
+                    }
                     ?>

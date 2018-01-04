@@ -106,9 +106,12 @@ class Event extends Admin_Controller {
 
         if ($action=="edit")
         {
-        $this->data_to_view['event_detail']=$this->event_model->get_event_detail($id);
-        $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+            $this->data_to_view['event_detail']=$this->event_model->get_event_detail($id);
+            $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+        } else {
+            $this->data_to_view['event_detail']['club_id']=8;
         }
+            
 
         // set validation rules
         $this->form_validation->set_rules('event_name', 'Event Name', 'required');

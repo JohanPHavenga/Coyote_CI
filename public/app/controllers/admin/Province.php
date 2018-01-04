@@ -21,7 +21,7 @@ class Province extends Admin_Controller {
 
     public function view($id = FALSE) {
 
-        $this->data_to_view['title'] = uri_string();
+        $this->data_to_header['title'] = "List of Provinces";
         $this->data_to_view['list'] = $this->province_model->get_province_list($id);
         // as daar data is
         if ($this->data_to_view["list"]) {

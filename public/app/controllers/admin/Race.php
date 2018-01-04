@@ -71,42 +71,6 @@ class Race extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
     
-    
-    public function view_old() {
-        // load helpers / libraries
-        $this->load->library('table');
-
-        // pagination
-        // pagination config
-        $per_page=50;
-        $uri_segment=4;
-        $total_rows=$this->race_model->record_count();
-        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $this->data_to_view["pagination"]=$this->pagination->create_links();
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-
-        $this->data_to_view["list"] = $this->race_model->get_race_list($per_page, $page);
-        $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_view['delete_arr']=["controller"=>"race","id_field"=>"race_id"];
-        $this->data_to_header['title'] = "List of Races";
-
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
-        }
-
-        // load view
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-    }
-
 
     public function create($action, $id=0) {
         // additional models
@@ -149,6 +113,7 @@ class Race extends Admin_Controller {
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         } else {
             $this->data_to_view['race_detail']=[];
+            $this->data_to_view['race_detail']['race_status']=1;
             $this->data_to_view['race_detail']['racetype_id']=4;
         }
 

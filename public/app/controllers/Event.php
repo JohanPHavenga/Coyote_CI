@@ -173,6 +173,8 @@ class Event extends Frontend_Controller {
                 $this->data_to_view['event_detail']['summary']['race_time_start']." race including the follwing distances: ".
                 $this->data_to_view['event_detail']['summary']['race_distance'];
         
+        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
+        
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/event/detail", $this->data_to_view);
@@ -243,6 +245,93 @@ class Event extends Frontend_Controller {
         return $base_url."&text=".$text."&dates=".$dates."&details=".$details."&location=".$location;
     }
 
+    
+    function formulate_structured_data($event_detail) {
+        $start_date=date("Y-m-d", strtotime($event_detail['edition_date']));
+        
+        $h[]='<script type="application/ld+json">';
+        $h[]='{';
+            $h[]='"@context": "http://schema.org",';
+            $h[]='"@type": "SportsEvent",';
+            $h[]='"name": "'.$event_detail['edition_name'].'",';
+            $h[]='"startDate": "'.$start_date.'",';
+            $h[]='"location": { ';
+                $h[]='"@type": "Place",';
+                $h[]='"name": "'.$event_detail['edition_address'].'",';
+                $h[]='"address": { ';
+                    $h[]='"@type": "PostalAddress",';
+                    $h[]='"streetAddress": "'.$event_detail['edition_address'].'",';
+                    $h[]='"addressLocality": "'.$event_detail['town_name'].'",';
+                    $h[]='"addressRegion": "WC",';
+                    $h[]='"addressCountry": "ZA"';
+                $h[]='}';
+            $h[]='},';
+            $h[]='"description": "Join us for the annual '.$event_detail['event_name'].' road running race in '.$event_detail['town_name'].'.",';
+            
+            $h[]='"subEvent": [ ';  
+            
+                foreach ($event_detail['race_list'] as $race) {
+                    if (!empty($race['race_name'])) {
+                        $rn=$race['race_name'];
+                    } else {
+                        $rn=fraceDistance($race['race_distance'])." ".$race['racetype_name'];  
+                    }
+                    if ($race['race_fee_flat']>0) {
+                        $price=$race['race_fee_flat'];
+                    } elseif ($race['race_fee_senior_licenced']>0) {
+                        $price=$race['race_fee_senior_licenced'];
+                    } else {
+                        $price=0;
+                    }
+                    $h[]='{';
+                    $h[]='"@type": "SportsEvent",';
+                    $h[]='"name": "'.$rn.'",';
+                    $h[]='"startDate": "'.$start_date.'T'.$race['race_time_start'].'+02:00",';
+                    if ($race['race_time_end']) {
+                        $h[]='"endDate": "'.$start_date.'T'.$race['race_time_end'].'+02:00",';
+                    }
+                    $h[]='"location": { ';
+                        $h[]='"@type": "Place",';
+                        $h[]='"name": "'.$event_detail['edition_address'].'",';
+                        $h[]='"address": { ';
+                            $h[]='"@type": "PostalAddress",';
+                            $h[]='"streetAddress": "'.$event_detail['edition_address'].'",';
+                            $h[]='"addressLocality": "'.$event_detail['town_name'].'",';
+                            $h[]='"addressRegion": "WC",';
+                            $h[]='"addressCountry": "ZA"';
+                        $h[]='}';
+                    if ($price>0) {
+                        $h[]='},';
+                        $h[]='"offers": { ';
+                            $h[]='"@type": "Offer",';
+                            $h[]='"price": "'.$price.'",';
+                            $h[]='"priceCurrency": "ZAR"';
+                        $h[]='}';
+                    } else {
+                        $h[]='}';   
+                    }
+                    
+                    // loose comma at the end of the last one
+                    if ($race === end($event_detail['race_list'])) {
+                        $h[]='}';
+                    } else {
+                        $h[]='},';
+                    }
+                }
+            
+            $h[]=']';
+            
+        $h[]='}';
+        $h[]='</script>';
+        
+        $html=implode("\n\r", $h);
+        
+//        echo $html;
+//        wts($event_detail);
+//        die();
+        
+        return $html;
+    }
 
 
 }

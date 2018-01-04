@@ -9,8 +9,6 @@
             </div>
             <div class="portlet-body">
             <?php 
-                echo validation_errors(); 
-
                 echo form_open($form_url); 
 
                 echo "<div class='form-group'>";
@@ -48,7 +46,7 @@
                         'name'          => 'town_id',
                         'id'            => 'town_id',
                         'type'          => 'hidden',
-                        'value'         => set_value('club_name', @$club_detail['town_id']),
+                        'value'         => set_value('club_id', @$club_detail['town_id']),
                     ]);
                 
 
@@ -57,9 +55,11 @@
                 echo form_dropdown('sponsor_id', $sponsor_dropdown, @$club_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control"]);        
                 echo "</div>";
                 
+                //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton();
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
 
                 echo form_close();
