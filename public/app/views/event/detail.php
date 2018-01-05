@@ -40,7 +40,7 @@
                                         } elseif ($event_detail['edition_url_flyer']) {
                                             $url_segments=parse_url($event_detail['edition_url_flyer']);
                                             ?>
-                                            <a href="<?=$event_detail['v'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                            <a href="<?=$event_detail['edition_url_flyer'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
                                             <?php
                                         }
                                         
@@ -136,7 +136,7 @@
                          ?>
                         <!-- End-->
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 edition-logo">
                         <?php
                             if (strlen($event_detail['edition_logo'])>3) {
                                 $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);

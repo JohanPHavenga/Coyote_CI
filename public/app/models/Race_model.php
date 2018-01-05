@@ -169,16 +169,16 @@ class Race_model extends CI_Model {
         function get_race_color($distance) {
         
             switch (true) {
-                case $distance <= 5:
-                    $color = 'green';
+                case $distance <= 9:
+                    $color = 'yellow';
                     break;
 
-                case $distance <= 10:
+                case $distance == 10:
                     $color = 'yellow-1';
                     break;
 
                 case $distance <= 21:
-                    $color = 'brown';
+                    $color = 'green-2';
                     break;
 
                 case $distance == 21.1:
@@ -190,7 +190,7 @@ class Race_model extends CI_Model {
                     break;
 
                 case $distance == 42.2:
-                    $color = 'red';
+                    $color = 'red-2';
                     break;
 
                 default:

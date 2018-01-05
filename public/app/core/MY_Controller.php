@@ -439,7 +439,13 @@ class Frontend_Controller extends MY_Controller {
 
 
     function render_races_accordian_html($race_summary, $filter_title="All") {
+            $this->load->model('race_model');
+            
         // generate html for the accordian holding event data
+        
+//        wts($race_summary);
+//        die();
+        
         $return_html_arr=[];
         if ($race_summary) {
             
@@ -456,19 +462,7 @@ class Frontend_Controller extends MY_Controller {
                             //$return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
                         }
                     $return_html_arr[]='</ul></div>';
-//                    
-//                    $return_html_arr[]='<div class="padding-top:20px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-//                    <!-- Events Calendar Skyscraper -->
-//                    <ins class="adsbygoogle"
-//                         style="display:inline-block;width:300px;height:600px"
-//                         data-ad-client="ca-pub-8912238222537097"
-//                         data-ad-slot="9323995969"></ins>
-//                    <script>
-//                    (adsbygoogle = window.adsbygoogle || []).push({});
-//                    </script>
-//                    </div>
-//                    </div>'; // close col-sm-3
-
+                    
 
                 $return_html_arr[]='<div class="col-sm-9">';
                     $return_html_arr[]='<div class="tab-content">';
@@ -484,12 +478,28 @@ class Frontend_Controller extends MY_Controller {
 
                             foreach ($race_summary as $month=>$edition_list) {
                                 foreach ($edition_list as $edition_id=>$edition) {
+                                    
+                                    // set bullet color
+                                    $bullet_color="c-font-yellow";
+                                    $title_text="Gathering event inforamtion";
+                                    if ($edition['edition_info_isconfirmed']) { $bullet_color="c-font-green-2"; $title_text="Event information confirmed";  }
+                                    
+                                    // set distance circles
+                                    $badge="";
+                                    foreach ($edition['distance_arr'] as $distance) {
+                                        $color = $this->race_model->get_race_color($distance);
+                                        $badge.="<span class='badge c-bg-$color'>".intval($distance)."</span> ";
+                                    }
 
                                     $return_html_arr[]='<div class="panel">';
                                         $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$edition_id.'">';
                                             $return_html_arr[]='<h4 class="panel-title">';
                                                 $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$rand.'" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
-                                                $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td></tr></table>';
+                                                $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
+                                                $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_color.' fa fa-check-circle-o" title="'.$title_text.'"></i> </td>';
+                                                $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
+                                                $return_html_arr[]='<td class="badges">'.$badge.'</td>';
+                                                $return_html_arr[]='</tr></table>';
                                                 $return_html_arr[]='</a>';
                                             $return_html_arr[]='</h4>';
                                         $return_html_arr[]='</div>';
