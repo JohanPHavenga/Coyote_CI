@@ -160,14 +160,18 @@ class Edition_model extends CI_Model {
                             'event_id' => $this->input->post('event_id'),
                             'edition_url' => $this->input->post('edition_url'),
                             'edition_url_entry' => $this->input->post('edition_url_entry'),
+                            'edition_url_flyer' => $this->input->post('edition_url_flyer'),
+                            'edition_url_results' => $this->input->post('edition_url_results'),
                             'edition_address' => $this->input->post('edition_address'),
                             'edition_address_end' => $this->input->post('edition_address_end'),
                             'latitude_num' => $this->input->post('latitude_num'),
                             'longitude_num' => $this->input->post('longitude_num'),
                             'edition_date_end' => $end_date,
                             'edition_logo' => $this->input->post('edition_logo'),
-                            'edition_description' => $this->input->post('edition_description'),
+                            'edition_info_isconfirmed' => $this->input->post('edition_info_isconfirmed'),
+                            'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                             'edition_entry_detail' => $this->input->post('edition_entry_detail'),
+                            'edition_description' => $this->input->post('edition_description'),
                         );
                 
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];
@@ -183,8 +187,9 @@ class Edition_model extends CI_Model {
 
             if ($debug) {
                 echo "<b>Edition Transaction</b>";
+                wts($_FILES);
                 wts($action);
-                // wts($edition_id);
+                wts($edition_id);
                 wts($edition_data);
                 die();
             } else {

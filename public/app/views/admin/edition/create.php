@@ -12,36 +12,49 @@ echo form_open_multipart($form_url);
             </div>
             <div class="portlet-body">
             <?php  
-                //  NAME
-                echo "<div class='form-group'>";
-                echo form_label('Name <span class="compulsary">*</span>', 'edition_name');
-                echo form_input([
-                        'name'          => 'edition_name',
-                        'id'            => 'edition_name',
-                        'value'         => utf8_encode(@$edition_detail['edition_name']),
-                        'class'         => 'form-control input-xlarge',
-                        'required'      => '',
-                    ]);
-                echo form_input([
-                        'name'          => 'edition_name_past',
-                        'id'            => 'edition_name_past',
-                        'value'         => utf8_encode(@$edition_detail['edition_name']),
-                        'type'         => 'hidden',
-                    ]);
+                //  EDITION NAME
+                echo "<div class='form-group'>";                
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-7'>";
+                        echo form_label('Edition Name <span class="compulsary">*</span>', 'edition_name');
+                        echo form_input([
+                                'name'          => 'edition_name',
+                                'id'            => 'edition_name',
+                                'value'         => utf8_encode(@$edition_detail['edition_name']),
+                                'class'         => 'form-control input-xlarge',
+                                'required'      => '',
+                            ]);
+                        echo form_input([
+                                'name'          => 'edition_name_past',
+                                'id'            => 'edition_name_past',
+                                'value'         => utf8_encode(@$edition_detail['edition_name']),
+                                'type'         => 'hidden',
+                            ]);
 
-                echo "<p class='help-block' style='font-style: italic;'> Remember to always add the year at the end of the edition name </p>";
+                        echo "<p class='help-block' style='font-style: italic;'> Remember to always add the year at the end of the edition name </p>";
+                        echo "</div>";
+                        
+                //  
+                        echo "<div class='col-md-5'>";
+                        
+                        echo "</div>";
+                    echo "</div>";
                 echo "</div>";
-
+                
                 //  EVENT LINK
                 echo "<div class='form-group'>";
-                echo form_label('Event <span class="compulsary">*</span>', 'event_id');
-                echo form_dropdown('event_id', $event_dropdown, @$edition_detail['event_id'], ["id"=>"event_id","class"=>"form-control input-xlarge"]);        
-                echo "</div>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-7'>";
+                        echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
+                        echo form_dropdown('event_id', $event_dropdown, @$edition_detail['event_id'], ["id"=>"event_id","class"=>"form-control input-xlarge"]);        
+                        echo "</div>";
 
-                //  STATUS
-                echo "<div class='form-group'>";
-                echo form_label('Status <span class="compulsary">*</span>', 'edition_status');
-                echo form_dropdown('edition_status', $status_dropdown, @$edition_detail['edition_status'], ["id"=>"edition_status","class"=>"form-control input-small"]);        
+                //  EDITION STATUS
+                        echo "<div class='col-md-5'>";
+                        echo form_label('Edition Status <span class="compulsary">*</span>', 'edition_status');
+                        echo form_dropdown('edition_status', $status_dropdown, @$edition_detail['edition_status'], ["id"=>"edition_status","class"=>"form-control input-small"]);        
+                        echo "</div>";
+                    echo "</div>";
                 echo "</div>";
 
                 //  DATE
@@ -72,32 +85,7 @@ echo form_open_multipart($form_url);
 //                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
 //                
 //                echo "<p class='help-block' style='font-style: italic;'> Only if applicable </p>";
-//                echo "</div>";
-                
-                
-                //  More info URL
-                echo "<div class='form-group'>";
-                echo form_label('More Info URL', 'edition_url');
-                echo form_input([
-                        'name'          => 'edition_url',
-                        'id'            => 'edition_url',
-                        'value'         => set_value('edition_url', @$edition_detail['edition_url']),
-                        'class'         => 'form-control',
-                    ]);
-
-                echo "</div>";  
-                
-                 //  Entry URL
-                echo "<div class='form-group'>";
-                echo form_label('Entry URL', 'edition_url_entry');
-                echo form_input([
-                        'name'          => 'edition_url_entry',
-                        'id'            => 'edition_url_entry',
-                        'value'         => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
-                        'class'         => 'form-control',
-                    ]);
-
-                echo "</div>";  
+//                echo "</div>";     
                 
                 //  ADDRESS
                 echo "<div class='form-group'>";
@@ -150,45 +138,135 @@ echo form_open_multipart($form_url);
                     echo "</div>";
                 echo "</div>";
                 
+                //  More info URL
+                echo "<div class='form-group'>";
+                echo form_label('Link to event website (More Info)', 'edition_url');
+                echo form_input([
+                        'name'          => 'edition_url',
+                        'id'            => 'edition_url',
+                        'value'         => set_value('edition_url', @$edition_detail['edition_url']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
                 
-                //  Logo
-//                echo "<div class='form-group'>";
-//                echo form_label('Edition Logo', 'edition_logo');
-//                echo form_input([
-//                        'name'          => 'edition_logo',
-//                        'id'            => 'edition_logo',
-//                        'value'         => @$edition_detail['edition_logo'],
-//                        'type'          => 'file',
-//                        'multiple'      => '',
-//                        'accept'        => 'image/*',
-//                    ]);
-//                echo "</div>";
+                //  Entry URL
+                echo "<div class='form-group'>";
+                echo form_label('Link to race entry (Enter Now)', 'edition_url_entry');
+                echo form_input([
+                        'name'          => 'edition_url_entry',
+                        'id'            => 'edition_url_entry',
+                        'value'         => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
                 
+                //  Flyer URL
+                echo "<div class='form-group'>";
+                echo form_label('Link to race flyer (Race Flyer)', 'edition_url_entry');
+                echo form_input([
+                        'name'          => 'edition_url_flyer',
+                        'id'            => 'edition_url_flyer',
+                        'value'         => set_value('edition_url_flyer', @$edition_detail['edition_url_flyer']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
+                
+                //  Results URL
+                echo "<div class='form-group'>";
+                echo form_label('Link to results (Event Results)', 'edition_url_results');
+                echo form_input([
+                        'name'          => 'edition_url_results',
+                        'id'            => 'edition_url_results',
+                        'value'         => set_value('edition_url_results', @$edition_detail['edition_url_results']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
                 
                 
                 //  Contact
                 echo "<div class='form-group'>";
-                echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
-                echo form_dropdown('user_id', $contact_dropdown, @$edition_detail['user_id'], ["id"=>"user_id","class"=>"form-control input-xlarge"]);        
-                echo "</div>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-6'>";
+                        echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
+                        echo form_dropdown('user_id', $contact_dropdown, @$edition_detail['user_id'], ["id"=>"user_id","class"=>"form-control"]);        
+                        echo "</div>";
 
                 //  SPONSOR
-                echo "<div class='form-group'>";
-                echo form_label('Sponsor <span class="compulsary">*</span>', 'sponsor_id');
-                echo form_dropdown('sponsor_id', $sponsor_dropdown, @$edition_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control input-xlarge"]);        
+                        echo "<div class='col-md-6'>";
+                        echo form_label('Sponsor <span class="compulsary">*</span>', 'sponsor_id');
+                        echo form_dropdown('sponsor_id', $sponsor_dropdown, @$edition_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control"]);        
+                        echo "</div>";
+                    echo "</div>";
                 echo "</div>";
                 
-                //  BUTTONS
-                echo "<div class='btn-group'>";
-                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
-                echo fbutton($text="Save & Close",$type="submit",$status="success");
-                echo fbuttonLink($return_url,"Cancel",$status="danger");
+                
+                //  INFO CONFIRMED
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-6'>";
+                         echo form_checkbox([
+                                'name'          => 'edition_info_isconfirmed',
+                                'id'            => 'edition_info_isconfirmed',
+                                'value'         => 1,
+                                'checked'       => @$edition_detail['edition_info_isconfirmed'],
+                            ]);      
+                        echo form_label('Information confirmed', 'edition_info_isconfirmed');
+                        echo "</div>";
+                    echo "</div>";
                 echo "</div>";
+                
+                //  Logo
+                echo "<div class='row'>";
+                    echo "<div class='col-md-6'>";
+                        echo "<div class='form-group'>";
+                            echo form_label('Edition Logo Upload', 'edition_logo_upload');
+                            echo form_input([
+                                    'name'          => 'edition_logo_upload',
+                                    'id'            => 'edition_logo_upload',
+                                    'type'          => 'file',
+                                    'multiple'      => '',
+                                    'accept'        => 'image/*',
+                                ]);
+                        echo "</div>";                        
 
-            ?>
+                    if (($action=="edit")&&(strlen($edition_detail['edition_logo'])>3)) {                               
+                        echo "<div class='form-group'>";
+                            echo form_label('Edition Logo Current File', 'edition_logo_upload');
+                            echo form_input([
+                                'name'          => 'edition_logo',
+                                'id'            => 'edition_logo',
+                                'value'         => set_value('edition_logo', @$edition_detail['edition_logo']),
+                                'class'         => 'form-control',
+                            ]);
+                        echo "</div>";
+                    }
+
+                    echo "</div>";
+//                        echo form_input([
+//                                'name'          => 'edition_logo',
+//                                'id'            => 'edition_logo',
+//                                'value'         => @$edition_detail['edition_logo'],
+//                                'type'         => 'hidden',
+//                            ]);
+
+                    if (($action=="edit")&&(strlen($edition_detail['edition_logo'])>3)) {    
+                        $img_url=base_url("uploads/admin/edition/".$edition_detail['edition_id']."/".$edition_detail['edition_logo']);
+                        echo "<div class='col-md-6'>";
+                        echo "<img src='$img_url' style='width: 300px;'>";
+                        echo "</div>";
+                    }                        
+                echo "</div>";
+                ?>
             </div>
         </div>
     </div>
+    
+    
+    
     
     <div class="col-md-6">
         <div class="portlet light">
@@ -201,6 +279,17 @@ echo form_open_multipart($form_url);
             <div class="portlet-body">
                 
                 <?php
+                //  Event Intro
+                echo "<div class='form-group'>";
+                echo form_label('Event Intro', 'edition_intro_detail');
+                echo form_textarea([
+                        'name'          => 'edition_intro_detail',
+                        'id'            => 'edition_intro_detail',
+                        'value'         => utf8_encode(@$edition_detail['edition_intro_detail']),
+                    ]);
+
+                echo "</div>";
+                
                 //  Entry Details
                 echo "<div class='form-group'>";
                 echo form_label('Entry Details', 'edition_entry_detail');
@@ -222,31 +311,20 @@ echo form_open_multipart($form_url);
                     ]);
 
                 echo "</div>";
-           
-                if ($action=="edit") {   
-                    //  DATES Created + Updated
-                   echo "<div class='form-group'>";
-                   echo form_label('Date Created', 'created_date');
-                   echo form_input([
-                           'value'         => set_value('created_date', @$edition_detail['created_date']),
-                           'class'         => 'form-control input-medium',
-                           'disabled'      => ''
-                       ]);
+                ?>
+            </div>
+        </div>        
+    </div>
+   
+    
+</div>
 
-                   echo "</div>";
-                   echo "<div class='form-group'>";
-                   echo form_label('Date Updated', 'updated_date');
-                   echo form_input([
-                           'value'         => set_value('updated_date', @$edition_detail['updated_date']),
-                           'class'         => 'form-control input-medium',
-                           'disabled'      => ''
-                       ]);
-
-                   echo "</div>";
-                }
-                
-                
-                //  BUTTONS
+<div class="row">
+    <div class="col-md-6">    
+        <div class="portlet light">        
+            <div class="portlet-body">            
+                <?php
+                 //  BUTTONS
                 echo "<div class='btn-group'>";
                 echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
                 echo fbutton($text="Save & Close",$type="submit",$status="success");
@@ -254,8 +332,41 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 ?>
             </div>
-        </div>        
+        </div>
     </div>
+     <?php
+        if ($action=="edit") {   
+    ?>
+    <div class="col-md-6">
+        <div class="portlet light">
+            <?php
+            echo "<div class='form-group'>";
+                echo "<div class='row'>";
+                    echo "<div class='col-md-6'>";
+                    echo form_label('Date Created', 'created_date');
+                    echo form_input([
+                            'value'         => set_value('created_date', @$edition_detail['created_date']),
+                            'class'         => 'form-control input-medium',
+                            'disabled'      => ''
+                        ]);
+                    echo "</div>";
+                    echo "<div class='col-md-6'>";
+                    echo form_label('Date Updated', 'updated_date');
+                    echo form_input([
+                            'value'         => set_value('updated_date', @$edition_detail['updated_date']),
+                            'class'         => 'form-control input-medium',
+                            'disabled'      => ''
+                        ]);
+
+                    echo "</div>";
+                echo "</div>";
+             echo "</div>";
+            ?>
+        </div>
+    </div>
+    <?php
+        }
+    ?>
 </div>
 
 <?php

@@ -15,6 +15,7 @@ var ComponentsEditors = function () {
     var handleSummernote = function () {
         $('#edition_description').summernote({height: 200});
         $('#edition_entry_detail').summernote({height: 200});
+        $('#edition_intro_detail').summernote({height: 200});
         $('#race_notes').summernote({height: 200});
         //API:
         //var sHTML = $('#summernote_1').code(); // get code

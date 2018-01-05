@@ -251,6 +251,16 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/sponsor',
                 "icon"=>"wallet",
                 "seg0"=>['sponsor'],
+                "submenu"=>[
+                    [
+                    "text"=>"List All Sponsors",
+                    "url"=>'admin/sponsor/view',
+                    ],
+                    [
+                    "text"=>"Add Sponsor",
+                    "url"=>'admin/sponsor/create/add',
+                    ],
+                ],
             ],
             // Static info
             [

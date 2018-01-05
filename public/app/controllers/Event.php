@@ -162,7 +162,11 @@ class Event extends Frontend_Controller {
         // check if events is in the past
         $this->data_to_view['notice']='';
         if ($this->data_to_view['event_detail']['edition_date'] < date("Y-m-d")) {
-            $this->data_to_view['notice']="<div class='alert alert-warning' role='alert'>Please note that you are viewing an event that has happend in the past.</div>";
+            $msg="<strong>Please note:</strong> You are viewing a past event. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> for a list of upcoming events.";
+            $this->data_to_view['notice']="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+        } elseif ($this->data_to_view['event_detail']['edition_info_isconfirmed']) {
+            $msg="The information for this event has been <strong>confirmed</strong>. Please see the <a target='_blank' href='".$this->data_to_view['event_detail']['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers.";
+            $this->data_to_view['notice']="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
         }
 
         // SET META DATA// SET META DATA

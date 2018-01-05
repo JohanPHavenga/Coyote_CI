@@ -3,7 +3,7 @@
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
-    <div class="c-content-box c-size-md c-bg-img-top c-no-padding c-pos-relative">
+    <div class="c-content-box c-size-sm c-bg-img-top c-no-padding c-pos-relative">
         <div class="container">
             <div class="c-content-contact-1 c-opt-1">
                 <div class="row" data-auto-height=".c-height" style="min-height: 628px;">
@@ -26,6 +26,7 @@
                                 <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">Entries</div>
                                 <p>                                    
                                     <?php
+                                        // show link in summary info
                                         if ($event_detail['edition_url_entry']) {
                                             $url_segments=parse_url($event_detail['edition_url_entry']);
                                             ?>
@@ -36,7 +37,14 @@
                                             ?>
                                             <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
                                             <?php
+                                        } elseif ($event_detail['edition_url_flyer']) {
+                                            $url_segments=parse_url($event_detail['edition_url_flyer']);
+                                            ?>
+                                            <a href="<?=$event_detail['v'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
+                                            <?php
                                         }
+                                        
+                                        // show email
                                         if (isset($event_detail['user_email'])) {
                                             $contact_email=$event_detail['user_email'];
                                         } else {
@@ -80,19 +88,20 @@
         <div id="gmapbg" class="c-content-contact-1-gmap" style="height: 630px;"></div>
     </div>
     
-    <div class="c-content-box c-size-md c-bg-grey-1">
+    <?= $notice; ?>
+    
+    <div class="c-content-box c-size-sm c-bg-grey-1">
         <div class="container">
             
-            <?= $notice; ?>
             
             <div class="c-content-bar-2 c-opt-1">
                 <div class="row" data-auto-height="true">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <!-- Begin: Title 1 component -->
                         <div class="c-content-title-1" data-height="height">
                             <h3 class="c-font-uppercase c-font-bold"><?=$event_detail['edition_name'];?></h3>
                         </div>
-                        <p class="c-font-sbold c-margin-b-20"> Annual <?=$event_detail['event_name'];?>
+                        <p class="c-font-sbold"> Annual <?=$event_detail['event_name'];?>
                             <?php
                                 if ((!empty($event_detail['sponsor_name'])) && ($event_detail['sponsor_name']!="No sponsor")) {
                                     echo " brought to you by ".$event_detail['sponsor_name'];
@@ -100,20 +109,40 @@
                             ?>
                         </p>
                         <?php
-                            if ($event_detail['edition_url_entry']) {
-                            ?>                            
-                            <a href="<?=$event_detail['edition_url_entry'];?>" target="_blank" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">Enter Now</a>
-                            <?php                      
+                            // INTRO
+                            if (strlen($event_detail['edition_intro_detail'])>10) {
+                                echo $event_detail['edition_intro_detail'];
                             }
+ 
+                        
+                            // BUTTONS
+                            $button_class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
+                            // ENTRY
+                            if ($event_detail['edition_url_entry']) {
+                                echo '<a href="'.$event_detail['edition_url_entry'].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
+                            }
+                            // MORE INFO
                             if ($event_detail['edition_url']) {
-                            ?>                            
-                            <a href="<?=$event_detail['edition_url'];?>" target="_blank" class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold">More Info</a>
-                            <?php
+                                echo '<a href="'.$event_detail['edition_url'].'" target="_blank" class="'.$button_class.'">More Info</a>';  
+                            }
+                            // FLYER
+                            if ($event_detail['edition_url_flyer']) {
+                                echo '<a href="'.$event_detail['edition_url_flyer'].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                            
+                            }
+                            // RESULTS
+                            if ($event_detail['edition_url_results']) {
+                                echo '<a href="'.$event_detail['edition_url_results'].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
                             }
                          ?>
                         <!-- End-->
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
+                        <?php
+                            if (strlen($event_detail['edition_logo'])>3) {
+                                $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);
+                                echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -144,7 +173,7 @@
     <?php
     if (strlen($event_detail['edition_entry_detail'])>10) {
     ?>
-    <div class="c-content-box c-size-md c-bg-grey-1">
+    <div class="c-content-box c-size-sm c-bg-grey-1">
         <div class="container">
             <div class="row">            
                 <div class="col-md-12">
@@ -182,7 +211,7 @@
     // START RACES
         foreach ($event_detail['race_list'] as $race) {
             ?>
-            <div class="c-content-box c-size-md <?=$box_color;?>">
+            <div class="c-content-box c-size-sm <?=$box_color;?>">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -361,7 +390,7 @@
         
     if (strlen($event_detail['edition_description'])>10) {
     ?>
-    <div class="c-content-box c-size-md <?=$box_color;?>">
+    <div class="c-content-box c-size-sm <?=$box_color;?>">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -407,7 +436,7 @@
     if ($box_color=="c-bg-grey-1") { $box_color=''; } else { $box_color="c-bg-grey-1"; }
     
     ?>
-    <div class="c-content-box c-size-md <?=$box_color;?>">
+    <div class="c-content-box c-size-sm <?=$box_color;?>">
         <div class="container">
             <div class="c-content-bar-2 c-opt-1">
                 <div class="row" data-auto-height="true">
