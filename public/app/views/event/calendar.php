@@ -45,28 +45,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide" style="padding: 8px 0;">
-                <div class="c-container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            
-                            <div class="c-content-title-1">
-                            <!-- Calendar Page Display Ad Only -->
-                            <ins class="adsbygoogle"
-                                style="display:block"
-                                data-ad-client="ca-pub-8912238222537097"
-                                data-ad-slot="2234707964"
-                                data-ad-format="auto"></ins>
-                            <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="c-content-tab-4 c-opt-5" role="tabpanel">
                 <ul class="nav nav-justified" role="tablist">
@@ -77,6 +55,25 @@
                         <a href="#past" role="tab" data-toggle="tab">Past Races</a>
                     </li>
                 </ul>
+                <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide" style="padding: 8px 0;">
+                    <div class="c-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="c-content-title-1">
+                                <!-- Calendar Page Display Ad Only -->
+                                <ins class="adsbygoogle"
+                                    style="display:block"
+                                    data-ad-client="ca-pub-8912238222537097"
+                                    data-ad-slot="2234707964"
+                                    data-ad-format="auto"></ins>
+                                <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="upcoming">
                         <ul class="c-tab-items">

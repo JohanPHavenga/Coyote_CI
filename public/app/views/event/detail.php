@@ -101,10 +101,14 @@
                         <div class="c-content-title-1" data-height="height">
                             <h3 class="c-font-uppercase c-font-bold"><?=$event_detail['edition_name'];?></h3>
                         </div>
-                        <p class="c-font-sbold"> Annual <?=$event_detail['event_name'];?>
+                        <p class="c-font-sbold"> Annual <?=$event_detail['event_name'];?> 
                             <?php
+                                if ($event_detail['club_id']!=8) {
+                                    echo " organized by ".$event_detail['club_name'];
+                                }
+                            
                                 if ((!empty($event_detail['sponsor_name'])) && ($event_detail['sponsor_name']!="No sponsor")) {
-                                    echo " brought to you by ".$event_detail['sponsor_name'];
+                                    echo "<br>Brought to you by ".$event_detail['sponsor_name'];
                                 }
                             ?>
                         </p>

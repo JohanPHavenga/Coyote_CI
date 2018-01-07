@@ -36,11 +36,6 @@ class Event extends Frontend_Controller {
         $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($upcoming_race_summary);
         $this->data_to_view['past_race_list_html']=$this->render_races_accordian_html($past_race_summary);
 
-
-        $this->data_to_header['css_to_load']=array();
-        $this->data_to_footer['js_to_load']=array();
-        $this->data_to_footer['scripts_to_load']=array();
-
         // set title bar
         $this->data_to_view["title_bar"]=$this->render_topbar_html(
             [
@@ -56,17 +51,14 @@ class Event extends Frontend_Controller {
 
 
     public function detail($edition_name_encoded) {
+        $this->load->model('edition_model');
+        $this->load->model('race_model');
+        
         // as daar nie 'n edition_name deurgestuur word nie
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
 
+        // decode die edition name uit die URL en kry ID
         $edition_name=urldecode($edition_name_encoded);
-        
-//        wts($edition_name);
-//        exit();
-
-        $this->load->model('edition_model');
-        $this->load->model('race_model');
-
         $edition_id=$this->edition_model->get_edition_id_from_name($edition_name);
 
         if (!$edition_id)
@@ -107,10 +99,7 @@ class Event extends Frontend_Controller {
         // get event details
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
-        $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary(
-                "id",
-                ["event_id"=>$this->data_to_view['event_detail']['event_id']]
-                );
+        $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
         
         // get url for Google Calendar
         $this->data_to_view['event_detail']['google_cal_url']=$this->google_cal(
@@ -123,26 +112,61 @@ class Event extends Frontend_Controller {
                 ]
                 );
         
-        $map_long=$this->data_to_view['event_detail']['longitude_num'];
+        // et other stuff
+        $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
+        $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
+        $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);
+        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
         
-         // script to add gmaps to the page
-        $this->data_to_footer['scripts_to_display'][]="            
-            var PageContact = function() {
+        // load view
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/event/detail", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+
+    }
+    
+    function formulate_meta_description($event_detail_summary) {
+        $return= 
+                $event_detail_summary['event_name']." in ".
+                $event_detail_summary['town_name']." on ".
+                $event_detail_summary['edition_date'].". ".
+                $event_detail_summary['race_time_start']." race including the follwing distances: ".
+                $event_detail_summary['race_distance'];
+        return $return;
+    }
+    
+    function formulate_detail_notice($event_detail) {
+        // check if events is in the past
+        $return='';
+        if ($event_detail['edition_date'] < date("Y-m-d")) {
+            $msg="<strong>Please note:</strong> You are viewing a past event. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> for a list of upcoming events.";
+            $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+        } elseif ($event_detail['edition_info_isconfirmed']) {
+            $msg="The information for this event has been <strong>confirmed</strong>. Please see the <a target='_blank' href='".$event_detail['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers.";
+            $return="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+        }
+        return $return;
+    }
+    
+    function formulate_gmap_script($event_detail) {
+        $map_long=$event_detail['longitude_num'];
+        
+        $return="var PageContact = function() {
             
                 var _init = function() {
                     var mapbg = new GMaps({
                             div: '#gmapbg',
-                            lat: ".$this->data_to_view['event_detail']['latitude_num'].",
+                            lat: ".$event_detail['latitude_num'].",
                             lng: ".$map_long.",
                             scrollwheel: false
                     });
 
                     mapbg.addMarker({
-                            lat: ".$this->data_to_view['event_detail']['latitude_num'].",
-                            lng: ".$this->data_to_view['event_detail']['longitude_num'].",
-                            title: '". html_escape($this->data_to_view['event_detail']['edition_address'])."',
+                            lat: ".$event_detail['latitude_num'].",
+                            lng: ".$event_detail['longitude_num'].",
+                            title: '". html_escape($event_detail['edition_address'])."',
                             infoWindow: {
-                                    content: '<h3>".html_escape($this->data_to_view['event_detail']['edition_name'])."</h3><p>".html_escape($this->data_to_view['event_detail']['edition_address'])."</p>'
+                                    content: '<h3>".html_escape($event_detail['edition_name'])."</h3><p>".html_escape($event_detail['edition_address'])."</p>'
                             }
                     });
                 }
@@ -158,32 +182,8 @@ class Event extends Frontend_Controller {
             $(document).ready(function() {
                 PageContact.init();
             });";
-
-        // check if events is in the past
-        $this->data_to_view['notice']='';
-        if ($this->data_to_view['event_detail']['edition_date'] < date("Y-m-d")) {
-            $msg="<strong>Please note:</strong> You are viewing a past event. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> for a list of upcoming events.";
-            $this->data_to_view['notice']="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-        } elseif ($this->data_to_view['event_detail']['edition_info_isconfirmed']) {
-            $msg="The information for this event has been <strong>confirmed</strong>. Please see the <a target='_blank' href='".$this->data_to_view['event_detail']['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers.";
-            $this->data_to_view['notice']="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-        }
-
-        // SET META DATA// SET META DATA
-        $this->data_to_header['meta_description']=
-                $this->data_to_view['event_detail']['summary']['event_name']." in ".
-                $this->data_to_view['event_detail']['summary']['town_name']." on ".
-                $this->data_to_view['event_detail']['summary']['edition_date'].". ".
-                $this->data_to_view['event_detail']['summary']['race_time_start']." race including the follwing distances: ".
-                $this->data_to_view['event_detail']['summary']['race_distance'];
         
-        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
-        
-        // load view
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/event/detail", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-
+        return $return;
     }
     
     
