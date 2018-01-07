@@ -111,7 +111,10 @@ class Pages extends Frontend_Controller {
         
         // CAROUSEL stuff
         // get random quotes
-        $quote_arr=$this->quote_model->get_quote_list();
+        $full_quote_arr=$this->quote_model->get_quote_list();
+        foreach ($full_quote_arr as $quote) {
+            $quote_arr[]=$quote['quote_quote'];
+        }
         $quote_count=sizeof($quote_arr);        
 
         // get random bg image

@@ -100,6 +100,7 @@ div.c-lg-hidden { display: none; }
 
 td.badges {
     width: 115px;
+    text-align: right;
 }
 
 

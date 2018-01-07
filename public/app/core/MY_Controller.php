@@ -289,6 +289,10 @@ class Admin_Controller extends MY_Controller {
                     "text"=>"List All Racetypes",
                     "url"=>'admin/racetype/view',
                     ],
+                    [
+                    "text"=>"List All Quotes",
+                    "url"=>'admin/quote/view',
+                    ],
                 ],
             ],
         ];
@@ -303,7 +307,7 @@ class Admin_Controller extends MY_Controller {
         return ['edition_id','edition_name','edition_date','latitude_num','longitude_num','edition_url','edition_address'];
     }
     function get_race_field_list() {
-        return ['race_id','race_name','race_distance','race_time_start','racetype_id'];
+        return ['race_id','race_name','race_distance','race_time_start','races.racetype_id'];
     }
     function get_contact_field_list() {
         return ['user_id','user_name','user_surname','user_email'];
@@ -534,6 +538,18 @@ class Frontend_Controller extends MY_Controller {
 
                                     $n=0;
                                     foreach ($edition_list as $edition_id=>$edition) {
+                                        
+                                        // set bullet color
+                                        $bullet_color="c-font-yellow";
+                                        $title_text="Gathering event inforamtion";
+                                        if ($edition['edition_info_isconfirmed']) { $bullet_color="c-font-green-2"; $title_text="Event information confirmed";  }
+
+                                        // set distance circles
+                                        $badge="";
+                                        foreach ($edition['distance_arr'] as $distance) {
+                                            $color = $this->race_model->get_race_color($distance);
+                                            $badge.="<span class='badge c-bg-$color'>".intval($distance)."</span> ";
+                                        }
 
                                         $uid=$n.$edition_id;
 
@@ -541,7 +557,11 @@ class Frontend_Controller extends MY_Controller {
                                             $return_html_arr[]='<div class="panel-heading" role="tab" id="heading'.$uid.'">';
                                                 $return_html_arr[]='<h4 class="panel-title">';
                                                     $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$month.$rand.'" href="#collapse'.$uid.'" aria-expanded="true" aria-controls="collapse'.$uid.'">';
-                                                    $return_html_arr[]='<table class="accordian"><tr><td><i class="c-theme-font fa fa-check-circle-o c-theme-font"></i> </td><td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td></tr></table>';
+                                                    $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
+                                                    $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_color.' fa fa-check-circle-o" title="'.$title_text.'"></i> </td>';
+                                                    $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
+                                                    $return_html_arr[]='<td class="badges">'.$badge.'</td>';
+                                                $return_html_arr[]='</tr></table>';
                                                     $return_html_arr[]='</a>';
                                                 $return_html_arr[]='</h4>';
                                             $return_html_arr[]='</div>';

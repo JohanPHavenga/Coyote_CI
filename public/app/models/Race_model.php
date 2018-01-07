@@ -186,7 +186,7 @@ class Race_model extends CI_Model {
                     break;
 
                 case $distance <= 42.1:
-                    $color = 'blue-2';
+                    $color = 'purple';
                     break;
 
                 case $distance == 42.2:
@@ -194,7 +194,7 @@ class Race_model extends CI_Model {
                     break;
 
                 default:
-                    $color = 'purple';
+                    $color = 'red-3';
                     break;
             }
 
