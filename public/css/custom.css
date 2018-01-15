@@ -102,7 +102,29 @@ td.badges {
     width: 115px;
     text-align: right;
 }
-
+.c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials {
+    float: right;
+}
+.c-layout-footer.c-layout-footer-7 .c-postfooter ul.c-socials  {
+    margin:0px;
+}
+.c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials > li {
+    list-style-type: none;
+}
+.c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials > li > a > i 
+{
+  display: inline-block;
+  padding: 10px;
+  background: #2b3036;
+  color: #64707e;
+  font-size: 18px;
+  font-weight: 700;
+}
+.c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials > li > a:hover > i {
+  background: #31383c;
+  color: #ddd;
+    
+}
 
 @media (min-width: 992px) {
     .c-layout-header .c-brand {

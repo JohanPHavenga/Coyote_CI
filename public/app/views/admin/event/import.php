@@ -65,33 +65,45 @@
                     
                     // Display to screen what is to be imported
                     foreach ($event_list as $event_id=>$event) {
-                        $data[$k]="<b>".$event['event_name']."</b>";
+                        // EVENT STUFF
+                        $data[$k]="<b>EVENT:</b> ".$event['event_name'];
                         if ($event_action=="edit") { $data[$k].= " [#$event_id]"; }
                         if (empty($event['town_id'])) { $data[$k].= " - <span style='color: red; font-weight: bold;'>TOWN NOT FOUND!</span>"; }
 
+                        // EDTION STUFF
                         foreach ($event['edition_data'] as $edition_action=>$edition_list) 
                         {
-                            $data[$k].="<br>&nbsp;Edition: [<b>".$edition_action."</b>]";
+                            $data[$k].="<br><b>EDITION</b>: [".$edition_action."]";
                             
                             foreach ($edition_list as $edition_id=>$edition) 
                             {
                                 $date=date("j F", strtotime($edition['edition_date']));
-                                $data[$k].="<br>&nbsp;<b style='color: #36c6d3'>".$edition['edition_name']."</b> on ".$date."";
+                                $data[$k].="<br><b style='color: #36c6d3'>".$edition['edition_name']."</b> on ".$date."";
                                 
-                                if ($edition['user_name']) {
-                                    $data[$k].="<br>&nbsp;Contact: ".$edition['user_name']." ".$edition['user_surname']." [#".$edition['user_id']."] (".$edition['user_email'].")";
-                                }
-
+//                                if ($edition['user_name']) {
+//                                    $data[$k].="<br>&nbsp;Contact: ".$edition['user_name']." ".$edition['user_surname']." [#".$edition['user_id']."] (".$edition['user_email'].")";
+//                                }
+                        
+                        // RACES STUFF
                                 foreach ($edition['race_data'] as $race_action=>$race_list) 
                                 {
-                                    $data[$k].="<br>&nbsp;&nbsp;&nbsp;Race: [<b>".$race_action."</b>]";
+                                    $data[$k].="<br><b>RACES:</b> [".$race_action."]<ul>";
                                     foreach ($race_list as $race_id=>$race) 
                                     {
                                         if (!$race['racetype_id']) { $race['racetype_id']=4; }
                                         $racetype=$racetype_arr[$race['racetype_id']]['racetype_name'];
-                                        $data[$k].="<br>&nbsp;&nbsp;&nbsp;".$race['race_distance']."km ".$racetype."";
+                                        $data[$k].="<li>".$race['race_distance']."km ".$racetype."</li>";
                                     }
+                                    $data[$k].="</ul>";
                                 }
+                                
+                        // CONTACT STUFF
+                                foreach ($edition['contact_data'] as $contact_action=>$contact) 
+                                {
+                                    $data[$k].="<b>CONTACT:</b> [".$contact_action."]";
+                                    $data[$k].=" ".$contact['user_name']." ".$contact['user_surname']."";                                    
+                                }
+                                
                             }
                         }
 

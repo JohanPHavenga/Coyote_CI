@@ -117,12 +117,26 @@ class Event extends Frontend_Controller {
         $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
+        $this->data_to_view['event_detail']['main_url']=$this->get_main_url($this->data_to_view['event_detail']);
+        
         
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/event/detail", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
 
+    }
+    
+    function get_main_url($event_detail) {
+        $main_url='';
+        if ($event_detail['edition_url_entry']) {
+            $main_url=$event_detail['edition_url_entry'];
+        } elseif ($event_detail['edition_url']) {
+            $main_url=$event_detail['edition_url_entry'];
+        } elseif ($event_detail['edition_url_flyer']) {
+            $main_url=$event_detail['edition_url_flyer'];
+        }
+        return $main_url;
     }
     
     function formulate_meta_description($event_detail_summary) {

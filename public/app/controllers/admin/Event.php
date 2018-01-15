@@ -293,26 +293,47 @@ class Event extends Admin_Controller {
                     foreach ($edition_list as $edition_id=>$edition) {
                         
                         // CONTACTS
-                        $contact_field_list=$this->get_contact_field_list();
-                        foreach ($contact_field_list as $contact_field) {
-                            // as daar 'n value is
-                            if ($edition[$contact_field]) {
-                                $contact_data[$contact_field]=$edition[$contact_field];
+                        foreach ($edition['contact_data'] as $contact_action=>$contact) {
+                            // set die contact_data array
+                            $contact_field_list=$this->get_contact_field_list();
+                            foreach ($contact_field_list as $contact_field) {
+                                if ($contact_field=='user_id') { $contact_id=$contact[$contact_field]; }
+                                // as daar 'n value is
+                                if ($contact[$contact_field]) {
+                                    $contact_data[$contact_field]=$contact[$contact_field];
+                                }
                             }
-                        }
-                        // write to DB
-                        if (!empty($contact_data)) {
-                            if (@$contact_data['user_id']) { 
-                                $user_action="edit"; 
-                                $user_id=$contact_data['user_id'];
-                            } else { 
-                                $user_action="add";                                 
-                            }
-                            if (strlen($contact_data['user_name'])>2) { //run net as daar actually iets is
-                                $user_id=$this->user_model->set_user($user_action, @$contact_data['user_id'], $contact_data);
+
+                            // write to DB
+                            if (!empty($contact_data)) {
+                                $user_id=$this->user_model->set_user($contact_action, $contact_id, $contact_data, $debug);
                             }
                             $edition_data['user_id']=$user_id;
+                            unset($contact_data);
                         }
+                        
+                        
+//                        // CONTACTS
+//                        $contact_field_list=$this->get_contact_field_list();
+//                        foreach ($contact_field_list as $contact_field) {
+//                            // as daar 'n value is
+//                            if ($edition[$contact_field]) {
+//                                $contact_data[$contact_field]=$edition[$contact_field];
+//                            }
+//                        }
+//                        // write to DB
+//                        if (!empty($contact_data)) {
+//                            if (@$contact_data['user_id']) { 
+//                                $user_action="edit"; 
+//                                $user_id=$contact_data['user_id'];
+//                            } else { 
+//                                $user_action="add";                                 
+//                            }
+//                            if (strlen($contact_data['user_name'])>2) { //run net as daar actually iets is
+//                                $user_id=$this->user_model->set_user($user_action, @$contact_data['user_id'], $contact_data);
+//                            }
+//                            $edition_data['user_id']=$user_id;
+//                        }
                         
                         
                         // set die edition_data array
@@ -349,15 +370,14 @@ class Event extends Admin_Controller {
                                     $race_data['edition_id']=$edition_id;
                                     $race_id=$this->race_model->set_race($race_action, $race_id, $race_data, $debug);
                                 }
-
                                 unset($race_data);
                             }
                         }
-
+                        
+                        
                         unset($edition_data);
                     }
                 }
-
                 unset($event_data);
             }
         }
@@ -449,6 +469,7 @@ class Event extends Admin_Controller {
         // get race field list to sync up with the import
         $race_field_arr=$this->get_race_field_list();
         foreach ($race_field_arr as $field) {
+            if ($field=="racetype_id") { $field="races.racetype_id"; }
             $field_arr[]=$field;
         }
         
@@ -477,10 +498,6 @@ class Event extends Admin_Controller {
 
 
 
-
-
-    // IDEE
-    // doen event data. pass volle array na edition formualte met die paramater for key field. bring dan array terug met alle editions in daardie
 
     private function formulate_events_data($event_data) {
         $this->load->model('town_model');
@@ -526,10 +543,8 @@ class Event extends Admin_Controller {
     }
 
     private function formulate_edition_data($event_data, $event_key_field, $event_key_value) {
-        $this->load->model('user_model');
         
         $edition_field_list=$this->get_edition_field_list();
-        $contact_field_list=$this->get_contact_field_list();
 
         foreach ($event_data as $le) {
             if (trim($le[$event_key_field])==$event_key_value) {
@@ -549,17 +564,21 @@ class Event extends Admin_Controller {
                 }
                 
                 
-                foreach ($contact_field_list as $contact_field) {
-                     if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
-                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
-                    }
-                    $return_arr[$edition_action][$edition_key_value][$contact_field]=$le[$contact_field];
-                }
+//                foreach ($contact_field_list as $contact_field) {
+//                     if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
+//                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
+//                    }
+//                    $return_arr[$edition_action][$edition_key_value][$contact_field]=$le[$contact_field];
+//                }
                 
 
                 // add race information
                 $race_data=$this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
                 $return_arr[$edition_action][$edition_key_value]['race_data']=$race_data;
+                
+                // add contact information
+                $contact_data=$this->formulate_contact_data($event_data, $edition_key_field, $edition_key_value);
+                $return_arr[$edition_action][$edition_key_value]['contact_data']=$contact_data;
 
             }
         }
@@ -584,7 +603,44 @@ class Event extends Admin_Controller {
 
                 // set event level data
                 foreach ($race_field_list as $race_field) {
+                    if ($race_field=="races.racetype_id") { $race_field="racetype_id"; }
                     $return_arr[$race_action][$race_key_value][$race_field]=$le[$race_field];
+                }
+
+                // full list item
+                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
+            }
+            $k++;
+        }
+
+        return $return_arr;
+    }
+    
+    private function formulate_contact_data($event_data, $edition_key_field, $edition_key_value) {
+        $this->load->model('user_model');
+        $contact_field_list=$this->get_contact_field_list();
+
+        $k=0;
+        foreach ($event_data as $le) {
+            if (trim($le[$edition_key_field])==$edition_key_value) {
+                
+                // set event level data
+                foreach ($contact_field_list as $contact_field) {
+                    // check fir user ID
+                    if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
+                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
+                    }
+
+                    if ($le['user_id']) {
+                        $contact_action="edit";
+                        $contact_key_field="user_id";
+                        $contact_key_value=$le[$contact_key_field];
+                    } else {                    
+                        $contact_action="add";
+                        $contact_key_value=$k;
+                    }
+
+                    $return_arr[$contact_action][$contact_field]=$le[$contact_field];
                 }
 
                 // full list item

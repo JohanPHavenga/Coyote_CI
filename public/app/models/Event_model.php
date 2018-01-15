@@ -222,6 +222,11 @@ class Event_model extends CI_Model {
                 $this->db->where("events.event_id", $params['event_id']);
             }
             
+            if (isset($params['confirmed'])) {
+                $this->db->where("edition_info_isconfirmed", $params['confirmed']);
+                
+            }
+            
             $this->db->where("events.event_status", 1);
             $this->db->where("editions.edition_status", 1);
             $this->db->where("races.race_status", 1);
@@ -254,6 +259,7 @@ class Event_model extends CI_Model {
                         "date_to"=>$params['date_to'], 
                         "area"=>$params['area'], 
                         "sort"=>$params['sort'],
+                        "confirmed"=>@$params['confirmed'],
                         ]
                         );
             } 

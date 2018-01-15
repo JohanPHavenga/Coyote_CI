@@ -73,6 +73,16 @@ class Dashboard extends Admin_Controller {
                         //font-purple-soft
                     ];
             
+            // get list of editions that need attention
+            $params=[
+                'confirmed'=>0,
+                'date_from'=>date("Y-m-d"),
+            ];
+            $this->data_to_view['event_list']=$this->event_model->get_event_list_summary("date_range",$params);          
+            
+            
+            
+            
             // actions on the toolbar
             $this->data_to_header['page_action_list']=
                     [

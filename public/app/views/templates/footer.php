@@ -109,12 +109,20 @@
         <div class="c-postfooter c-bg-dark-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12 c-col">
+                    <div class="col-md-6 col-sm-6 c-col">
                         <p class="c-copyright c-font-grey"><?= date('Y');?> &copy; RoadRunning.co.za
                             <span class="c-font-grey-3">All Rights Reserved.</span>
                             <a href="<?=$admin_login;?>">Admin&nbsp;Login</a>
                         </p>
                     </div>
+                    <div class="col-md-6 col-sm-6">
+                    <ul class="c-socials">
+                        <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
+                      <!--<li><a href="#"><i class="icon-social-facebook"></i></a></li>-->
+                      <!--<li><a href="#"><i class="icon-social-youtube"></i></a></li>-->
+                      <!--<li><a href="#"><i class="icon-social-dribbble"></i></a></li>-->
+                    </ul>
+                  </div>
                 </div>
             </div>
         </div>

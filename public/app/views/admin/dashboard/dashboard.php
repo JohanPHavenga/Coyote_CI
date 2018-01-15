@@ -35,3 +35,26 @@
     }
     ?>
 </div>
+
+<?php
+foreach ($event_list as $month=>$edition_list) {
+    ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption font-dark">
+                        <i class="icon-rocket font-dark"></i>
+                        <span class=" bold uppercase"> Events in <?=$month;?> that needs attention</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php    
+}
+wts($event_list);
+   ?>            

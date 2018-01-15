@@ -27,22 +27,10 @@
                                 <p>                                    
                                     <?php
                                         // show link in summary info
-                                        if ($event_detail['edition_url_entry']) {
-                                            $url_segments=parse_url($event_detail['edition_url_entry']);
-                                            ?>
-                                            <a href="<?=$event_detail['edition_url_entry'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
-                                            <?php
-                                        } elseif ($event_detail['edition_url']) {
-                                            $url_segments=parse_url($event_detail['edition_url']);
-                                            ?>
-                                            <a href="<?=$event_detail['edition_url'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
-                                            <?php
-                                        } elseif ($event_detail['edition_url_flyer']) {
-                                            $url_segments=parse_url($event_detail['edition_url_flyer']);
-                                            ?>
-                                            <a href="<?=$event_detail['edition_url_flyer'];?>" target="_blank"><?=$url_segments['host'];?></a><br>
-                                            <?php
-                                        }
+                                        if ($event_detail['main_url']) {
+                                            $url_segments=parse_url($event_detail['main_url']);                                            
+                                            echo "<a href='".$event_detail['main_url']."' target='_blank'>".$url_segments['host']."</a><br>";                                           
+                                        }                                       
                                         
                                         // show email
                                         if (isset($event_detail['user_email'])) {

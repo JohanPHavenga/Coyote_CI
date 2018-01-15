@@ -79,3 +79,5 @@ $route['westcoast'] = 'landing/west+coast';
 $route['WestCoast'] = 'landing/west+coast';
 $route['gardenroute'] = 'landing/garden+route';
 $route['GardenRoute'] = 'landing/garden+route';
+
+$route['content-overview'] = 'event/calendar';
