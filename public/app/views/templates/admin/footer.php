@@ -8,8 +8,9 @@
     <!-- BEGIN FOOTER -->
     <div class="page-footer">
         <div class="page-footer-inner">
-             2016 &copy; Project Codename
-            <a target="_blank" href="http://www.johan.havenga.co.za">Coyote</a>
+             Started in 2016 &copy; Project Codename
+            <a target="_blank" href="http://www.johanhavenga.co.za" style="color: #999;">Coyote</a> | 
+            Codeigniter # <?=CI_VERSION;?>
             <div class="scroll-to-top">
                 <i class="icon-arrow-up"></i>
             </div>

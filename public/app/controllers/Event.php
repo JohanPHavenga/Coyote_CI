@@ -156,7 +156,12 @@ class Event extends Frontend_Controller {
             $msg="<strong>Please note:</strong> You are viewing a past event. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> for a list of upcoming events.";
             $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
         } elseif ($event_detail['edition_info_isconfirmed']) {
-            $msg="The information for this event has been <strong>confirmed</strong>. Please see the <a target='_blank' href='".$event_detail['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers.";
+            $msg="The information for this event has been <strong>confirmed</strong>. ";
+            if ($event_detail['edition_url_flyer']) { 
+                $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers."; 
+            } elseif ($event_detail['edition_url']) {
+                $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url']."' style='color: #27a4b0; text-decoration: underline;'>Race Website</a> for more information set as supplied by the event organisers."; 
+            }
             $return="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
         }
         return $return;
