@@ -38,6 +38,7 @@ class Dashboard extends Admin_Controller {
             );
 
         if ($page=="dashboard") {
+            $this->load->library('table');
             $this->load->model('event_model');
             $event_count=$this->event_model->record_count();
             
@@ -77,8 +78,16 @@ class Dashboard extends Admin_Controller {
             $params=[
                 'confirmed'=>0,
                 'date_from'=>date("Y-m-d"),
+                'date_to'=>date("Y-m-d", strtotime("+3 months")),
             ];
-            $this->data_to_view['event_list']=$this->event_model->get_event_list_summary("date_range",$params);          
+            $this->data_to_view['event_list_unconfirmed']=$this->event_model->get_event_list_summary("date_range",$params);        
+            // get list of editions that has no results
+            $params=[
+                'results'=>1,
+                'date_from'=>date("Y-m-d", strtotime("-3 months")),
+                'date_to'=>date("Y-m-d"),
+            ];
+            $this->data_to_view['event_list_noresults']=$this->event_model->get_event_list_summary("date_range",$params);          
             
             
             

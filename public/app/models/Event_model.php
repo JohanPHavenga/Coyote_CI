@@ -223,8 +223,11 @@ class Event_model extends CI_Model {
             }
             
             if (isset($params['confirmed'])) {
-                $this->db->where("edition_info_isconfirmed", $params['confirmed']);
-                
+                $this->db->where("edition_info_isconfirmed", $params['confirmed']);                
+            }
+            
+            if (isset($params['results'])) {
+                $this->db->where("edition_url_results");                
             }
             
             $this->db->where("events.event_status", 1);
@@ -246,7 +249,7 @@ class Event_model extends CI_Model {
 //            wts($from);
 //            wts($params);
 //            exit();
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","edition_info_isconfirmed","edition_url_entry","edition_logo","racetype_abbr","town_name","race_distance","race_time_start"];
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","racetype_abbr","town_name","race_distance","race_time_start"];
             // setup fields needed for summary call
             if ($from=="date_range") {
                 if (!isset($params['date_to'])) { $params['date_to']=NULL; }
@@ -260,6 +263,7 @@ class Event_model extends CI_Model {
                         "area"=>$params['area'], 
                         "sort"=>$params['sort'],
                         "confirmed"=>@$params['confirmed'],
+                        "results"=>@$params['results'],
                         ]
                         );
             } 
