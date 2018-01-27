@@ -110,6 +110,8 @@ td.badges {
 }
 .c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials > li {
     list-style-type: none;
+    float: left;
+    margin: 0 0 0 8px;
 }
 .c-layout-footer.c-layout-footer-7 .c-postfooter .c-socials > li > a > i 
 {
