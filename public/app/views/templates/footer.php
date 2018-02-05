@@ -118,7 +118,7 @@
                     <div class="col-md-6 col-sm-6">
                     <ul class="c-socials">
                         <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
-                        <li><a href="https://www.facebook.com/roadrunningza/" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>
+                        <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>
                       <!--<li><a href="#"><i class="icon-social-youtube"></i></a></li>-->
                       <!--<li><a href="#"><i class="icon-social-dribbble"></i></a></li>-->
                     </ul>

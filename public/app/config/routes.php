@@ -81,3 +81,5 @@ $route['gardenroute'] = 'landing/garden+route';
 $route['GardenRoute'] = 'landing/garden+route';
 
 $route['content-overview'] = 'event/calendar';
+
+$route['seo/sitemap\.xml'] = "seo/sitemap";

@@ -9,7 +9,7 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Sanlam-Niel-Joubert-Plaaswedloop-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/27-for-Freedom-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -19,47 +19,232 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/JP21-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Laguna-Mall-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Correctional-Services-10km-Night-Race-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Weskus-Marathon-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Metropolitan-10km-Road-Race-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Mamre-21-km-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Tygerberg-AVBOB-15km-2017</loc>
+    <loc>http://www.roadrunning.co.za/WestCoast</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/The-Bottelary-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Cango-Marathon-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/RCS-GUGS-Reconciliation-Day-Race-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Momentum-Knysna-Marathon-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Velocity-Race-2017</loc>
+    <loc>http://www.roadrunning.co.za/GardenRoute</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Growthpoint-Properties-Sundowner-10km-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Sanlam-10km-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Tokai-Manor-House-16km-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/Top-Form-10km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Cape-Peninsula-Marathon-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Old-Mutual-10km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/ABAX-Investments-Milkwood-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Century-City-10km-Express-with-Discovery-Vitality-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Tygerberg-30km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Crazy-Store-Lighthouse-10km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Constantia-Village-K-Way-15km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Kloof-Nek-Classic-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Tyger-Run---Walk-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Ravensmead-15km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/SPAR-Womens-Challenge-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Old-Mutual-Two-Oceans-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Central-Athletics-10km-Challenge-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Leapfrog-Gordons-Bay-21km-%26-Labourwise-10km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Nantes-Freedom-to-Run-Walk-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Voet-of-the-Wine-10-km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/SISSA-UCT-Memorial-10-km-Road-Race-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Metropolitan-Slave-Route-Challenge-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/UWC--10-km-Fast-%26-Flat-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Dave-Spence-Memorial-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Don-Lock-Memorial-Run-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Timber-City-15-km-Spookhill-Challenge-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Easterns-15-km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Brackenfell-Atheletics-Club-21km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/CapeTown</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Spartan-Harriers-Firgrove-Challenge-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Safari-Half-Marathon-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/FNB-Cape-Town-12-onerun-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Eersterivier-15-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Cape-Town-Festival-of-Running-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Brackenfell-10km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/STBB-Red-Hill-Classic-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/RE-MAX-Knysna-Heads-Marathon-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Stragglers-Beachcomber-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Dan-Luyt-15km-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Nutribullet-Bay-to-Bay-2018</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Frys-Hohenort-15km-2018</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -69,12 +254,42 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Stragglers-Beachcomber-2017</loc>
+    <loc>http://www.roadrunning.co.za/event/25th-Tokai-Manor-House-Run-2017</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/CapeTown</loc>
+    <loc>http://www.roadrunning.co.za/event/Growthpoint-Properties-Sundowner-10km-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Velocity-Race-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/RCS-GUGS-Reconciliation-Day-Race-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/The-Bottelary-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Metropolitan-10km-Road-Race-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/JP21-2017</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://www.roadrunning.co.za/event/Sanlam-Niel-Joubert-Plaaswedloop-2017</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -99,31 +314,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://www.roadrunning.co.za/event/Metropolitan-10k-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Lynne-New-Estates-Edgemead-Classic-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/JP21-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Franschhoek-Athletics-Club-15-%26-5km-Klaas-Maffa-Road-Race-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Blueboost-Winelands-Marathon-and-Half-Marathon-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>http://www.roadrunning.co.za/event/Chappies-Challenge-2017</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -140,316 +330,6 @@
   </url>
   <url>
     <loc>http://www.roadrunning.co.za/event/West-Coast-Half-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/CapeGate-CLICKS-Charity-Run-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Silver-Queen-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Outsurance-94.5-KFM-Gun-Run-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Bakgat-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/K-Way-Grape-Run-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Goodwood-Harriers-10-km-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Sanlam-Cape-Town-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/ARD-3-Vlei-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Santori-Camel-Run-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Medihelp-Tekkie-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Khayelitsha-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/PSFA-Blisters-for-Bread-Charity-Fun-Walk-in-association-with-Lucky-Star-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Tru-Cape-8th-Packhouse-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Langebaan-Half-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Atlantis-Harriers-Half-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/John-Korasie-30km-Road-Race-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Totalsports-Womens-Race-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Brackenfell-Athletics-Club-21km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/McKenna-%26-Scott-Pinelands-10km-Road-Race-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Cape-Town-Festival-of-Running-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Easterns-15km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/AVBOB-15km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Timber-City-15-km-Spookhill-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Don-Lock-Memorial-Run-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Dave-Spence-Memorial-Race-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Mamre-21-km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/UWC-10km-Fast-%26-Flat-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/FNB-Cape-Town-12-ONERUN-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Slave-Route-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/UCT-Memorial-10km-Road-Race-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Langebaan-Country-Estate-Weskus-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Safari-Half-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Voet-of-the-Wine-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Nantes-Freedom-to-Run-Walk-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/CellC-Day-of-Races-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Telkom-Athletic-Club-10km-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Old-Mutual-Two-Oceans-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Central-Athletics-10km-Challenge-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/SPAR-Womens-Challenge-Cape-Town-20171</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Leapfrog-Gordons-Bay-21km-%26-Labourwise-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/27-for-Freedom-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Tygerberg-30km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Laguna-Mall-10-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Tyger-Run-Walk-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Ravensmead-15km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/ABAX-Investments-Milkwood-Half-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Century-City-10km-Express-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/50th-Cape-Peninsula-Marathon-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Lion-of-Africa-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/KFC-Brackenfell-10km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/JOINTEze-Dan-Luyt-15km-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/STBB-Red-Hill-Marathon-and-Classic-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Frys-Hohenort-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/The-Nutribullet-Bay-to-Bay-2017</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Danger-Point-Half-Marathon-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Cashkows.com-Onrus-10km-%26-6km-Fun-Run-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Club-Mykonos-Christmas-Fun-Run-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/The-RCS-GUGS-Reconciliation-Day-Race-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Growthpoint-Properties-Sundowner-10km-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Taal-Monument-10km-Nite-Race-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/Beachcomber-Race-Against-Crime-2016</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://www.roadrunning.co.za/event/calendar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

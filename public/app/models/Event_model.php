@@ -44,7 +44,7 @@ class Event_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['event_id']] = $row['event_name'];
+                    $data[$row['event_id']] = $row['event_name']." [#".$row['event_id']."]";
                 }
                 return $data;
             }
