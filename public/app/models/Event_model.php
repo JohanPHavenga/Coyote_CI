@@ -227,7 +227,10 @@ class Event_model extends CI_Model {
             }
             
             if (isset($params['results'])) {
-                $this->db->where("edition_url_results");                
+                $this->db->group_start();
+                $this->db->where("edition_url_results");      
+                $this->db->or_where("edition_url_results", "");   
+                $this->db->group_end();             
             }
             
             $this->db->where("events.event_status", 1);
@@ -236,6 +239,9 @@ class Event_model extends CI_Model {
 
             $this->db->order_by("edition_date", $sort);
             $this->db->order_by("race_distance", "DESC");
+            
+//            echo $this->db->get_compiled_select();
+//            exit();
 
             
             return $this->db->get();
@@ -286,7 +292,11 @@ class Event_model extends CI_Model {
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
+//                    wts($row);
+//                    die();
+                    
                     foreach ($field_arr as $field) {
+                        
                         // vir as daar 'n veld is met 'n table naam vooraan
                         if (strpos($field, ".") !== false) {
                             $pieces = explode(".", $field);
@@ -310,6 +320,10 @@ class Event_model extends CI_Model {
                                 if (date("H",strtotime($row[$field])) >  12) { $value = "Afternoon";  }
                                 if (date("H",strtotime($row[$field])) >  17) { $value = "Evening";  }
                                 if (date("H",strtotime($row[$field])) >  21) { $value = "Night";  }
+                                
+                                if (!isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"])) {
+                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"]=date("H:i",strtotime($row[$field]));
+                                }
                             break;
                             case "edition_date":
                                 $value=date("D d M Y",strtotime($row[$field]));

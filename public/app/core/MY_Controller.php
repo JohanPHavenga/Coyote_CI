@@ -439,6 +439,24 @@ class Frontend_Controller extends MY_Controller {
 
         return $return_html;
     }
+    
+    function get_bullet_color($params) {
+        
+        $return['color']="c-font-yellow";
+        $return['text']="Gathering event inforamtion";
+    
+        if ($params['confirmed']) { 
+            $return['color']="c-font-green-2"; 
+            $return['text']="Event information confirmed";
+        }
+        
+        if ($params['results']) { 
+            $return['color']="c-font-yellow-1"; 
+            $return['text']="Results Loaded";
+        }
+        
+        return $return;
+    }
 
 
 
@@ -484,9 +502,10 @@ class Frontend_Controller extends MY_Controller {
                                 foreach ($edition_list as $edition_id=>$edition) {
                                     
                                     // set bullet color
-                                    $bullet_color="c-font-yellow";
-                                    $title_text="Gathering event inforamtion";
-                                    if ($edition['edition_info_isconfirmed']) { $bullet_color="c-font-green-2"; $title_text="Event information confirmed";  }
+                                    $bullet_info = $this->get_bullet_color([
+                                        "confirmed"=>$edition['edition_info_isconfirmed'],
+                                        "results"=>$edition['edition_url_results']
+                                    ]);                                    
                                     
                                     // set distance circles
                                     $badge="";
@@ -500,7 +519,7 @@ class Frontend_Controller extends MY_Controller {
                                             $return_html_arr[]='<h4 class="panel-title">';
                                                 $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$rand.'" href="#collapse'.$edition_id.'" aria-expanded="true" aria-controls="collapse'.$edition_id.'">';
                                                 $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
-                                                $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_color.' fa fa-check-circle-o" title="'.$title_text.'"></i> </td>';
+                                                $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_info['color'].' fa fa-check-circle-o" title="'.$bullet_info['text'].'"></i> </td>';
                                                 $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
                                                 $return_html_arr[]='<td class="badges">'.$badge.'</td>';
                                                 $return_html_arr[]='</tr></table>';
@@ -513,7 +532,9 @@ class Frontend_Controller extends MY_Controller {
                                             $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                             $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                             $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
+//                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
+                                            $return_html_arr[]='<b>Start Time: </b>'.$edition['start_time']."<br>";
+                                            $return_html_arr[]='<b>Info Status: </b>'.$bullet_info['text']."</p>";
                                             $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                             $return_html_arr[]='</div>';
                                         $return_html_arr[]='</div>';
@@ -540,10 +561,11 @@ class Frontend_Controller extends MY_Controller {
                                     foreach ($edition_list as $edition_id=>$edition) {
                                         
                                         // set bullet color
-                                        $bullet_color="c-font-yellow";
-                                        $title_text="Gathering event inforamtion";
-                                        if ($edition['edition_info_isconfirmed']) { $bullet_color="c-font-green-2"; $title_text="Event information confirmed";  }
-
+                                        $bullet_info = $this->get_bullet_color([
+                                            "confirmed"=>$edition['edition_info_isconfirmed'],
+                                            "results"=>$edition['edition_url_results']
+                                        ]); 
+                                    
                                         // set distance circles
                                         $badge="";
                                         foreach ($edition['distance_arr'] as $distance) {
@@ -558,7 +580,7 @@ class Frontend_Controller extends MY_Controller {
                                                 $return_html_arr[]='<h4 class="panel-title">';
                                                     $return_html_arr[]='<a class="" data-toggle="collapse" data-parent="#accordion'.$month.$rand.'" href="#collapse'.$uid.'" aria-expanded="true" aria-controls="collapse'.$uid.'">';
                                                     $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
-                                                    $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_color.' fa fa-check-circle-o" title="'.$title_text.'"></i> </td>';
+                                                    $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_info['color'].' fa fa-check-circle-o" title="'.$bullet_info['text'].'"></i> </td>';
                                                     $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
                                                     $return_html_arr[]='<td class="badges">'.$badge.'</td>';
                                                 $return_html_arr[]='</tr></table>';
@@ -571,7 +593,9 @@ class Frontend_Controller extends MY_Controller {
                                                 $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                                 $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                                 $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
+//                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
+                                                $return_html_arr[]='<b>Start Time: </b>'.$edition['start_time']."<br>";
+                                                $return_html_arr[]='<b>Info Status: </b>'.$bullet_info['text']."</p>";
                                                 $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                                 $return_html_arr[]='</div>';
                                             $return_html_arr[]='</div>';
@@ -586,56 +610,10 @@ class Frontend_Controller extends MY_Controller {
                         }
 
 
-
-
-
-
                     $return_html_arr[]='</div>'; // tab-content
                 $return_html_arr[]='</div>'; // close col-sm-9
 
             $return_html_arr[]='</div>'; // close row c-page-faq-2
-        } else {
-            $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
-        }
-
-        return implode("", $return_html_arr);
-    }
-
-
-
-    function render_races_accordian_html_old($race_summary) {
-        // generate html for the accordian holding event data
-        $return_html_arr=[];
-        if ($race_summary) {
-            $return_html_arr[]='<div class="cbp-panel">';
-                $return_html_arr[]='<div id="filters-container" class="cbp-l-filters-underline">';
-                    $return_html_arr[]='<div data-filter="*" class="cbp-filter-item-active cbp-filter-item"> All </div>';
-                    $month_list=array_keys($race_summary);
-                        foreach ($month_list as $month) {
-                            $return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
-                        }
-                    $return_html_arr[]='</div>';
-
-                $return_html_arr[]='<div id="grid-container" class="cbp cbp-l-grid-faq">';
-                    foreach ($race_summary as $month=>$edition_list) {
-                        foreach ($edition_list as $edition_id=>$edition) {
-                        $return_html_arr[]='<div class="cbp-item '.$month.'">';
-                            $return_html_arr[]='<div class="cbp-caption">';
-                                $return_html_arr[]='<div class="cbp-caption-defaultWrap">';
-                                    $return_html_arr[]='<i class="fa fa-check-circle-o"></i> <b>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.$edition['edition_name'].' </div>';
-                                $return_html_arr[]='<div class="cbp-caption-activeWrap">';
-                                    $return_html_arr[]='<div class="cbp-l-caption-body">';
-                                        $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
-                                        $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
-                                        $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
-                                        $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."</p>";
-                                        $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
-
-                        $return_html_arr[]='</div></div></div></div>';
-                        }
-                    }
-                $return_html_arr[]='</div>';
-            $return_html_arr[]='</div>';
         } else {
             $return_html_arr[]='<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
         }
