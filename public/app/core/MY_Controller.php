@@ -459,11 +459,10 @@ class Frontend_Controller extends MY_Controller {
     }
 
 
+    // generate html for the accordian holding event data
 
     function render_races_accordian_html($race_summary, $filter_title="All") {
-            $this->load->model('race_model');
-            
-        // generate html for the accordian holding event data
+        $this->load->model('race_model');            
         
 //        wts($race_summary);
 //        die();

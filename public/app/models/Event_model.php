@@ -365,6 +365,73 @@ class Event_model extends CI_Model {
         }
         
         
+        public function get_event_list_sitemap($params) {
+                        
+            $field_arr=['edition_name'];
+            $this->db->select($field_arr);
+            $this->db->from("editions");
+            
+            //c onfirmed races
+            if (isset($params['confirmed'])) {
+                $this->db->where("edition_info_isconfirmed", $params['confirmed']);        
+                $this->db->where("edition_date >=", date("Y-m-d"));        
+            }
+            
+            // next 3 months races
+            if (isset($params['upcoming_3months'])) {
+                $this->db->where("edition_info_isconfirmed !=", 1);       
+                $date_to=date("Y-m-d", strtotime("+3 months"));
+                $this->db->where("(edition_date BETWEEN '".date("Y-m-d")."' AND '".$date_to."')"); 
+            }            
+            
+            // rest of upcoming races
+            if (isset($params['upcoming_older'])) {
+                $this->db->where("edition_info_isconfirmed !=", 1);        
+                $this->db->where("edition_date > ", date("Y-m-d", strtotime("+3 months")));        
+            }
+            
+            // rest of upcoming races
+            if (isset($params['results'])) {  
+                $this->db->group_start();    
+                $this->db->where("edition_url_results !=", "");
+                $this->db->where("edition_date < ", date("Y-m-d"));    
+                $this->db->group_end();         
+                $date_from=date("Y-m-d", strtotime("-3 months"));
+                $this->db->or_where("(edition_date BETWEEN '".$date_from."' AND '".date("Y-m-d")."')"); 
+            }
+
+            // rest of upcoming races
+            if (isset($params['old'])) {    
+                $this->db->group_start();
+                $this->db->where("edition_url_results");      
+                $this->db->or_where("edition_url_results", "");   
+                $this->db->group_end();   
+                
+                $this->db->where("edition_date < ", date("Y-m-d", strtotime("-3 months")));        
+            }
+            
+            $this->db->order_by("edition_date", "ASC");
+            
+//            echo $this->db->get_compiled_select();
+//            exit();
+            
+            $query=$this->db->get();
+            
+            if ($query->num_rows() > 0) {
+                foreach ($query->result_array() as $row)
+                {
+                    $edition_url_name=urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$row["edition_name"])))));
+                    $url_list[]="event/".$edition_url_name;
+                }
+                return $url_list;
+            }
+            return false;
+            
+        }
+
+
+
+
         public function search_events($field_arr, $ss) {
             
             // NOTE I removed areas because that breaks the search for towns that does not belong to an area
