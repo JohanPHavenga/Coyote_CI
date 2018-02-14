@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /login/admin
 Disallow: /event/ics/
 
-Sitemap: http://www.roadrunning.co.za/sitemap.xml
+Sitemap: http://www.roadrunning.co.za/seo/sitemap.xml

@@ -46,7 +46,7 @@ Class Seo extends CI_Controller {
         foreach ($upcoming_3months_url_list as $key=>$url) {
             $data['pages_upcoming'][$key]['url']=$url;
             $data['pages_upcoming'][$key]['change_freq']="weekly";
-            $data['pages_upcoming'][$key]['priority']="0.7";
+            $data['pages_upcoming'][$key]['priority']="0.6";
         }        
         $data["pages"]=array_merge_recursive($data['pages'], $data['pages_upcoming']);
         
