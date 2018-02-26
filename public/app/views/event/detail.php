@@ -1,6 +1,8 @@
 <!-- BEGIN: PAGE CONTAINER -->
 <div class="c-layout-page">
     
+    <?= $title_bar; ?>
+    
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <div class="c-content-box c-size-sm c-bg-img-top c-no-padding c-pos-relative">
@@ -28,7 +30,8 @@
                                     <?php
                                         // show link in summary info
                                         if ($event_detail['main_url']) {
-                                            $url_segments=parse_url($event_detail['main_url']);                                            
+                                            $url_segments=parse_url($event_detail['main_url']);      
+//                                            wts($url_segments);
                                             echo "<a href='".$event_detail['main_url']."' target='_blank'>".$url_segments['host']."</a><br>";                                           
                                         }                                       
                                         
@@ -87,13 +90,15 @@
                     <div class="col-md-7">
                         <!-- Begin: Title 1 component -->
                         <div class="c-content-title-1" data-height="height">
-                            <h3 class="c-font-uppercase c-font-bold"><?=$event_detail['edition_name'];?></h3>
+                            <h3 class="c-font-uppercase c-font-bold"><?=substr($event_detail['edition_name'],0,-4);?></h3>
                         </div>
-                        <p class="c-font-sbold"> Annual <?=$event_detail['event_name'];?> 
+                        <p class="c-font-sbold">                            
+                            Annual <?=$event_detail['event_name'];?> 
                             <?php
                                 if ($event_detail['club_id']!=8) {
                                     echo " organized by ".$event_detail['club_name'];
                                 }
+                                echo " on <strong>". date("d F Y",strtotime($event_detail['edition_date'])) ."</strong>";
                             
                                 if ((!empty($event_detail['sponsor_name'])) && ($event_detail['sponsor_name']!="No sponsor")) {
                                     echo "<br>Brought to you by ".$event_detail['sponsor_name'];
@@ -201,7 +206,7 @@
     
     
     // START RACES
-        foreach ($event_detail['race_list'] as $race) {
+        foreach ($event_detail['race_list'] as $race_id=>$race) {
             ?>
             <div class="c-content-box c-size-sm <?=$box_color;?>">
                 <div class="container">
@@ -226,6 +231,7 @@
                         <div class="c-content-pricing-1 c-opt-1">
                             <div class="col-md-3 c-sm-hidden">
                                 <div class="c-content c-column-odd c-padding-adjustment">
+                                    <div class="c-row c-title c-font-19">Date</div>
                                     <div class="c-row c-title c-font-19">Start Time</div>
                                     <?php
                                         if ($race['race_time_end']>0) {
@@ -243,10 +249,10 @@
                                         else 
                                         {
                                             if ($race['race_fee_senior_licenced']>0) {
-                                                echo '<div class="c-row c-title c-font-19">Licenced Senior</div>';
+                                                echo '<div class="c-row c-title c-font-19">Licenced Athlete</div>';
                                             }
                                             if ($race['race_fee_senior_unlicenced']>0) {
-                                                echo '<div class="c-row c-title c-font-19">Unlicenced Senior</div>';
+                                                echo '<div class="c-row c-title c-font-19">Unlicenced Athlete</div>';
                                             }
                                             if ($race['race_fee_junior_licenced']>0) {
                                                 echo '<div class="c-row c-title c-font-19">Licenced Junior</div>';
@@ -261,16 +267,32 @@
                             </div>
                             <div class="col-md-3 col-sm-12">
                                 <div class="c-content c-column-even c-padding-adjustment">
-                                    <div class="c-row c-font-19"><span class="c-sub-title">Start Time: </span> <?=ftimeSort($race['race_time_start']);?></div>
+                                    <div class="c-row c-font-19">
+                                        <span class="c-sub-title">Date: </span> 
+                                        <span class="c-font-19 c-font-bold"><?=fdateShort($race['edition_date']);?></span>
+                                    </div>
+                                    <div class="c-row c-font-19">
+                                        <span class="c-sub-title">Start Time: </span> 
+                                        <span class="c-font-19 c-font-bold"><?=ftimeSort($race['race_time_start']);?></span>
+                                    </div>
                                     <?php
                                         if ($race['race_time_end']>0) {
                                     ?>
-                                    <div class="c-row c-font-19"><span class="c-sub-title">Cut-off Time: </span> <?=ftimeSort($race['race_time_end']);?></div>
+                                    <div class="c-row c-font-19">
+                                        <span class="c-sub-title">Cut-off Time: </span> 
+                                        <span class="c-font-19 c-font-bold"><?=ftimeSort($race['race_time_end']);?></span>
+                                    </div>
                                     <?php
                                         }
                                     ?>
-                                    <div class="c-row c-font-19"><span class="c-sub-title">Distance: </span> <?=fraceDistance($race['race_distance']);?></div>
-                                    <div class="c-row c-font-19"><span class="c-sub-title">Race Type: </span> <?=$race['racetype_name'];?></div>
+                                    <div class="c-row c-font-19">
+                                        <span class="c-sub-title">Distance: </span>
+                                        <span class="c-font-19 c-font-bold"><?=fraceDistance($race['race_distance']);?></span>
+                                </div>
+                                    <div class="c-row c-font-19">
+                                        <span class="c-sub-title">Race Type: </span> 
+                                        <span class="c-font-19 c-font-bold"><?=$race['racetype_name'];?></span>
+                                    </div>
                                     <?php                                    
                                         if ($race['race_fee_flat']>0) {
                                             echo '<div class="c-row c-price">';
@@ -285,7 +307,7 @@
                                         if ($race['race_fee_senior_licenced']>0) {
                                     ?>
                                     <div class="c-row c-price">
-                                        <span class="c-sub-title">Licenced Senior: </span> 
+                                        <span class="c-sub-title">Licenced Athlete: </span> 
                                         <span class="c-dollar c-font-19">R</span>
                                         <span class="c-font-19 c-font-bold"><?=$race['race_fee_senior_licenced']+0;?></span>
                                     </div>
@@ -294,7 +316,7 @@
                                         if ($race['race_fee_senior_unlicenced']>0) {
                                     ?>
                                     <div class="c-row c-price">
-                                        <span class="c-sub-title">Unlicenced Senior: </span> 
+                                        <span class="c-sub-title">Unlicenced Athlete: </span> 
                                         <span class="c-dollar c-font-19">R</span>
                                         <span class="c-font-19 c-font-bold"><?=$race['race_fee_senior_unlicenced']+0;?></span>
                                     </div>
@@ -371,6 +393,30 @@
                         </div>
                     </div>
                     
+                    <?php
+                    // NEXT AND PREVIOUS BUTTONS
+                    
+                        $button_class="btn btn-md c-btn-border-2x c-btn-square btn-theme c-btn-uppercase c-btn-bold c-margin-t-20";
+                    ?>
+                    
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <?php
+                            if ($prev_race_list[$race_id]) {
+                                echo '<a href="'.$prev_race_list[$race_id]['url'].'" title="'.$prev_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default previous-btn"><i class="fa fa-angle-left"></i> Previous</a>';  
+                            }
+                            ?>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="c-pull-right">
+                            <?php
+                            if ($next_race_list[$race_id]) {
+                                echo '<a href="'.$next_race_list[$race_id]['url'].'" title="'.$next_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default next-btn">Next <i class="fa fa-angle-right"></i></a>';   
+                            }
+                            ?>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
             </div>  
@@ -444,6 +490,7 @@
     </div>
     
     <?php
+        wts($next_race_list);
 //        wts($event_detail);
     ?>
     

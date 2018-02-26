@@ -16,7 +16,7 @@ class Race_model extends CI_Model {
                 $this->db->limit($limit, $start);
             }
 
-            $this->db->select("races.*, edition_name, racetype_name");
+            $this->db->select("races.*, edition_name, edition_date, racetype_name");
             $this->db->from("races");
             $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
             $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
@@ -201,5 +201,78 @@ class Race_model extends CI_Model {
             return $color;
         }
 
+        
+        public function get_next_prev_race_list($race_list, $direction) {
+            
+            foreach ($race_list as $race_id=>$race) {
+                $dist=$race['race_distance'];
+                $date=$race['edition_date'];
+                $type=$race['racetype_id'];
+                
+                if ($direction=="next") {
+                     $this->db->where('edition_date >= ', $date);
+                     $order="ASC";
+                } elseif ($direction=="prev") {
+                     $this->db->where('edition_date <=', $date);    
+                     $order="DESC"; 
+                }
+                
+                $this->db->select("race_id, race_distance, edition_name");
+                $this->db->from("races");
+                $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+                $this->db->where('race_distance', $dist, false);
+                $this->db->where('edition_status', true);
+                $this->db->where('race_id !=', $race_id, false);
+                $this->db->where('racetype_id', $type, false);
+                $this->db->order_by('edition_date', $order);
+                $this->db->limit(1);
+//                echo $this->db->get_compiled_select();
+                $query = $this->db->get();
+
+                if ($query->num_rows() > 0) {
+                    foreach ($query->result_array() as $row) {
+                        $return[$race_id]=$row;
+                        $return[$race_id]['url']=get_url_from_edition_name(encode_edition_name($row['edition_name']));
+                    }
+                } else {
+                    $return[$race_id]=false;
+                }
+                
+                
+            }
+            return $return;
+        }
+        
+        public function get_previous_race_list($race_list) {
+            
+            foreach ($race_list as $race_id=>$race) {
+                $dist=$race['race_distance'];
+                $date=$race['edition_date'];
+                
+                $this->db->select("race_id, race_distance, edition_name");
+                $this->db->from("races");
+                $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+                $this->db->where('edition_date <= ', $date);
+                $this->db->where('race_distance', $dist, false);
+                $this->db->where('edition_status', true);
+                $this->db->where('race_id !=', $race_id, false);
+                $this->db->order_by('edition_date');
+                $this->db->limit(1);
+//                echo $this->db->get_compiled_select();
+                $query = $this->db->get();
+
+                if ($query->num_rows() > 0) {
+                    foreach ($query->result_array() as $row) {
+                        $return[$race_id]=$row;
+                        $return[$race_id]['url']=get_url_from_edition_name(encode_edition_name($row['edition_name']));
+                    }
+                } else {
+                    $return[$race_id]=false;
+                }
+                
+                
+            }
+            return $return;
+        }
 
 }

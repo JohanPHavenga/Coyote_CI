@@ -54,7 +54,7 @@ class Event extends Frontend_Controller {
     public function detail($edition_name_encoded) {
         $this->load->model('edition_model');
         $this->load->model('race_model');
-        
+                        
         // as daar nie 'n edition_name deurgestuur word nie
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
 
@@ -73,7 +73,7 @@ class Event extends Frontend_Controller {
         }
         else
         {
-            $this->data_to_header['title']=str_replace("-"," ",$edition_name);
+            $this->data_to_header['title']=str_replace("-"," ",$edition_name);            
         }
 
         // set data to view
@@ -100,6 +100,9 @@ class Event extends Frontend_Controller {
         // get event details
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+        // get next an previous races
+        $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
+        $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
         
         // get url for Google Calendar
@@ -120,6 +123,18 @@ class Event extends Frontend_Controller {
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
         $this->data_to_view['event_detail']['main_url']=$this->get_main_url($this->data_to_view['event_detail']);
         
+        
+        // set title bar
+        // remove firt element in  crumbs_arr, and replace with generic text        
+        array_shift($this->crumbs_arr);
+        $this->crumbs_arr=["Event Details"=>""]+$this->crumbs_arr;
+        $this->data_to_view["title_bar"]=$this->render_topbar_html(
+            [
+//                "title"=>$this->data_to_header['title'].date("-m-d", strtotime($this->data_to_view['event_detail']['edition_date'])),
+                "crumbs"=>$this->crumbs_arr,
+            ]);
+        
+//        wts($this->data_to_view['event_detail']);
         
         // load view
         $this->load->view($this->header_url, $this->data_to_header);

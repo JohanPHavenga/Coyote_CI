@@ -183,33 +183,13 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/edition',
                 "icon"=>"calendar",
                 "seg0"=>['edition'],
-                "submenu"=>[
-                    [
-                    "text"=>"List All Editions",
-                    "url"=>'admin/edition/view',
-                    ],
-                    [
-                    "text"=>"Add Edition",
-                    "url"=>'admin/edition/create/add',
-                    ],
-                ],
             ],
              // Races
             [
                 "text"=>"Races",
                 "url"=>'admin/race',
                 "icon"=>"trophy",
-                "seg0"=>['race'],
-                "submenu"=>[
-                    [
-                    "text"=>"List All Races",
-                    "url"=>'admin/race/view',
-                    ],
-                    [
-                    "text"=>"Add Race",
-                    "url"=>'admin/race/create/add',
-                    ],
-                ],
+                "seg0"=>['race'],                
             ],
             // Users
             [
@@ -217,16 +197,6 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/user',
                 "icon"=>"users",
                 "seg0"=>['user'],
-                "submenu"=>[
-                    [
-                    "text"=>"List All Users",
-                    "url"=>'admin/user/view',
-                    ],
-                    [
-                    "text"=>"Add User",
-                    "url"=>'admin/user/create/add',
-                    ],
-                ],
             ],
             // Clubs
             [
@@ -234,16 +204,6 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/club',
                 "icon"=>"badge",
                 "seg0"=>['club'],
-                "submenu"=>[
-                    [
-                    "text"=>"List All Clubs",
-                    "url"=>'admin/club/view',
-                    ],
-                    [
-                    "text"=>"Add Club",
-                    "url"=>'admin/club/create/add',
-                    ],
-                ],
             ],
             // Sponsors
             [
@@ -251,16 +211,6 @@ class Admin_Controller extends MY_Controller {
                 "url"=>'admin/sponsor',
                 "icon"=>"wallet",
                 "seg0"=>['sponsor'],
-                "submenu"=>[
-                    [
-                    "text"=>"List All Sponsors",
-                    "url"=>'admin/sponsor/view',
-                    ],
-                    [
-                    "text"=>"Add Sponsor",
-                    "url"=>'admin/sponsor/create/add',
-                    ],
-                ],
             ],
             // Static info
             [

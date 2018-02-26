@@ -9,6 +9,11 @@ h1 {
 
 table.accordian td:first-child { padding: 0 8px 0 0; }
 
+.c-layout-breadcrumbs-1 
+{
+    padding: 10px 0;
+}
+
 .c-content-tab-4.c-opt-5 > .tab-content .c-tab-items > li p
 {
     color: #3f444a;
@@ -126,6 +131,16 @@ td.badges {
   background: #31383c;
   color: #ddd;
     
+}
+
+.next-btn 
+{
+    float: right;
+}
+.next-btn i 
+{
+    margin-right: 0;
+    margin-left: 5px;
 }
 
 @media (min-width: 992px) {

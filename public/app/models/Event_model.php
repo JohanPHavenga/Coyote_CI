@@ -333,7 +333,7 @@ class Event_model extends CI_Model {
                                 // sit veld by vir edition_url
                                 // sanatize name
 //                                $edition_url_name=urlencode(str_replace("'","",str_replace("/"," ",$row[$field])));
-                                $edition_url_name=urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$row[$field])))));
+                                $edition_url_name=encode_edition_name($row[$field]);
                                 
                                 // remove the month and id from array
 //                                if ($from=="id") {
