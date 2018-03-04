@@ -403,7 +403,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <?php
                             if ($prev_race_list[$race_id]) {
-                                echo '<a href="'.$prev_race_list[$race_id]['url'].'" title="'.$prev_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default previous-btn"><i class="fa fa-angle-left"></i> Previous</a>';  
+                                echo '<a href="'.$prev_race_list[$race_id]['url'].'" title="'.$prev_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default previous-btn"><i class="fa fa-angle-left"></i> Previous '.intval($prev_race_list[$race_id]['race_distance']).'k</a>';  
                             }
                             ?>
                         </div>
@@ -411,7 +411,7 @@
                             <div class="c-pull-right">
                             <?php
                             if ($next_race_list[$race_id]) {
-                                echo '<a href="'.$next_race_list[$race_id]['url'].'" title="'.$next_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default next-btn">Next <i class="fa fa-angle-right"></i></a>';   
+                                echo '<a href="'.$next_race_list[$race_id]['url'].'" title="'.$next_race_list[$race_id]['edition_name'].'" class="'.$button_class.' btn-default next-btn">Next '.intval($prev_race_list[$race_id]['race_distance']).'k <i class="fa fa-angle-right"></i></a>';   
                             }
                             ?>
                             </div>
@@ -490,7 +490,7 @@
     </div>
     
     <?php
-        wts($next_race_list);
+//        wts($next_race_list);
 //        wts($event_detail);
     ?>
     

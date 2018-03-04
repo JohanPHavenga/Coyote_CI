@@ -73,12 +73,16 @@ $route['capetown'] = 'landing/cape+town';
 $route['CapeTown'] = 'landing/cape+town';
 $route['overberg'] = 'landing/overberg';
 $route['Overberg'] = 'landing/overberg';
-$route['winelands'] = 'landing/winelands';
-$route['Winelands'] = 'landing/winelands';
+$route['winelands'] = 'landing/cape+winelands';
+$route['Winelands'] = 'landing/cape+winelands';
+$route['capewinelands'] = 'landing/cape+winelands';
+$route['CapeWinelands'] = 'landing/cape+winelands';
 $route['westcoast'] = 'landing/west+coast';
 $route['WestCoast'] = 'landing/west+coast';
 $route['gardenroute'] = 'landing/garden+route';
 $route['GardenRoute'] = 'landing/garden+route';
+$route['kleinkaroo'] = 'landing/klein+karoo';
+$route['KleinKaroo'] = 'landing/klein+karoo';
 
 $route['content-overview'] = 'event/calendar';
 
