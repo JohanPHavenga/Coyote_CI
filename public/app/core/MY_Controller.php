@@ -460,7 +460,7 @@ class Frontend_Controller extends MY_Controller {
                                     $badge="";
                                     foreach ($edition['distance_arr'] as $distance) {
                                         $color = $this->race_model->get_race_color($distance);
-                                        $badge.="<span class='badge c-bg-$color'>".intval($distance)."</span> ";
+                                        $badge.="<span class='badge c-bg-$color'>".$distance."</span> ";
                                     }
 
                                     $return_html_arr[]='<div class="panel">';
@@ -478,11 +478,12 @@ class Frontend_Controller extends MY_Controller {
                                         if ($n==0) { $act="in"; } else { $act=""; }
                                         $return_html_arr[]='<div id="collapse'.$edition_id.'" class="panel-collapse collapse '.$act.'" role="tabpanel" aria-labelledby="heading'.$edition_id.'">';
                                             $return_html_arr[]='<div class="panel-body">';
+                                            $return_html_arr[]='<p style="margin:0 0 5px;"><span class="visible-sm visible-xs">'.$badge.'</span></p>';
                                             $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                             $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                             $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
 //                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
-                                            $return_html_arr[]='<b>Start Time: </b>'.$edition['start_time']."<br>";
+                                            $return_html_arr[]='<b>Start Times: </b>'.$edition['start_time']."<br>";
                                             $return_html_arr[]='<b>Info Status: </b>'.$bullet_info['text']."</p>";
                                             $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                             $return_html_arr[]='</div>';
@@ -543,7 +544,7 @@ class Frontend_Controller extends MY_Controller {
                                                 $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                                 $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
 //                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
-                                                $return_html_arr[]='<b>Start Time: </b>'.$edition['start_time']."<br>";
+                                                $return_html_arr[]='<b>Start Times: </b>'.$edition['start_time']."<br>";
                                                 $return_html_arr[]='<b>Info Status: </b>'.$bullet_info['text']."</p>";
                                                 $return_html_arr[]='<p><a href="'.$edition['edition_url'].'" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                                                 $return_html_arr[]='</div>';

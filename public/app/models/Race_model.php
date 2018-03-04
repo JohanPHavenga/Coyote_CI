@@ -177,19 +177,19 @@ class Race_model extends CI_Model {
                     $color = 'yellow-1';
                     break;
 
-                case $distance <= 21:
+                case $distance < 21:
                     $color = 'green-2';
                     break;
 
-                case $distance == 21.1:
+                case $distance == 21:
                     $color = 'blue';
                     break;
 
-                case $distance <= 42.1:
+                case $distance < 42:
                     $color = 'purple';
                     break;
 
-                case $distance == 42.2:
+                case $distance == 42:
                     $color = 'red-2';
                     break;
 

@@ -248,8 +248,6 @@ class Event_model extends CI_Model {
         }
 
 
-
-//        public function get_event_list_summary($date_form, $date_to=NULL, $area=NULL, $sort="ASC")
         public function get_event_list_summary($from,$params)
         {
 //            wts($from);
@@ -306,14 +304,18 @@ class Event_model extends CI_Model {
                         switch ($field) {
                             
                             case "race_distance":                                
-                                $value=floatval($row[$field])."km";    
-                                if ($row['racetype_abbr']=="W") { $value.=" W"; }
+                                $value=floatval($row[$field])."km";
+                                $value_arr=intval($row[$field]);
+                                if ($row['racetype_abbr']=="W") { $value.=" W"; $value_arr.="W"; }
+                                
+                                // also add an array of race distances
+                                $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]['distance_arr'][$value_arr]=$value_arr;
+                                
+                                // make string
                                 if (isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
                                     $value=$data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
                                 };
                                 
-                                // also add an array of race distances
-                                $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]['distance_arr'][intval($row[$field])]=floatval($row[$field]);
                             break;
                             case "race_time_start":
                                 if (date("H",strtotime($row[$field])) >  0) { $value = "Morning";  }
@@ -322,8 +324,10 @@ class Event_model extends CI_Model {
                                 if (date("H",strtotime($row[$field])) >  21) { $value = "Night";  }
                                 
                                 if (!isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"])) {
-                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"]=date("H:i",strtotime($row[$field]));
-                                }
+                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"]=date("H:i",strtotime($row[$field]));                                    
+                                } else {
+                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"].=", ".date("H:i",strtotime($row[$field]));
+                                } 
                             break;
                             case "edition_date":
                                 $value=date("D d M Y",strtotime($row[$field]));
