@@ -470,7 +470,7 @@ class Frontend_Controller extends MY_Controller {
                                                 $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
                                                 $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_info['color'].' fa fa-check-circle-o" title="'.$bullet_info['text'].'"></i> </td>';
                                                 $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
-                                                $return_html_arr[]='<td class="badges">'.$badge.'</td>';
+                                                $return_html_arr[]='<td class="badges hidden-xs">'.$badge.'</td>';
                                                 $return_html_arr[]='</tr></table>';
                                                 $return_html_arr[]='</a>';
                                             $return_html_arr[]='</h4>';
@@ -478,7 +478,7 @@ class Frontend_Controller extends MY_Controller {
                                         if ($n==0) { $act="in"; } else { $act=""; }
                                         $return_html_arr[]='<div id="collapse'.$edition_id.'" class="panel-collapse collapse '.$act.'" role="tabpanel" aria-labelledby="heading'.$edition_id.'">';
                                             $return_html_arr[]='<div class="panel-body">';
-                                            $return_html_arr[]='<p style="margin:0 0 5px;"><span class="visible-sm visible-xs">'.$badge.'</span></p>';
+                                            $return_html_arr[]='<p style="margin:0 0 5px;"><span class="visible-xs">'.$badge.'</span></p>';
                                             $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                             $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                             $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
@@ -532,7 +532,7 @@ class Frontend_Controller extends MY_Controller {
                                                     $return_html_arr[]='<table class="accordian" style="width: 100%"><tr>';
                                                     $return_html_arr[]='<td style="width: 10px;"><i class="'.$bullet_info['color'].' fa fa-check-circle-o" title="'.$bullet_info['text'].'"></i> </td>';
                                                     $return_html_arr[]='<td>'.date("M j",strtotime($edition['edition_date'])).'</b> - '.substr($edition['edition_name'],0,-5).'</td>';
-                                                    $return_html_arr[]='<td class="badges">'.$badge.'</td>';
+                                                    $return_html_arr[]='<td class="badges hidden-xs">'.$badge.'</td>';
                                                 $return_html_arr[]='</tr></table>';
                                                     $return_html_arr[]='</a>';
                                                 $return_html_arr[]='</h4>';
@@ -540,6 +540,7 @@ class Frontend_Controller extends MY_Controller {
                                             if ($n==0) { $act="in"; } else { $act=""; }
                                             $return_html_arr[]='<div id="collapse'.$uid.'" class="panel-collapse collapse '.$act.'" role="tabpanel" aria-labelledby="heading'.$uid.'">';
                                                 $return_html_arr[]='<div class="panel-body">';
+                                                $return_html_arr[]='<p style="margin:0 0 5px;"><span class="visible-xs">'.$badge.'</span></p>';
                                                 $return_html_arr[]='<p><b>When: </b>'.$edition['edition_date']."<br>";
                                                 $return_html_arr[]='<b>Where: </b>'.$edition['town_name']."<br>";
                                                 $return_html_arr[]='<b>Distances: </b>'.$edition['race_distance']."<br>";
