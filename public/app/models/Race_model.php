@@ -16,7 +16,7 @@ class Race_model extends CI_Model {
                 $this->db->limit($limit, $start);
             }
 
-            $this->db->select("races.*, edition_name, edition_date, racetype_name");
+            $this->db->select("races.*, edition_name, edition_date, racetype_name, racetype_abbr");
             $this->db->from("races");
             $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
             $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
@@ -30,15 +30,15 @@ class Race_model extends CI_Model {
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
                     $data[$row['race_id']] = $row;
-                    switch ($row['racetype_id']) {
-                        case 4: $data[$row['race_id']]['racetype_abbr'] = "R"; break;
-                        case 5: $data[$row['race_id']]['racetype_abbr'] = "W"; break;
-                        case 6: $data[$row['race_id']]['racetype_abbr'] = "R/W"; break;
-                        default: 
-                            $data[$row['race_id']]['racetype_abbr'] = "R";  
-                            $data[$row['race_id']]['racetype_name'] = "Run";
-                            break;
-                    }
+//                    switch ($row['racetype_id']) {
+//                        case 4: $data[$row['race_id']]['racetype_abbr'] = "R"; break;
+//                        case 5: $data[$row['race_id']]['racetype_abbr'] = "W"; break;
+//                        case 6: $data[$row['race_id']]['racetype_abbr'] = "R/W"; break;
+//                        default: 
+//                            $data[$row['race_id']]['racetype_abbr'] = "R";  
+//                            $data[$row['race_id']]['racetype_name'] = "Run";
+//                            break;
+//                    }
                     
                     $data[$row['race_id']]['race_color']=$this->get_race_color($row['race_distance']);
                 }
