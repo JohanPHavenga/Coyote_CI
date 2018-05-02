@@ -35,6 +35,7 @@ class Dashboard extends Admin_Controller {
                    ];
         
         $this->data_to_footer['js_to_load']=array(
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
             );
 
         if ($page=="dashboard") {
@@ -80,7 +81,8 @@ class Dashboard extends Admin_Controller {
                 'date_from'=>date("Y-m-d"),
                 'date_to'=>date("Y-m-d", strtotime("+3 months")),
             ];
-            $this->data_to_view['event_list_unconfirmed']=$this->event_model->get_event_list_summary("date_range",$params);        
+            $this->data_to_view['event_list_unconfirmed']=$this->event_model->get_event_list_summary("date_range",$params);  
+            
             // get list of editions that has no results
             $params=[
                 'results'=>1,
@@ -129,5 +131,6 @@ class Dashboard extends Admin_Controller {
         $this->load->view($this->view_url, $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
+    
 
 }

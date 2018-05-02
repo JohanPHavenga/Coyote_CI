@@ -253,7 +253,9 @@ class Event_model extends CI_Model {
 //            wts($from);
 //            wts($params);
 //            exit();
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","racetype_abbr","town_name","race_distance","race_time_start"];
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","edition_info_email_sent",
+                "racetype_abbr","town_name","race_distance","race_time_start",
+                "user_name", "user_surname", "user_email"];
             // setup fields needed for summary call
             if ($from=="date_range") {
                 if (!isset($params['date_to'])) { $params['date_to']=NULL; }
