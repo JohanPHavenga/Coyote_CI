@@ -86,8 +86,9 @@ class Racetype extends Admin_Controller {
         }
 
         // set validation rules
-        $this->form_validation->set_rules('racetype_name', 'Role Name', 'required');
-        $this->form_validation->set_rules('racetype_status', 'Role Status', 'required');
+        $this->form_validation->set_rules('racetype_name', 'Racetype Name', 'required');
+        $this->form_validation->set_rules('racetype_abbr', 'Racetype Abbreviation', 'required');
+        $this->form_validation->set_rules('racetype_status', 'Racetype Status', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
@@ -102,7 +103,7 @@ class Racetype extends Admin_Controller {
             $db_write=$this->racetype_model->set_racetype($action, $id);
             if ($db_write)
             {
-                $alert="Role has been updated";
+                $alert="Racetype has been updated";
                 $status="success";
             }
             else
@@ -116,6 +117,11 @@ class Racetype extends Admin_Controller {
                 'status'=>$status,
                 ]);
 
+            // save_only takes you back to the edit page.
+            if (array_key_exists("save_only", $_POST)) {
+                $this->return_url=base_url("admin/racetype/create/edit/".$id);
+            }   
+            
             redirect($this->return_url);
         }
     }

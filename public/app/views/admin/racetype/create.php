@@ -21,16 +21,34 @@
                     ]);
 
                 echo "</div>";
+                
+                echo "<div class='form-group'>";
+                echo form_label('Abbreviation', 'racetype_abbr');
+                echo form_input([
+                        'name'          => 'racetype_abbr',
+                        'id'            => 'racetype_abbr',
+                        'value'         => set_value('racetype_abbr', @$racetype_detail['racetype_abbr']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";
 
                 echo "<div class='form-group'>";
                 echo form_label('Status', 'racetype_status');
                 echo form_dropdown('racetype_status', $status_dropdown, @$racetype_detail['racetype_status'], ["id"=>"racetype_status","class"=>"form-control"]);        
                 echo "</div>";    
 
+                //  BUTTONS
                 echo "<div class='btn-group'>";
-                echo fbutton();
-                echo fbuttonLink($return_url,"Cancel");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save & Close",$type="submit",$status="success");
+                echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
+                
+//                echo "<div class='btn-group'>";
+//                echo fbutton();
+//                echo fbuttonLink($return_url,"Cancel");
+//                echo "</div>";
 
                 echo form_close();
 

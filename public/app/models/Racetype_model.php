@@ -67,6 +67,7 @@ class Racetype_model extends CI_Model {
         {            
             $data = array(
                         'racetype_name' => $this->input->post('racetype_name'),
+                        'racetype_abbr' => $this->input->post('racetype_abbr'),
                         'racetype_status' => $this->input->post('racetype_status'),
                     );            
             
