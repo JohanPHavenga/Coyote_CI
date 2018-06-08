@@ -321,13 +321,19 @@ class Event extends Frontend_Controller {
                         $price=$race['race_fee_senior_licenced'];
                     } else {
                         $price=0;
+                    }                    
+                    if ($race['race_date']>0) {                        
+                        $race_start_date=date("Y-m-d", strtotime($race['race_date']));
+                    } else {
+                        $race_start_date=$start_date;
                     }
+                    
                     $h[]='{';
                     $h[]='"@type": "SportsEvent",';
                     $h[]='"name": "'.$rn.'",';
-                    $h[]='"startDate": "'.$start_date.'T'.$race['race_time_start'].'+02:00",';
+                    $h[]='"startDate": "'.$race_start_date.'T'.$race['race_time_start'].'+02:00",';
                     if ($race['race_time_end']) {
-                        $h[]='"endDate": "'.$start_date.'T'.$race['race_time_end'].'+02:00",';
+                        $h[]='"endDate": "'.$race_start_date.'T'.$race['race_time_end'].'+02:00",';
                     }
                     $h[]='"location": { ';
                         $h[]='"@type": "Place",';

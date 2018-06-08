@@ -87,12 +87,14 @@ class Race extends Admin_Controller {
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
         $this->data_to_header['css_to_load']=array(
+            "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
             "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
             "plugins/bootstrap-summernote/summernote.css",
             );
 
         $this->data_to_header['js_to_load']=array(
             "plugins/moment.min.js",
+            "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
             "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
             "plugins/bootstrap-summernote/summernote.min.js",
             );
@@ -103,13 +105,14 @@ class Race extends Admin_Controller {
             );
 
 
-        $this->data_to_view['edition_dropdown']=$this->edition_model->get_edition_dropdown();
+        $this->data_to_view['edition_dropdown']=$this->edition_model->get_edition_dropdown();        
         $this->data_to_view['status_dropdown']=$this->race_model->get_status_dropdown();
         $this->data_to_view['racetype_dropdown']=$this->racetype_model->get_racetype_dropdown();
 
         if ($action=="edit")
         {
             $this->data_to_view['race_detail']=$this->race_model->get_race_detail($id);
+            $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($this->data_to_view['race_detail']['edition_id']);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         } else {
             $this->data_to_view['race_detail']=[];

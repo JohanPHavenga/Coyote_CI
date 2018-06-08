@@ -11,56 +11,72 @@
             <?php  
                 echo form_open($form_url); 
                 
-                echo "<div class='form-group'>";
-                echo form_label('Race Distance (km)', 'race_distance');
-                echo form_input([
-                        'name'          => 'race_distance',
-                        'id'            => 'race_distance',
-                        'value'         => @$race_detail['race_distance']+0,
-                        'class'         => 'form-control input-small',
-                        'required'      => '',
-                    ]);    
-                echo "</div>";
+                echo "<div class='row'>";                 
+                    echo "<div class='col-md-5'>";
+                        echo "<div class='form-group'>";   
+                            echo form_label('Race Distance (km)', 'race_distance');
+                            echo form_input([
+                                    'name'          => 'race_distance',
+                                    'id'            => 'race_distance',
+                                    'value'         => @$race_detail['race_distance']+0,
+                                    'class'         => 'form-control input-small',
+                                    'required'      => '',
+                                ]);    
+                        echo "</div>";
+                    
+                        echo "<div class='form-group'>";       
+                            echo form_label('Status', 'race_status');
+                            echo form_dropdown('race_status', $status_dropdown, @$race_detail['race_status'], ["id"=>"race_status","class"=>"form-control input-small"]);
+                        echo "</div>";
+                        
+                        echo "<div class='form-group'>";   
+                            echo form_label('Race Type', 'racetype_id');
+                            echo form_dropdown('racetype_id', $racetype_dropdown, @$race_detail['racetype_id'], ["id"=>"racetype_id","class"=>"form-control input-small"]);   
+                        echo "</div>"; 
+                        
+                    echo "</div>"; // end col
+                    
+                    echo "<div class='col-md-7'>";                        
+                        echo "<div class='form-group'>";   
+                            echo form_label('Start Time', 'race_time_start');
+                            echo '<div class="input-group input-small">';
+                            echo form_input([
+                                    'name'          => 'race_time_start',
+                                    'id'            => 'race_time_start',
+                                    'value'         => set_value('race_time_start', ftimeSort(@$race_detail['race_time_start'],false)),
+                                    'class'         => 'form-control timepicker timepicker-24',
+                                    'required'      => '',
+                                ]);    
+                            echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
+                        echo "</div>";
+                        
+                        echo "<div class='form-group'>";   
+                            echo form_label('Cut-off Time', 'race_time_end');
+                            echo '<div class="input-group input-small">';
+                            echo form_input([
+                                    'name'          => 'race_time_end',
+                                    'id'            => 'race_time_end',
+                                    'value'         => set_value('race_time_end', ftimeSort(@$race_detail['race_time_end'],false)),
+                                    'class'         => 'form-control timepicker timepicker-24',
+                                ]);    
+                            echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
+                        echo "</div>";
+                        
+                        echo "<div class='form-group'>";
+                            echo form_label('Race Date', 'race_date');
+                            echo '<div class="input-group input-medium date date-picker">';
+                            echo form_input([
+                                    'name'          => 'race_date',
+                                    'id'            => 'race_date',
+                                    'value'         => set_value('race_date', @fdateShort($race_detail['race_date'])),
+                                    'class'         => 'form-control',
+                                ]);    
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';                            
+                            echo "<p class='help-block' style='font-style: italic;'>Only applicable if different than edition date [".fdateShort($edition_detail['edition_date'])."]</p>";
+                         echo "</div>";
                 
-
-                echo "<div class='form-group'>";
-                echo form_label('Start Time', 'race_time_start');
-                echo '<div class="input-group input-small">';
-                echo form_input([
-                        'name'          => 'race_time_start',
-                        'id'            => 'race_time_start',
-                        'value'         => set_value('race_time_start', ftimeSort(@$race_detail['race_time_start'],false)),
-                        'class'         => 'form-control timepicker timepicker-24',
-                        'required'      => '',
-                    ]);    
-                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
-                echo "</div>";
-                
-                
-
-                echo "<div class='form-group'>";
-                echo form_label('Cut-off Time', 'race_time_end');
-                echo '<div class="input-group input-small">';
-                echo form_input([
-                        'name'          => 'race_time_end',
-                        'id'            => 'race_time_end',
-                        'value'         => set_value('race_time_end', ftimeSort(@$race_detail['race_time_end'],false)),
-                        'class'         => 'form-control timepicker timepicker-24',
-                    ]);    
-                echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
-                echo "</div>";
-                
-                
-
-                echo "<div class='form-group'>";
-                echo form_label('Status', 'race_status');
-                echo form_dropdown('race_status', $status_dropdown, @$race_detail['race_status'], ["id"=>"race_status","class"=>"form-control input-small"]);        
-                echo "</div>";
-                
-                echo "<div class='form-group'>";
-                echo form_label('Race Type', 'racetype_id');
-                echo form_dropdown('racetype_id', $racetype_dropdown, @$race_detail['racetype_id'], ["id"=>"racetype_id","class"=>"form-control input-small"]);        
-                echo "</div>";
+                    echo "</div>"; // end col
+                echo "</div>"; // end Row
                 
                 echo "<div class='form-group'>";
                 echo form_label('Edition', 'edition_id');

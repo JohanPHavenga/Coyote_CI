@@ -96,6 +96,7 @@ class Race_model extends CI_Model {
                             'race_distance' => $this->input->post('race_distance'),
                             'race_time_start' => $this->input->post('race_time_start'),
                             'race_time_end' => $this->input->post('race_time_end'),
+                            'race_date' => $this->input->post('race_date'),
                             'race_status' => $this->input->post('race_status'),
                             'edition_id' => $this->input->post('edition_id'),
                             'racetype_id' => $this->input->post('racetype_id'),

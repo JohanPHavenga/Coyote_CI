@@ -44,7 +44,7 @@ if ( ! function_exists('fdateShort'))
 {
     function fdateShort($date) 
     {
-        if ($date)
+        if ($date>0)
         {
             return date("Y-m-d",strtotime($date));
         } else {
