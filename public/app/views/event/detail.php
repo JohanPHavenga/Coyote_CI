@@ -207,6 +207,13 @@
     
     // START RACES
         foreach ($event_detail['race_list'] as $race_id=>$race) {
+            
+            if ($race['race_date']>0) {
+                $race_date=fdateHuman($race['race_date']);
+            } else {
+                $race_date=fdateHuman($race['edition_date']);
+            }
+            
             ?>
             <div class="c-content-box c-size-sm <?=$box_color;?>">
                 <div class="container">
@@ -269,7 +276,7 @@
                                 <div class="c-content c-column-even c-padding-adjustment">
                                     <div class="c-row c-font-19">
                                         <span class="c-sub-title">Date: </span> 
-                                        <span class="c-font-19 c-font-bold"><?=fdateShort($race['edition_date']);?></span>
+                                        <span class="c-font-19 c-font-bold"><?=$race_date?></span>
                                     </div>
                                     <div class="c-row c-font-19">
                                         <span class="c-sub-title">Start Time: </span> 
