@@ -454,6 +454,8 @@ class Event_model extends CI_Model {
             $this->db->join('races', 'races.edition_id = editions.edition_id');
             $this->db->join('towns', 'towns.town_id = events.town_id');
             $this->db->join('racetypes', 'races.racetype_id = racetypes.racetype_id', 'left outer');
+            $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id');
+            $this->db->join('users', 'users.user_id = edition_user.user_id');
 //            $this->db->join('town_area', 'towns.town_id = town_area.town_id');
 //            $this->db->join('areas', 'areas.area_id = town_area.area_id');
             

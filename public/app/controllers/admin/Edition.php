@@ -77,12 +77,14 @@ class Edition extends Admin_Controller {
         $this->load->model('sponsor_model');
         $this->load->model('user_model');
         $this->load->model('event_model');
+        $this->load->model('race_model');
 
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->helper('file');
         $this->load->library('form_validation');
         $this->load->library('upload');
+        $this->load->library('table');
 
         // set data
         $this->data_to_header['title'] = "Edition Input Page";
@@ -112,6 +114,8 @@ class Edition extends Admin_Controller {
 
         if ($action=="edit")
         {
+            
+            $this->data_to_view['race_list']=$this->race_model->get_race_list(NULL, NULL, $id);
             $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         } else {
