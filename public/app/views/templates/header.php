@@ -61,6 +61,15 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="<?= base_url('img/favicon/ms-icon-144x144.png');?>">
         <meta name="theme-color" content="#ffffff">
+        <!-- Google Auto Ads -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-8912238222537097",
+                  enable_page_level_ads: true
+             });
+        </script>
+        <!-- Auto ads end -->
     </head>
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
         <!-- Analytics -->
