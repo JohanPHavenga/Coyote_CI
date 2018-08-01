@@ -25,6 +25,8 @@ class Edition extends Admin_Controller {
     public function view() {        
         // load helpers / libraries
         $this->load->library('table');
+        // unset dashboard return url session
+        $this->session->unset_userdata('dashboard_return_url');
         
         $this->data_to_view["edition_data"] = $this->edition_model->get_edition_list();
         $this->data_to_view['heading']=["ID","Edition Name","Status","Edition Date","Event Name","Actions"];
@@ -86,6 +88,11 @@ class Edition extends Admin_Controller {
         $this->load->library('upload');
         $this->load->library('table');
 
+        // set return url to session should it exists
+        if ($this->session->has_userdata('dashboard_return_url')) {
+            $this->return_url = $this->session->dashboard_return_url;
+        }
+
         // set data
         $this->data_to_header['title'] = "Edition Input Page";
         $this->data_to_view['action']=$action;
@@ -113,11 +120,12 @@ class Edition extends Admin_Controller {
         $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
 
         if ($action=="edit")
-        {
-            
+        {            
             $this->data_to_view['race_list']=$this->race_model->get_race_list(NULL, NULL, $id);
             $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
+            // set edition_return_url for races
+            $this->session->set_userdata('edition_return_url', "/".uri_string());     
         } else {
             $this->data_to_view['edition_detail']['edition_status']=1;
         }
