@@ -82,6 +82,9 @@ class Dashboard extends Admin_Controller {
                 'date_to'=>date("Y-m-d", strtotime("+3 months")),
             ];
             $this->data_to_view['event_list_unconfirmed']=$this->event_model->get_event_list_summary("date_range",$params);  
+
+            // set dashbaord_return_url for editions to return here
+            $this->session->set_userdata('dashboard_return_url', "/".uri_string());     
             
             // get list of editions that has no results
             $params=[
