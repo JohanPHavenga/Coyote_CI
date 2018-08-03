@@ -319,6 +319,7 @@ echo form_open_multipart($form_url);
     
 </div>
 
+<!-- ADD RACES -->
 <div class="row">
     <div class="col-md-6">    
         <div class="portlet light">
@@ -380,7 +381,7 @@ echo form_open_multipart($form_url);
                 }
 
                 // add button
-                echo fbuttonLink("/admin/race/create/add/".@$edition_detail['event_id'],"Add Race","primary");
+                echo fbuttonLink("/admin/race/create/add/".@$edition_detail['edition_id'],"Add Race","primary");
                 ?>
             </div>
         </div>
