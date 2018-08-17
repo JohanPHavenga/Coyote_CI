@@ -63,10 +63,15 @@ class Event extends Frontend_Controller {
         $edition_name=urldecode($edition_name_encoded);
         $edition_id=$this->edition_model->get_edition_id_from_name($edition_name);
 
+        // edition in session vir contact form
+        $edition_name=str_replace("-", " ", $edition_name);
+        $this->session->set_flashdata([
+            "last_visited_event"=>$edition_name
+        ]);
+
         if (!$edition_id)
         {
             // if name cannot be matched to an edition
-            $edition_name=str_replace("-", " ", $edition_name);
             $this->session->set_flashdata([
                 'alert'=>" We had trouble finding the event '<b>".$edition_name."</b>'. Please try selecting the correct event from the list below.",
                 'status'=>"danger",
@@ -76,7 +81,7 @@ class Event extends Frontend_Controller {
         }
         else
         {
-            $this->data_to_header['title']=str_replace("-"," ",$edition_name);            
+            $this->data_to_header['title']=$edition_name;            
         }
 
         // set data to view

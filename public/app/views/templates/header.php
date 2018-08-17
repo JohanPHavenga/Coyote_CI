@@ -124,14 +124,8 @@
                                         } else {
                                             $mc="";
                                         }
-                                        echo "<li class='$mc'>";
-                                            if ($menu_item['text']=="Contact Us") {
-                                                    echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
-                                            }
-                                            else
-                                            {
-                                                echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
-                                            }
+                                        echo "<li class='$mc'>";                                           
+                                        echo "<a href='".$menu_item['url']."' class='c-link dropdown-toggle'>".$menu_item['text']."</a>";
                                         echo "</li>";
                                     }
                                 ?>
@@ -148,3 +142,7 @@
         </header>
         <!-- END: HEADER -->
         <!-- END: LAYOUT/HEADERS/HEADER-1 -->
+
+<?php
+//echo $this->router->fetch_class();
+//echo $this->router->fetch_method();

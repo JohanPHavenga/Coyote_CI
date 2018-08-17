@@ -90,6 +90,8 @@
                                     echo '</div>';
                                 }
                             }
+
+                            if($this->session->flashdata('last_visited_event')) { $form_data['devent']=$this->session->flashdata('last_visited_event'); }
                             ?>
                             <?php echo form_open('pages/mailer#contact'); ?>
                                 <div class="form-group">

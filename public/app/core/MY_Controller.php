@@ -314,7 +314,7 @@ class Frontend_Controller extends MY_Controller {
             // Events
             [
                 "text"=>"Contact Us",
-                "url"=>base_url('/#contact'),
+                "url"=>base_url('/pages/home/#contact'),
                 "section"=>'',
             ],
 
