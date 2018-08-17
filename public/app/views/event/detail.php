@@ -3,8 +3,6 @@
     
     <?= $title_bar; ?>
     
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
     <div class="c-content-box c-size-sm c-bg-img-top c-no-padding c-pos-relative">
         <div class="container">
             <div class="c-content-contact-1 c-opt-1">
@@ -30,8 +28,7 @@
                                     <?php
                                         // show link in summary info
                                         if ($event_detail['main_url']) {
-                                            $url_segments=parse_url($event_detail['main_url']);      
-//                                            wts($url_segments);
+                                            $url_segments=parse_url($event_detail['main_url']);   
                                             echo "<a href='".$event_detail['main_url']."' target='_blank'>".$url_segments['host']."</a><br>";                                           
                                         }                                       
                                         
@@ -59,16 +56,6 @@
                                             <i class="fa fa-google"></i>
                                         </a>
                                     </li>
-<!--                                    <li>
-                                        <a href="#" title=""View event facebook page">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" title=""View race information">
-                                            <i class="fa fa-info"></i>
-                                        </a>
-                                    </li>-->
                                 </ul>
                             </div>
                         </div>

@@ -93,12 +93,18 @@
                             ?>
                             <?php echo form_open('pages/mailer#contact'); ?>
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'dname', 'name'=>'dname', 'value'=>@$form_data['dname'], 'placeholder'=>'Your Name', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <label for="dname">Your name</label>
+                                    <?php echo form_input(array('id'=>'dname', 'name'=>'dname', 'value'=>@$form_data['dname'], 'placeholder'=>'John Smith', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'demail', 'name'=>'demail', 'value'=>@$form_data['demail'], 'placeholder'=>'Your Email', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                    <label for="demail">Your email address</label>
+                                    <?php echo form_input(array('id'=>'demail', 'name'=>'demail', 'value'=>@$form_data['demail'], 'placeholder'=>'name.surname@example.com', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                <!--<div class="form-group">
+                                    <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'value'=>@$form_data['dphone'], 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>-->
                                 <div class="form-group">
-                                    <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'value'=>@$form_data['dphone'], 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                <div class="form-group">
+                                    <label for="devent">Event name</label>
+                                    <?php echo form_input(array('id'=>'devent', 'name'=>'devent', 'value'=>@$form_data['devent'], 'placeholder'=>'Name of event or race you are enquiring about', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
+                                <div class="form-group">                                    
+                                    <label for="dmsg">Comment</label>
                                     <?php echo form_textarea(array('id'=>'dmsg', 'name'=>'dmsg', 'value'=>@$form_data['dmsg'], 'placeholder'=>'Write comment here ...', 'rows'=>'8', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
                                     <?php echo form_button(array('type'=>'submit', 'class'=>'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round','content'=>'Submit')); ?>
                             <?php echo form_close(); ?>

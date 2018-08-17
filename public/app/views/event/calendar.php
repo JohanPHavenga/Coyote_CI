@@ -21,7 +21,7 @@
         }
         echo "<div class='c-content-box c-size-sm' style='padding-bottom: 0;'>";
         echo "<div class='container'><div class='row'>";
-        echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
+        echo "<div class='alert alert-$status' role='alert'><i class='fa fa-exclamation-circle'></i> ".$alert_msg."</div>";
         echo "</div></div></div>";
     }
 

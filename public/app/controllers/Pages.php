@@ -251,11 +251,39 @@ class Pages extends Frontend_Controller {
         $this->data_to_header['title'] = "Mailer"; // Capitalize the first letter
         $this->data_to_view['page'] = "mailer";
 
+         $this->data_to_header['css_to_load']=array(
+                "plugins/revo-slider/css/settings.css",
+                "plugins/revo-slider/css/layers.css",
+                "plugins/revo-slider/css/navigation.css",
+                "plugins/cubeportfolio/css/cubeportfolio.min.css",
+                );
+
+            $this->data_to_footer['js_to_load']=array(
+                "plugins/revo-slider/js/jquery.themepunch.tools.min.js",
+                "plugins/revo-slider/js/jquery.themepunch.revolution.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.slideanims.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.layeranimation.min.js",
+                "plugins/revo-slider/js/extensions/revolution.extension.navigation.min.js",
+                "plugins/cubeportfolio/js/jquery.cubeportfolio.min.js",
+                );
+
+            $this->data_to_footer['scripts_to_load']=array(
+                "scripts/revo-slider/slider-4.js",
+                "scripts/events.js",
+                );
+            
+            
+            $this->data_to_view['carousel_html']=$this->get_carousel_html($this->cc); 
+
         // set validation rules
         $this->form_validation->set_rules('dname', 'Name', 'required');
         $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('dphone', 'Phone', 'alpha_numeric_spaces');
         $this->form_validation->set_rules('dmsg', 'Comment', 'required');
+
+        // get races for the next 3 months
+        $race_summary=$this->event_model->get_event_list_summary($from="date_range",["date_from"=>date("Y-m-d"),"date_to"=>date("Y-m-d",strtotime("+3 months"))]);
+        $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "Next 3 Months");
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
@@ -277,14 +305,15 @@ class Pages extends Frontend_Controller {
 
             $this->email->from($this->input->post('demail'), $this->input->post('dname'));
             $this->email->to('info@roadrunning.co.za');
-            $this->email->cc('monicahav@gmail.com');
+            // $this->email->cc('monicahav@gmail.com');
             // $this->email->bcc('them@their-example.com');
 
             $this->email->subject('RoadRunning.co.za Comment');
 
             $msg_arr[]="Name: ".$this->input->post('dname');
             $msg_arr[]="Email: ".$this->input->post('demail');
-            $msg_arr[]="Phone: ".$this->input->post('dphone');
+            // $msg_arr[]="Phone: ".$this->input->post('dphone');
+            $msg_arr[]="Event: ".$this->input->post('devent');
             $msg_arr[]="Comment: ".$this->input->post('dmsg');
             $msg=implode("<br>",$msg_arr);
 

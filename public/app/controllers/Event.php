@@ -52,6 +52,7 @@ class Event extends Frontend_Controller {
 
 
     public function detail($edition_name_encoded) {
+        // get race and edition models
         $this->load->model('edition_model');
         $this->load->model('race_model');
                         
@@ -65,11 +66,13 @@ class Event extends Frontend_Controller {
         if (!$edition_id)
         {
             // if name cannot be matched to an edition
+            $edition_name=str_replace("-", " ", $edition_name);
             $this->session->set_flashdata([
-                'alert'=>"Error trying to load the event details. Please try selecting it again from the list below.",
+                'alert'=>" We had trouble finding the event '<b>".$edition_name."</b>'. Please try selecting the correct event from the list below.",
                 'status'=>"danger",
                 ]);
             redirect("/event/calendar");
+            die();
         }
         else
         {
@@ -98,13 +101,12 @@ class Event extends Frontend_Controller {
             );
 
         // get event details
-        $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
+        $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);     
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+        $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
         // get next an previous races
         $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
         $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
-        $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
-        
         // get url for Google Calendar
         $this->data_to_view['event_detail']['google_cal_url']=$this->google_cal(
                 [
@@ -116,7 +118,7 @@ class Event extends Frontend_Controller {
                 ]
                 );
         
-        // et other stuff
+        // get other stuff
         $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
         $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);
@@ -130,18 +132,64 @@ class Event extends Frontend_Controller {
         $this->crumbs_arr=["Event Details"=>""]+$this->crumbs_arr;
         $this->data_to_view["title_bar"]=$this->render_topbar_html(
             [
-//                "title"=>$this->data_to_header['title'].date("-m-d", strtotime($this->data_to_view['event_detail']['edition_date'])),
                 "crumbs"=>$this->crumbs_arr,
             ]);
-        
-//        wts($this->data_to_view['event_detail']);
-        
-        // load view
+
+        // set box color - this is for the zebra lines
+        $box_color_arr[0]='';
+        $box_color_arr[1]='c-bg-grey-1'; 
+        $bc=0;
+        $this->data_to_view['box_color']=$box_color_arr[$bc];
+
+        // -------------------------------------------------------------------------------------------------
+        // LOAD VIEWS         
+        // -------------------------------------------------------------------------------------------------
+        // HEADER
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/event/detail", $this->data_to_view);
+
+        // $this->load->view("/event/detail", $this->data_to_view);
+        $this->load->view("/event/detail_head", $this->data_to_view);
+        $this->load->view("/event/detail_event_heading", $this->data_to_view);
+
+        // Google Add
+        $this->load->view("/event/google_ad", $this->data_to_view);
+        $bc=!$bc;  $this->data_to_view['box_color']=$box_color_arr[$bc];
+
+        // Entry Detail
+        if (strlen($this->data_to_view['event_detail']['edition_entry_detail'])>10) {
+            $this->load->view("/event/detail_event_info_entry", $this->data_to_view);
+            $bc=!$bc;
+            $this->data_to_view['box_color']= $box_color_arr[$bc];
+        } 
+
+        // Race detail
+        $this->load->view("/event/detail_event_info_races", $this->data_to_view);
+        // check race_list size. If uneven number, change box_color
+        $num_races=sizeof($this->data_to_view['event_detail']['race_list']);
+        if ($num_races % 2) {
+            $bc=!$bc;
+            $this->data_to_view['box_color']= $box_color_arr[$bc];
+        }
+
+        // Event description
+        if (strlen($this->data_to_view['event_detail']['edition_description'])>10) {
+            $this->load->view("/event/detail_event_info_description", $this->data_to_view);
+            $bc=!$bc;
+            $this->data_to_view['box_color']= $box_color_arr[$bc];
+        } 
+
+        // Google Add
+        $this->load->view("/event/google_ad", $this->data_to_view);
+        $bc=!$bc;  $this->data_to_view['box_color']=$box_color_arr[$bc];
+
+        // Detail footer
+        $this->load->view("/event/detail_footer", $this->data_to_view);
+
+        //FOOTER
         $this->load->view($this->footer_url, $this->data_to_footer);
 
     }
+    
     
     function get_main_url($event_detail) {
         $main_url='';
@@ -169,7 +217,7 @@ class Event extends Frontend_Controller {
         // check if events is in the past
         $return='';
         if ($event_detail['edition_date'] < date("Y-m-d")) {
-            $msg="<strong>Please note:</strong> You are viewing a past event. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> for a list of upcoming events.";
+            $msg="<strong>Please note:</strong> You are viewing an event that has already taken place. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> to view a list of upcoming events.";
             $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
         } elseif ($event_detail['edition_info_isconfirmed']) {
             $msg="The information for this event has been <strong>confirmed</strong>. ";
@@ -274,8 +322,7 @@ class Event extends Frontend_Controller {
         $dates=fdateToCal($sdate)."/".fdateToCal($edate);
         
 //        20170402T053000Z/20170402T103000Z
-//        20170326T060000/20170326T100000";
-        
+//        20170326T060000/20170326T100000";        
         
         $sprop="website:".$params['url'];
         $details="website:".$params['url'];
