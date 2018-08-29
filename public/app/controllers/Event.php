@@ -358,6 +358,10 @@ class Event extends Frontend_Controller {
                 $h[]='}';
             $h[]='},';
             $h[]='"description": "Join us for the annual '.$event_detail['event_name'].' road running race in '.$event_detail['town_name'].'.",';
+            if ($event_detail['edition_logo']) {
+                $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);
+                $h[]='"image": "'.$img_url.'",';
+            }
             
             $h[]='"subEvent": [ ';  
             
@@ -379,6 +383,8 @@ class Event extends Frontend_Controller {
                     } else {
                         $race_start_date=$start_date;
                     }
+
+                    $today_date=date("Y-m-d").'T'."00:00:00+02:00";
                     
                     $h[]='{';
                     $h[]='"@type": "SportsEvent",';
@@ -402,7 +408,12 @@ class Event extends Frontend_Controller {
                         $h[]='"offers": { ';
                             $h[]='"@type": "Offer",';
                             $h[]='"price": "'.$price.'",';
-                            $h[]='"priceCurrency": "ZAR"';
+                            $h[]='"priceCurrency": "ZAR",';
+                            if ($event_detail['edition_url_entry']) {
+                                $h[]='"url": "'.$event_detail['edition_url_entry'].'",';
+                                $h[]='"availability": "http://schema.org/InStock",';
+                                $h[]='"validFrom": "'.$today_date.'"';
+                            }
                         $h[]='}';
                     } else {
                         $h[]='}';   
@@ -423,9 +434,9 @@ class Event extends Frontend_Controller {
         
         $html=implode("\n\r", $h);
         
-//        echo $html;
-//        wts($event_detail);
-//        die();
+    //    echo $html;
+    //    wts($event_detail);
+    //    die();
         
         return $html;
     }

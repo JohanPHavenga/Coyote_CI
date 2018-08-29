@@ -306,9 +306,9 @@ class Pages extends Frontend_Controller {
             $this->email->from($this->input->post('demail'), $this->input->post('dname'));
             $this->email->to('info@roadrunning.co.za');
             // $this->email->cc('monicahav@gmail.com');
-            // $this->email->bcc('them@their-example.com');
+            $this->email->bcc($this->input->post('demail'));
 
-            $this->email->subject('RoadRunning.co.za Comment');
+            $this->email->subject('RR enquiry: '.$this->input->post('devent'));
 
             $msg_arr[]="Name: ".$this->input->post('dname');
             $msg_arr[]="Email: ".$this->input->post('demail');
