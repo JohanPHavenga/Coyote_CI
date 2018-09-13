@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="c-content-title-1">
-                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> Road Running Events Calendar</h3>
+                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> Road Running Race Event Calendar</h3>
                                 <div class="c-line-center c-theme-bg"></div>
                             </div>
                         </div>

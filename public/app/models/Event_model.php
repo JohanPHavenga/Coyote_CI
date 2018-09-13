@@ -275,7 +275,7 @@ class Event_model extends CI_Model {
             } 
             elseif ($from=="search")
             {
-                $query=$this->search_events($field_arr, $params['ss']);
+                $query=$this->search_events($field_arr, $params['ss'], $params['inc_all']);
             } 
             elseif ($from=="id") 
             {
@@ -438,7 +438,7 @@ class Event_model extends CI_Model {
 
 
 
-        public function search_events($field_arr, $ss) {
+        public function search_events($field_arr, $ss, $show_all=false) {
             
             // NOTE I removed areas because that breaks the search for towns that does not belong to an area
             
@@ -471,6 +471,10 @@ class Event_model extends CI_Model {
             $this->db->where("events.event_status", 1);
             $this->db->where("editions.edition_status", 1);
             $this->db->where("races.race_status", 1);
+            if (!$show_all) {
+                $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));     
+                $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));             
+            }
             
             $this->db->order_by("edition_date", "DESC");   
             $this->db->order_by("race_distance", "DESC");         

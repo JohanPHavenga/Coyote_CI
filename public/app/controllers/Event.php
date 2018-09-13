@@ -27,7 +27,9 @@ class Event extends Frontend_Controller {
         // load helpers / libraries
         $this->load->library('table');
 
-        $this->data_to_header['title']="Events Calendar";
+        $this->data_to_header['title']="Running Race Event Calendar";
+        $this->data_to_header['meta_description']="List of upcoming road running race events";
+        $this->data_to_header['keywords']="Calendar, Races, Events, Listing, Race, Run, Marathon, Half-Marathon, 10k, Fun Run";
 
         // get race info
         $upcoming_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d")]);
@@ -79,10 +81,8 @@ class Event extends Frontend_Controller {
             redirect("/event/calendar");
             die();
         }
-        else
-        {
-            $this->data_to_header['title']=$edition_name;            
-        }
+        
+        $this->data_to_header['title']=$edition_name;
 
         // set data to view
         $this->data_to_header['css_to_load']=array(
@@ -126,7 +126,8 @@ class Event extends Frontend_Controller {
         // get other stuff
         $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
         $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
-        $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);
+        $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);        
+        $this->data_to_header['keywords']=$this->formulate_keywords($this->data_to_view['event_detail']['summary']);     
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
         $this->data_to_view['event_detail']['main_url']=$this->get_main_url($this->data_to_view['event_detail']);
         
@@ -209,7 +210,7 @@ class Event extends Frontend_Controller {
     }
     
     function formulate_meta_description($event_detail_summary) {
-        $return= 
+        $return= "The annual ".
                 $event_detail_summary['event_name']." in ".
                 $event_detail_summary['town_name']." on ".
                 $event_detail_summary['edition_date'].". ".
@@ -217,6 +218,19 @@ class Event extends Frontend_Controller {
                 $event_detail_summary['race_distance'];
         return $return;
     }
+    
+    function formulate_keywords($event_detail_summary) {
+        $return="";
+        $name_secs=explode(" ", $event_detail_summary['event_name']);
+        // event name
+        foreach ($name_secs as $sec) { $return.="$sec,";}         
+        // distance
+        foreach ($event_detail_summary['distance_arr'] as $dis) { $return.="$dis"."km,";} 
+        foreach ($event_detail_summary['distance_arr'] as $dis) { $return.="$dis"."k,";} 
+        $return.="Race,Event,Running,Run";
+        return $return;
+    }
+    
     
     function formulate_detail_notice($event_detail) {
         // check if events is in the past

@@ -33,14 +33,9 @@ class Landing extends Frontend_Controller {
         // wts($race_list);
         // die();
 
-        if (empty($race_list))
-        {
-            $this->data_to_header['title']="No races";
-        }
-        else
-        {
-            $this->data_to_header['title']="Road Running Events in ".ucwords($area_name);
-        }
+        $this->data_to_header['title']=ucwords($area_name);        
+        $this->data_to_header['meta_description']="List of upcoming road running race events in and around the ".ucwords($area_name)." area";
+        $this->data_to_header['keywords']="Running, Listing, Calendar, Races, Events, Race, Marathon, Half-Marathon, 10k, Fun Run";
 
         // set data to view
         $this->data_to_header['css_to_load']=array();

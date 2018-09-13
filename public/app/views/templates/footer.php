@@ -20,6 +20,9 @@
                                 <li>
                                     <a href="/#contact">Contact Us</a>
                                 </li>
+                                <li>
+                                    <a href="/search">Search</a>
+                                </li>
                             </ul>
                             <ul class="c-links c-theme-ul">
 

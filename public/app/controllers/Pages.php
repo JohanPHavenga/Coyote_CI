@@ -39,7 +39,6 @@ class Pages extends Frontend_Controller {
             $this->load->library('form_validation');
 
             $this->data_to_header['section']="home";
-            $this->data_to_header['title']="Running Event Listing Site";
 
             // get races for the next 3 months
             $race_summary=$this->event_model->get_event_list_summary($from="date_range",["date_from"=>date("Y-m-d"),"date_to"=>date("Y-m-d",strtotime("+3 months"))]);
@@ -151,11 +150,24 @@ class Pages extends Frontend_Controller {
 
     
     public function search() {
-
-        $this->data_to_view['search_results']=$this->event_model->get_event_list_summary($from="search",$params=["ss"=>$_GET['query']]);
+        
+        $this->load->helper('form');
+        
+        if ($this->input->get('query')) {
+            $params=["ss"=>$this->input->get('query'),"inc_all"=>$this->input->get('inc')];
+            $this->data_to_view['search_results']=$this->event_model->get_event_list_summary($from="search",$params);       
+            $this->data_to_view['msg']="We could <b>not find</b> any race matching your search.<br>Please try again.";
+        } else {
+            $this->data_to_view['msg']="Please use the <b>search box</b> above to seach for a race.";
+        }
+        
+//        wts( $this->data_to_view['search_results']);
+//        die();
             
         $this->data_to_header['section']="home";
-        $this->data_to_header['title']="Event Search Results";
+        $this->data_to_header['title']="Race Search";
+        $this->data_to_header['meta_description']="Search for a running event or race";
+        $this->data_to_header['keywords']="Running, Search, Results, Race";
 
         $this->data_to_header['css_to_load']=array(
             );
