@@ -5,7 +5,10 @@
 
     <div class="c-content-box c-size-md ">
         <div class="container">
-
+            <h2>Endomondo</h2>
+            <iframe src="http://www.endomondo.com/embed/routes?id=1052063635&width=900&height=600" width="900" height="600" frameborder="0" scrolling="no" ></iframe>
+            <h2>Map pedometer</h2>
+            <iframe scrolling="no" frameborder="0" height="700px" width="700px" src="http://www.mappedometer.com/routes/embeddedroute.php?maproute=713575&units=2&showmarkers=1&showdistance=1&eid=1393&domain=roadrunning.co.za&mapsize=3">Your browser does not support iframes.  View this route at <a target="_blank" href="http://www.mappedometer.com/?maproute=713575">Map Pedometer</a></iframe>
         </div>
     </div>
 
@@ -14,47 +17,4 @@
 </div>
 <!-- END: PAGE CONTAINER -->
 
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Event",
-  "name": "TEST",
-  "startDate": "2017-04-24T19:30-08:00",
-  "location": {
-    "@type": "Place",
-    "name": "Santa Clara City Library, Central Park Library",
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "40.75",
-      "longitude": "73.98"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "2635 Homestead Rd",
-      "addressLocality": "Santa Clara",
-      "postalCode": "95051",
-      "addressRegion": "CA",
-      "addressCountry": "ZA"
-    }   
-  },
-  
-  "image": "http://www.example.com/event_image/12345",
-  "description": "Join us for an afternoon of Jazz with Santa Clara resident and pianist Andy Lagunoff. Complimentary food and beverages will be served.",
-  "endDate": "2017-04-24T23:00-08:00",
-  "offers": {
-    "@type": "Offer",
-    "url": "https://www.example.com/event_offer/12345_201803180430",
-    <a href="../../../../../clean_themes/harmonie_html/index.html"></a>
-    "price": "30",
-    "priceCurrency": "USD",
-    "availability": "http://schema.org/InStock",
-    "validFrom": "2017-01-20T16:20-08:00"
-  },
-  "performer": {
-    "@type": "PerformingGroup",
-    "name": "Andy Lagunoff"
-  }
-}
-</script>
 
