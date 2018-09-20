@@ -336,6 +336,31 @@ var TableDatatablesManaged = function () {
 
     }
     
+    // ASA Members TYPES    
+    var initAsaMembersTable = function () {
+        var table = $('#asamember_table');
+        table.dataTable({
+            "lengthMenu": [
+                [5, 10, 25, -1],
+                [5, 10, 25, "All"] 
+            ],
+            "pageLength": 10
+        });
+    }
+    
+    
+    // GENERIC list table
+    var initListTable = function () {
+        var table = $('#list_table');
+        table.dataTable({
+            "lengthMenu": [
+                [5, 10, 25, -1],
+                [5, 10, 25, "All"] 
+            ],
+            "pageLength": 10
+        });
+    }    
+    
 
     return {
 
@@ -351,6 +376,8 @@ var TableDatatablesManaged = function () {
             initUsersTable();
             initClubsTable();
             initSponsorsTable();
+            initAsaMembersTable();
+            initListTable();
         }
 
     };

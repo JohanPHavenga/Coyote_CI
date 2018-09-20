@@ -240,6 +240,10 @@ class Admin_Controller extends MY_Controller {
                     "url"=>'admin/racetype/view',
                     ],
                     [
+                    "text"=>"List All ASA Members",
+                    "url"=>'admin/asamember/view',
+                    ],
+                    [
                     "text"=>"List All Quotes",
                     "url"=>'admin/quote/view',
                     ],

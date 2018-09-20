@@ -227,7 +227,7 @@ if ( ! function_exists('fbuttonLinkGroup'))
 
 if ( ! function_exists('fbuttonActionGroup')) 
 {
-    function fbuttonActionGroup($action_array) 
+    function fbuttonActionGroup2($action_array) 
     {
         $html="<div class='btn-group'>";
         foreach ($action_array as $action_item) {
@@ -245,7 +245,7 @@ if ( ! function_exists('fbuttonActionGroup'))
         return $html;
     }
     
-    function fbuttonActionGroup2($action_array) 
+    function fbuttonActionGroup($action_array) 
     {
         $html="<div class='btn-group'>";
         $html.="<button class='btn btn-xs default dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false'> Actions <i class='fa fa-angle-down'></i></button>";

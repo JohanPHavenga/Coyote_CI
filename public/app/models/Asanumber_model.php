@@ -7,21 +7,21 @@ class Asanumber_model extends CI_Model {
         }
         
         public function record_count() {
-            return $this->db->count_all("asanumbers");
+            return $this->db->count_all("asa_numbers");
         }
         
-        public function get_asanumber_list($limit, $start)
+        public function get_asa_number_list($limit, $start)
         {
             $this->db->limit($limit, $start);
             
-            $this->db->select("asanumbers.*, user_name, user_surname");
-            $this->db->from("asanumbers");
+            $this->db->select("asa_numbers.*, user_name, user_surname");
+            $this->db->from("asa_numbers");
             $this->db->join('users', 'user_id', 'left');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
-                    $data[$row['asanumber_id']] = $row;
+                    $data[$row['asa_number_id']] = $row;
                 }
                 return $data;
             }
@@ -29,15 +29,15 @@ class Asanumber_model extends CI_Model {
 
         }        
         
-        public function get_asanumber_dropdown() {
-            $this->db->select("asanumber_id, asanumber_num, asanumber_year");
-            $this->db->from("asanumbers");
+        public function get_asa_number_dropdown() {
+            $this->db->select("asa_number_id, asa_number_num, asa_number_year");
+            $this->db->from("asa_numbers");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['asanumber_id']] = $row['asanumber_year'] . "-".$row['asanumber_num'];
+                    $data[$row['asa_number_id']] = $row['asa_number_year'] . "-".$row['asa_number_num'];
                 }
 //                return array_slice($data, 0, 500, true);
                 return $data;
@@ -45,7 +45,7 @@ class Asanumber_model extends CI_Model {
             return false;
         }
         
-        public function get_asanumber_detail($id)
+        public function get_asa_number_detail($id)
         {
             if( ! ($id)) 
             {
@@ -53,10 +53,10 @@ class Asanumber_model extends CI_Model {
             } 
             else 
             {
-                $this->db->select("asanumbers.*, user_name, user_surname");
-                $this->db->from("asanumbers");
+                $this->db->select("asa_numbers.*, user_name, user_surname");
+                $this->db->from("asa_numbers");
                 $this->db->join('users', 'user_id', 'left');
-                $this->db->where('asanumber_id', $id);
+                $this->db->where('asa_number_id', $id);
                 $query = $this->db->get();
 
                 if ($query->num_rows() > 0) {
@@ -67,27 +67,27 @@ class Asanumber_model extends CI_Model {
 
         }
         
-        public function set_asanumber($action, $id)
+        public function set_asa_number($action, $id)
         {            
-            $asanumber_data = array(
-                        'asanumber_num' => $this->input->post('asanumber_num'),
-                        'asanumber_year' => $this->input->post('asanumber_year'),
+            $asa_number_data = array(
+                        'asa_number_num' => $this->input->post('asa_number_num'),
+                        'asa_number_year' => $this->input->post('asa_number_year'),
                         'user_id' => $this->input->post('user_id'),
                     );       
             
             switch ($action) {                    
                 case "add":                     
                     $this->db->trans_start();
-                    $this->db->insert('asanumbers', $asanumber_data);  
+                    $this->db->insert('asa_numbers', $asa_number_data);  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();               
                 case "edit":
                     // add updated date to both data arrays
-                    $asanumber_data['updated_date']=date("Y-m-d H:i:s");
+                    $asa_number_data['updated_date']=date("Y-m-d H:i:s");
                     
                     // start SQL transaction
                     $this->db->trans_start();
-                    $this->db->update('asanumbers', $asanumber_data, array('asanumber_id' => $id));                  
+                    $this->db->update('asa_numbers', $asa_number_data, array('asa_number_id' => $id));                  
                     $this->db->trans_complete();  
                     return $this->db->trans_status();    
                 default:
@@ -98,16 +98,16 @@ class Asanumber_model extends CI_Model {
         }
         
         
-        public function remove_asanumber($id) {
+        public function remove_asa_number($id) {
             if( ! ($id))
             {
                 return false;  
             } 
             else 
             {
-                // only asanumber needed, SQL key constraints used to remove records from organizing_club
+                // only asa_number needed, SQL key constraints used to remove records from organizing_club
                 $this->db->trans_start();
-                $this->db->delete('asanumbers', array('asanumber_id' => $id));               
+                $this->db->delete('asa_numbers', array('asa_number_id' => $id));               
                 $this->db->trans_complete();  
                 return $this->db->trans_status();    
             }

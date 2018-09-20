@@ -16,14 +16,27 @@
 
                     echo '<div class="table-scrollable">';
                     // create table
-                    $this->table->set_template(ftable());
+                    $this->table->set_template(ftable("list_table"));
                     $this->table->set_heading($heading);
                     foreach ($list as $id=>$data) {
                         if (@$create_link)
                         {
                             $crypt=base64_encode($this->encryption->encrypt($delete_arr['controller']."|".$delete_arr['id_field']."|".$id));
-                            $actions_array=["Edit"=>$create_link."/edit/".$id,"Delete"=>"/admin/delete/".$crypt];
-                            $data[]=fbuttonLinkGroup($actions_array);
+//                            $actions_array=["Edit"=>$create_link."/edit/".$id,"Delete"=>"/admin/delete/".$crypt];
+                            $action_array=[
+                                [
+                                "url"=>$create_link."/edit/".$id,
+                                "text"=>"Edit",
+                                "icon"=>"icon-pencil",
+                                ],
+                                [
+                                "url"=>"/admin/delete/".$crypt,
+                                "text"=>"Delete",
+                                "icon"=>"icon-dislike",
+                                "confirmation_text"=>"<b>Are you sure?</b>",
+                                ],
+                            ];
+                            $data[]=fbuttonActionGroup($action_array);
                         }
                         $this->table->add_row($data);
                     }
