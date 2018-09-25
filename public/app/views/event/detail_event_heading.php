@@ -25,6 +25,14 @@
                         if (strlen($event_detail['edition_intro_detail'])>10) {
                             echo $event_detail['edition_intro_detail'];
                         }
+                        
+                        // ASA MEMBERSHIP
+                        if ($event_detail['asa_member_id']>0) {                        
+                            echo "<p> This event is held under the rules and regulations of "
+                                    . "<u><a href='https://www.athletics.org.za/' target='_blank' title='Athletics South Africa'>ASA</a></u> "
+                                    . "and <u><a href='".$event_detail['asa_member_url']."' target='_blank' title='".$event_detail['asa_member_name']."'>"
+                                    . "".$event_detail['asa_member_abbr']."</a></u></p>";
+                        }
                     
                         // BUTTONS
                         $button_class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
@@ -46,6 +54,7 @@
                         }
                      ?>
                     <!-- End-->
+                    
                 </div>
                 <div class="col-md-5 edition-logo">
                     <?php

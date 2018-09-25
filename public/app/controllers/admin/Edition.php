@@ -80,6 +80,7 @@ class Edition extends Admin_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
+        $this->load->model('asamember_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -118,6 +119,7 @@ class Edition extends Admin_Controller {
         $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown();
         $this->data_to_view['event_dropdown']=$this->event_model->get_event_dropdown();
         $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
+        $this->data_to_view['asamember_list']=$this->asamember_model->get_asamember_list(true);
 
         if ($action=="edit")
         {            

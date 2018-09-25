@@ -185,7 +185,7 @@ class Event extends Frontend_Controller {
         } 
 
         // Google Add
-        $this->load->view("/event/google_ad", $this->data_to_view);
+        $this->load->view("/event/google_ad_bottom", $this->data_to_view);
         $bc=!$bc;  $this->data_to_view['box_color']=$box_color_arr[$bc];
 
         // Detail footer

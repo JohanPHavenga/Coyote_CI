@@ -10,12 +10,13 @@ class Asamember_model extends CI_Model {
             return $this->db->count_all("asa_members");
         }
         
-        public function get_asamember_list($limit=100, $start=0)
-        {
-            $this->db->limit($limit, $start);    
-            
+        public function get_asamember_list($show_only_active=false)
+        {            
             $this->db->select("asa_members.*");
             $this->db->from("asa_members");
+            if ($show_only_active) {
+                $this->db->where("asa_member_status",1);
+            }
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

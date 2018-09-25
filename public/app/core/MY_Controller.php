@@ -436,8 +436,17 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[]='<li><a href="#'.$month.$rand.'" data-toggle="tab">'.$month.'</a></li>';
                             //$return_html_arr[]='<div data-filter=".'.$month.'" class="cbp-filter-item"> '.$month.' </div>';
                         }
-                    $return_html_arr[]='</ul></div>';
-                    
+                    $return_html_arr[]='</ul>';
+                    $return_html_arr[]='<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+                    $return_html_arr[]='<ins class="adsbygoogle"';
+                        $return_html_arr[]='style="display:block"';
+                        $return_html_arr[]='data-ad-format="autorelaxed"';
+                        $return_html_arr[]='data-ad-client="ca-pub-8912238222537097"';
+                        $return_html_arr[]='data-ad-slot="9750166355"></ins>';
+                    $return_html_arr[]='<script>';
+                    $return_html_arr[]='(adsbygoogle = window.adsbygoogle || []).push({});';
+                    $return_html_arr[]='</script></div>';
+
 
                 $return_html_arr[]='<div class="col-sm-9">';
                     $return_html_arr[]='<div class="tab-content">';

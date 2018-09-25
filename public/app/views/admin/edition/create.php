@@ -186,9 +186,29 @@ echo form_open_multipart($form_url);
 
                 echo "</div>";  
                 
-                
-                //  Contact
+                //  ASA Membership
                 echo "<div class='form-group'>";
+                    echo form_label('ASA Affiliation', 'edition_asa_member');
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-6'><div class='mt-radio-inline'>";
+                        foreach ($asamember_list as $asamember) {
+                            $id=$asamember['asa_member_id'];
+                            $abbr=$asamember['asa_member_abbr'];
+                            if (@$edition_detail['edition_asa_member']==$id) { $c="checked=''"; } else { $c=''; }
+                            echo '<label class="mt-radio">
+                                <input type="radio" name="edition_asa_member" id="edition_asa_member" value="'.$id.'" '.$c.'> '.$abbr.'
+                                <span></span>
+                            </label>';
+                        }
+                        if (!@$edition_detail['edition_asa_member']) { $c="checked=''"; } else { $c=''; }
+                        echo '<label class="mt-radio">
+                                <input type="radio" name="edition_asa_member" id="edition_asa_member" value="0" '.$c.'> None
+                                <span></span>
+                            </label>';
+                        echo "</div></div>";
+                    echo "</div>";          
+                
+                //  CONTACT
                     echo "<div class='row'>";
                         echo "<div class='col-md-6'>";
                         echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
@@ -207,17 +227,14 @@ echo form_open_multipart($form_url);
                 //  INFO CONFIRMED
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
-                        echo "<div class='col-md-6'>";
-                         echo form_checkbox([
-                                'name'          => 'edition_info_isconfirmed',
-                                'id'            => 'edition_info_isconfirmed',
-                                'value'         => 1,
-                                'checked'       => @$edition_detail['edition_info_isconfirmed'],
-                            ]);      
-                        echo form_label('Information confirmed', 'edition_info_isconfirmed');
-                        echo "</div>";
+                        echo "<div class='col-md-6'><div class='mt-checkbox-inline'>";
+                        if (@$edition_detail['edition_info_isconfirmed']) { $c="checked=''"; } else { $c=''; }
+                        echo '<label class="mt-checkbox">
+                                    <input type="checkbox" id="edition_info_isconfirmed" name="edition_info_isconfirmed" value="1" '.$c.'> Information confirmed
+                                    <span></span>
+                                </label>';
+                        echo "</div></div>";
                     echo "</div>";
-                echo "</div>";
                 
                 //  Logo
                 echo "<div class='row'>";
@@ -260,6 +277,7 @@ echo form_open_multipart($form_url);
                         echo "</div>";
                     }                        
                 echo "</div>";
+                echo "</div>";  
                 ?>
             </div>
         </div>
@@ -277,7 +295,6 @@ echo form_open_multipart($form_url);
                 </div>
             </div>
             <div class="portlet-body">
-                
                 <?php
                 //  Event Intro
                 echo "<div class='form-group'>";
@@ -312,10 +329,10 @@ echo form_open_multipart($form_url);
 
                 echo "</div>";
                 ?>
+                
             </div>
-        </div>        
+        </div>
     </div>
-   
     
 </div>
 
@@ -436,5 +453,5 @@ echo form_open_multipart($form_url);
 <?php
 echo form_close();
 
-//wts($race_list);
+//wts(@$edition_detail);
 ?>
