@@ -126,12 +126,42 @@ class Dashboard extends Admin_Controller {
 
     public function search() {
         $page = "search";
-        $this->view_url="admin/dashboard/".$page;
-
         $this->data_to_header['title'] = ucfirst($page);
+        
+        $this->load->library('table');
+        $this->load->model('event_model');
+        
+        if ($this->input->get('query')) {
+            $params=["ss"=>$this->input->get('query'),"inc_all"=>true, "inc_non_active"=>true];
+            $this->data_to_view['search_results']=$this->event_model->get_event_list_summary($from="search",$params);       
+            $this->data_to_view['msg']="<p>We could <b>not find</b> any event matching your search.<br>Please try again.</p>";
+        } else {
+            $this->data_to_view['msg']="Please use the <b>search box</b> above to seach for a race.";
+        }
+        
+//        wts($this->data_to_view['search_results']);
+//        die();
+        
+        $this->data_to_view['heading']=["ID","Edition Name","Status","Edition Date","Event Name","Actions"];
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
 
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view("/admin/dashboard/search", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
     

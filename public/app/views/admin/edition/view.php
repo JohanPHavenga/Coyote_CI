@@ -17,22 +17,30 @@
                     $this->table->set_template(ftable('editions_table'));
                     $this->table->set_heading($heading);
                     foreach ($edition_data as $id=>$data_entry) {
-                        
-                        $action_array=[
+                        $action_array=
                                 [
-                                "url"=>"/admin/edition/create/edit/".$data_entry['edition_id'],
-                                "text"=>"Edit",
-                                "icon"=>"icon-pencil",
-                                ],
+                                    [
+                                    "url"=>"/admin/edition/create/edit/".$data_entry['edition_id'],
+                                    "text"=>"Edit",
+                                    "icon"=>"icon-pencil",
+                                    ],
+                                    [
+                                    "url"=>"/admin/edition/copy/".$data_entry['edition_id'],
+                                    "text"=>"Copy",
+                                    "icon"=>"icon-share-alt",
+                                    ],
+                                ];
+                        
+                        if ($data_entry['edition_status']==2) {
+                            $action_array[]=                        
                                 [
                                 "url"=>"/admin/edition/delete/".$data_entry['edition_id'],
                                 "text"=>"Delete",
-                                "icon"=>"icon-dislike",
+                                "icon"=>"icon-ban",
                                 "confirmation_text"=>"<b>Are you sure?</b> <br>Note, this will also delete all races linked to this edition",
-                                ],
-                            ];
+                                ];
+                        }
                         
-        
                         $row['id']=$data_entry['edition_id'];
                         $row['name']=$data_entry['edition_name'];
                         $row['status']=flableStatus($data_entry['edition_status']);

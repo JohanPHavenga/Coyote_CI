@@ -9,3 +9,10 @@ label {
 .table-scrollable .dataTable td>.btn-group open {
     left: -40px;
 }
+
+::selection {
+  background: yellow; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: yellow; /* Gecko Browsers */
+}

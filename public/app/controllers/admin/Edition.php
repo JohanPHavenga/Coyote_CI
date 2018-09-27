@@ -189,6 +189,15 @@ class Edition extends Admin_Controller {
             redirect($this->return_url);
         }
     }
+    
+    public function copy($e_id) {
+        $this->load->model('user_model');
+        $this->load->model('event_model');
+        $this->load->model('race_model');
+        $this->load->model('asamember_model');
+        wts("hallo world");
+        die();
+    }
 
     private function upload_logo_file($id, $files, $post) {
                 

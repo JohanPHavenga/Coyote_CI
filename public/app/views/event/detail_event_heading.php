@@ -30,8 +30,8 @@
                         if ($event_detail['asa_member_id']>0) {                        
                             echo "<p> This event is held under the rules and regulations of "
                                     . "<u><a href='https://www.athletics.org.za/' target='_blank' title='Athletics South Africa'>ASA</a></u> "
-                                    . "and <u><a href='".$event_detail['asa_member_url']."' target='_blank' title='".$event_detail['asa_member_name']."'>"
-                                    . "".$event_detail['asa_member_abbr']."</a></u></p>";
+                                    . "and <u><a href='".$event_detail['asa_member_url']."' target='_blank' title='".$event_detail['asa_member_abbr']."'>"
+                                    . "".$event_detail['asa_member_name']."</a></u></p>";
                         }
                     
                         // BUTTONS

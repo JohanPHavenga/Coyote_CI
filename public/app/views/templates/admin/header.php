@@ -1,3 +1,6 @@
+<?php
+    if (!isset($title)) { $title="Admin"; } 
+    ?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -8,7 +11,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>RoadRunning | Admin</title>
+        <title><?=$title;?> | RoadRunning.co.za</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -88,7 +91,7 @@
                     <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
                     <form class="search-form search-form-expanded" action="<?= base_url('admin/dashboard/search/'); ?>" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..." name="query">
+                            <input type="text" class="form-control" placeholder="Search..." name="query" autofocus onfocus="this.select();" value="<?=$this->input->get('query');?>" style="high">
                             <span class="input-group-btn">
                                 <a href="javascript:;" class="btn submit">
                                     <i class="icon-magnifier"></i>
