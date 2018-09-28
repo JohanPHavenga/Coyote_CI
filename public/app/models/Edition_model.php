@@ -188,11 +188,20 @@ class Edition_model extends CI_Model {
                 }
                 
             } else {
+                
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>4];
                 // check if user_id is sent;
                 if (@$edition_data['user_id']) { $user_id=$edition_data['user_id']; unset($edition_data['user_id']); } else { $user_id=19; }
                 $edition_user_data = ["edition_id"=>$edition_id,"user_id"=>$user_id];
+                // Status check
                 if (!isset($edition_data['edition_status'])) { $edition_data['edition_status'] = 1; }
+                // check if asa_memberdata exists
+                if (array_key_exists("edition_asa_member", $edition_data)) { 
+                    if ($edition_data['edition_asa_member'] >  0) {
+                        $edition_asamember_data = ["edition_id"=>$edition_id,"asa_member_id"=>$edition_data['edition_asa_member']]; 
+                    }
+                    unset($edition_data['edition_asa_member']); 
+                }                 
             }
 
             if ($debug) {
@@ -201,6 +210,7 @@ class Edition_model extends CI_Model {
                 wts($action);
                 wts($edition_id);
                 wts($edition_data);
+                wts(@$edition_asamember_data);
                 die();
             } else {
 
@@ -217,7 +227,7 @@ class Edition_model extends CI_Model {
                         $edition_user_data["edition_id"]=$edition_id;
                         $this->db->insert('edition_user', $edition_user_data);
                         // update asamember array
-                        if ($edition_asamember_data) {
+                        if (@$edition_asamember_data) {
                             $edition_asamember_data["edition_id"]=$edition_id;
                             $this->db->insert('edition_asa_member', $edition_asamember_data);
                         }

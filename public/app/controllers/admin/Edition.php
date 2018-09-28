@@ -190,13 +190,61 @@ class Edition extends Admin_Controller {
         }
     }
     
-    public function copy($e_id) {
+    public function copy($id) {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
         $this->load->model('asamember_model');
-        wts("hallo world");
-        die();
+        
+        // get data
+        $race_list=$this->race_model->get_race_list(NULL, NULL, $id);
+        $edition_detail=$this->edition_model->get_edition_detail($id);
+        
+        // create new edition data
+        $name=substr($edition_detail['edition_name'], 0, -5);
+        $year=substr($edition_detail['edition_name'], -4);
+        $year++;
+        $edition_data['edition_name']=$name." ".$year;
+        $edition_data['edition_status']=false;
+        $edition_data['edition_date']=date("Y-m-d H:i:s", strtotime("+1 years", strtotime($edition_detail['edition_date'])));;
+        $edition_data['edition_address']=$edition_detail['edition_address'];
+        $edition_data['event_id']=$edition_detail['event_id'];
+        $edition_data['latitude_num']=$edition_detail['latitude_num'];
+        $edition_data['longitude_num']=$edition_detail['longitude_num'];
+        $edition_data['user_id']=$edition_detail['user_id'];
+        $edition_data['edition_asa_member']=$edition_detail['edition_asa_member'];
+        
+        $e_id=$this->edition_model->set_edition("add", NULL, $edition_data, false);
+        
+        // create new races
+        foreach ($race_list as $race) {
+            $race_data['race_distance']=$race['race_distance'];
+            $race_data['race_time_start']=$race['race_time_start'];
+            $race_data['race_status']=$race['race_status'];
+            $race_data['racetype_id']=$race['racetype_id'];
+            $race_data['edition_id']=$e_id;
+            
+            $r_id=$this->race_model->set_race("add", NULL, $race_data, false);
+        }        
+        
+        if ($e_id)
+        {
+            $alert="Edition information has been successfully added";
+            $status="success";
+            $return_url=base_url("admin/edition/create/edit/".$e_id);
+        } else {
+            $alert="Error trying to add <b>".$edition_data['edition_name']."</b> to the database";
+            $status="danger";
+            $return_url=base_url("admin/dashboard");
+        }
+
+        $this->session->set_flashdata([
+            'alert'=>$alert,
+            'status'=>$status,
+            ]);
+        
+        redirect($return_url);
+        die();        
     }
 
     private function upload_logo_file($id, $files, $post) {
