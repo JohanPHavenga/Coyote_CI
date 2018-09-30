@@ -22,7 +22,7 @@ var ComponentsTypeahead = function () {
             templates: {
             empty: [
               '<div class="empty-message">',
-                'unable to find town',
+                'Unable to find town',
               '</div>'
             ].join('\n'),
             suggestion: Handlebars.compile('<div><strong>{{value}}</strong> – {{id}}</div>')

@@ -101,7 +101,7 @@ class Event extends Admin_Controller {
             );
 
         $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
-//        $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
+        $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
         $this->data_to_view['club_dropdown']=$this->club_model->get_club_dropdown();
 
         if ($action=="edit")

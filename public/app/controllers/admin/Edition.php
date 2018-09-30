@@ -205,7 +205,7 @@ class Edition extends Admin_Controller {
         $year=substr($edition_detail['edition_name'], -4);
         $year++;
         $edition_data['edition_name']=$name." ".$year;
-        $edition_data['edition_status']=false;
+        $edition_data['edition_status']=2;
         $edition_data['edition_date']=date("Y-m-d H:i:s", strtotime("+1 years", strtotime($edition_detail['edition_date'])));;
         $edition_data['edition_address']=$edition_detail['edition_address'];
         $edition_data['event_id']=$edition_detail['event_id'];

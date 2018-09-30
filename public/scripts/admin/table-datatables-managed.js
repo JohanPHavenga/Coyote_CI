@@ -348,6 +348,30 @@ var TableDatatablesManaged = function () {
         });
     }
     
+    // Parkruns  
+    var initParkRunsTable = function () {
+        var table = $('#parkruns_table');
+        table.dataTable({
+            "lengthMenu": [
+                [5, 10, 25, -1],
+                [5, 10, 25, "All"] 
+            ],
+            "pageLength": 10
+        });
+    }
+    
+    // Towns  
+    var initTownsTable = function () {
+        var table = $('#towns_table');
+        table.dataTable({
+            "lengthMenu": [
+                [5, 10, 25, -1],
+                [5, 10, 25, "All"] 
+            ],
+            "pageLength": 10
+        });
+    }
+    
     
     // GENERIC list table
     var initListTable = function () {
@@ -377,6 +401,8 @@ var TableDatatablesManaged = function () {
             initClubsTable();
             initSponsorsTable();
             initAsaMembersTable();
+            initParkRunsTable();
+            initTownsTable();
             initListTable();
         }
 

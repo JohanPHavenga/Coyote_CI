@@ -1,13 +1,13 @@
 <?php
-class Club extends Admin_Controller {
+class Parkrun extends Admin_Controller {
 
-    private $return_url="/admin/club";
-    private $create_url="/admin/club/create";
+    private $return_url="/admin/parkrun";
+    private $create_url="/admin/parkrun/create";
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('club_model');
+        $this->load->model('parkrun_model');
     }
 
     public function _remap($method, $params = array())
@@ -27,25 +27,25 @@ class Club extends Admin_Controller {
         $this->load->library('table');
 
         
-        $this->data_to_view["club_data"] = $this->club_model->get_club_list();
-        $this->data_to_view['heading']=["ID","Club Name","Status","Town","Province","Sponsor","Actions"];
+        $this->data_to_view["parkrun_data"] = $this->parkrun_model->get_parkrun_list();
+        $this->data_to_view['heading']=["ID","Name","Status","Town","Area","Contact","Actions"];
         
         $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_header['title'] = "List of Clubs";
+        $this->data_to_header['title'] = "List of Parkruns";
         
         $this->data_to_header['crumbs'] =
                    [
                    "Home"=>"/admin",
-                   "Users"=>"/admin/club",
+                   "Users"=>"/admin/parkrun",
                    "List"=>"",
                    ];
         
         $this->data_to_header['page_action_list']=
                 [
                     [
-                        "name"=>"Add Club",
+                        "name"=>"Add Parkrun",
                         "icon"=>"badge",
-                        "uri"=>"club/create/add",
+                        "uri"=>"parkrun/create/add",
                     ],
                 ];
 
@@ -69,7 +69,7 @@ class Club extends Admin_Controller {
         
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/club/view", $this->data_to_view);
+        $this->load->view("/admin/parkrun/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -77,49 +77,52 @@ class Club extends Admin_Controller {
     public function create($action, $id=0) {
         // additional models
         $this->load->model('town_model');
-        $this->load->model('sponsor_model');
+        $this->load->model('user_model');
 
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_header['title'] = "Club Input Page";
+        $this->data_to_header['title'] = "Parkrun Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
         $this->data_to_header['css_to_load']=array(
-            "plugins/typeahead/typeahead.css"
+            "plugins/typeahead/typeahead.css",
+            "plugins/bootstrap-summernote/summernote.css",
             );
 
         $this->data_to_footer['js_to_load']=array(
             "plugins/typeahead/handlebars.min.js",
             "plugins/typeahead/typeahead.bundle.min.js",
+            "plugins/moment.min.js",
+            "plugins/bootstrap-summernote/summernote.min.js",
             );
 
         $this->data_to_footer['scripts_to_load']=array(
             "scripts/admin/autocomplete.js",
+            "scripts/admin/components-editors.js",
             );
 
 
-        $this->data_to_view['status_dropdown']=$this->club_model->get_status_dropdown();
+        $this->data_to_view['status_dropdown']=$this->parkrun_model->get_status_dropdown();
+        $this->data_to_view['user_dropdown']=$this->user_model->get_user_dropdown();
         $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
-        $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown();
 
         if ($action=="edit")
         {
-            $this->data_to_view['club_detail']=$this->club_model->get_club_detail($id);
+            $this->data_to_view['parkrun_detail']=$this->parkrun_model->get_parkrun_detail($id);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         } else {
-            $this->data_to_view['club_detail']['club_status']=1;
-            $this->data_to_view['club_detail']['sponsor_id']=4;
+            $this->data_to_view['parkrun_detail']['parkrun_status']=1;
         }
 
         // set validation rules
-        $this->form_validation->set_rules('club_name', 'Club Name', 'required');
-        $this->form_validation->set_rules('club_status', 'Club Status', 'required|greater_than[0]',["greater_than"=>"Please select a Status"]);
+        $this->form_validation->set_rules('parkrun_name', 'Parkrun Name', 'required');
         $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Town"]);
-        $this->form_validation->set_rules('sponsor_id', 'Club Sponsor', 'required|greater_than[0]',["greater_than"=>"Please select a Sponsor"]);
+        $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Contact Person"]);
+        $this->form_validation->set_rules('parkrun_url', 'URL', 'valid_url');
 
 
         // load correct view
@@ -135,10 +138,10 @@ class Club extends Admin_Controller {
 //            wts($_REQUEST);
 //            die();
 
-            $id=$this->club_model->set_club($action, $id);
+            $id=$this->parkrun_model->set_parkrun($action, $id);
             if ($id)
             {
-                $alert="Club details has been ".$action."ed";
+                $alert="Parkrun details has been ".$action."ed";
                 $status="success";
             }
             else
@@ -154,7 +157,7 @@ class Club extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
-                $this->return_url=base_url("admin/club/create/edit/".$id);
+                $this->return_url=base_url("admin/parkrun/create/edit/".$id);
             }  
             
             redirect($this->return_url);
@@ -162,28 +165,28 @@ class Club extends Admin_Controller {
     }
 
 
-    public function delete($club_id=0) {
+    public function delete($parkrun_id=0) {
 
-        if (($club_id==0) AND (!is_int($club_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$club_id);
+        if (($parkrun_id==0) AND (!is_int($parkrun_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$parkrun_id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
             die();
         }
 
-        // get club detail for nice delete message
-        $club_detail=$this->club_model->get_club_detail($club_id);
+        // get parkrun detail for nice delete message
+        $parkrun_detail=$this->parkrun_model->get_parkrun_detail($parkrun_id);
         // delete record
-        $db_del=$this->club_model->remove_club($club_id);
+        $db_del=$this->parkrun_model->remove_parkrun($parkrun_id);
         
         if ($db_del)
         {
-            $msg="Club has successfully been deleted: ".$club_detail['club_name'];
+            $msg="Parkrun has successfully been deleted: ".$parkrun_detail['parkrun_name'];
             $status="success";
         }
         else
         {
-            $msg="Error in deleting the record:'.$club_id";
+            $msg="Error in deleting the record:'.$parkrun_id";
             $status="danger";
         }
 

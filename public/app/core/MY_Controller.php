@@ -213,6 +213,13 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "wallet",
                 "seg0" => ['sponsor'],
             ],
+            // Parkruns
+            [
+                "text" => "Parkruns",
+                "url" => 'admin/parkrun',
+                "icon" => "direction",
+                "seg0" => ['parkrun'],
+            ],
             // Static info
             [
                 "text" => "Static Info",
@@ -221,31 +228,31 @@ class Admin_Controller extends MY_Controller {
                 "seg0" => ['role', 'town', 'province'],
                 "submenu" => [
                     [
-                        "text" => "List All Areas",
+                        "text" => "Areas",
                         "url" => 'admin/area/view',
                     ],
                     [
-                        "text" => "List All Roles",
+                        "text" => "Roles",
                         "url" => 'admin/role/view',
                     ],
                     [
-                        "text" => "List All Towns",
-                        "url" => 'admin/town/view',
+                        "text" => "Search Towns",
+                        "url" => 'admin/town/search',
                     ],
                     [
-                        "text" => "List All Provinces",
+                        "text" => "Provinces",
                         "url" => 'admin/province/view',
                     ],
                     [
-                        "text" => "List All Racetypes",
+                        "text" => "Racetypes",
                         "url" => 'admin/racetype/view',
                     ],
                     [
-                        "text" => "List All ASA Members",
+                        "text" => "ASA Members",
                         "url" => 'admin/asamember/view',
                     ],
                     [
-                        "text" => "List All Quotes",
+                        "text" => "Quotes",
                         "url" => 'admin/quote/view',
                     ],
                 ],

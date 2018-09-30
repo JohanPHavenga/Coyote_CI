@@ -28,25 +28,31 @@
                 echo form_label('Status', 'event_status');
                 echo form_dropdown('event_status', $status_dropdown, @$event_detail['event_status'], ["id"=>"event_status","class"=>"form-control"]);        
                 echo "</div>";
-
+                
                 //  TOWN
                 echo "<div class='form-group'>";
-                echo form_label('Town', 'town_name');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>';
-                echo '<span class="twitter-typeahead" style="position: relative; display: inline-block;">';
-                echo form_input([
-                        'id'            => 'town_name',
-                        'name'          => 'town_name',
-                        'value'         => set_value('club_name', @$event_detail['town_name']),
-                        'class'         => 'form-control',
-                    ]);
-                echo form_input([
-                        'name'          => 'town_id',
-                        'id'            => 'town_id',
-                        'type'          => 'hidden',
-                        'value'         => set_value('club_name', @$event_detail['town_id']),
-                    ]);
-                echo "</span></div></div>";
+                echo form_label('Town <span class="compulsary">*</span>', 'user_id');
+                echo form_dropdown('town_id', $town_dropdown, @$event_detail['town_id'], ["id" => "town_id", "class" => "form-control"]);
+                echo "</div>";
+                
+                //  TOWN
+//                echo "<div class='form-group'>";
+//                echo form_label('Town', 'town_name');
+//                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span>';
+//                echo '<span class="twitter-typeahead" style="position: relative; display: inline-block;">';
+//                echo form_input([
+//                        'id'            => 'town_name',
+//                        'name'          => 'town_name',
+//                        'value'         => set_value('club_name', @$event_detail['town_name']),
+//                        'class'         => 'form-control',
+//                    ]);
+//                echo form_input([
+//                        'name'          => 'town_id',
+//                        'id'            => 'town_id',
+//                        'type'          => 'hidden',
+//                        'value'         => set_value('club_name', @$event_detail['town_id']),
+//                    ]);
+//                echo "</span></div></div>";
                 
                 //  CLUB
                 echo "<div class='form-group'>";
