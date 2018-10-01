@@ -1,5 +1,3 @@
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
 <!-- BEGIN: PAGE CONTAINER -->
 <div class="c-layout-page">
     <?= $title_bar; ?>
@@ -41,63 +39,58 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="c-container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="c-content-title-1">
-                            <!-- Calendar Page Display Ad Only -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-8912238222537097"
-                                 data-ad-slot="2234707964"
-                                 data-ad-format="auto"></ins>
-                            <script>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="c-content-title-1">
+                                <!-- Past Events -->
+                                <ins class="adsbygoogle"
+                                     style="display:block"
+                                     data-ad-client="ca-pub-8912238222537097"
+                                     data-ad-slot="8519859058"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                                <script>
                                 (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
+                                </script>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="c-container">
-                <div class="row">
-                    <div class="col-md-12">
+            <div class="c-content-box c-size-sm c-no-bottom-padding c-overflow-hide">
+                <div class="c-container">
+                    <div class="row">
                         <div class="col-md-12">
                             <?= $past_race_list_html; ?>
                         </div>
                     </div>
+
                 </div>
             </div>
 
-
-
-            <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide" style="padding: 8px 0;">
+            <div class="c-content-box c-size-sm c-no-bottom-padding c-overflow-hide">
                 <div class="c-container">
                     <div class="row">
                         <div class="col-md-12">
-
                             <div class="c-content-title-1">
-
-                                <!-- Calendar Page Display Ad Only -->
+                                <!-- Past Events -->
                                 <ins class="adsbygoogle"
                                      style="display:block"
                                      data-ad-client="ca-pub-8912238222537097"
-                                     data-ad-slot="2234707964"
-                                     data-ad-format="auto"></ins>
+                                     data-ad-slot="8519859058"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
                                 <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                (adsbygoogle = window.adsbygoogle || []).push({});
                                 </script>
-
                             </div>                            
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="c-content-box c-size-md c-no-bottom-padding c-overflow-hide" >
+            <div class="c-content-box c-size-sm c-no-bottom-padding c-overflow-hide" >
                 <div class="c-container">
                     <div class="row">
                         <div class="col-md-12">
@@ -111,9 +104,8 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- END: CONTENT/FEATURES/FEATURES-1 -->
-
-        <!-- END: PAGE CONTENT -->
     </div>
     <!-- END: PAGE CONTAINER -->

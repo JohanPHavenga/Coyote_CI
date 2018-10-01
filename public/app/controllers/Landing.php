@@ -5,7 +5,7 @@ class Landing extends Frontend_Controller {
     {
         parent::__construct();
         $this->load->model('event_model');
-        $this->data_to_header['section']="landing";
+        $this->data_to_header['section']="events";
     }
 
     // check if method exists, if not calls "page" method
@@ -53,7 +53,7 @@ class Landing extends Frontend_Controller {
         $this->data_to_view["title_bar"]=$this->render_topbar_html(
             [
                 "title"=>$this->data_to_header['title'],
-                "sub_title" => "List of upcoming road running events in and around ".ucwords($area_name)."",
+                "sub_title" => $this->data_to_header['meta_description'],
                 "crumbs"=>$crumbs,
             ]);
 

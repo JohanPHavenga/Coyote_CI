@@ -5,7 +5,6 @@ class Calendar extends Frontend_Controller {
     {
         parent::__construct();
         $this->load->model('event_model');
-        $this->data_to_header['section']="events";
     }
 
     // check if method exists, if not calls "view" method
@@ -26,6 +25,7 @@ class Calendar extends Frontend_Controller {
     {
         // load helpers / libraries
         $this->load->library('table');
+        $this->data_to_header['section']="events";
 
         $this->data_to_header['title']="Running Events Calendar";
         $this->data_to_header['meta_description']="List of upcoming road running race events";
@@ -53,6 +53,7 @@ class Calendar extends Frontend_Controller {
     {
         // load helpers / libraries
         $this->load->library('table');
+        $this->data_to_header['section']="results";
 
         $this->data_to_header['title']="Reuslts Calendar";
         $this->data_to_header['meta_description']="List of results for running races";
