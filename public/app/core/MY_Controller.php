@@ -324,6 +324,12 @@ class Frontend_Controller extends MY_Controller {
                 "text" => "Results",
                 "url" => base_url('/calendar/results'),
                 "section" => 'results',
+            ],            
+            // Parkruns
+            [
+                "text" => "Parkrun",
+                "url" => base_url('/parkrun/calendar'),
+                "section" => 'parkrun',
             ],
             // Events
             [

@@ -17,6 +17,14 @@ if ( ! function_exists('wts'))
     function encode_edition_name($edition_name) {
         return urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$edition_name)))));
     }
+    
+    function get_url_from_parkrun_name($encoded_parkrun_name) {
+        return base_url("parkrun/".$encoded_parkrun_name);
+    }
+    
+    function encode_parkrun_name($parkrun_name) {
+        return urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$parkrun_name)))));
+    }
 }
 
     

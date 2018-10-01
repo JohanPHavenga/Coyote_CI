@@ -17,9 +17,11 @@
                                 <li>
                                     <a href="/calendar">Upcoming Events</a>
                                 </li>
-                                </li>
                                 <li>
                                     <a href="/calendar/results"> Results</a>
+                                </li>
+                                <li>
+                                    <a href="/parkrun/calendar"> Parkrun</a>
                                 </li>
                                 <li>
                                     <a href="/#contact">Contact Us</a>
