@@ -1,6 +1,11 @@
 <?php
-
 Class Seo extends CI_Controller {
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('area_model');
+    }
 
     function sitemap()
     {
@@ -10,8 +15,9 @@ Class Seo extends CI_Controller {
         $upcoming_older_url_list=$this->event_model->get_event_list_sitemap(['upcoming_older'=>1]);
         $results_url_list=$this->event_model->get_event_list_sitemap(['results'=>1]);
         $old_url_list=$this->event_model->get_event_list_sitemap(['old'=>1]);
+        $area_list=$this->area_model->get_area_list();
         
-//        wts($old_url_list);
+//        wts($area_list);
 //        die();
         
         $data["pages"]=[];
@@ -19,19 +25,17 @@ Class Seo extends CI_Controller {
         // high level pages
         $data["pages_high"]=[
             ["url"=>"","change_freq"=>"weekly","priority"=>"1"],
-            ["url"=>"event","change_freq"=>"weekly","priority"=>"0.9"],
-            ["url"=>"event/calendar","change_freq"=>"weekly","priority"=>"0.9"],
+            ["url"=>"calendar","change_freq"=>"weekly","priority"=>"1"],
             ];
         $data["pages"]=array_merge_recursive($data['pages'],$data['pages_high']);
         
         // area pages
-        $data["pages_area"]=[
-            ["url"=>"capetown","change_freq"=>"weekly","priority"=>"0.8"],
-            ["url"=>"gardenroute","change_freq"=>"weekly","priority"=>"0.8"],
-            ["url"=>"westcoast","change_freq"=>"weekly","priority"=>"0.8"],
-            ["url"=>"winelands","change_freq"=>"weekly","priority"=>"0.8"],
-            ["url"=>"overberg","change_freq"=>"weekly","priority"=>"0.8"],
-            ];        
+        foreach ($area_list as $area_id=>$area) {
+            $url= strtolower(str_replace(" ", "", $area['area_name']));
+            $data['pages_area'][$area_id]['url']=$url;
+            $data['pages_area'][$area_id]['change_freq']="weekly";
+            $data['pages_area'][$area_id]['priority']="0.8";
+        }       
         $data["pages"]=array_merge_recursive($data['pages'],$data['pages_area']);
         
         // confirmed races

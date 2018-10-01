@@ -66,7 +66,9 @@ $route['about'] = 'pages/about';
 $route['mailer'] = 'pages/mailer';
 $route['404'] = 'pages/my_404';
 $route['search'] = 'pages/search';
-$route['events'] = 'event/calendar';
+$route['event/calendar'] = 'calendar';
+$route['events'] = 'calendar';
+//$route['calendar'] = 'calendar/list';
 
 // redirect
 $route['capetown'] = 'landing/cape+town';
@@ -83,7 +85,10 @@ $route['gardenroute'] = 'landing/garden+route';
 $route['GardenRoute'] = 'landing/garden+route';
 $route['kleinkaroo'] = 'landing/klein+karoo';
 $route['KleinKaroo'] = 'landing/klein+karoo';
+$route['centralkaroo'] = 'landing/central+karoo';
+$route['CentralKaroo'] = 'landing/central+karoo';
 
-$route['content-overview'] = 'event/calendar';
+$route['content-overview'] = 'calendar';
 
 $route['seo/sitemap\.xml'] = "seo/sitemap";
+$route['seo'] = 'seo/sitemap';

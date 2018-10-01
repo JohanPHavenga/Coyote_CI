@@ -294,9 +294,9 @@ class Frontend_Controller extends MY_Controller {
     function __construct() {
         parent::__construct();
 
-        if (!isset($_SESSION['area_list'])) {
+//        if (!isset($_SESSION['area_list'])) {
             $_SESSION['area_list'] = $this->get_area_list();
-        }
+//        }
 
         // Load shared resources here or in autoload.php
         $this->crumbs_arr = $this->set_crumbs();
@@ -316,8 +316,14 @@ class Frontend_Controller extends MY_Controller {
             // Events
             [
                 "text" => "Events",
-                "url" => base_url('/event/calendar'),
+                "url" => base_url('/calendar'),
                 "section" => 'events',
+            ],
+            // Results
+            [
+                "text" => "Results",
+                "url" => base_url('/calendar/results'),
+                "section" => 'results',
             ],
             // Events
             [
@@ -343,7 +349,7 @@ class Frontend_Controller extends MY_Controller {
             }
 
             // make controller prural
-            if ($x == 1) {
+            if (($x == 1) && ($segs[$x]=="event")) {
                 $segs[$x] = $segs[$x] . "s";
             }
 
@@ -676,8 +682,8 @@ class Frontend_Controller extends MY_Controller {
     }
 
     function get_area_list() {
-        $this->load->model('event_model');
-        $area_list = $this->event_model->get_area_list();
+        $this->load->model('area_model');
+        $area_list = $this->area_model->get_area_list();
         return $area_list;
     }
 

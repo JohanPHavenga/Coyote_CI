@@ -24,7 +24,7 @@ class Landing extends Frontend_Controller {
 
     public function page($area) {
         // as daar nie 'n edition_name deurgestuur word nie
-        if ($area=="index") { redirect("/event/calendar");  }
+        if ($area=="index") { redirect("/calendar");  }
         $area_name=urldecode($area);
 
         $race_list=[];

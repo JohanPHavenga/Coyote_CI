@@ -10,9 +10,7 @@ class Area_model extends CI_Model {
             return $this->db->count_all("areas");
         }
         
-        public function get_area_list($limit, $start)
-        {
-            $this->db->limit($limit, $start);    
+        public function get_area_list()        {
             
             $this->db->select("areas.*");
             $this->db->from("areas");

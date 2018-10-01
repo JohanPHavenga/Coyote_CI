@@ -15,7 +15,11 @@
                                     <a href="/">Home</a>
                                 </li>
                                 <li>
-                                    <a href="/event/calendar">List All Events</a>
+                                    <a href="/calendar">Upcoming Events</a>
+                                </li>
+                                </li>
+                                <li>
+                                    <a href="/calendar/results"> Results</a>
                                 </li>
                                 <li>
                                     <a href="/#contact">Contact Us</a>
@@ -36,7 +40,7 @@
                             <ul class="c-links c-theme-ul">
                                 <?php
                                     foreach ($area_list as $area_id=>$area) {
-                                        echo "<li><a href='".base_url().str_replace(" ","",$area['name'])."'>".$area['name']."</a></li>";
+                                        echo "<li><a href='".base_url().str_replace(" ","",$area['area_name'])."'>".$area['area_name']."</a></li>";
                                     }
                                  ?>
                             </ul>
