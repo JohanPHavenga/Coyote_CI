@@ -68,6 +68,7 @@ $route['404'] = 'pages/my_404';
 $route['search'] = 'pages/search';
 $route['event/calendar'] = 'calendar';
 $route['events'] = 'calendar';
+$route['event'] = 'calendar';
 //$route['calendar'] = 'calendar/list';
 
 // redirect

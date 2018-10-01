@@ -40,7 +40,7 @@
                             <ul class="c-links c-theme-ul">
                                 <?php
                                     foreach ($area_list as $area_id=>$area) {
-                                        echo "<li><a href='".base_url().str_replace(" ","",$area['area_name'])."'>".$area['area_name']."</a></li>";
+                                        echo "<li><a href='".base_url().str_replace(" ","",strtolower($area['area_name']))."'>".$area['area_name']."</a></li>";
                                     }
                                  ?>
                             </ul>

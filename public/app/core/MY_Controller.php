@@ -348,9 +348,10 @@ class Frontend_Controller extends MY_Controller {
                 $crumb_uri .= "/" . $segs[$x];
             }
 
-            // make controller prural
+            // make controller prural for event and overwrite URI
             if (($x == 1) && ($segs[$x]=="event")) {
                 $segs[$x] = $segs[$x] . "s";
+                $crumb_uri = "/calendar";
             }
 
             // if ($segs[$x]=="admin") { $segs[$x]="home"; }
