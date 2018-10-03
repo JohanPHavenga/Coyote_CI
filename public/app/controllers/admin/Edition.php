@@ -8,6 +8,7 @@ class Edition extends Admin_Controller {
     {
         parent::__construct();
         $this->load->model('edition_model');
+        $this->load->model('file_model');
     }
 
     public function _remap($method, $params = array())
@@ -22,6 +23,7 @@ class Edition extends Admin_Controller {
         }
     }
 
+    // LIST VIEW
     public function view() {        
         // load helpers / libraries
         $this->load->library('table');
@@ -74,6 +76,7 @@ class Edition extends Admin_Controller {
     }
 
 
+    // THE BIG CREATE METHOD - ADD and EDIT
     public function create($action, $id=0) {
         // additional models
         $this->load->model('sponsor_model');
@@ -119,12 +122,14 @@ class Edition extends Admin_Controller {
         $this->data_to_view['sponsor_dropdown']=$this->sponsor_model->get_sponsor_dropdown();
         $this->data_to_view['event_dropdown']=$this->event_model->get_event_dropdown();
         $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
+        
         $this->data_to_view['asamember_list']=$this->asamember_model->get_asamember_list(true);
 
         if ($action=="edit")
         {            
             $this->data_to_view['race_list']=$this->race_model->get_race_list(NULL, NULL, $id);
             $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
+            $this->data_to_view['file_list']=$this->file_model->get_file_list("edition_id",$id);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
             // set edition_return_url for races
             $this->session->set_userdata('edition_return_url', "/".uri_string());     
@@ -155,22 +160,67 @@ class Edition extends Admin_Controller {
             $this->load->view($this->footer_url, $this->data_to_footer);
         }
         else
-        {                
+        {
+//            wts($_FILES);
+//            wts($this->input->post());
+//            die();
             $id=$this->edition_model->set_edition($action, $id, [], false);
             if ($id)
-            {             
-//                wts($_FILES);
-//                wts($_POST);
-//                die();                
-                $return=$this->upload_logo_file($id, $_FILES, $_POST);     
+            {
+                $alert=$this->input->post('edition_name')." has been successfully ".$action."ed";
+                $status="success";
                 
-                // site filename in DB
-                if (isset($return['filename'])) {
-                    $id=$this->edition_model->set_edition("edit", $id, ["edition_logo"=>$return['filename']], false);
+                // ================================================================================
+                // LOGO UPLOAD
+                if ($_FILES['edition_logo_upload']) {
+                    if ($_FILES['edition_logo_upload']['error']==4) {
+                        // no file upload attempted
+                        $logo_upload['success']=false;
+                    } else {
+                        $ul_params=[
+                            "edition_id"=>$id,
+                            "field"=>'edition_logo_upload',
+                            "allowed_types"=>'jpg|gif|png|jpeg',
+                            "max_size"=>'2048',
+                        ];
+                        $logo_upload=$this->upload_file($ul_params);   
+
+                        // if all went well, write info to db | 1 = logo file
+                        if ($logo_upload['success']) { 
+                            $file_db_w=$this->set_file($logo_upload['data'],1,$id); 
+                        } else {
+                            $alert=$logo_upload['alert_text'];
+                            $status=$logo_upload['alert_status'];
+                        }
+                    }
                 }
                 
-                $alert=$return['alert_text'];
-                $status=$return['alert_status'];
+                
+                // ================================================================================
+                // FLYER UPLOAD
+                if ($_FILES['edition_flyer_upload']) {
+                    if ($_FILES['edition_flyer_upload']['error']==4) {
+                        // no file upload attempted
+                        $flyer_upload=true;
+                    } else {
+                        $ul_params=[
+                            "edition_id"=>$id,
+                            "field"=>'edition_flyer_upload',
+                            "allowed_types"=>'pdf',
+                            "max_size"=>'10240',
+                        ];
+                        $flyer_upload=$this->upload_file($ul_params);   
+
+                        // if all went well, write info to db | 2= flyer
+                        if ($flyer_upload['success']) { 
+                            $file_db_w=$this->set_file($flyer_upload['data'],2,$id);                    
+                        } else {
+                            $alert=$flyer_upload['alert_text'];
+                            $status=$flyer_upload['alert_status'];
+                        }
+                    }
+                }
+                
             } else {
                 $alert="Error committing to the database";
                 $status="danger";
@@ -190,6 +240,161 @@ class Edition extends Admin_Controller {
         }
     }
     
+    private function upload_file($params) {  
+        $file_data=$_FILES[$params['field']];        
+        // set default return
+        $return['success']=false; 
+        $return['alert_status']="warning"; 
+        $return['alert_text']="Error uploading a file: ".$file_data['name'];
+        
+        // check folder
+        $upload_path=$this->check_upload_folder($params['edition_id']);
+        
+        // set upload config
+        $config['upload_path']    = $upload_path;
+        $config['allowed_types']  = $params['allowed_types'];
+        $config['max_size']       = $params['max_size'];
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload($params['field']))
+        {
+            $error=array('error' => $this->upload->display_errors());   
+            $return['alert_text']="Issue uploading a file: ".strip_tags($error['error']); 
+        }
+        else
+        {
+            $return['success']=true;
+            $return['data'] = $this->upload->data();
+            $return['filename']=$file_data['name'];
+            $return['alert_text']="File has been uploaded";
+            $return['alert_status']="success";
+        }
+        return $return;
+    }
+    
+    // WRITE FILE DETAILS TO DB    
+    private function set_file($file_data, $filetype_id, $edition_id) {
+        $params=[
+            "id_type"=>"edition_id",
+            "id"=>$edition_id,
+            "filetype_id"=>$filetype_id,
+            "data"=>$file_data,
+            "debug"=>true,
+        ];
+        $id=$this->file_model->set_file($params);
+        
+    }
+    
+    public function remove_file($edition_id,$file_id) {
+
+        // get file detail for nice delete message
+        $file_detail=$this->file_model->get_file_detail($file_id);
+        $file_path="./uploads/edition/".$edition_id."/".$file_detail['file_name'];
+        // delete record
+        $db_del=$this->file_model->remove_file($file_id,$file_path);
+        
+        if ($db_del)
+        {
+            $msg="File has successfully been removed: ".$file_detail['file_name'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$file_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect("/admin/edition/create/edit/".$edition_id);
+        
+    }
+    
+    //CHECK AND CREATE UPLOAD FOLDER
+    private function check_upload_folder($id) {
+        $upload_path = "./uploads/edition/".$id;
+        if (!file_exists($upload_path)) {
+            if (!mkdir($upload_path, 0777, true)) {
+                return false;
+            }
+        }
+        return $upload_path;
+    }
+
+    // OLD UPLOAD FILE
+//    private function upload_logo_file($id, $files, $post) {
+//                
+//        $return['alert_text']="Edition information has been updated";
+//        $return['alert_status']="success";
+//        
+//        if (empty($files['edition_logo_upload']['name'])) {
+//            return $return;
+//        }
+//        
+//        $config['upload_path']    = "./uploads/admin/edition/".$id;
+//        if (!file_exists($config['upload_path'])) {
+//            if (!mkdir($config['upload_path'], 0777, true)) {
+//                die('Failed to create folders...');
+//            }
+////            echo "The directory ".$config['upload_path']." was successfully created.";
+//        } else {
+////            echo "The directory ".$config['upload_path']." exists.";
+//        }
+//        
+//        $config['allowed_types']  = 'jpg|gif|png';
+//        $config['max_size']       = 2048;
+//        $this->upload->initialize($config);
+//
+//        if ( ! $this->upload->do_upload('edition_logo_upload'))
+//        {
+//            $error = array('error' => $this->upload->display_errors());            
+//            $return['alert_text']="Issue uploading the logo file: ".strip_tags($error['error']);
+//            $return['alert_status']="danger";
+//        }
+//        else
+//        {
+//            $data = $this->upload->data();
+//            $return['filename']=$data['file_name'];
+//        }
+//        
+//        return $return;
+//    }
+    
+    
+    // DELETE EDITION
+    public function delete($edition_id=0) {
+
+
+        if (($edition_id==0) AND (!is_int($edition_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: '.$edition_id);
+            $this->session->set_flashdata('status', 'danger');
+            redirect($this->return_url);
+            die();
+        }
+
+        // get edition detail for nice delete message
+        $edition_detail=$this->edition_model->get_edition_detail($edition_id);
+        // delete record
+        $db_del=$this->edition_model->remove_edition($edition_id);
+        
+        if ($db_del)
+        {
+            $msg="Edition has successfully been deleted: ".$edition_detail['edition_name'];
+            $status="success";
+        }
+        else
+        {
+            $msg="Error in deleting the record:'.$edition_id";
+            $status="danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
+    
+    
+    // MAKE A COPY OF AN OLD EDITION
     public function copy($id) {
         $this->load->model('user_model');
         $this->load->model('event_model');
@@ -245,78 +450,6 @@ class Edition extends Admin_Controller {
         
         redirect($return_url);
         die();        
-    }
-
-    private function upload_logo_file($id, $files, $post) {
-                
-        $return['alert_text']="Edition information has been updated";
-        $return['alert_status']="success";        
-        
-        if (empty($files['edition_logo_upload']['name'])) {
-            return $return;
-        }
-        
-        $config['upload_path']    = "./uploads/admin/edition/".$id;        
-        if (!file_exists($config['upload_path'])) {
-            if (!mkdir($config['upload_path'], 0777, true)) {
-                die('Failed to create folders...');
-            }            
-//            echo "The directory ".$config['upload_path']." was successfully created.";
-        } else {
-//            echo "The directory ".$config['upload_path']." exists.";
-        }
-        
-        $config['allowed_types']  = 'jpg|gif|png';
-        $config['max_size']       = 2048;
-        $this->upload->initialize($config);
-
-        if ( ! $this->upload->do_upload('edition_logo_upload'))
-        {
-            $error = array('error' => $this->upload->display_errors());            
-            $return['alert_text']="Issue uploading the logo file: ".strip_tags($error['error']);
-            $return['alert_status']="danger";
-        }
-        else
-        {
-            $data = $this->upload->data();
-            $return['filename']=$data['file_name'];
-        }
-        
-        return $return;
-    }
-    
-    
-    public function delete($edition_id=0) {
-        
-//        echo $edition_id;
-//        exit();
-
-        if (($edition_id==0) AND (!is_int($edition_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$edition_id);
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-
-        // get edition detail for nice delete message
-        $edition_detail=$this->edition_model->get_edition_detail($edition_id);
-        // delete record
-        $db_del=$this->edition_model->remove_edition($edition_id);
-        
-        if ($db_del)
-        {
-            $msg="Edition has successfully been deleted: ".$edition_detail['edition_name'];
-            $status="success";
-        }
-        else
-        {
-            $msg="Error in deleting the record:'.$edition_id";
-            $status="danger";
-        }
-
-        $this->session->set_flashdata('alert', $msg);
-        $this->session->set_flashdata('status', $status);
-        redirect($this->return_url);
     }
 
 

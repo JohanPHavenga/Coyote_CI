@@ -35,7 +35,8 @@
                         }
                     
                         // BUTTONS
-                        $button_class="btn btn-md c-btn-border-2x c-btn-square c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
+                        $button_class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
+                        echo '<div class="btn-group">';
                         // ENTRY
                         if ($event_detail['edition_url_entry']) {
                             echo '<a href="'.$event_detail['edition_url_entry'].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
@@ -45,23 +46,38 @@
                             echo '<a href="'.$event_detail['edition_url'].'" target="_blank" class="'.$button_class.'">More Info</a>';  
                         }
                         // FLYER
-                        if ($event_detail['edition_url_flyer']) {
+                        if (@$event_detail['file_list'][2]) {
+                            $file_url=base_url("download/file/edition/".$event_detail['edition_id']."/".$event_detail['file_list'][2][0]['file_name']);
+                            echo "<a href='$file_url' class='".$button_class."'>Event Flyer</a>";
+
+                        // =================================
+                        // #toberemoved
+                        // =================================
+                        } elseif ($event_detail['edition_url_flyer']) {
                             echo '<a href="'.$event_detail['edition_url_flyer'].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                            
                         }
                         // RESULTS
                         if ($event_detail['edition_url_results']) {
                             echo '<a href="'.$event_detail['edition_url_results'].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
                         }
+                        echo "</div>";
                      ?>
                     <!-- End-->
                     
                 </div>
                 <div class="col-md-5 edition-logo">
                     <?php
-                        if (strlen($event_detail['edition_logo'])>3) {
-                            $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);
-                            echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
-                        }
+                    if (@$event_detail['file_list'][1]) {
+                        $img_url=base_url("uploads/edition/".$event_detail['edition_id']."/".$event_detail['file_list'][1][0]['file_name']);
+                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
+                        
+                    // =================================
+                    // #toberemoved                      
+                    // =================================
+                    } elseif (strlen($event_detail['edition_logo'])>3) {
+                        $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);
+                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
+                    }
                     ?>
                 </div>
             </div>

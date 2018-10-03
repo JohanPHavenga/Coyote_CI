@@ -236,49 +236,17 @@ echo form_open_multipart($form_url);
                         echo "</div></div>";
                     echo "</div>";
                 
-                //  Logo
-                echo "<div class='row'>";
-                    echo "<div class='col-md-6'>";
-                        echo "<div class='form-group'>";
-                            echo form_label('Edition Logo Upload', 'edition_logo_upload');
-                            echo form_input([
-                                    'name'          => 'edition_logo_upload',
-                                    'id'            => 'edition_logo_upload',
-                                    'type'          => 'file',
-                                    'multiple'      => '',
-                                    'accept'        => 'image/*',
-                                ]);
-                        echo "</div>";                        
-
-                    if (($action=="edit")&&(strlen($edition_detail['edition_logo'])>3)) {                               
-                        echo "<div class='form-group'>";
-                            echo form_label('Edition Logo Current File', 'edition_logo_upload');
-                            echo form_input([
-                                'name'          => 'edition_logo',
-                                'id'            => 'edition_logo',
-                                'value'         => set_value('edition_logo', @$edition_detail['edition_logo']),
-                                'class'         => 'form-control',
-                            ]);
-                        echo "</div>";
-                    }
-
-                    echo "</div>";
-//                        echo form_input([
-//                                'name'          => 'edition_logo',
-//                                'id'            => 'edition_logo',
-//                                'value'         => @$edition_detail['edition_logo'],
-//                                'type'         => 'hidden',
-//                            ]);
-
-                    if (($action=="edit")&&(strlen($edition_detail['edition_logo'])>3)) {    
-                        $img_url=base_url("uploads/admin/edition/".$edition_detail['edition_id']."/".$edition_detail['edition_logo']);
-                        echo "<div class='col-md-6'>";
-                        echo "<img src='$img_url' style='width: 300px;'>";
-                        echo "</div>";
-                    }                        
-                echo "</div>";
-                echo "</div>";  
                 ?>
+            </div>
+            <div class="portlet-footer">
+                <?php
+                 //  BUTTONS
+                echo "<div class='btn-group pull-right'>";
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo "</div>";
+                ?>
+            </div>
+            
             </div>
         </div>
     </div>
@@ -286,6 +254,7 @@ echo form_open_multipart($form_url);
     
     
     
+    <!-- MORE INFO -->
     <div class="col-md-6">
         <div class="portlet light">
             <div class="portlet-title">
@@ -330,11 +299,124 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 ?>
                 
+            </div> <!-- portlet-body -->    
+            <div class="portlet-footer">
+                <?php
+                 //  BUTTONS
+                echo "<div class='btn-group pull-right'>";
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo "</div>";
+                ?>
             </div>
-        </div>
-    </div>
+        </div> <!-- portlet -->  
+    </div> <!-- col -->  
+</div> <!-- row-body --> 
+
+<!-- UPLOADS -->
+<div class="row">
+    <!-- LOGO -->
+    <div class="col-md-6">    
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-edit font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">Logo Upload</span>
+                </div>
+            </div>
+            <div class="portlet-body">  
+                <?php
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-6'>";
+                            // LOGO
+                            if (($action == "edit") && (@$file_list[1])) {
+                                $img_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list[1][0]['file_name']);
+                                echo "<div class='col-md-6'>";
+                                    echo "<p><img src='$img_url' style='width: 300px;'></p>";
+                                    echo "<div class='btn-group'>";
+                                    echo "<a href='/admin/edition/remove_file/".$edition_detail['edition_id']."/".$file_list[1][0]['file_id']."' class='btn btn-danger btn-sm'>Remove Logo</a>";
+                                    echo "</div>";
+                                echo "</div>";
+                            } else {
+                                echo form_label('Event Logo', 'edition_logo_upload');
+                                echo form_input([
+                                    'name' => 'edition_logo_upload',
+                                    'id' => 'edition_logo_upload',
+                                    'type' => 'file',
+                                    'multiple' => '',
+                                    'accept' => 'image/*',
+                                ]);
+                            }
+                            echo "</div>";   
+                                   
+                    echo "</div>";
+                echo "</div>";  
+                ?>
+            </div> <!-- portlet-body -->   
+            
+            <div class="portlet-footer">
+                <?php
+                 //  BUTTONS
+                echo "<div class='btn-group pull-right'>";
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo "</div>";
+                ?>
+            </div>
+        </div> <!-- portlet -->  
+    </div> <!-- col -->  
     
-</div>
+    <!-- FLYER -->
+    <div class="col-md-6">    
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-edit font-dark"></i>
+                    <span class="caption-subject font-dark bold uppercase">Flyer Upload</span>
+                </div>
+            </div>
+            <div class="portlet-body">  
+                <?php
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                    
+                        echo "<div class='col-md-6'>";
+                            // FLYER
+                            if (($action=="edit")&&(@$file_list[2])) {    
+                                $file_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list[2][0]['file_name']);                            
+                                echo "<p><a href='$file_url'>".$file_list[2][0]['file_name']."</a></p>";
+                                echo "<div class='btn-group'>";
+                                echo "<a href='/admin/edition/remove_file/".$edition_detail['edition_id']."/".$file_list[2][0]['file_id']."' class='btn btn-danger btn-sm'>Remove File</a>";
+                                echo "</div>";
+                            } else {
+                                echo form_label('Flyer', 'edition_flyer_upload');
+                                echo form_input([
+                                    'name'          => 'edition_flyer_upload',
+                                    'id'            => 'edition_flyer_upload',
+                                    'type'          => 'file',
+                                    'multiple'      => '',
+                                    'accept'        => '.pdf',
+                                ]);
+                            }                            
+                        echo "</div>";   
+
+                                   
+                    echo "</div>";
+                echo "</div>";                  
+                ?>
+            </div> <!-- portlet-body -->     
+            <div class="portlet-footer">
+                <?php
+                 //  BUTTONS
+                echo "<div class='btn-group pull-right'>";
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo "</div>";
+                ?>
+            </div>
+        </div> <!-- portlet -->  
+    </div> <!-- col -->  
+    
+    
+</div> <!-- row-body -->  
 
 <!-- ADD RACES -->
 <div class="row">
@@ -346,7 +428,7 @@ echo form_open_multipart($form_url);
                     <span class="caption-subject font-dark bold uppercase">Races</span>
                 </div>
             </div>
-            <div class="portlet-body">  
+            <div class="portlet-body">
                 <?php
                 // RACES
                 if ( ! (empty($race_list)))
@@ -398,60 +480,62 @@ echo form_open_multipart($form_url);
                 }
 
                 // add button
-                echo fbuttonLink("/admin/race/create/add/".@$edition_detail['edition_id'],"Add Race","primary");
+                echo "<div class='btn-group'>";
+                echo fbuttonLink("/admin/race/create/add/".@$edition_detail['edition_id'],"Add Race","default");
+                echo "</div>";
                 ?>
             </div>
         </div>
-        <div class="portlet light">        
+    </div> <!-- col -->
+    
+    <div class="col-md-6">   
+        <div class="portlet light">   
+            
             <div class="portlet-body">            
                 <?php
                  //  BUTTONS
-                echo "<div class='btn-group'>";
+                echo "<div class='btn-group' style='padding-bottom: 20px;'>";
                 echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
                 echo fbutton($text="Save & Close",$type="submit",$status="success");
                 echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
                 ?>
             </div>
-        </div>
-    </div>
-     <?php
-        if ($action=="edit") {   
-    ?>
-    <div class="col-md-6">
-        <div class="portlet light">
-            <?php
-            echo "<div class='form-group'>";
-                echo "<div class='row'>";
+            <div class="portlet-footer">
+                <?php
+                if ($action=="edit") {   
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
                     echo "<div class='col-md-6'>";
                     echo form_label('Date Created', 'created_date');
                     echo form_input([
-                            'value'         => set_value('created_date', @$edition_detail['created_date']),
-                            'class'         => 'form-control input-medium',
-                            'disabled'      => ''
-                        ]);
+                        'value' => set_value('created_date', @$edition_detail['created_date']),
+                        'class' => 'form-control input-medium',
+                        'disabled' => ''
+                    ]);
                     echo "</div>";
                     echo "<div class='col-md-6'>";
                     echo form_label('Date Updated', 'updated_date');
                     echo form_input([
-                            'value'         => set_value('updated_date', @$edition_detail['updated_date']),
-                            'class'         => 'form-control input-medium',
-                            'disabled'      => ''
-                        ]);
+                        'value' => set_value('updated_date', @$edition_detail['updated_date']),
+                        'class' => 'form-control input-medium',
+                        'disabled' => ''
+                    ]);
 
                     echo "</div>";
+                    echo "</div>";
                 echo "</div>";
-             echo "</div>";
-            ?>
+                }
+                ?>
+                
+            </div>
         </div>
     </div>
-    <?php
-        }
-    ?>
-</div>
+</div> <!-- row -->
+
 
 <?php
 echo form_close();
 
-//wts(@$edition_detail);
+//wts(@$file_list);
 ?>

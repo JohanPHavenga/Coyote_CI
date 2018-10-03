@@ -26,6 +26,8 @@ Class Seo extends CI_Controller {
         $data["pages_high"]=[
             ["url"=>"","change_freq"=>"weekly","priority"=>"1"],
             ["url"=>"calendar","change_freq"=>"weekly","priority"=>"1"],
+            ["url"=>"calendar/results","change_freq"=>"weekly","priority"=>"1"],
+            ["url"=>"parkrun/calendar","change_freq"=>"monthly","priority"=>"1"],
             ];
         $data["pages"]=array_merge_recursive($data['pages'],$data['pages_high']);
         

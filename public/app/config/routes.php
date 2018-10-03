@@ -69,6 +69,7 @@ $route['search'] = 'pages/search';
 $route['event/calendar'] = 'calendar';
 $route['events'] = 'calendar';
 $route['event'] = 'calendar';
+$route['parkrun'] = 'parkrun/calendar';
 //$route['calendar'] = 'calendar/list';
 
 // redirect

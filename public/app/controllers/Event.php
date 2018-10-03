@@ -57,6 +57,7 @@ class Event extends Frontend_Controller {
         // get race and edition models
         $this->load->model('edition_model');
         $this->load->model('race_model');
+        $this->load->model('file_model');
                         
         // as daar nie 'n edition_name deurgestuur word nie
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
@@ -109,6 +110,7 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);     
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
+        $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition_id",$edition_id);
         // get next an previous races
         $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
         $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');

@@ -264,7 +264,7 @@ class Edition_model extends CI_Model {
                         {
                             $edition_user_data['updated_date']=date("Y-m-d H:i:s");
                             $this->db->delete('edition_asa_member', array('edition_id' => $edition_id));
-                            if ($edition_asamember_data) {
+                            if (@$edition_asamember_data) {
                                 $this->db->insert('edition_asa_member', $edition_asamember_data);
                             }
                         }                        

@@ -14,7 +14,7 @@
 </div>
 
 <?php
-//        wts($next_race_list);
+//        wts($event_detail);
 //        wts($event_detail);
 ?>
     
