@@ -3,11 +3,10 @@
     <div class="panel-group" id="accordionParkrun" role="tablist" style="padding-top:10px;">
         <?php
         foreach ($parkrun_list as $id => $parkrun) {
-            if ($id === 4) {
-                $expanded = "in";
-            } else {
-                $expanded = "";
-            }
+            // if first
+            reset($parkrun_list);
+            if ($id === key($parkrun_list)) {  $expanded = "in"; }
+            // set map url
             $map_url = "https://www.google.com/maps/place/" . $parkrun['latitude_num'] . "," . $parkrun['longitude_num'];
             ?>
             <div class="panel">
@@ -20,7 +19,7 @@
                                         <td style="width: 10px;">
                                             <i class="c-font-green fa fa-check-square" title="Gathering event inforamtion"></i> 
                                         </td>
-                                        <td style="color:#333;"><?= $parkrun['parkrun_name']; ?></td>
+                                        <td style="color:#333;"><?= $parkrun['parkrun_name']?></td>
                                         <td class="badges hidden-xs">
                                             <span class="badge c-bg-yellow">5</span> 
                                         </td>
@@ -30,7 +29,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="collapse_<?= $id; ?>" class="panel-collapse collapse <?= $expanded; ?>" role="tabpanel" aria-labelledby="heading_<?= $id; ?>" aria-expanded="false">
+                <div id="collapse_<?= $id; ?>" class="panel-collapse collapse <?= @$expanded; ?>" role="tabpanel" aria-labelledby="heading_<?= $id; ?>" aria-expanded="false">
                     <div class="panel-body">
                         <p style="margin:0 0 5px;">
                             <span class="visible-xs">
@@ -54,6 +53,7 @@
                 </div>
             </div>
             <?php
+        unset($expanded);
         }
         ?>
     </div> <!-- .panel-group -->

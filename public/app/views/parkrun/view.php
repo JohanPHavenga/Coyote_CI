@@ -18,9 +18,27 @@
                         <p>These events take place in pleasant parkland surroundings and we encourage people of every ability to take part; 
                             from walkers or those taking their first steps in running to Olympians; from juniors to those with more experience; we welcome you all!</p>
                     </p>
-                    
+                    <!-- Parkrun Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-8912238222537097"
+                         data-ad-slot="7906836726"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                     <?= $accordion; ?>
-                    
+                    <!-- Parkrun Ad -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-8912238222537097"
+                         data-ad-slot="7906836726"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div> <!-- col -->
             </div> <!-- row -->
         </div> <!-- container -->
