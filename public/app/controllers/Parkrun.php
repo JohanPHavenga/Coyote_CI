@@ -32,12 +32,13 @@ class Parkrun extends Frontend_Controller {
         $this->data_to_header['keywords']="Parkrun, Park, Races, Events, Listing, Race, Run, Fun Run";
 
         // get race info
-        $this->data_to_view['parkrun_list'] = $this->parkrun_model->get_parkrun_list(false);
+        $this->data_to_accordion['parkrun_list'] = $this->parkrun_model->get_parkrun_list(false);
+        //load accordion view
+        $this->data_to_view['accordion'] = $this->load->view('parkrun/accordion', $this->data_to_accordion, TRUE);
 
         // set title bar
         $this->data_to_view["title_bar"]=$this->render_topbar_html(
             [
-                "title"=>$this->data_to_header['title'],
                 "crumbs"=>$this->crumbs_arr,
             ]);
 

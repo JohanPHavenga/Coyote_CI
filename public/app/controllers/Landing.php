@@ -5,6 +5,8 @@ class Landing extends Frontend_Controller {
     {
         parent::__construct();
         $this->load->model('event_model');
+        $this->load->model('parkrun_model');
+        $this->load->model('area_model');
         $this->data_to_header['section']="events";
     }
 
@@ -32,6 +34,12 @@ class Landing extends Frontend_Controller {
 
         // wts($race_list);
         // die();
+        
+        // get parkrun info
+        $area_id=$this->area_model->get_area_id_from_name($area_name);
+        $this->data_to_accordion['parkrun_list'] = $this->parkrun_model->get_parkrun_list(false,$area_id);
+        //load accordion view
+        $this->data_to_view['parkrun_accordion'] = $this->load->view('parkrun/accordion', $this->data_to_accordion, TRUE);
 
         $this->data_to_header['title']=ucwords($area_name);        
         $this->data_to_header['meta_description']="List of upcoming road running race events in and around the ".ucwords($area_name)." area";

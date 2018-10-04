@@ -520,7 +520,7 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[] = '<h4 class="panel-title">';
                             $return_html_arr[] = '<a class="" data-toggle="collapse" data-parent="#accordion_' . $rand . '" href="#collapse' . $edition_id . '" aria-expanded="true" aria-controls="collapse' . $edition_id . '">';
                             $return_html_arr[] = '<table class="accordian" style="width: 100%"><tr>';
-                            $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-circle-o" title="' . $bullet_info['text'] . '"></i> </td>';
+                            $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-square" title="' . $bullet_info['text'] . '"></i> </td>';
                             $return_html_arr[] = '<td>' . date("M j", strtotime($edition['edition_date'])) . '</b> - ' . substr($edition['edition_name'], 0, -5) . '</td>';
                             $return_html_arr[] = '<td class="badges hidden-xs">' . $badge . '</td>';
                             $return_html_arr[] = '</tr></table>';
@@ -591,7 +591,7 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[] = '<h4 class="panel-title">';
                             $return_html_arr[] = '<a class="" data-toggle="collapse" data-parent="#accordion' . $month_key . '" href="#collapse' . $uid . '" aria-expanded="true" aria-controls="collapse' . $uid . '">';
                             $return_html_arr[] = '<table class="accordian" style="width: 100%"><tr>';
-                            $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-circle-o" title="' . $bullet_info['text'] . '"></i> </td>';
+                            $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-square" title="' . $bullet_info['text'] . '"></i> </td>';
                             $return_html_arr[] = '<td>' . date("M j", strtotime($edition['edition_date'])) . '</b> - ' . substr($edition['edition_name'], 0, -5) . '</td>';
                             $return_html_arr[] = '<td class="badges hidden-xs">' . $badge . '</td>';
                             $return_html_arr[] = '</tr></table>';

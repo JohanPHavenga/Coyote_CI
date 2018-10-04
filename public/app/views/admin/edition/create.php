@@ -186,6 +186,22 @@ echo form_open_multipart($form_url);
 
                 echo "</div>";  
                 
+                //  OLD LOGO
+                // #toberemoved
+                // =============================================
+                if (@$edition_detail['edition_logo']) {
+                echo "<div class='form-group'>";
+                echo form_label('Old logo file', 'edition_logo');
+                echo form_input([
+                        'name'          => 'edition_logo',
+                        'id'            => 'edition_logo',
+                        'value'         => set_value('edition_logo', @$edition_detail['edition_logo']),
+                        'class'         => 'form-control',
+                    ]);
+
+                echo "</div>";  
+                }
+                
                 //  ASA Membership
                 echo "<div class='form-group'>";
                     echo form_label('ASA Affiliation', 'edition_asa_member');
@@ -221,8 +237,7 @@ echo form_open_multipart($form_url);
                         echo form_dropdown('sponsor_id', $sponsor_dropdown, @$edition_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control"]);        
                         echo "</div>";
                     echo "</div>";
-                echo "</div>";
-                
+                echo "</div>";                
                 
                 //  INFO CONFIRMED
                 echo "<div class='form-group'>";
@@ -233,8 +248,9 @@ echo form_open_multipart($form_url);
                                     <input type="checkbox" id="edition_info_isconfirmed" name="edition_info_isconfirmed" value="1" '.$c.'> Information confirmed
                                     <span></span>
                                 </label>';
-                        echo "</div></div>";
+                        echo "</div>";
                     echo "</div>";
+                echo "</div>";
                 
                 ?>
             </div>

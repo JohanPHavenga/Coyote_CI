@@ -84,6 +84,21 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="c-content-box c-size-sm c-no-bottom-padding c-overflow-hide" >
+                <div class="c-container">
+                    <div class="row c-page-faq-2">
+                        <div class="col-md-12">
+                            <p>
+                                Not finding a race in your area that tickles your fancy? Why not try a <b>Parkrun?</b><br>
+                                Parkruns are free, weekly, 5km timed runs around the world. They are open to everyone, free, and are safe and easy to take part in. 
+                                Read more <u><a target="_blank" href="http://www.parkrun.co.za">here</a></u>.
+                            </p>
+                            <?= $parkrun_accordion; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="c-content-box c-size-sm c-no-bottom-padding c-overflow-hide" >
                 <div class="c-container">

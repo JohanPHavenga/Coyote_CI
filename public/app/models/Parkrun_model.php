@@ -10,7 +10,7 @@ class Parkrun_model extends CI_Model {
             return $this->db->count_all("parkruns");
         }
         
-        public function get_parkrun_list($incl_not_active=true)
+        public function get_parkrun_list($incl_not_active=true, $area_id=0)
         {  
             
             $this->db->select("parkruns.*, town_name, area_name, user_email");
@@ -22,6 +22,9 @@ class Parkrun_model extends CI_Model {
             $this->db->join('users', 'user_id', 'left');
             if (!$incl_not_active) {                
                 $this->db->where('parkrun_status', '1');
+            }
+            if ($area_id>0) {                
+                $this->db->where('area_id', $area_id);
             }
             $this->db->order_by('parkrun_name');
             $query = $this->db->get();

@@ -96,4 +96,20 @@ class Area_model extends CI_Model {
             }
         }
         
+        public function get_area_id_from_name($area_name)
+        {
+            $this->db->select("area_id");
+            $this->db->from("areas");
+            $this->db->where("area_name",$area_name);
+            $area_query = $this->db->get();
+            
+            if ($area_query->num_rows() > 0) 
+            {
+                $result=$area_query->result_array();
+                return $result[0]['area_id'];
+            } else  {
+                return false;
+            }
+        }
+        
 }
