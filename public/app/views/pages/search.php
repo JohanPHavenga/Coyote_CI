@@ -69,7 +69,13 @@
                         foreach ($month_list as $day => $edition_list) {
                             foreach ($edition_list as $id => $event) {
 
-                                if (strlen($event['edition_logo']) > 3) {
+                                if ($event['file_name']) {
+                                    $img_url=base_url("uploads/edition/".$event['edition_id']."/".$event['file_name']);
+
+                                // =================================
+                                // #toberemoved                      
+                                // =================================
+                                } elseif (strlen($event['edition_logo']) > 3) {
                                     $img_url = base_url("uploads/admin/edition/" . $event['edition_id'] . "/" . $event['edition_logo']);
                                 } else {
                                     $rand = rand(1, 8);

@@ -25,6 +25,25 @@ if ( ! function_exists('wts'))
     function encode_parkrun_name($parkrun_name) {
         return urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$parkrun_name)))));
     }
+    
+    function my_encrypt($string)
+    {
+        if (is_int($string)) {
+            return base64_encode($string+7936181);
+        } else {
+            return base64_encode($string."7936181");
+        }
+    }
+    
+    function my_decrypt($decrypt)
+    {
+        $string= base64_decode($decrypt);
+        if (is_int($string)) {
+            return $string-7936181;
+        } else {
+            return substr($string, 0, -7);
+        }
+    }
 }
 
     

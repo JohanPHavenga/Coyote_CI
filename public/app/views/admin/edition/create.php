@@ -343,7 +343,7 @@ echo form_open_multipart($form_url);
                 <?php
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
-                        echo "<div class='col-md-6'>";
+                        echo "<div class='col-md-12'>";
                             // LOGO
                             if (($action == "edit") && (@$file_list[1])) {
                                 $img_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list[1][0]['file_name']);
@@ -381,30 +381,29 @@ echo form_open_multipart($form_url);
         </div> <!-- portlet -->  
     </div> <!-- col -->  
     
-    <!-- FLYER -->
+    <!-- FILES -->
     <div class="col-md-6">    
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-edit font-dark"></i>
-                    <span class="caption-subject font-dark bold uppercase">Flyer Upload</span>
+                    <span class="caption-subject font-dark bold uppercase">File Uploads</span>
                 </div>
             </div>
             <div class="portlet-body">  
                 <?php
+                // FLYER
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
                     
-                        echo "<div class='col-md-6'>";
-                            // FLYER
+                        echo "<div class='col-md-12'>";
+                            echo form_label('Flyer', 'edition_flyer_upload');
                             if (($action=="edit")&&(@$file_list[2])) {    
                                 $file_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list[2][0]['file_name']);                            
-                                echo "<p><a href='$file_url'>".$file_list[2][0]['file_name']."</a></p>";
-                                echo "<div class='btn-group'>";
-                                echo "<a href='/admin/edition/remove_file/".$edition_detail['edition_id']."/".$file_list[2][0]['file_id']."' class='btn btn-danger btn-sm'>Remove File</a>";
-                                echo "</div>";
+                                echo "<div><a href='$file_url'>".$file_list[2][0]['file_name']."</a> ";                             
+                                echo "<a href='/admin/edition/remove_file/".$edition_detail['edition_id']."/".$file_list[2][0]['file_id']."' "
+                                        . "class='btn btn-danger btn-xs' style='margin: -3px 0 0 8px;'>Remove File</a></div>";
                             } else {
-                                echo form_label('Flyer', 'edition_flyer_upload');
                                 echo form_input([
                                     'name'          => 'edition_flyer_upload',
                                     'id'            => 'edition_flyer_upload',
@@ -417,7 +416,33 @@ echo form_open_multipart($form_url);
 
                                    
                     echo "</div>";
-                echo "</div>";                  
+                echo "</div>";     
+                
+                // RESULTS
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                    
+                        echo "<div class='col-md-6'>";
+                            echo form_label('Results', 'edition_results_upload');
+                            if (($action=="edit")&&(@$file_list[4])) {    
+                                $file_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list[4][0]['file_name']);                            
+                                echo "<div><a href='$file_url'>".$file_list[4][0]['file_name']."</a>";
+                                echo "<a href='/admin/edition/remove_file/".$edition_detail['edition_id']."/".$file_list[4][0]['file_id']."' "
+                                        . "class='btn btn-danger btn-xs' style='margin: -3px 0 0 8px;'>Remove File</a></div>";
+                            } else {
+                                echo form_input([
+                                    'name'          => 'edition_results_upload',
+                                    'id'            => 'edition_results_upload',
+                                    'type'          => 'file',
+                                    'multiple'      => '',
+                                    'accept'        => '.xls,.xlsx,.pdf,.csv',
+                                ]);
+                            }                            
+                        echo "</div>";   
+
+                                   
+                    echo "</div>";
+                echo "</div>";     
                 ?>
             </div> <!-- portlet-body -->     
             <div class="portlet-footer">
@@ -503,7 +528,9 @@ echo form_open_multipart($form_url);
             </div>
         </div>
     </div> <!-- col -->
-    
+</div> <!-- row --->
+
+<div class="row">
     <div class="col-md-6">   
         <div class="portlet light">   
             
@@ -517,7 +544,11 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 ?>
             </div>
-            <div class="portlet-footer">
+        </div>
+    </div>
+    <div class="col-md-6">   
+        <div class="portlet light">   
+            <div class="portlet-body">
                 <?php
                 if ($action=="edit") {   
                 echo "<div class='form-group'>";
@@ -543,7 +574,6 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 }
                 ?>
-                
             </div>
         </div>
     </div>

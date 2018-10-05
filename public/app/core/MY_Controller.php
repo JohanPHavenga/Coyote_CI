@@ -304,6 +304,15 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_header["menu_array"] = $this->set_top_menu_array();
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
     }
+    
+    function show_my_404($msg, $status){   
+        //Using 'location' not work well on some windows systems
+        $this->session->set_flashdata([
+                'alert'=>$msg,
+                'status'=>$status,
+                ]);
+        redirect('404');  
+    }
 
     function set_top_menu_array() {
         return [
@@ -502,10 +511,17 @@ class Frontend_Controller extends MY_Controller {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
 
+                            // #toberemoved
+                            if ($edition['results_file']) {
+                                $results_check=$edition['results_file'];
+                            } else {
+                                $results_check=$edition['edition_url_results'];
+                            }
+                            
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $edition['edition_url_results']
+                                "results" => $results_check,
                             ]);
 
                             // set distance circles

@@ -70,6 +70,7 @@ $route['event/calendar'] = 'calendar';
 $route['events'] = 'calendar';
 $route['event'] = 'calendar';
 $route['parkrun'] = 'parkrun/calendar';
+$route['file'] = 'file/handler';
 //$route['calendar'] = 'calendar/list';
 
 // redirect

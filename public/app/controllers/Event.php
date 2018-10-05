@@ -22,35 +22,35 @@ class Event extends Frontend_Controller {
     }
 
 
-    public function calendar($year=NULL)
-    {
-        // load helpers / libraries
-        $this->load->library('table');
-
-        $this->data_to_header['title']="Running Race Event Calendar";
-        $this->data_to_header['meta_description']="List of upcoming road running race events";
-        $this->data_to_header['keywords']="Calendar, Races, Events, Listing, Race, Run, Marathon, Half-Marathon, 10k, Fun Run";
-
-        // get race info
-        $upcoming_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d")]);
-        $past_date = date("Y-m-d", strtotime("-11 months", time()));
-        $past_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>$past_date,"date_to"=>date("Y-m-d"),"sort"=>"DESC"]);
-        // render html
-        $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($upcoming_race_summary);
-        $this->data_to_view['past_race_list_html']=$this->render_races_accordian_html($past_race_summary);
-
-        // set title bar
-        $this->data_to_view["title_bar"]=$this->render_topbar_html(
-            [
-                "title"=>$this->data_to_header['title'],
-                "crumbs"=>$this->crumbs_arr,
-            ]);
-
-        // load view
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/event/calendar", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-    }
+//    public function calendar($year=NULL)
+//    {
+//        // load helpers / libraries
+//        $this->load->library('table');
+//
+//        $this->data_to_header['title']="Running Race Event Calendar";
+//        $this->data_to_header['meta_description']="List of upcoming road running race events";
+//        $this->data_to_header['keywords']="Calendar, Races, Events, Listing, Race, Run, Marathon, Half-Marathon, 10k, Fun Run";
+//
+//        // get race info
+//        $upcoming_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d")]);
+//        $past_date = date("Y-m-d", strtotime("-11 months", time()));
+//        $past_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>$past_date,"date_to"=>date("Y-m-d"),"sort"=>"DESC"]);
+//        // render html
+//        $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($upcoming_race_summary);
+//        $this->data_to_view['past_race_list_html']=$this->render_races_accordian_html($past_race_summary);
+//
+//        // set title bar
+//        $this->data_to_view["title_bar"]=$this->render_topbar_html(
+//            [
+//                "title"=>$this->data_to_header['title'],
+//                "crumbs"=>$this->crumbs_arr,
+//            ]);
+//
+//        // load view
+//        $this->load->view($this->header_url, $this->data_to_header);
+//        $this->load->view("/event/calendar", $this->data_to_view);
+//        $this->load->view($this->footer_url, $this->data_to_footer);
+//    }
 
 
     public function detail($edition_name_encoded) {

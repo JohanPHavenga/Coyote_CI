@@ -182,19 +182,20 @@ class Event_model extends CI_Model {
 
 
         public function get_event_list_data($params) {
-            //'events.event_id, event_name, edition_id, edition_name, edition_date'
-            
-//            wts($params);
-//            exit();
             
             // field_arr is compulsary
-            $field_arr=$params['field_arr'];
+            foreach ($params['field_arr'] as $field) {
+                if ($field=="results_file") { $field="file_name as results_file"; }
+                $field_arr[]=$field;
+            }
+//            wts($field_arr);
+//            die();
             
             // set default sort
             if (!isset($params['sort'])) { $params['sort']="ASC"; }
             $sort=$params['sort'];            
 
-            $this->db->select($field_arr);
+//            $this->db->select($field_arr);
             $this->db->from("events");
             $this->db->join('editions', 'editions.event_id = events.event_id');
             $this->db->join('races', 'races.edition_id = editions.edition_id');
@@ -202,6 +203,7 @@ class Event_model extends CI_Model {
             $this->db->join('towns', 'towns.town_id = events.town_id');
             $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id','left outer');
             $this->db->join('users', 'users.user_id = edition_user.user_id','left outer');
+            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=4)', 'left outer');  // results
 
 //            echo $this->db->get_compiled_select();
 //            exit();
@@ -226,19 +228,14 @@ class Event_model extends CI_Model {
                 $this->db->where("edition_info_isconfirmed", $params['confirmed']);                
             }
             
-            if (isset($params['results'])) {
-                $this->db->group_start();
-                $this->db->where("edition_url_results");      
-                $this->db->or_where("edition_url_results", "");   
-                $this->db->group_end();             
-            }
-            
             $this->db->where("events.event_status", 1);
             $this->db->where("editions.edition_status", 1);
             $this->db->where("races.race_status", 1);
 
             $this->db->order_by("edition_date", $sort);
             $this->db->order_by("race_distance", "DESC");
+            
+            $this->db->select($field_arr);
             
 //            echo $this->db->get_compiled_select();
 //            exit();
@@ -257,7 +254,7 @@ class Event_model extends CI_Model {
             // set fields to be fetched
             $field_arr=["event_name","editions.edition_id","edition_name","edition_status","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","edition_info_email_sent",
                 "racetype_abbr","town_name","race_distance","race_time_start",
-                "user_name", "user_surname", "user_email"];
+                "user_name", "user_surname", "user_email", "results_file"];
             
             // setup fields needed for summary call
             // go get the data
@@ -279,6 +276,7 @@ class Event_model extends CI_Model {
             } 
             elseif ($from=="search")
             {
+                $field_arr[]="file_name";
                 $query=$this->search_events($field_arr, $params['ss'], $params['inc_all'],@$params['inc_non_active']);
             } 
             elseif ($from=="id") 
@@ -573,6 +571,8 @@ class Event_model extends CI_Model {
             $this->db->join('racetypes', 'races.racetype_id = racetypes.racetype_id', 'left outer');
             $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id', 'left outer');
             $this->db->join('users', 'users.user_id = edition_user.user_id', 'left outer');
+            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=1)', 'left outer');            
+            
 //            $this->db->join('town_area', 'towns.town_id = town_area.town_id');
 //            $this->db->join('areas', 'areas.area_id = town_area.area_id');            
 //            $this->db->where("edition_date >=", date("Y-m-d"));
@@ -598,6 +598,7 @@ class Event_model extends CI_Model {
             $this->db->order_by("race_distance", "DESC");         
             
 //            echo $this->db->get_compiled_select();
+//            die();
             
             return $this->db->get();
             

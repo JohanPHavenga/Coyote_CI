@@ -14,7 +14,7 @@
 </div>
 
 <?php
-//        wts($event_detail);
+//        wts($event_detail['file_list']);
 //        wts($event_detail);
 ?>
     

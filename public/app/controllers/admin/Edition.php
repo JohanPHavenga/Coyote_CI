@@ -221,6 +221,31 @@ class Edition extends Admin_Controller {
                     }
                 }
                 
+                // ================================================================================
+                // RESULTS UPLOAD
+                if ($_FILES['edition_results_upload']) {
+                    if ($_FILES['edition_results_upload']['error']==4) {
+                        // no file upload attempted
+                        $results_upload=true;
+                    } else {
+                        $ul_params=[
+                            "edition_id"=>$id,
+                            "field"=>'edition_results_upload',
+                            "allowed_types"=>'pdf|csv|xls|xlsx',
+                            "max_size"=>'10240',
+                        ];
+                        $results_upload=$this->upload_file($ul_params);   
+
+                        // if all went well, write info to db | 4 = results
+                        if ($results_upload['success']) { 
+                            $file_db_w=$this->set_file($results_upload['data'],4,$id);                    
+                        } else {
+                            $alert=$results_upload['alert_text'];
+                            $status=$results_upload['alert_status'];
+                        }
+                    }
+                }
+                
             } else {
                 $alert="Error committing to the database";
                 $status="danger";

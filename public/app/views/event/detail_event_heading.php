@@ -47,7 +47,9 @@
                         }
                         // FLYER
                         if (@$event_detail['file_list'][2]) {
-                            $file_url=base_url("download/file/edition/".$event_detail['edition_id']."/".$event_detail['file_list'][2][0]['file_name']);
+                            
+                            $file_id = my_encrypt($event_detail['file_list'][2][0]['file_id']);
+                            $file_url=base_url("file/handler/".$file_id);
                             echo "<a href='$file_url' class='".$button_class."'>Event Flyer</a>";
 
                         // =================================
@@ -57,7 +59,16 @@
                             echo '<a href="'.$event_detail['edition_url_flyer'].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                            
                         }
                         // RESULTS
-                        if ($event_detail['edition_url_results']) {
+                        if (@$event_detail['file_list'][4]) {
+                            
+                            $file_id = my_encrypt($event_detail['file_list'][4][0]['file_id']);
+                            $file_url=base_url("file/handler/".$file_id);
+                            echo "<a href='$file_url' class='".$button_class."'>Results</a>";
+                        
+                        // =================================
+                        // #toberemoved
+                        // =================================    
+                        } elseif ($event_detail['edition_url_results']) {
                             echo '<a href="'.$event_detail['edition_url_results'].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
                         }
                         echo "</div>";
