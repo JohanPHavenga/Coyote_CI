@@ -276,7 +276,9 @@ class Event_model extends CI_Model {
             } 
             elseif ($from=="search")
             {
-                $field_arr[]="file_name";
+                $field_arr[]="logo_file";
+                $key = array_search("results_file", $field_arr);
+                unset($field_arr[$key]);
                 $query=$this->search_events($field_arr, $params['ss'], $params['inc_all'],@$params['inc_non_active']);
             } 
             elseif ($from=="id") 
@@ -553,14 +555,18 @@ class Event_model extends CI_Model {
 
 
 
-        public function search_events($field_arr, $ss, $show_all=false, $incl_non_active=false) {
+        public function search_events($field_list, $ss, $show_all=false, $incl_non_active=false) {
             
             // NOTE I removed areas because that breaks the search for towns that does not belong to an area
             
             $search_result=[];
             
-//            $field_arr=["events.event_id","event_name","editions.edition_id","edition_name","edition_date","town_name","race_distance","race_time_start"];
-            
+            // manipulate field_arr for files
+            foreach ($field_list as $field) {
+                if ($field=="results_file") { continue; }
+                if ($field=="logo_file") { $field="file_name as logo_file"; }
+                $field_arr[]=$field;
+            }
             $this->db->select($field_arr);
             
             $this->db->from("events");
