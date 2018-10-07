@@ -40,6 +40,19 @@ if ( ! function_exists('fdisplayCurrency'))
 // ================================================================
 // Formulate Dates / TIME
 // ================================================================
+if ( ! function_exists('fdateDay'))
+{
+    function fdateDay($date) 
+    {
+        if ($date>0)
+        {
+            return date("d",strtotime($date));
+        } else {
+            return false;
+        }
+    }
+}
+
 if ( ! function_exists('fdateShort'))
 {
     function fdateShort($date) 

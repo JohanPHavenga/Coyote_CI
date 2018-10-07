@@ -225,7 +225,14 @@ class Event_model extends CI_Model {
             }
             
             if (isset($params['confirmed'])) {
-                $this->db->where("edition_info_isconfirmed", $params['confirmed']);                
+                $this->db->where("edition_info_isconfirmed", $params['confirmed']);
+            }
+            
+            if (isset($params['results'])) {
+                $this->db->group_start();
+                $this->db->where("edition_url_results");      
+                $this->db->or_where("edition_url_results", "");   
+                $this->db->group_end();             
             }
             
             $this->db->where("events.event_status", 1);
@@ -338,6 +345,7 @@ class Event_model extends CI_Model {
                         break;
                         case "edition_date":
                             $value=date("D d M Y",strtotime($row[$field]));
+                            $data[$year][$month][$day][$id]["edition_timestamp"]=$row[$field];
                         break;
                         case "edition_name":
                             $value=$row[$field];
