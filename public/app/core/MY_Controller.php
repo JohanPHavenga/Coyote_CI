@@ -192,6 +192,51 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "trophy",
                 "seg0" => ['race'],
             ],
+            // Other info
+            [
+                "text" => "Other Info",
+                "url" => 'admin/town/search',
+                "icon" => "settings",
+                "seg0" => ['role', 'town', 'province'],
+                "submenu" => [
+                    [
+                        "text" => "Search Towns",
+                        "url" => 'admin/town/search',
+                    ],  
+                    [
+                        "text" => "Files",
+                        "url" => 'admin/file/view',
+                    ],
+                    [
+                        "text" => "URLs",
+                        "url" => 'admin/url/view',
+                    ],
+                    [
+                        "text" => "ASA Members",
+                        "url" => 'admin/asamember/view',
+                    ],
+                    [
+                        "text" => "Areas",
+                        "url" => 'admin/area/view',
+                    ],
+                    [
+                        "text" => "Roles",
+                        "url" => 'admin/role/view',
+                    ],                    
+                    [
+                        "text" => "Provinces",
+                        "url" => 'admin/province/view',
+                    ],
+                    [
+                        "text" => "Racetypes",
+                        "url" => 'admin/racetype/view',
+                    ],
+                    [
+                        "text" => "Quotes",
+                        "url" => 'admin/quote/view',
+                    ],
+                ],
+            ],
             // Users
             [
                 "text" => "Users",
@@ -220,43 +265,7 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "direction",
                 "seg0" => ['parkrun'],
             ],
-            // Static info
-            [
-                "text" => "Static Info",
-                "url" => 'admin/role',
-                "icon" => "settings",
-                "seg0" => ['role', 'town', 'province'],
-                "submenu" => [
-                    [
-                        "text" => "Areas",
-                        "url" => 'admin/area/view',
-                    ],
-                    [
-                        "text" => "Roles",
-                        "url" => 'admin/role/view',
-                    ],
-                    [
-                        "text" => "Search Towns",
-                        "url" => 'admin/town/search',
-                    ],
-                    [
-                        "text" => "Provinces",
-                        "url" => 'admin/province/view',
-                    ],
-                    [
-                        "text" => "Racetypes",
-                        "url" => 'admin/racetype/view',
-                    ],
-                    [
-                        "text" => "ASA Members",
-                        "url" => 'admin/asamember/view',
-                    ],
-                    [
-                        "text" => "Quotes",
-                        "url" => 'admin/quote/view',
-                    ],
-                ],
-            ],
+            
         ];
     }
 

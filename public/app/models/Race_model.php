@@ -1,8 +1,9 @@
 <?php
-class Race_model extends CI_Model {
+class Race_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
 
@@ -49,14 +50,17 @@ class Race_model extends CI_Model {
         }
 
          public function get_race_dropdown() {
-            $this->db->select("race_id, race_name");
+            $this->db->select("race_id, race_name, race_distance, edition_name, racetype_abbr");
             $this->db->from("races");
+            $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
+            $this->db->order_by('edition_name');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['race_id']] = $row['race_name'];
+                    $data[$row['race_id']] = $row['edition_name']." ".$row['race_distance']."km ".$row['racetype_abbr'];
                 }
                 return $data;
             }

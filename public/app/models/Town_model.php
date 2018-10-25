@@ -1,8 +1,9 @@
 <?php
 
-class Town_model extends CI_Model {
+class Town_model extends MY_model {
 
     public function __construct() {
+        parent::__construct();
         $this->load->database();
     }
 

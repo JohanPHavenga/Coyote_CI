@@ -55,7 +55,7 @@ class Calendar extends Frontend_Controller {
         $this->load->library('table');
         $this->data_to_header['section']="results";
 
-        $this->data_to_header['title']="Reuslts Calendar";
+        $this->data_to_header['title']="Results Calendar";
         $this->data_to_header['meta_description']="List of results for running races";
         $this->data_to_header['keywords']="Results, Past, Races, Events, Listing, Race, Run, Marathon, Half-Marathon, 10k, Fun Run";
 

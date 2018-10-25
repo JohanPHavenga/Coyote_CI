@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CodeIgniter
  *
@@ -48,45 +49,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Model {
 
-	/**
-	 * Class constructor
-	 *
-	 * @link	https://github.com/bcit-ci/CodeIgniter/issues/5332
-	 * @return	void
-	 */
-	public function __construct() {}
-
-	/**
-	 * __get magic
-	 *
-	 * Allows models to access CI's loaded classes using the same
-	 * syntax as controllers.
-	 *
-	 * @param	string	$key
-	 */
-	public function __get($key)
-	{
-		// Debugging note:
-		//	If you're here because you're getting an error message
-		//	saying 'Undefined Property: system/core/Model.php', it's
-		//	most likely a typo in your model code.
-		return get_instance()->$key;
-	}
+    /**
+     * Class constructor
+     *
+     * @link	https://github.com/bcit-ci/CodeIgniter/issues/5332
+     * @return	void
+     */
+    public function __construct() {
         
-        public function get_status_dropdown()
-        {
-            $this->db->select("*");
-            $this->db->from("status");
-            $query = $this->db->get();
+    }
 
-            if ($query->num_rows() > 0) {
-                $data[] = "Please Select";
-                foreach ($query->result_array() as $row) {
-                    $data[$row['status_id']] = $row['status_name'];
-                }
-                return $data;
-            }
-            return false;
-        }
+    /**
+     * __get magic
+     *
+     * Allows models to access CI's loaded classes using the same
+     * syntax as controllers.
+     *
+     * @param	string	$key
+     */
+    public function __get($key) {
+        // Debugging note:
+        //	If you're here because you're getting an error message
+        //	saying 'Undefined Property: system/core/Model.php', it's
+        //	most likely a typo in your model code.
+        return get_instance()->$key;
+    }
 
 }

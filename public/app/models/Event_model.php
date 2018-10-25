@@ -1,8 +1,9 @@
 <?php
-class Event_model extends CI_Model {
+class Event_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
 
@@ -203,7 +204,7 @@ class Event_model extends CI_Model {
             $this->db->join('towns', 'towns.town_id = events.town_id');
             $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id','left outer');
             $this->db->join('users', 'users.user_id = edition_user.user_id','left outer');
-            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=4)', 'left outer');  // results
+//            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=4)', 'left outer');  // results
 
 //            echo $this->db->get_compiled_select();
 //            exit();
@@ -228,11 +229,12 @@ class Event_model extends CI_Model {
                 $this->db->where("edition_info_isconfirmed", $params['confirmed']);
             }
             
+            // #toberemoved
             if (isset($params['results'])) {
                 $this->db->group_start();
                 $this->db->where("edition_url_results");      
                 $this->db->or_where("edition_url_results", "");   
-                $this->db->group_end();             
+                $this->db->group_end();
             }
             
             $this->db->where("events.event_status", 1);
@@ -261,7 +263,8 @@ class Event_model extends CI_Model {
             // set fields to be fetched
             $field_arr=["event_name","editions.edition_id","edition_name","edition_status","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","edition_info_email_sent",
                 "racetype_abbr","town_name","race_distance","race_time_start",
-                "user_name", "user_surname", "user_email", "results_file"];
+                "user_name", "user_surname", "user_email"];
+                //"results_file"];
             
             // setup fields needed for summary call
             // go get the data

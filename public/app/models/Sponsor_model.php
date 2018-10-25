@@ -1,8 +1,9 @@
 <?php
-class Sponsor_model extends CI_Model {
+class Sponsor_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
         

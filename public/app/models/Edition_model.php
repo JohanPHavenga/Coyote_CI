@@ -1,8 +1,9 @@
 <?php
-class Edition_model extends CI_Model {
+class Edition_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
 
