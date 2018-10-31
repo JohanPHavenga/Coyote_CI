@@ -14,7 +14,7 @@
                 if ( ! (empty($file_data)))
                 {
                     // create table
-                    $this->table->set_template(ftable('files_table'));
+                    $this->table->set_template(ftable('list_table'));
                     $this->table->set_heading($heading);
                     foreach ($file_data as $id=>$data_entry) {
                         
@@ -32,9 +32,11 @@
                                 ],
                             ];
                         
+                         $file_id = my_encrypt($data_entry['file_id']);
+                        $file_url=base_url("file/handler/".$file_id);
         
                         $row['id']=$data_entry['file_id'];                  
-                        $row['file']=$data_entry['file_name'];  
+                        $row['file']="<a href='$file_url' target='_blank'>".$data_entry['file_name']."</a>";  
                         $row['filetype']=$data_entry['filetype_name'];       
                         $row['file_linked_to']=$data_entry['file_linked_to'];
                         $row['linked_id']=$data_entry['linked_id'];

@@ -20,7 +20,9 @@ class File extends Frontend_Controller {
         // If there is no details
         if (!$file_detail) { $this->show_my_404("No file found with that file ID","danger"); }           
         // get ID type
-        if ($file_detail['edition_id']>0) { $id_type="edition"; $id=$file_detail['edition_id']; }
+//        if ($file_detail['edition_id']>0) { $id_type="edition"; $id=$file_detail['edition_id']; }
+        $id_type=$file_detail['file_linked_to'];
+        $id=$file_detail['linked_id'];
         // add race id section here
         
         // set path

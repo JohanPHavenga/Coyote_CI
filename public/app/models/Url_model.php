@@ -1,129 +1,134 @@
 <?php
 class Url_model extends MY_model {
 
-    public function __construct() {
-        parent::__construct();
-        $this->load->database();
-    }
-
-    public function set_url($params) {
-        // FIRST SEE IF FILE ALREADY EXISTS
-        if ($url_id=$this->get_url_id($params)) {
-            $action = "edit";
-        } else {
-            $action = "add";
+        public function __construct()
+        {
+            parent::__construct();
+            $this->load->database();
         }
-        // set array to be written to DB        
-        $url_data = array(
-            'url_name' => $params['data']['url_name'],
-            'url_type' => $params['data']['url_type'],
-            'edition_id' => $params['data']['edition_id'],
-            'race_id' => $params['data']['race_id'],
-            'sponsor_id' => $params['data']['sponsor_id'],
-            'club_id' => $params['club_id']
-        );        
-
-//        echo $action;        
-//        wts($params);
-//        wts($url_data);
-//        die();
-
-        switch ($action) {
-            case "add":
-                $this->db->trans_start();
-                $this->db->insert('urls', $url_data);
-                $url_id = $this->db->insert_id();
-                $this->db->trans_complete();
-                break;
-            case "edit":
-                // add updated date to both data arrays
-                $url_data['updated_date'] = date("Y-m-d H:i:s");
-                $this->db->trans_start();
-                $this->db->update('urls', $url_data, array('url_id' => $url_id));
-                $this->db->trans_complete();
-                break;
-            default:
-                show_404();
-                break;
+        
+        public function record_count() {
+            return $this->db->count_all("urls");
         }
-        // return ID if transaction successfull
-        if ($this->db->trans_status()) {
-            return $url_id;
-        } else {
-            return false;
-        }
-    }
-
-    public function get_url_id($params) {
-       
-        $this->db->select("url_id");
-        $this->db->from("urls");
-        $this->db->where("url_name", $params['data']['orig_name']);
-        $this->db->where("url_linked_to", $params['url_linked_to']);
-        $this->db->where("linked_id", $params['id']);
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            $result = $query->result_array();
-            return $result[0]['url_id'];
-        } else {
-            return false;
-        }
-      
-    }
-
-    public function get_url_detail($id) {
-        if (!($id)) {
-            return false;
-        } else {
-            $this->db->select("*");
+        
+        public function get_url_list()
+        {  
+            
+            $this->db->select("urls.*, urltype_name");
+            $this->db->join("urltypes","urltype_id");
             $this->db->from("urls");
-            $this->db->join('urltypes', 'urltype_id');
-            $this->db->where('url_id', $id);
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
-                return $query->row_array();
+                foreach ($query->result_array() as $row) {
+                    $data[$row['url_id']] = $row;
+                }
+                return $data;
+            }
+            return false;
+
+        }
+        
+        public function get_url_dropdown() {
+            $this->db->select("url_id, url_name");
+            $this->db->from("urls");
+            $this->db->order_by('url_name');
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                $data[] = "Please Select";
+                foreach ($query->result_array() as $row) {
+                    $data[$row['url_id']] = $row['url_name'];
+                }
+//                return array_slice($data, 0, 500, true);
+                return $data;
             }
             return false;
         }
-    }
-
-    public function get_url_list($by_urltype=false,$url_linked_to=NULL, $linked_id=0) {
         
-        $this->db->select("urls.*,urltypes.*");
-        $this->db->from("urls");
-        $this->db->join('urltypes', 'urltype_id');
-        if ($url_linked_to) {
-            $this->db->where("url_linked_to", $url_linked_to);
-            $this->db->where("linked_id", $linked_id);
-        }
-//            $this->db->join('editions', 'edition_id',"left outer");
-//            $this->db->join('races', 'race_id',"left outer");
-        $query = $this->db->get();
+        public function get_url_detail($id)
+        {
+            if( ! ($id)) 
+            {
+                return false;  
+            } 
+            else 
+            {
+                $this->db->select("urls.*");
+                $this->db->from("urls");
+                $this->db->join('editions', 'edition_id', 'left outer');
+                $this->db->join('races', 'race_id', 'left outer');
+                $this->db->join('sponsors', 'sponsor_id', 'left outer');
+                $this->db->join('clubs', 'club_id', 'left outer');
+                $this->db->where('url_id', $id);
+                $query = $this->db->get();
 
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                if ($by_urltype) {
-                    $url_list[$row['urltype_id']][]=$row;
-                } else {                    
-                    $url_list[]=$row;
+                if ($query->num_rows() > 0) {
+                    return $query->row_array();
                 }
+                return false;
             }
-            return $url_list;
+
         }
-        return false;
         
-    }
-
-    public function remove_url($url_id) {
+        public function set_url($action, $url_id)
+        {            
+            $url_data = array(
+                        'url_name' => $this->input->post('url_name'),
+                        'urltype_id' => $this->input->post('urltype_id'),
+                        'edition_id' => $this->input->post('edition_id'),
+                        'race_id' => $this->input->post('race_id'),
+                        'sponsor_id' => $this->input->post('sponsor_id'),
+                        'club_id' => $this->input->post('club_id'),
+                    );          ;
+                        
+            switch ($action) {                    
+                case "add":                     
+                    $this->db->trans_start();
+                    $this->db->insert('urls', $url_data);  
+                    $sql = $this->db->set($url_data)->get_compiled_insert('urls');
+                    wts($sql);
+                    die();
+                    
+                    $url_id=$this->db->insert_id();              
+                    $this->db->trans_complete();  
+                    break;
+                case "edit":
+                    // add updated date to both data arrays
+                    $url_data['updated_date']=date("Y-m-d H:i:s");
+                    
+                    // start SQL transaction
+                    $this->db->trans_start();
+                    $this->db->update('urls', $url_data, array('url_id' => $url_id));                  
+                    $this->db->trans_complete();  
+                    break;   
+                default:
+                    show_404();
+                    break;
+            }
+            // return ID if transaction successfull
+            if ($this->db->trans_status())
+            {
+                return $url_id;
+            } else {
+                return false;
+            }
+            
+        }
         
-        $this->load->helper("url");
-        $this->db->trans_start();
-        $this->db->delete('urls', array('url_id' => $url_id));
-        $this->db->trans_complete();
-        return $this->db->trans_status();
         
-    }
-
+        public function remove_url($id) {
+            if( ! ($id)) 
+            {
+                return false;  
+            } 
+            else 
+            {
+                $this->db->trans_start();
+                $this->db->delete('urls', array('url_id' => $id));             
+                $this->db->trans_complete();  
+                return $this->db->trans_status();    
+            }
+        }
+        
 }

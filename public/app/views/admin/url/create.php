@@ -9,6 +9,7 @@
             </div>
             <div class="portlet-body">
             <?php  
+                echo form_open($form_url); 
                 //  NAME
                 echo "<div class='form-group'>";
                 echo form_label('URL', 'url_name');
@@ -17,6 +18,7 @@
                         'id'            => 'url_name',
                         'value'         => set_value('url_name', @$url_detail['url_name']),
                         'class'         => 'form-control',
+                        'type'          => 'url'
                     ]);
 
                 echo "</div>";
@@ -80,11 +82,12 @@
                 
                 //  BUTTONS
                 echo "<div class='btn-group'>";
-//                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
+                echo fbutton($text="Save",$type="submit",$status="primary",NULL,"save_only");
                 echo fbutton($text="Save & Close",$type="submit",$status="success");
                 echo fbuttonLink($return_url,"Cancel",$status="danger");
                 echo "</div>";
 
+                echo form_close();
             ?>
             </div>
         </div>
