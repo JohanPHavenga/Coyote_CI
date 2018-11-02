@@ -32,14 +32,11 @@
                                 ],
                             ];
                         
-        
                         $row['id']=$data_entry['url_id'];                  
                         $row['url']=$data_entry['url_name'];  
-                        $row['urltype']=$data_entry['urltype_name'];       
-                        $row['edition_id']=$data_entry['edition_id'];
-                        $row['race_id']=$data_entry['race_id'];
-                        $row['sponsor_id']=$data_entry['sponsor_id'];
-                        $row['club_id']=$data_entry['club_id'];
+                        $row['urltype']=$data_entry['urltype_name'];     
+                        $row['url_linked_to']=$data_entry['url_linked_to'];
+                        $row['linked_id']=$data_entry['linked_id'];
                         $row['actions']= fbuttonActionGroup($action_array);
                       
                         $this->table->add_row($row);

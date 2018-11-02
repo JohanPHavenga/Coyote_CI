@@ -22,7 +22,7 @@ echo form_open_multipart($form_url);
                     echo "</div>";
                 echo "</div>";
                 
-                 //  Linked to
+                //  Linked to
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
                         echo "<div class='col-md-12 linked_to'>";
@@ -32,7 +32,7 @@ echo form_open_multipart($form_url);
                     echo "</div>";
                 echo "</div>";
                 
-                 //  EDITION LINK
+                //  EDITION LINK
                 if (($action=="add")||($file_detail['file_linked_to']!="edition")) { 
                     $ed_class="hidden-input-edition"; $ed_id=""; 
                 } else { 

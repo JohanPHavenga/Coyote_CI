@@ -35,10 +35,6 @@ class Admin_Controller extends MY_Controller {
     function __construct() {
         parent::__construct();
         // Check login, load back end dependencies
-//        wts($_SESSION);
-//        exit();
-
-
         if (!$this->session->has_userdata('admin_logged_in')) {
             $this->session->set_flashdata([
                 'alert' => "You are not logged in as an Admin. Please log in to continue.",
@@ -94,8 +90,6 @@ class Admin_Controller extends MY_Controller {
     function csv_handler($file_path) {
         $csv = array_map('str_getcsv', file($file_path));
         array_walk($csv, function(&$a) use ($csv) {
-//            wts($csv[0]);
-//            wts($a);
             $a = array_combine($csv[0], $a);
         });
         array_shift($csv);
@@ -107,13 +101,11 @@ class Admin_Controller extends MY_Controller {
             //reset($entity);
 
             $id = array_shift($entity);
-
             foreach ($entity as $key => $value) {
                 if (!empty($value)) {
                     $user_data[$key] = $value;
                 }
             }
-
             // get ID - set action
             if ($id > 0) {
                 $action = "edit";
@@ -130,6 +122,19 @@ class Admin_Controller extends MY_Controller {
         }
 
         return $sum_data;
+    }
+    
+    public function set_results_flag($linked_to, $id) {
+        $this->load->model('url_model');
+        $this->load->model('file_model');
+        
+        // chcek if there is a results URL
+        $has_results_url=$this->url_model->check_urltype_exists($linked_to, $id, 4);
+        $has_results_file=$this->file_model->check_filetype_exists($linked_to, $id, 4);
+                
+        //this method is in MY_MODEL
+        if ($has_results_url||$has_results_file) { $flag=true; } else { $flag=false; }
+        $set=$this->url_model->set_results_flag($linked_to, $id, $flag);
     }
 
     function set_admin_menu_array() {

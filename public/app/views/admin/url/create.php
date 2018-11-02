@@ -23,7 +23,7 @@
 
                 echo "</div>";
                 
-                 //  File type
+                 //  URL type
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
                         echo "<div class='col-md-12'>";
@@ -32,46 +32,37 @@
                         echo "</div>";
                     echo "</div>";
                 echo "</div>";
-                              
-                echo "<hr>";
-               
-                // Edition
-                echo "<div class='form-group'>"; 
-                    echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Edition', 'edition_id');
-                        echo form_dropdown('edition_id', $edition_dropdown, @$url_detail['edition_id'], ["id"=>"edition_id","class"=>"form-control"]);        
-                        echo "</div>";
-                    echo "</div>";
-                echo "</div>";
                 
+                //  Linked to
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Race', 'race_id');
-                        echo form_dropdown('race_id', $race_dropdown, @$url_detail['race_id'], ["id"=>"race_id","class"=>"form-control"]);        
+                        echo "<div class='col-md-12 linked_to'>";
+                        echo form_label('Linked to? <span class="compulsary">*</span>', 'url_linked_to');
+                        echo form_dropdown('url_linked_to', $linked_to_dropdown, @$url_detail['url_linked_to'], ["id"=>"url_linked_to","class"=>"form-control input-xlarge"]);        
                         echo "</div>";
                     echo "</div>";
                 echo "</div>";
                 
-                echo "<div class='form-group'>";
-                    echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Sponsor', 'sponsor_id');
-                        echo form_dropdown('sponsor_id', $sponsor_dropdown, @$url_detail['sponsor_id'], ["id"=>"sponsor_id","class"=>"form-control"]);        
+                foreach ($linked_to_list as $linked_to_id=>$linked_to_name) {
+                    $h_class="input-".$linked_to_name;  $h_id=0;
+                    $linked_id_name=$linked_to_name."_id";
+                    $class_name="hidden-input-".$linked_to_name;
+                    $dropdown_name=$linked_to_name."_dropdown";
+                    
+                    if (($action=="add")||(@$url_detail['url_linked_to']!=$linked_to_name)) { 
+                        $h_class=$class_name; 
+                    } else { 
+                        $h_id=@$url_detail['linked_id'];
+                    }
+                    echo "<div class='form-group $h_class'>";
+                        echo "<div class='row'>";
+                            echo "<div class='col-md-12'>";
+                            echo form_label(ucfirst($linked_to_name), $linked_id_name);
+                            echo form_dropdown($linked_id_name, $$dropdown_name, @$h_id, ["id"=>$linked_id_name,"class"=>"form-control input-xlarge"]);        
+                            echo "</div>";
                         echo "</div>";
                     echo "</div>";
-                echo "</div>";
-                
-                echo "<div class='form-group'>";
-                    echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Club', 'club_id');
-                        echo form_dropdown('club_id', $club_dropdown, @$url_detail['club_id'], ["id"=>"club_id","class"=>"form-control"]);        
-                        echo "</div>";
-                    echo "</div>";
-                echo "</div>";
-                
+                }
                 
                 echo "<div class='form-group'>";
                     echo "<div class='row'>";

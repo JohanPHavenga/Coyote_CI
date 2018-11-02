@@ -164,6 +164,13 @@ class File extends Admin_Controller {
                     $alert = $file_upload['alert_text'];
                     $status = $file_upload['alert_status'];
                 }
+                
+                $results_link_arr=['edition','race'];
+                if (in_array($this->input->post("file_linked_to"),$results_link_arr)) {
+                    $id_type = $this->input->post("file_linked_to") . "_id";
+                    $linked_id = $this->input->post($id_type);
+                    $set = $this->set_results_flag($this->input->post("file_linked_to"), $linked_id);
+                }
             }
 
             if ($file_db_w) {
@@ -243,6 +250,12 @@ class File extends Admin_Controller {
         // delete record        
         $file_path="./uploads/".$file_detail['file_linked_to']."/".$file_detail['linked_id']."/".$file_detail['file_name'];
         $db_del = $this->file_model->remove_file($file_id,$file_path);
+        
+        // check results flag
+        $results_link_arr=['edition','race'];
+        if (in_array($file_detail['file_linked_to'],$results_link_arr)) {
+            $set = $this->set_results_flag($file_detail['file_linked_to'], $file_detail['linked_id']);
+        }
 
         if ($db_del) {
             $msg = "File has successfully been deleted: " . $file_detail['file_name'];
