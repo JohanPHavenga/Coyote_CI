@@ -19,11 +19,6 @@
                     foreach ($file_data as $id=>$data_entry) {
                         
                         $action_array=[
-//                                [
-//                                "url"=>"/admin/file/create/edit/".$data_entry['file_id'],
-//                                "text"=>"Edit",
-//                                "icon"=>"icon-pencil",
-//                                ],
                                 [
                                 "url"=>"/admin/file/delete/".$data_entry['file_id'],
                                 "text"=>"Delete",
@@ -32,7 +27,7 @@
                                 ],
                             ];
                         
-                         $file_id = my_encrypt($data_entry['file_id']);
+                        $file_id = my_encrypt($data_entry['file_id']);
                         $file_url=base_url("file/handler/".$file_id);
         
                         $row['id']=$data_entry['file_id'];                  

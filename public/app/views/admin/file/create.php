@@ -1,5 +1,8 @@
 <?php
 echo form_open_multipart($form_url); 
+
+//adding from edition - diable fields
+if (($action=="add")&&(@$file_detail['linked_id']>1)) { $disable_fields=true; } else { $disable_fields=false; }
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -27,40 +30,71 @@ echo form_open_multipart($form_url);
                     echo "<div class='row'>";
                         echo "<div class='col-md-12 linked_to'>";
                         echo form_label('Linked to? <span class="compulsary">*</span>', 'file_linked_to');
-                        echo form_dropdown('file_linked_to', $linked_to_dropdown, @$file_detail['file_linked_to'], ["id"=>"file_linked_to","class"=>"form-control input-xlarge"]);        
+                        $dropdown_data=[
+                            "id"=>"file_linked_to",
+                            "class"=>"form-control input-xlarge"
+                        ];
+                        if ($disable_fields) { $dropdown_data["readonly"]="readonly"; }
+                        echo form_dropdown('file_linked_to', $linked_to_dropdown, @$file_detail['file_linked_to'], $dropdown_data);        
                         echo "</div>";
                     echo "</div>";
                 echo "</div>";
                 
-                //  EDITION LINK
-                if (($action=="add")||($file_detail['file_linked_to']!="edition")) { 
-                    $ed_class="hidden-input-edition"; $ed_id=""; 
-                } else { 
-                    $ed_class=""; $ed_id=@$file_detail['linked_id'];
-                }
-                echo "<div class='form-group $ed_class'>"; 
-                    echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Edition', 'edition_id');
-                        echo form_dropdown('edition_id', $edition_dropdown, $ed_id, ["id"=>"edition_id","class"=>"form-control input-xlarge"]);        
+                foreach ($linked_to_list as $linked_to_id=>$linked_to_name) {
+                    $h_class="input-".$linked_to_name;  $h_id=0;
+                    $linked_id_name=$linked_to_name."_id";
+                    $class_name="hidden-input-".$linked_to_name;
+                    $dropdown_name=$linked_to_name."_dropdown";
+                    
+                    if ((($action=="add")&&(@$file_detail['linked_id']<1))||(@$file_detail['file_linked_to']!=$linked_to_name)) { 
+                        $h_class=$class_name; 
+                    } else { 
+                        $h_id=@$file_detail['linked_id'];
+                    }
+                    echo "<div class='form-group $h_class'>";
+                        echo "<div class='row'>";
+                            echo "<div class='col-md-12'>";
+                            echo form_label(ucfirst($linked_to_name), $linked_id_name);
+                            $dropdown_data=[
+                                "id"=>$linked_id_name,
+                                "class"=>"form-control input-xlarge"
+                            ];
+                            if ($disable_fields) { $dropdown_data["readonly"]="readonly"; }
+                            echo form_dropdown($linked_id_name, $$dropdown_name, @$h_id, $dropdown_data);        
+                            echo "</div>";
                         echo "</div>";
                     echo "</div>";
-                echo "</div>";
+                }
                 
-                 //  RACE LINK
-                if (($action=="add")||($file_detail['file_linked_to']!="race")) { 
-                    $rc_class="hidden-input-race"; $rc_id=""; 
-                } else { 
-                    $rc_class=""; $rc_id=@$file_detail['linked_id'];
-                }
-                echo "<div class='form-group $rc_class'>";
-                    echo "<div class='row'>";
-                        echo "<div class='col-md-12'>";
-                        echo form_label('Race', 'race_id');
-                        echo form_dropdown('race_id', $race_dropdown, @$rc_id, ["id"=>"race_id","class"=>"form-control input-xlarge"]);        
-                        echo "</div>";
-                    echo "</div>";
-                echo "</div>";
+//                //  EDITION LINK
+//                if (($action=="add")||($file_detail['file_linked_to']!="edition")) { 
+//                    $ed_class="hidden-input-edition"; $ed_id=""; 
+//                } else { 
+//                    $ed_class=""; $ed_id=@$file_detail['linked_id'];
+//                }
+//                echo "<div class='form-group $ed_class'>"; 
+//                    echo "<div class='row'>";
+//                        echo "<div class='col-md-12'>";
+//                        echo form_label('Edition', 'edition_id');
+//                        echo form_dropdown('edition_id', $edition_dropdown, $ed_id, ["id"=>"edition_id","class"=>"form-control input-xlarge"]);        
+//                        echo "</div>";
+//                    echo "</div>";
+//                echo "</div>";
+//                
+//                 //  RACE LINK
+//                if ((($action=="add")&&(@$file_detail['linked_id']<1))||($file_detail['file_linked_to']!="race")) { 
+//                    $rc_class="hidden-input-race"; $rc_id=""; 
+//                } else { 
+//                    $rc_class=""; $rc_id=@$file_detail['linked_id'];
+//                }
+//                echo "<div class='form-group $rc_class'>";
+//                    echo "<div class='row'>";
+//                        echo "<div class='col-md-12'>";
+//                        echo form_label('Race', 'race_id');
+//                        echo form_dropdown('race_id', $race_dropdown, @$rc_id, ["id"=>"race_id","class"=>"form-control input-xlarge"]);        
+//                        echo "</div>";
+//                    echo "</div>";
+//                echo "</div>";
                 
                 // FILE
                 echo "<div class='form-group'>";

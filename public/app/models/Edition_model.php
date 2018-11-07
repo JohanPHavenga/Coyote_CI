@@ -55,14 +55,9 @@ class Edition_model extends MY_model {
         }
 
 
-        public function get_edition_list($limit=NULL, $start=NULL)
+        public function get_edition_list()
         {
-            
-            if (isset($limit)&&isset($start)) {
-                $this->db->limit($limit, $start);
-            }
-
-            $this->db->select("editions.edition_id, edition_name, edition_date, edition_status, edition_address, event_name");
+            $this->db->select("editions.*, event_name");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
 

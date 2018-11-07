@@ -21,6 +21,8 @@ class Url extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
+        // unset edition return url session
+        $this->session->unset_userdata('edition_return_url');
 
 
         $this->data_to_view["url_data"] = $this->url_model->get_url_list();
@@ -67,7 +69,13 @@ class Url extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    public function create($action, $id = 0) {
+    public function create($action, $id = 0, $linked_type=NULL) {
+        
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
+        
         // additional models
         $this->load->model('urltype_model');
 
@@ -111,7 +119,14 @@ class Url extends Admin_Controller {
         if ($action == "edit") {
             $this->data_to_view['url_detail'] = $this->url_model->get_url_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
+        } else {
+            if ($id>0) {
+                $this->data_to_view['url_detail']['linked_id']=$id;
+                $this->data_to_view['url_detail']['url_linked_to']=$linked_type;
+            }
         }
+        
+//        wts($this->data_to_view['url_detail']);
 
         // set validation rules
         $this->form_validation->set_rules('url_name', 'URL Name', 'required|valid_url');
@@ -158,6 +173,11 @@ class Url extends Admin_Controller {
     }
 
     public function delete($url_id = 0) {
+        
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
 
         if (($url_id == 0) AND ( !is_int($url_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $url_id);
@@ -188,6 +208,51 @@ class Url extends Admin_Controller {
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
+    }
+    
+    function exists($linked_type,$linked_id,$urltype_id) {
+        return $this->url_model->exists($linked_type,$linked_id,$urltype_id);    
+    }
+    
+    function port() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $this->load->model('urltype_model');
+        
+        $edition_list = $this->edition_model->get_edition_list();        
+        $urltype_list = $this->urltype_model->get_urltype_list();
+        
+        $url_map_arr=[
+            "edition_url"=>1,
+            "edition_url_entry"=>5,
+            "edition_url_flyer"=>2,
+            "edition_url_results"=>4,
+        ];         
+        $n=0; $r=0;
+        foreach ($edition_list as $e_id=>$edition) {
+            foreach ($url_map_arr as $old_field=>$map_id) {
+                if ($edition[$old_field] && !$this->exists("edition", $e_id, $map_id)) {
+                    $url_data = array(
+                        'url_name' => $edition[$old_field],
+                        'urltype_id' => $map_id,
+                        'url_linked_to' => "edition",
+                        'linked_id' => $e_id,
+                    );
+                    $set=$this->url_model->set_url("add",0,$url_data,false);
+                    $n++;
+                }
+                
+                if ($edition[$old_field] && $map_id==4) {
+                    $r++;
+                    $set_results_flag=$this->url_model->set_results_flag("edition", $e_id, 1);
+                }
+            }
+        }
+        
+        echo "Done<br>";
+        echo $n." records added to URL table<br>";
+        echo $r." results flags set<br>";
+        
     }
 
 }

@@ -180,8 +180,10 @@ class Race extends Admin_Controller {
     
      public function delete($race_id=0) {
         
-//        echo $race_id;
-//        exit();
+         // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
 
         if (($race_id==0) AND (!is_int($race_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: '.$race_id);

@@ -98,7 +98,7 @@ class File_model extends MY_model {
         }
     }
 
-    public function get_file_list($by_filetype=false,$file_linked_to=NULL, $linked_id=0) {
+    public function get_file_list($file_linked_to=NULL, $linked_id=0,$by_filetype=false) {
         
         $this->db->select("files.*,filetypes.*");
         $this->db->from("files");

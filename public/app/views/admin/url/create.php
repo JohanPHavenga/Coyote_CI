@@ -1,3 +1,7 @@
+<?php    
+//adding from edition - diable fields
+if (($action=="add")&&(@$url_detail['linked_id']>1)) { $disable_fields=true; } else { $disable_fields=false; }
+?>
 <div class="row">
     <div class="col-md-6">
         <div class="portlet light">
@@ -38,7 +42,12 @@
                     echo "<div class='row'>";
                         echo "<div class='col-md-12 linked_to'>";
                         echo form_label('Linked to? <span class="compulsary">*</span>', 'url_linked_to');
-                        echo form_dropdown('url_linked_to', $linked_to_dropdown, @$url_detail['url_linked_to'], ["id"=>"url_linked_to","class"=>"form-control input-xlarge"]);        
+                        $dropdown_data=[
+                            "id"=>"file_linked_to",
+                            "class"=>"form-control input-xlarge"
+                        ];
+                        if ($disable_fields) { $dropdown_data["readonly"]="readonly"; }
+                        echo form_dropdown('url_linked_to', $linked_to_dropdown, @$url_detail['url_linked_to'], $dropdown_data);        
                         echo "</div>";
                     echo "</div>";
                 echo "</div>";
@@ -49,7 +58,7 @@
                     $class_name="hidden-input-".$linked_to_name;
                     $dropdown_name=$linked_to_name."_dropdown";
                     
-                    if (($action=="add")||(@$url_detail['url_linked_to']!=$linked_to_name)) { 
+                    if ((($action=="add")&&(@$url_detail['linked_id']<1))||(@$url_detail['url_linked_to']!=$linked_to_name)) { 
                         $h_class=$class_name; 
                     } else { 
                         $h_id=@$url_detail['linked_id'];
@@ -58,7 +67,12 @@
                         echo "<div class='row'>";
                             echo "<div class='col-md-12'>";
                             echo form_label(ucfirst($linked_to_name), $linked_id_name);
-                            echo form_dropdown($linked_id_name, $$dropdown_name, @$h_id, ["id"=>$linked_id_name,"class"=>"form-control input-xlarge"]);        
+                            $dropdown_data=[
+                                "id"=>$linked_id_name,
+                                "class"=>"form-control input-xlarge"
+                            ];
+                            if ($disable_fields) { $dropdown_data["readonly"]="readonly"; }
+                            echo form_dropdown($linked_id_name, $$dropdown_name, @$h_id, $dropdown_data);        
                             echo "</div>";
                         echo "</div>";
                     echo "</div>";

@@ -21,6 +21,8 @@ class File extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
+        // unset edition return url session
+        $this->session->unset_userdata('edition_return_url');
 
         $this->data_to_view["file_data"] = $this->file_model->get_file_list();
         $this->data_to_view['heading'] = ["ID", "Filename", "Filetype", "Linked To", "ID", "Actions"];
@@ -65,11 +67,14 @@ class File extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    public function create($action, $id=0) {
+    public function create($action, $id=0, $linked_type=NULL) {
+        
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;            
+        }
       
         // additional models
-        $this->load->model('edition_model');
-        $this->load->model('race_model');
         $this->load->model('filetype_model');
 
         // load helpers / libraries
@@ -101,16 +106,29 @@ class File extends Admin_Controller {
             "scripts/admin/linked_to_hide_show.js",
         );
 
-        $this->data_to_view['edition_dropdown'] = $this->edition_model->get_edition_dropdown();
-        $this->data_to_view['race_dropdown'] = $this->race_model->get_race_dropdown();
         $this->data_to_view['filetype_dropdown'] = $this->filetype_model->get_filetype_dropdown();
         $this->data_to_view['linked_to_dropdown'] = $this->filetype_model->get_linked_to_dropdown();
+        $this->data_to_view['linked_to_list'] = $this->filetype_model->get_linked_to_list();
+        
+        // dynamically get drop downs using the linked_to_table
+        foreach ($this->data_to_view['linked_to_list'] as $linked_to_id => $linked_to_name) {
+            $dropdown = $linked_to_name . "_dropdown";
+            $model = $linked_to_name . "_model";
+            $method = "get_" . $linked_to_name . "_dropdown";
+
+            $this->load->model($model);
+            $this->data_to_view[$dropdown] = $this->$model->$method();
+        }
 
         if ($action == "edit") {
             $this->data_to_view['file_detail'] = $this->file_model->get_file_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
             $this->data_to_view['file_detail'] = [];
+            if ($id>0) {
+                $this->data_to_view['file_detail']['linked_id']=$id;
+                $this->data_to_view['file_detail']['file_linked_to']=$linked_type;
+            }
         }
 
         // set validation rules
@@ -236,6 +254,11 @@ class File extends Admin_Controller {
     }
 
     public function delete($file_id = 0) {
+        
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
 
         if (($file_id == 0) || (!is_numeric($file_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $file_id);

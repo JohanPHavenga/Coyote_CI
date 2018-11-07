@@ -524,18 +524,11 @@ class Frontend_Controller extends MY_Controller {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-
-                            // #toberemoved
-                            if ($edition['results_file']) {
-                                $results_check=$edition['results_file'];
-                            } else {
-                                $results_check=$edition['edition_url_results'];
-                            }
                             
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $results_check,
+                                "results" => $edition['edition_results_isloaded'],
                             ]);
 
                             // set distance circles
@@ -604,7 +597,7 @@ class Frontend_Controller extends MY_Controller {
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $edition['edition_url_results']
+                                "results" => $edition['edition_results_isloaded'],
                             ]);
 
                             // set distance circles

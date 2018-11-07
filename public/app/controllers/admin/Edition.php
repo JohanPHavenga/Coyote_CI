@@ -83,6 +83,8 @@ class Edition extends Admin_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
+        $this->load->model('url_model');
+        $this->load->model('file_model');
         $this->load->model('asamember_model');
 
         // load helpers / libraries
@@ -128,8 +130,10 @@ class Edition extends Admin_Controller {
         if ($action=="edit")
         {            
             $this->data_to_view['race_list']=$this->race_model->get_race_list(NULL, NULL, $id);
+            $this->data_to_view['url_list']=$this->url_model->get_url_list("edition",$id);
+            $this->data_to_view['file_list']=$this->file_model->get_file_list("edition",$id);
             $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
-            $this->data_to_view['file_list']=$this->file_model->get_file_list("edition_id",$id);
+            $this->data_to_view['file_list_by_type']=$this->file_model->get_file_list("edition",$id,true);
             $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
             // set edition_return_url for races
             $this->session->set_userdata('edition_return_url', "/".uri_string());     
