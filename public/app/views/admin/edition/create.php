@@ -137,52 +137,52 @@ echo form_open_multipart($form_url);
                 echo "</div>";
 
                 //  More info URL
-                echo "<div class='form-group'>";
-                echo form_label('Link to event website (More Info)', 'edition_url');
-                echo form_input([
-                    'name' => 'edition_url',
-                    'id' => 'edition_url',
-                    'value' => set_value('edition_url', @$edition_detail['edition_url']),
-                    'class' => 'form-control',
-                ]);
-
-                echo "</div>";
-
-                //  Entry URL
-                echo "<div class='form-group'>";
-                echo form_label('Link to race entry (Enter Now)', 'edition_url_entry');
-                echo form_input([
-                    'name' => 'edition_url_entry',
-                    'id' => 'edition_url_entry',
-                    'value' => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
-                    'class' => 'form-control',
-                ]);
-
-                echo "</div>";
-
-                //  Flyer URL
-                echo "<div class='form-group'>";
-                echo form_label('Link to race flyer (Race Flyer)', 'edition_url_entry');
-                echo form_input([
-                    'name' => 'edition_url_flyer',
-                    'id' => 'edition_url_flyer',
-                    'value' => set_value('edition_url_flyer', @$edition_detail['edition_url_flyer']),
-                    'class' => 'form-control',
-                ]);
-
-                echo "</div>";
-
-                //  Results URL
-                echo "<div class='form-group'>";
-                echo form_label('Link to results (Event Results)', 'edition_url_results');
-                echo form_input([
-                    'name' => 'edition_url_results',
-                    'id' => 'edition_url_results',
-                    'value' => set_value('edition_url_results', @$edition_detail['edition_url_results']),
-                    'class' => 'form-control',
-                ]);
-
-                echo "</div>";
+//                echo "<div class='form-group'>";
+//                echo form_label('Link to event website (More Info)', 'edition_url');
+//                echo form_input([
+//                    'name' => 'edition_url',
+//                    'id' => 'edition_url',
+//                    'value' => set_value('edition_url', @$edition_detail['edition_url']),
+//                    'class' => 'form-control',
+//                ]);
+//
+//                echo "</div>";
+//
+//                //  Entry URL
+//                echo "<div class='form-group'>";
+//                echo form_label('Link to race entry (Enter Now)', 'edition_url_entry');
+//                echo form_input([
+//                    'name' => 'edition_url_entry',
+//                    'id' => 'edition_url_entry',
+//                    'value' => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
+//                    'class' => 'form-control',
+//                ]);
+//
+//                echo "</div>";
+//
+//                //  Flyer URL
+//                echo "<div class='form-group'>";
+//                echo form_label('Link to race flyer (Race Flyer)', 'edition_url_entry');
+//                echo form_input([
+//                    'name' => 'edition_url_flyer',
+//                    'id' => 'edition_url_flyer',
+//                    'value' => set_value('edition_url_flyer', @$edition_detail['edition_url_flyer']),
+//                    'class' => 'form-control',
+//                ]);
+//
+//                echo "</div>";
+//
+//                //  Results URL
+//                echo "<div class='form-group'>";
+//                echo form_label('Link to results (Event Results)', 'edition_url_results');
+//                echo form_input([
+//                    'name' => 'edition_url_results',
+//                    'id' => 'edition_url_results',
+//                    'value' => set_value('edition_url_results', @$edition_detail['edition_url_results']),
+//                    'class' => 'form-control',
+//                ]);
+//
+//                echo "</div>";
 
                 //  OLD LOGO
                 // #toberemoved
@@ -258,7 +258,19 @@ echo form_open_multipart($form_url);
                                     <input type="checkbox" id="edition_info_isconfirmed" name="edition_info_isconfirmed" value="1" ' . $c . '> Information confirmed
                                     <span></span>
                                 </label>';
-                echo "</div>";
+                echo "</div></div>";
+                
+                echo "<div class='col-md-6'><div class='mt-checkbox-inline'>";
+                if (@$edition_detail['edition_results_isloaded']) {
+                    $c = "checked=''";
+                } else {
+                    $c = '';
+                }
+                echo '<label class="mt-checkbox">
+                                    <input type="checkbox" id="edition_results_isloaded" name="edition_results_isloaded" disabled="disabled" value="1" ' . $c . '> Results Loaded
+                                    <span></span>
+                                </label>';
+                echo "</div></div>";
                 echo "</div>";
                 echo "</div>";
                 ?>
@@ -274,7 +286,6 @@ echo "</div>";
 
         </div>
     </div>
-</div>
 
 
 
@@ -569,11 +580,13 @@ echo "</div>";
                 echo "<div class='row'>";
                 echo "<div class='col-md-12'>";
                 // LOGO
-                if (($action == "edit") && ($file_list_by_type[1])) {
+                if (($action == "edit") && (@$file_list_by_type[1])) {
                     $img_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list_by_type[1][0]['file_name']);
                     echo "<div class='col-md-6'>";
                     echo "<p><img src='$img_url' style='width: 300px;'></p>";
                     echo "</div>";
+                } else {
+                    echo "<p>No logo to display</p>";
                 }
                 echo "</div>";
 

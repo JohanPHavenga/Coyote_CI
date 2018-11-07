@@ -138,7 +138,7 @@ class File_model extends MY_model {
     }
     
     public function check_filetype_exists($linked_to, $id, $filetype_id) {
-        $this->db->select("file_id");
+        $this->db->select("*");
         $this->db->from("files");
         $this->db->where('file_linked_to', $linked_to);
         $this->db->where('linked_id', $id);
@@ -146,7 +146,8 @@ class File_model extends MY_model {
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            return $query->row_array();
+            $result = $query->result_array();
+            return $result[0];
         } else {
             return false;
         }

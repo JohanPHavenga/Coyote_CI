@@ -69,8 +69,8 @@
                         foreach ($month_list as $day => $edition_list) {
                             foreach ($edition_list as $id => $event) {
 
-                                if ($event['logo_file']) {
-                                    $img_url=base_url("uploads/edition/".$event['edition_id']."/".$event['logo_file']);
+                                if (@$edition_logo_list[$event['edition_id']]) {
+                                    $img_url=base_url("uploads/edition/".$event['edition_id']."/".$edition_logo_list[$event['edition_id']]);
 
                                 // =================================
                                 // #toberemoved                      

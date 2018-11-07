@@ -26,7 +26,7 @@ class Url_model extends MY_model {
         return false;
     }
 
-    public function get_url_list($linked_to=NULL, $linked_id=0) {
+    public function get_url_list($linked_to=NULL, $linked_id=0,$by_urltype=false) {
 
         $this->db->select("urls.*, urltype_name");
         $this->db->join("urltypes", "urltype_id");
@@ -41,9 +41,16 @@ class Url_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[$row['url_id']] = $row;
+                if ($by_urltype) {
+                    $url_list[$row['urltype_id']][]=$row;
+                } else {                    
+                    $url_list[]=$row;
+                }
+                
+//                $data[$row['url_id']] = $row;
             }
-            return $data;
+            return $url_list;
+//            return $data;
         }
         return false;
     }
