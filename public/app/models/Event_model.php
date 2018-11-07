@@ -1,8 +1,9 @@
 <?php
-class Event_model extends CI_Model {
+class Event_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
 
@@ -203,10 +204,6 @@ class Event_model extends CI_Model {
             $this->db->join('towns', 'towns.town_id = events.town_id');
             $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id','left outer');
             $this->db->join('users', 'users.user_id = edition_user.user_id','left outer');
-            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=4)', 'left outer');  // results
-
-//            echo $this->db->get_compiled_select();
-//            exit();
             
             if (isset($params['area'])) {
                 $this->db->join('town_area', 'towns.town_id = town_area.town_id');
@@ -229,10 +226,7 @@ class Event_model extends CI_Model {
             }
             
             if (isset($params['results'])) {
-                $this->db->group_start();
-                $this->db->where("edition_url_results");      
-                $this->db->or_where("edition_url_results", "");   
-                $this->db->group_end();             
+                $this->db->where("edition_results_isloaded", $params['results']);
             }
             
             $this->db->where("events.event_status", 1);
@@ -259,9 +253,9 @@ class Event_model extends CI_Model {
         public function get_event_list_summary($from,$params)
         {
             // set fields to be fetched
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_status","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","edition_info_email_sent",
+            $field_arr=["event_name","editions.edition_id","edition_name","edition_status","edition_date","edition_info_isconfirmed","edition_results_isloaded","edition_logo","edition_info_email_sent",
                 "racetype_abbr","town_name","race_distance","race_time_start",
-                "user_name", "user_surname", "user_email", "results_file"];
+                "user_name", "user_surname", "user_email"];
             
             // setup fields needed for summary call
             // go get the data
@@ -283,9 +277,6 @@ class Event_model extends CI_Model {
             } 
             elseif ($from=="search")
             {
-                $field_arr[]="logo_file";
-                $key = array_search("results_file", $field_arr);
-                unset($field_arr[$key]);
                 $query=$this->search_events($field_arr, $params['ss'], $params['inc_all'],@$params['inc_non_active']);
             } 
             elseif ($from=="id") 
@@ -369,132 +360,7 @@ class Event_model extends CI_Model {
             } else {
                 return $data;
             }
-                
-
         }
-                        
-        public function get_event_list_summary_old($from,$params)
-        {
-//            wts($from);
-//            wts($params);
-//            exit();
-            $field_arr=["event_name","editions.edition_id","edition_name","edition_date","edition_info_isconfirmed","edition_url_entry","edition_url_results","edition_logo","edition_info_email_sent",
-                "racetype_abbr","town_name","race_distance","race_time_start",
-                "user_name", "user_surname", "user_email"];
-            // setup fields needed for summary call
-            if ($from=="date_range") {
-                if (!isset($params['date_to'])) { $params['date_to']=NULL; }
-                if (!isset($params['area'])) { $params['area']=NULL; }
-                if (!isset($params['sort'])) { $params['sort']="ASC"; }
-                $query=$this->get_event_list_data(
-                        [
-                        "field_arr"=>$field_arr,
-                        "date_from"=>$params['date_from'], 
-                        "date_to"=>$params['date_to'], 
-                        "area"=>$params['area'], 
-                        "sort"=>$params['sort'],
-                        "confirmed"=>@$params['confirmed'],
-                        "results"=>@$params['results'],
-                        ]
-                        );
-            } 
-            elseif ($from=="search")
-            {
-                $query=$this->search_events($field_arr, $params['ss'], $params['inc_all']);
-            } 
-            elseif ($from=="id") 
-            {
-                $query=$this->get_event_list_data(
-                        [
-                        "field_arr"=>$field_arr,                            
-                        "event_id"=>$params['event_id'],
-                        ]
-                        );
-                
-            }
-            
-            
-
-            if ($query->num_rows() > 0) {
-                foreach ($query->result_array() as $row) {
-//                    wts($row);
-//                    die();
-                    
-                    foreach ($field_arr as $field) {
-                        
-                        // vir as daar 'n veld is met 'n table naam vooraan
-                        if (strpos($field, ".") !== false) {
-                            $pieces = explode(".", $field);
-                            $field=$pieces[1];
-                        }
-
-                        switch ($field) {
-                            
-                            case "race_distance":                                
-                                $value=floatval($row[$field])."km";
-                                $value_arr=intval($row[$field]);
-                                if ($row['racetype_abbr']=="W") { $value.=" W"; $value_arr.="W"; }
-                                
-                                // also add an array of race distances
-                                $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]['distance_arr'][$value_arr]=$value_arr;
-                                
-                                // make string
-                                if (isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field])) {
-                                    $value=$data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field].", ".$value;
-                                };
-                                
-                            break;
-                            case "race_time_start":
-                                if (date("H",strtotime($row[$field])) >  0) { $value = "Morning";  }
-                                if (date("H",strtotime($row[$field])) >  12) { $value = "Afternoon";  }
-                                if (date("H",strtotime($row[$field])) >  17) { $value = "Evening";  }
-                                if (date("H",strtotime($row[$field])) >  21) { $value = "Night";  }
-                                
-                                if (!isset($data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"])) {
-                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"]=date("H:i",strtotime($row[$field]));                                    
-                                } else {
-                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["start_time"].=", ".date("H:i",strtotime($row[$field]));
-                                } 
-                            break;
-                            case "edition_date":
-                                $value=date("D d M Y",strtotime($row[$field]));
-                            break;
-                            case "edition_name":
-                                $value=$row[$field];
-                                // sit veld by vir edition_url
-                                // sanatize name
-//                                $edition_url_name=urlencode(str_replace("'","",str_replace("/"," ",$row[$field])));
-                                $edition_url_name=encode_edition_name($row[$field]);
-                                
-                                // remove the month and id from array
-//                                if ($from=="id") {
-//                                    $data["edition_url"]="/event/".$edition_url_name;
-//                                } else {
-                                    $data[date("F",strtotime($row['edition_date']))][$row['edition_id']]["edition_url"]="/event/".$edition_url_name;
-//                                }
-                            break;
-                            default:
-                                $value=$row[$field];
-                            break;
-                        }
-
-                        // haal racetype_abbr uit die lys
-                        if ($field!="racetype_abbr") {
-                            $data[date("F",strtotime($row['edition_date']))][$row['edition_id']][$field]=$value;
-                        }
-
-                    }
-                }
-                if ($from=="id") {
-                    return $data[date("F",strtotime($row['edition_date']))][$row['edition_id']];
-                } else {
-                    return $data;
-                }
-            }
-            return false;
-
-        }
-        
         
         public function get_event_list_sitemap($params) {
                         
@@ -561,38 +427,19 @@ class Event_model extends CI_Model {
         }
 
 
-
-
         public function search_events($field_list, $ss, $show_all=false, $incl_non_active=false) {
-            
-            // NOTE I removed areas because that breaks the search for towns that does not belong to an area
             
             $search_result=[];
             
-            // manipulate field_arr for files
-            foreach ($field_list as $field) {
-                if ($field=="results_file") { continue; }
-                if ($field=="logo_file") { $field="file_name as logo_file"; }
-                $field_arr[]=$field;
-            }
-            $this->db->select($field_arr);
-            
-            $this->db->from("events");
-            
+            $this->db->select($field_list);            
+            $this->db->from("events");            
             $this->db->join('editions', 'editions.event_id = events.event_id');
             $this->db->join('races', 'races.edition_id = editions.edition_id');
             $this->db->join('towns', 'towns.town_id = events.town_id');
             $this->db->join('racetypes', 'races.racetype_id = racetypes.racetype_id', 'left outer');
             $this->db->join('edition_user', 'editions.edition_id = edition_user.edition_id', 'left outer');
-            $this->db->join('users', 'users.user_id = edition_user.user_id', 'left outer');
-            $this->db->join('files', '(editions.edition_id = files.edition_id) and (files.filetype_id=1)', 'left outer');            
-            
-//            $this->db->join('town_area', 'towns.town_id = town_area.town_id');
-//            $this->db->join('areas', 'areas.area_id = town_area.area_id');            
-//            $this->db->where("edition_date >=", date("Y-m-d"));
-            
+            $this->db->join('users', 'users.user_id = edition_user.user_id', 'left outer');            
             $this->db->group_start();
-//            $this->db->like("area_name", $ss);
             $this->db->or_like("event_name", $ss);
             $this->db->or_like("edition_name", $ss);
             $this->db->or_like("town_name", $ss);

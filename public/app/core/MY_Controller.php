@@ -35,10 +35,6 @@ class Admin_Controller extends MY_Controller {
     function __construct() {
         parent::__construct();
         // Check login, load back end dependencies
-//        wts($_SESSION);
-//        exit();
-
-
         if (!$this->session->has_userdata('admin_logged_in')) {
             $this->session->set_flashdata([
                 'alert' => "You are not logged in as an Admin. Please log in to continue.",
@@ -94,8 +90,6 @@ class Admin_Controller extends MY_Controller {
     function csv_handler($file_path) {
         $csv = array_map('str_getcsv', file($file_path));
         array_walk($csv, function(&$a) use ($csv) {
-//            wts($csv[0]);
-//            wts($a);
             $a = array_combine($csv[0], $a);
         });
         array_shift($csv);
@@ -107,13 +101,11 @@ class Admin_Controller extends MY_Controller {
             //reset($entity);
 
             $id = array_shift($entity);
-
             foreach ($entity as $key => $value) {
                 if (!empty($value)) {
                     $user_data[$key] = $value;
                 }
             }
-
             // get ID - set action
             if ($id > 0) {
                 $action = "edit";
@@ -130,6 +122,19 @@ class Admin_Controller extends MY_Controller {
         }
 
         return $sum_data;
+    }
+    
+    public function set_results_flag($linked_to, $id) {
+        $this->load->model('url_model');
+        $this->load->model('file_model');
+        
+        // chcek if there is a results URL
+        $has_results_url=$this->url_model->check_urltype_exists($linked_to, $id, 4);
+        $has_results_file=$this->file_model->check_filetype_exists($linked_to, $id, 4);
+                
+        //this method is in MY_MODEL
+        if ($has_results_url||$has_results_file) { $flag=true; } else { $flag=false; }
+        $set=$this->url_model->set_results_flag($linked_to, $id, $flag);
     }
 
     function set_admin_menu_array() {
@@ -192,6 +197,51 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "trophy",
                 "seg0" => ['race'],
             ],
+            // Other info
+            [
+                "text" => "Other Info",
+                "url" => 'admin/town/search',
+                "icon" => "settings",
+                "seg0" => ['role', 'town', 'province'],
+                "submenu" => [
+                    [
+                        "text" => "Search Towns",
+                        "url" => 'admin/town/search',
+                    ],  
+                    [
+                        "text" => "Files",
+                        "url" => 'admin/file/view',
+                    ],
+                    [
+                        "text" => "URLs",
+                        "url" => 'admin/url/view',
+                    ],
+                    [
+                        "text" => "ASA Members",
+                        "url" => 'admin/asamember/view',
+                    ],
+                    [
+                        "text" => "Areas",
+                        "url" => 'admin/area/view',
+                    ],
+                    [
+                        "text" => "Roles",
+                        "url" => 'admin/role/view',
+                    ],                    
+                    [
+                        "text" => "Provinces",
+                        "url" => 'admin/province/view',
+                    ],
+                    [
+                        "text" => "Racetypes",
+                        "url" => 'admin/racetype/view',
+                    ],
+                    [
+                        "text" => "Quotes",
+                        "url" => 'admin/quote/view',
+                    ],
+                ],
+            ],
             // Users
             [
                 "text" => "Users",
@@ -220,43 +270,7 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "direction",
                 "seg0" => ['parkrun'],
             ],
-            // Static info
-            [
-                "text" => "Static Info",
-                "url" => 'admin/role',
-                "icon" => "settings",
-                "seg0" => ['role', 'town', 'province'],
-                "submenu" => [
-                    [
-                        "text" => "Areas",
-                        "url" => 'admin/area/view',
-                    ],
-                    [
-                        "text" => "Roles",
-                        "url" => 'admin/role/view',
-                    ],
-                    [
-                        "text" => "Search Towns",
-                        "url" => 'admin/town/search',
-                    ],
-                    [
-                        "text" => "Provinces",
-                        "url" => 'admin/province/view',
-                    ],
-                    [
-                        "text" => "Racetypes",
-                        "url" => 'admin/racetype/view',
-                    ],
-                    [
-                        "text" => "ASA Members",
-                        "url" => 'admin/asamember/view',
-                    ],
-                    [
-                        "text" => "Quotes",
-                        "url" => 'admin/quote/view',
-                    ],
-                ],
-            ],
+            
         ];
     }
 
@@ -510,18 +524,11 @@ class Frontend_Controller extends MY_Controller {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-
-                            // #toberemoved
-                            if ($edition['results_file']) {
-                                $results_check=$edition['results_file'];
-                            } else {
-                                $results_check=$edition['edition_url_results'];
-                            }
                             
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $results_check,
+                                "results" => $edition['edition_results_isloaded'],
                             ]);
 
                             // set distance circles
@@ -590,7 +597,7 @@ class Frontend_Controller extends MY_Controller {
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $edition['edition_url_results']
+                                "results" => $edition['edition_results_isloaded'],
                             ]);
 
                             // set distance circles

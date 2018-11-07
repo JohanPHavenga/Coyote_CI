@@ -151,6 +151,7 @@ class Pages extends Frontend_Controller {
     
     public function search() {
         
+        $this->load->model('file_model');
         $this->load->helper('form');
         
         if ($this->input->get('query')) {
@@ -161,9 +162,21 @@ class Pages extends Frontend_Controller {
             $this->data_to_view['msg']="Please use the <b>search box</b> above to seach for a race.";
         }
         
-//        wts( $this->data_to_view['search_results']);
-//        die();
-            
+        // kry die logo files gekoppel aan die editions
+        $this->data_to_view['edition_logo_list']=[];
+        foreach ($this->data_to_view['search_results'] as $year => $year_list) {
+            foreach ($year_list as $month => $month_list) {
+                foreach ($month_list as $day => $edition_list) {
+                    foreach ($edition_list as $id => $event) {
+                        $file_info=$this->file_model->check_filetype_exists("edition",$event['edition_id'],1);
+                        if (@$file_info['file_id']>0) {
+                            $this->data_to_view['edition_logo_list'][$event['edition_id']]=$file_info['file_name'];
+                        }
+                    }
+                }
+            }
+        }
+                    
         $this->data_to_header['section']="home";
         $this->data_to_header['title']="Race Search";
         $this->data_to_header['meta_description']="Search for a running event or race";

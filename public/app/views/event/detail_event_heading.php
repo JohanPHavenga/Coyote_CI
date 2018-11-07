@@ -38,38 +38,24 @@
                         $button_class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
                         echo '<div class="btn-group">';
                         // ENTRY
-                        if ($event_detail['edition_url_entry']) {
-                            echo '<a href="'.$event_detail['edition_url_entry'].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
+                        if (@$event_detail['calc_urls'][5]) {
+                            echo '<a href="'.$event_detail['calc_urls'][5].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
                         }
                         // MORE INFO
-                        if ($event_detail['edition_url']) {
-                            echo '<a href="'.$event_detail['edition_url'].'" target="_blank" class="'.$button_class.'">More Info</a>';  
+                        if (@$event_detail['calc_urls'][1]) {
+                            echo '<a href="'.@$event_detail['calc_urls'][1].'" target="_blank" class="'.$button_class.'">More Info</a>';  
                         }
                         // FLYER
-                        if (@$event_detail['file_list'][2]) {
-                            
-                            $file_id = my_encrypt($event_detail['file_list'][2][0]['file_id']);
-                            $file_url=base_url("file/handler/".$file_id);
-                            echo "<a href='$file_url' class='".$button_class."'>Event Flyer</a>";
-
-                        // =================================
-                        // #toberemoved
-                        // =================================
-                        } elseif ($event_detail['edition_url_flyer']) {
-                            echo '<a href="'.$event_detail['edition_url_flyer'].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                            
+                        if (@$event_detail['calc_urls'][2]) {                            
+                            echo '<a href="'.@$event_detail['calc_urls'][2].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                                                      
+                        }
+                        // ENTRY FORM
+                        if (@$event_detail['calc_urls'][3]) {
+                            echo '<a href="'.@$event_detail['calc_urls'][3].'" target="_blank" class="'.$button_class.'">Manual Entry Form</a>';                             
                         }
                         // RESULTS
-                        if (@$event_detail['file_list'][4]) {
-                            
-                            $file_id = my_encrypt($event_detail['file_list'][4][0]['file_id']);
-                            $file_url=base_url("file/handler/".$file_id);
-                            echo "<a href='$file_url' class='".$button_class."'>Results</a>";
-                        
-                        // =================================
-                        // #toberemoved
-                        // =================================    
-                        } elseif ($event_detail['edition_url_results']) {
-                            echo '<a href="'.$event_detail['edition_url_results'].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
+                        if (@$event_detail['calc_urls'][4]) {
+                            echo '<a href="'.@$event_detail['calc_urls'][4].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
                         }
                         echo "</div>";
                      ?>
@@ -80,7 +66,7 @@
                     <?php
                     if (@$event_detail['file_list'][1]) {
                         $img_url=base_url("uploads/edition/".$event_detail['edition_id']."/".$event_detail['file_list'][1][0]['file_name']);
-                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
+                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px; float:right;'>";
                         
                     // =================================
                     // #toberemoved                      

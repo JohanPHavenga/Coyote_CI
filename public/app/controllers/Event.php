@@ -58,6 +58,7 @@ class Event extends Frontend_Controller {
         $this->load->model('edition_model');
         $this->load->model('race_model');
         $this->load->model('file_model');
+        $this->load->model('url_model');
                         
         // as daar nie 'n edition_name deurgestuur word nie
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
@@ -110,7 +111,8 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);     
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
-        $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition_id",$edition_id);
+        $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition",$edition_id,true);
+        $this->data_to_view['event_detail']['url_list']=$this->url_model->get_url_list("edition",$edition_id,true);
         // get next an previous races
         $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
         $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
@@ -131,7 +133,7 @@ class Event extends Frontend_Controller {
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);        
         $this->data_to_header['keywords']=$this->formulate_keywords($this->data_to_view['event_detail']['summary']);     
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
-        $this->data_to_view['event_detail']['main_url']=$this->get_main_url($this->data_to_view['event_detail']);
+        $this->data_to_view['event_detail']['calc_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);
         
         
         // set title bar
@@ -198,18 +200,46 @@ class Event extends Frontend_Controller {
 
     }
     
-    
-    function get_main_url($event_detail) {
-        $main_url='';
-        if ($event_detail['edition_url_entry']) {
-            $main_url=$event_detail['edition_url_entry'];
-        } elseif ($event_detail['edition_url']) {
-            $main_url=$event_detail['edition_url_entry'];
-        } elseif ($event_detail['edition_url_flyer']) {
-            $main_url=$event_detail['edition_url_flyer'];
+    function calc_urls_to_use($file_list,$url_list) {
+        $calc_url_list=[];
+        $this->load->model('urltype_model');
+        $urltype_list=$this->urltype_model->get_urltype_list();
+        
+        
+        if (@$url_list[2]) { $calc_url_list[0]=$url_list[2][0]['url_name'];  } // check eers vir flyer
+        if (@$url_list[1]) { // dan website
+            $calc_url_list[0]=$url_list[1][0]['url_name'];  
+            $calc_url_list[1]=$url_list[1][0]['url_name'];              
+        } 
+        if (@$url_list[5]) { // dan online entry 
+            $calc_url_list[0]=$url_list[5][0]['url_name'];  
+            $calc_url_list[5]=$url_list[5][0]['url_name'];              
+        } 
+        
+        $url_check_list=[2,3,4];
+        foreach($url_check_list as $id) {
+            if (@$file_list[$id]) {                            
+                $file_id = my_encrypt($file_list[$id][0]['file_id']);
+                $calc_url_list[$id]=base_url("file/handler/".$file_id);
+            } elseif (@$url_list[$id]) {
+                $calc_url_list[$id]=$url_list[$id][0]['url_name'];     
+            }
         }
-        return $main_url;
+        
+        return $calc_url_list;
     }
+    
+//    function get_main_url($event_detail) {
+//        $main_url='';
+//        if ($event_detail['edition_url_entry']) {
+//            $main_url=$event_detail['edition_url_entry'];
+//        } elseif ($event_detail['edition_url']) {
+//            $main_url=$event_detail['edition_url_entry'];
+//        } elseif ($event_detail['edition_url_flyer']) {
+//            $main_url=$event_detail['edition_url_flyer'];
+//        }
+//        return $main_url;
+//    }
     
     function formulate_meta_description($event_detail_summary) {
         $return= "The annual ".

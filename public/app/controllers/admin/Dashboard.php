@@ -24,7 +24,9 @@ class Dashboard extends Admin_Controller {
                 // Whoops, we don't have a page for that!
                 show_404();
         }
-
+        // unset edition return url session, should it exists
+        $this->session->unset_userdata('edition_return_url');
+        
         $this->view_url="/admin/dashboard/".$page;
 
         $this->data_to_header['title'] = ucfirst($page);
@@ -88,7 +90,7 @@ class Dashboard extends Admin_Controller {
             
             // get list of editions that has no results
             $params=[
-                'results'=>1,
+                'results'=>0,
                 'date_from'=>date("Y-m-d", strtotime("-2 months")),
                 'date_to'=>date("Y-m-d"),
             ];

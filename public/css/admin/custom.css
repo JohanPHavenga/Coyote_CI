@@ -16,3 +16,13 @@ label {
 ::-moz-selection {
   background: yellow; /* Gecko Browsers */
 }
+
+.hidden-input-event,
+.hidden-input-edition,
+.hidden-input-race,
+.hidden-input-club,
+.hidden-input-sponsor,
+.hidden-input-user
+{
+    display: none;
+}

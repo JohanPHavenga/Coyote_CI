@@ -99,10 +99,12 @@
                         $this->table->add_row($cell);
                         foreach ($month_list as $day => $edition_list) {
                             foreach ($edition_list as $edition) {
+//                                if (!$edition['results_file']) {
                                 $row['date'] = fdateDay($edition['edition_timestamp']);
                                 $row['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
                                 $this->table->add_row($row);
                                 unset($row);
+//                                }
                             }
                         }
                     }
@@ -115,5 +117,5 @@
 </div>
 
 <?php
-//wts($event_list_unconfirmed);
+//wts($event_list_noresults);
 ?>            

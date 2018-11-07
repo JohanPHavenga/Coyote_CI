@@ -1,8 +1,9 @@
 <?php
-class Edition_model extends CI_Model {
+class Edition_model extends MY_model {
 
         public function __construct()
         {
+            parent::__construct();
             $this->load->database();
         }
 
@@ -54,14 +55,9 @@ class Edition_model extends CI_Model {
         }
 
 
-        public function get_edition_list($limit=NULL, $start=NULL)
+        public function get_edition_list()
         {
-            
-            if (isset($limit)&&isset($start)) {
-                $this->db->limit($limit, $start);
-            }
-
-            $this->db->select("editions.edition_id, edition_name, edition_date, edition_status, edition_address, event_name");
+            $this->db->select("editions.*, event_name");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
 
@@ -82,6 +78,10 @@ class Edition_model extends CI_Model {
         {
             $this->db->select("edition_id, edition_name");
             $this->db->from("editions");
+            // limit the list a little
+            $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));     
+            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
+            $this->db->order_by("edition_name");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
