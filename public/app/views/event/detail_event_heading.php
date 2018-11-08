@@ -22,42 +22,46 @@
                     </p>
                     <?php
                         // INTRO
-                        if (strlen($event_detail['edition_intro_detail'])>10) {
+                        
+                        if (strlen(strip_tags($event_detail['edition_intro_detail']))>5) {
                             echo $event_detail['edition_intro_detail'];
                         }
                         
                         // ASA MEMBERSHIP
                         if ($event_detail['asa_member_id']>0) {                        
-                            echo "<p> This event is held under the rules and regulations of "
+                            echo "<p style='font-size: 0.9em;'>This event is held under the rules and regulations of "
                                     . "<u><a href='https://www.athletics.org.za/' target='_blank' title='Athletics South Africa'>ASA</a></u> "
                                     . "and <u><a href='".$event_detail['asa_member_url']."' target='_blank' title='".$event_detail['asa_member_abbr']."'>"
                                     . "".$event_detail['asa_member_name']."</a></u></p>";
                         }
+                        
                     
                         // BUTTONS
-                        $button_class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
-                        echo '<div class="btn-group">';
-                        // ENTRY
-                        if (@$event_detail['calc_urls'][5]) {
-                            echo '<a href="'.$event_detail['calc_urls'][5].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
+                        if ($event_detail['calc_urls']) {
+                            $button_class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
+                            echo '<div class="btn-group">';
+                            // ENTRY
+                            if (@$event_detail['calc_urls'][5]) {
+                                echo '<a href="'.$event_detail['calc_urls'][5].'" target="_blank" class="'.$button_class.'">Enter Now</a>';                                                 
+                            }
+                            // MORE INFO
+                            if (@$event_detail['calc_urls'][1]) {
+                                echo '<a href="'.@$event_detail['calc_urls'][1].'" target="_blank" class="'.$button_class.'">More Info</a>';  
+                            }
+                            // FLYER
+                            if (@$event_detail['calc_urls'][2]) {                            
+                                echo '<a href="'.@$event_detail['calc_urls'][2].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                                                      
+                            }
+                            // ENTRY FORM
+                            if (@$event_detail['calc_urls'][3]) {
+                                echo '<a href="'.@$event_detail['calc_urls'][3].'" target="_blank" class="'.$button_class.'">Manual Entry Form</a>';                             
+                            }
+                            // RESULTS
+                            if (@$event_detail['calc_urls'][4]) {
+                                echo '<a href="'.@$event_detail['calc_urls'][4].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
+                            }
+                            echo "</div>";
                         }
-                        // MORE INFO
-                        if (@$event_detail['calc_urls'][1]) {
-                            echo '<a href="'.@$event_detail['calc_urls'][1].'" target="_blank" class="'.$button_class.'">More Info</a>';  
-                        }
-                        // FLYER
-                        if (@$event_detail['calc_urls'][2]) {                            
-                            echo '<a href="'.@$event_detail['calc_urls'][2].'" target="_blank" class="'.$button_class.'">Event Flyer</a>';                                                      
-                        }
-                        // ENTRY FORM
-                        if (@$event_detail['calc_urls'][3]) {
-                            echo '<a href="'.@$event_detail['calc_urls'][3].'" target="_blank" class="'.$button_class.'">Manual Entry Form</a>';                             
-                        }
-                        // RESULTS
-                        if (@$event_detail['calc_urls'][4]) {
-                            echo '<a href="'.@$event_detail['calc_urls'][4].'" target="_blank" class="'.$button_class.'">Race Results</a>';                             
-                        }
-                        echo "</div>";
                      ?>
                     <!-- End-->
                     
