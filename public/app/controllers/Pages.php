@@ -164,6 +164,7 @@ class Pages extends Frontend_Controller {
         
         // kry die logo files gekoppel aan die editions
         $this->data_to_view['edition_logo_list']=[];
+        if (is_array($this->data_to_view['search_results'])) {
         foreach ($this->data_to_view['search_results'] as $year => $year_list) {
             foreach ($year_list as $month => $month_list) {
                 foreach ($month_list as $day => $edition_list) {
@@ -175,6 +176,7 @@ class Pages extends Frontend_Controller {
                     }
                 }
             }
+        }
         }
                     
         $this->data_to_header['section']="home";

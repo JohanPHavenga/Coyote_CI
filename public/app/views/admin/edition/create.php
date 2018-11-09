@@ -595,14 +595,7 @@ echo "</div>";
                 ?>
             </div> <!-- portlet-body -->   
 
-            <div class="portlet-footer">
-                <?php
-                //  BUTTONS
-                echo "<div class='btn-group pull-right'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo "</div>";
-                ?>
-            </div>
+            
         </div> <!-- portlet -->  
     </div> <!-- col -->  
 </div> <!-- row-body -->  
