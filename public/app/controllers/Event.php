@@ -113,6 +113,8 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
         $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition",$edition_id,true);
         $this->data_to_view['event_detail']['url_list']=$this->url_model->get_url_list("edition",$edition_id,true);
+        $this->data_to_view['event_detail']['sponsor_url_list']=$this->url_model->get_url_list("sponsor",$this->data_to_view['event_detail']['sponsor_id'],false);
+        $this->data_to_view['event_detail']['club_url_list']=$this->url_model->get_url_list("club",$this->data_to_view['event_detail']['club_id'],false);
         // get next an previous races
         $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
         $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
@@ -216,7 +218,7 @@ class Event extends Frontend_Controller {
             $calc_url_list[5]=$url_list[5][0]['url_name'];              
         } 
         
-        $url_check_list=[2,3,4];
+        $url_check_list=[2,3,4,6];
         foreach($url_check_list as $id) {
             if (@$file_list[$id]) {                            
                 $file_id = my_encrypt($file_list[$id][0]['file_id']);

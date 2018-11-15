@@ -72,6 +72,24 @@ table.accordian td:first-child { padding: 0 8px 0 0; }
   left: auto;
 }
 
+.c-content-box a.link {
+    color: #32c5d2;
+    border-bottom: 1px dashed #32c5d2;
+    font-weight: bold;
+}
+
+.c-content-box a.link:hover {
+    color: #5c6873;
+    border-bottom: 1px solid #5c6873;
+}
+
+/* external link indicator */
+/*.c-content-box a.link[target="_blank"]:after {
+    font-family: 'FontAwesome';
+    font-size: 0.8em;
+    content: " \f08e";
+}*/
+
 footer a
 {
     color: #fff;
