@@ -44,6 +44,7 @@
                         $row['id']=$data_entry['edition_id'];
                         $row['name']=$data_entry['edition_name'];
                         $row['status']=flableStatus($data_entry['edition_status']);
+                        $row['affiliation']=$data_entry['asa_member_abbr'];
                         $row['date']=fdateShort($data_entry['edition_date']);
                         $row['event']=$data_entry['event_name'];
                         $row['actions']= fbuttonActionGroup($action_array);

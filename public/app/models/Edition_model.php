@@ -57,9 +57,11 @@ class Edition_model extends MY_model {
 
         public function get_edition_list()
         {
-            $this->db->select("editions.*, event_name");
+            $this->db->select("editions.*, event_name, asa_member_abbr");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
+            $this->db->join('edition_asa_member', 'edition_id', 'left');
+            $this->db->join('asa_members', 'asa_member_id', 'left');
 
             $this->db->order_by('editions.edition_id', 'ASC');
             $query = $this->db->get();
