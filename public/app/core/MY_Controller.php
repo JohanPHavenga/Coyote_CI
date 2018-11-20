@@ -152,6 +152,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "bar-chart",
                     ],
                     [
+                        "text" => "Audit",
+                        "url" => 'admin/dashboard/audit',
+                        "icon" => "bulb",
+                    ],
+                    [
                         "text" => "Search",
                         "url" => 'admin/dashboard/search',
                         "icon" => "magnifier",

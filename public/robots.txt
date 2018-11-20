@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /login/admin
 Disallow: /event/ics/
+Disallow: /file/handler/
 
 Sitemap: http://www.roadrunning.co.za/seo/sitemap.xml
