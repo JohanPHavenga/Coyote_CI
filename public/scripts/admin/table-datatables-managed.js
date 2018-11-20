@@ -86,28 +86,29 @@ var TableDatatablesManaged = function () {
                     "first": "First"
                 }
             },
+            
+            "responsive": true,
 
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
             "lengthMenu": [
-                [5, 10, 50, -1],
-                [5, 10, 50, "All"] // change per page values here
+                [5, 10, 20, 50, -1],
+                [5, 10, 20, 50, "All"] // change per page values here
             ],
             // set the initial value
             "pageLength": 10,            
             "columnDefs": [
-                {  // set default column settings
-                    'orderable': false,
-                    'targets': [5]
-                }, 
-                {
-                    "searchable": false,
-                    "targets": [5]
-                },
+                { orderable: false, targets: [6] }, 
+                { searchable: false, targets: [6] },
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 },
+                { responsivePriority: 3, targets: 1 },
+                { responsivePriority: 4, targets: 4 }
+                
             ],
-            "order": [
-                [1, "asc"]
-            ] // set first column as a default sort by asc
+//            "order": [
+//                [2, "asc"]
+//            ] // set first column as a default sort by asc
         });
 
         var tableWrapper = jQuery('#editions_table_wrapper');

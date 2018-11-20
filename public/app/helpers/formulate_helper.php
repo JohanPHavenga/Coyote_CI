@@ -262,7 +262,7 @@ if ( ! function_exists('fbuttonActionGroup'))
     {
         $html="<div class='btn-group'>";
         $html.="<button class='btn btn-xs default dropdown-toggle' type='button' data-toggle='dropdown' aria-expanded='false'> Actions <i class='fa fa-angle-down'></i></button>";
-        $html.="<ul class='dropdown-menu pull-left' role='menu'>";
+        $html.="<ul class='dropdown-menu pull-right' role='menu'>";
         foreach ($action_array as $action_item) {
             // confirmation
             if (isset($action_item['confirmation_text'])) {

@@ -431,7 +431,7 @@ class Edition extends Admin_Controller {
         $this->load->model('asamember_model');
         
         // get data
-        $race_list=$this->race_model->get_race_list(NULL, NULL, $id);
+        $race_list=$this->race_model->get_race_list($id);
         $edition_detail=$this->edition_model->get_edition_detail($id);
         
         // create new edition data

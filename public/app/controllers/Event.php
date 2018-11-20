@@ -342,7 +342,7 @@ class Event extends Frontend_Controller {
         $this->load->model('race_model');
 
         $edition_info['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);
-        $edition_info['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+        $edition_info['event_detail']['race_list']=$this->race_model->get_race_list($edition_id);
 
 
         $this->data_to_view['summary']=$edition_info['event_detail']['edition_name'];
