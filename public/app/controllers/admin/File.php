@@ -175,7 +175,7 @@ class File extends Admin_Controller {
                         "filetype_id" => $this->input->post("filetype_id"),
                         "file_linked_to" => $this->input->post("file_linked_to"),
                         "data" => $file_upload['data'],
-                        "debug" => true,
+                        "debug" => false,
                     ];
                     $file_db_w = $this->file_model->set_file($params);
                 } else {

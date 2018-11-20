@@ -11,11 +11,8 @@ class Race_model extends MY_model {
             return $this->db->count_all("races");
         }
 
-        public function get_race_list($limit=NULL, $start=NULL, $edition_id=0)
+        public function get_race_list($edition_id=0)
         {
-            if (isset($limit)&&isset($start)) {
-                $this->db->limit($limit, $start);
-            }
 
             $this->db->select("races.*, edition_name, edition_date, racetype_name, racetype_abbr");
             $this->db->from("races");
@@ -31,16 +28,6 @@ class Race_model extends MY_model {
             if ($query->num_rows() > 0) {
                 foreach ($query->result_array() as $row) {
                     $data[$row['race_id']] = $row;
-//                    switch ($row['racetype_id']) {
-//                        case 4: $data[$row['race_id']]['racetype_abbr'] = "R"; break;
-//                        case 5: $data[$row['race_id']]['racetype_abbr'] = "W"; break;
-//                        case 6: $data[$row['race_id']]['racetype_abbr'] = "R/W"; break;
-//                        default: 
-//                            $data[$row['race_id']]['racetype_abbr'] = "R";  
-//                            $data[$row['race_id']]['racetype_name'] = "Run";
-//                            break;
-//                    }
-                    
                     $data[$row['race_id']]['race_color']=$this->get_race_color($row['race_distance']);
                 }
                 return $data;

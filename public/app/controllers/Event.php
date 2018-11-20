@@ -109,7 +109,12 @@ class Event extends Frontend_Controller {
 
         // get event details
         $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);     
-        $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list(100,0,$edition_id);
+        $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list($edition_id);
+        foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
+            $this->data_to_view['event_detail']['race_list'][$race_id]['file_list']=$this->file_model->get_file_list("race",$race_id,true);
+            $this->data_to_view['event_detail']['race_list'][$race_id]['url_list']=$this->url_model->get_url_list("race",$race_id,true);
+        }
+        $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition",$edition_id,true);
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
         $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition",$edition_id,true);
         $this->data_to_view['event_detail']['url_list']=$this->url_model->get_url_list("edition",$edition_id,true);
@@ -135,7 +140,15 @@ class Event extends Frontend_Controller {
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);        
         $this->data_to_header['keywords']=$this->formulate_keywords($this->data_to_view['event_detail']['summary']);     
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
-        $this->data_to_view['event_detail']['calc_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);
+        
+        // set buttons
+        $this->data_to_view['event_detail']['calc_edition_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);
+        foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
+            $race_urls=$this->calc_urls_to_use($race['file_list'],$race['url_list']);
+            if ($race_urls) {
+                $this->data_to_view['event_detail']['calc_race_urls'][$race_id]=$race_urls;
+            }
+        }
         
         
         // set title bar

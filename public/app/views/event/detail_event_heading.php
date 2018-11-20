@@ -2,7 +2,7 @@
     <div class="container">
         <div class="c-content-bar-2 c-opt-1">
             <div class="row" data-auto-height="true">
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <!-- Begin: Title 1 component -->
                     <div class="c-content-title-1" data-height="height">
                         <h3 class="c-font-uppercase c-font-bold"><?= substr($event_detail['edition_name'], 0, -4); ?></h3>
@@ -46,32 +46,45 @@
                     }
 
                     // BUTTONS
-                    if ($event_detail['calc_urls']) {
+                    if ($event_detail['calc_edition_urls']) {
                         $button_class = "btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
                         echo '<div class="btn-group">';
                         // ENTRY
-                        if (isset($event_detail['calc_urls'][5])) {
-                            echo '<a href="' . $event_detail['calc_urls'][5] . '" target="_blank" class="' . $button_class . '">Enter Now</a>';
+                        if (isset($event_detail['calc_edition_urls'][5])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][5] . '" target="_blank" class="' . $button_class . '">Enter Now</a>';
                         }
                         // MORE INFO
-                        if (isset($event_detail['calc_urls'][1])) {
-                            echo '<a href="' . $event_detail['calc_urls'][1] . '" target="_blank" class="' . $button_class . '">More Info</a>';
+                        if (isset($event_detail['calc_edition_urls'][1])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][1] . '" target="_blank" class="' . $button_class . '">More Info</a>';
                         }
                         // FLYER
-                        if (isset($event_detail['calc_urls'][2])) {
-                            echo '<a href="' . $event_detail['calc_urls'][2] . '" target="_blank" class="' . $button_class . '">Event Flyer</a>';
+                        if (isset($event_detail['calc_edition_urls'][2])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][2] . '" target="_blank" class="' . $button_class . '">Event Flyer</a>';
                         }
                         // ENTRY FORM
-                        if (isset($event_detail['calc_urls'][3])) {
-                            echo '<a href="' . $event_detail['calc_urls'][3] . '" target="_blank" class="' . $button_class . '">Manual Entry Form</a>';
+                        if (isset($event_detail['calc_edition_urls'][3])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][3] . '" target="_blank" class="' . $button_class . '">Manual Entry Form</a>';
                         }
                         // RESULTS
-                        if (isset($event_detail['calc_urls'][4])) {
-                            echo '<a href="' . $event_detail['calc_urls'][4] . '" target="_blank" class="' . $button_class . '">Race Results</a>';
+                        if (isset($event_detail['calc_edition_urls'][4])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][4] . '" target="_blank" class="' . $button_class . '">Race Results</a>';
                         }
                         // FACEBOOK
-                        if (isset($event_detail['calc_urls'][6])) {
-                            echo '<a href="' . $event_detail['calc_urls'][6] . '" target="_blank" class="' . $button_class . '"><i class="fa fa-facebook"></i> Facebook</a>';
+                        if (isset($event_detail['calc_edition_urls'][6])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][6] . '" target="_blank" class="' . $button_class . '"><i class="fa fa-facebook"></i> Facebook</a>';
+                        }
+                        echo "</div>";
+                    }
+                    
+                    if (isset($event_detail['calc_race_urls'])) {
+                        $button_class = "btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
+                        echo '<br><div class="btn-group">';
+                        foreach ($event_detail['calc_race_urls'] as $race_id=>$race_urls)
+                        {
+                            if (isset($race_urls[4])) {
+                                $btn_text= round($event_detail['race_list'][$race_id]['race_distance'],0)."K ".$event_detail['race_list'][$race_id]['racetype_name']." Results";
+                                echo '<a href="' . $race_urls[4] . '" target="_blank" class="' . $button_class . '">'.$btn_text.'</a>';
+                            }
                         }
                         echo "</div>";
                     }
@@ -79,7 +92,7 @@
                     <!-- End-->
 
                 </div>
-                <div class="col-md-5 edition-logo">
+                <div class="col-md-4 edition-logo">
                     <?php
                     if (@$event_detail['file_list'][1]) {
                         $img_url = base_url("uploads/edition/" . $event_detail['edition_id'] . "/" . $event_detail['file_list'][1][0]['file_name']);
