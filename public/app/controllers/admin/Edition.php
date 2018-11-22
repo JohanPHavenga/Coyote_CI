@@ -104,15 +104,15 @@ class Edition extends Admin_Controller {
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
-        $this->data_to_header['css_to_load']=array(
+        $this->data_to_header['css_to_load']=array(    
             "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
-            "plugins/bootstrap-summernote/summernote.css",
+            "plugins/bootstrap-summernote/summernote.css",        
             );
 
-        $this->data_to_footer['js_to_load']=array(
+        $this->data_to_footer['js_to_load']=array(       
             "plugins/moment.min.js",
             "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
-            "plugins/bootstrap-summernote/summernote.min.js",
+            "plugins/bootstrap-summernote/summernote.min.js",     
             );
 
         $this->data_to_footer['scripts_to_load']=array(

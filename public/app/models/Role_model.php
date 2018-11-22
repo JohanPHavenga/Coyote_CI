@@ -11,8 +11,7 @@ class Role_model extends MY_model {
         return $this->db->count_all("roles");
     }
 
-    public function get_role_list($limit, $start) {
-        $this->db->limit($limit, $start);
+    public function get_role_list() {
 
         $this->db->select("roles.*");
         $this->db->from("roles");

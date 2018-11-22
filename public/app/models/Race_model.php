@@ -270,5 +270,32 @@ class Race_model extends MY_model {
             }
             return $return;
         }
+        
+        
+        public function get_edition_id($race_id)
+        {
+            if( ! ($race_id))
+            {
+                return false;
+            }
+            else
+            {
+                $this->db->select("edition_id");
+                $this->db->from("races");
+                $this->db->where('race_id', $race_id);
+                $query = $this->db->get();
+                
+                if ($query->num_rows() > 0) {
+                    foreach ($query->result_array() as $row) {
+                        $return=$row['edition_id'];
+                    }
+                    return $return;
+                } else {
+                    return false;
+                }
+            }
+
+        }
+
 
 }

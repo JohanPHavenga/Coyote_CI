@@ -21,43 +21,57 @@ class Area extends Admin_Controller {
             $this->view($params);
         }
     }
-
+    
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
-
-        // pagination
-        // pagination config
-        $per_page=50;
-        $uri_segment=4;
-        $total_rows=$this->area_model->record_count();
-        $config=fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $this->data_to_view["pagination"]=$this->pagination->create_links();
-
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-
-        $this->data_to_view["list"] = $this->area_model->get_area_list($per_page, $page);
-        $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_view['delete_arr']=["controller"=>"area","id_field"=>"area_id"];
+        
+        $this->data_to_view["area_data"] = $this->area_model->get_area_list();
+        $this->data_to_view['heading']=["ID","Area Name","Status","Actions"];
+        
+//        $this->data_to_view['delete_arr']=["controller"=>"area","id_field"=>"area_id"];
         $this->data_to_header['title'] = "List of Areas";
+        $this->data_to_view['create_link']=$this->create_url;
 
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-             $this->data_to_view['heading']=ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]),2);
-        }
+        $this->data_to_header['crumbs'] =
+                   [
+                   "Home"=>"/admin",
+                   "Users"=>"/admin/area",
+                   "List"=>"",
+                   ];
+        
+        $this->data_to_header['page_action_list']=
+                [
+                    [
+                        "name"=>"Add Area",
+                        "icon"=>"map",
+                        "uri"=>"area/create/add",
+                    ],
+                ];
+
+        $this->data_to_view['url']=$this->url_disect();
+        
+        $this->data_to_header['css_to_load']=array(
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+        $this->data_to_footer['js_to_load']=array(
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
+            );
+
+        $this->data_to_footer['scripts_to_load']=array(
+            "scripts/admin/table-datatables-managed.js",
+            );
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
+        $this->load->view("/admin/area/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
-
 
     public function create($action, $id=0) {
         // additional models

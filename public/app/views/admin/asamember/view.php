@@ -14,7 +14,7 @@
                 if ( ! (empty($asamember_data)))
                 {
                     // create table
-                    $this->table->set_template(ftable('asamembers_table'));
+                    $this->table->set_template(ftable('list_table'));
                     $this->table->set_heading($heading);
                     foreach ($asamember_data as $id=>$data_entry) {
                         

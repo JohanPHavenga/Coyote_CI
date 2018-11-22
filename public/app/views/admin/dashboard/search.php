@@ -13,7 +13,7 @@
 //                    wts($search_results);
 
                     // create table
-                    $this->table->set_template(ftable('editions_table'));
+                    $this->table->set_template(ftable('search_table'));
                     $this->table->set_heading($heading);
                     foreach ($search_results as $year => $year_list) {
                         foreach ($year_list as $month => $month_list) {

@@ -18,6 +18,7 @@ var ComponentsEditors = function () {
         $('#edition_intro_detail').summernote({height: 200});
         $('#race_notes').summernote({height: 200});
         $('#parkrun_comment').summernote({height: 200});
+        $('#quote_quote').summernote({height: 200});
         //API:
         //var sHTML = $('#summernote_1').code(); // get code
         //$('#summernote_1').destroy(); // destroy

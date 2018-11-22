@@ -55,7 +55,7 @@ class Quote_model extends MY_model {
         public function set_quote($action, $id)
         {            
             $data = array(
-                        'quote_quote' => $this->input->post('quote_quote'),
+                        'quote_quote' => strip_tags($this->input->post('quote_quote')),
                     );            
             
             switch ($action) {                    

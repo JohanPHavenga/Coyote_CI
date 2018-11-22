@@ -12,9 +12,9 @@
                 if ( ! (empty($list)))
                 {
                     // pagination links
-                    echo fpagination(@$pagination);
-
-                    echo '<div class="table-scrollable">';
+//                    echo fpagination(@$pagination);
+//
+//                    echo '<div class="table-scrollable">';
                     // create table
                     $this->table->set_template(ftable("list_table"));
                     $this->table->set_heading($heading);
@@ -41,10 +41,10 @@
                         $this->table->add_row($data);
                     }
                     echo $this->table->generate();
-                    echo "</div>";
+//                    echo "</div>";
 
                     // pagination links
-                    echo fpagination(@$pagination);
+//                    echo fpagination(@$pagination);
 
                 }
                 else

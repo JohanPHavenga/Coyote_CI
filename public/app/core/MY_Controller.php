@@ -127,6 +127,7 @@ class Admin_Controller extends MY_Controller {
     public function set_results_flag($linked_to, $id) {
         $this->load->model('url_model');
         $this->load->model('file_model');
+        $this->load->model('race_model');
         
         // chcek if there is a results URL
         $has_results_url=$this->url_model->check_urltype_exists($linked_to, $id, 4);
@@ -134,6 +135,9 @@ class Admin_Controller extends MY_Controller {
                 
         //this method is in MY_MODEL
         if ($has_results_url||$has_results_file) { $flag=true; } else { $flag=false; }
+        // get edition info if the results is on race level
+        if ($linked_to=="race") { $id=$this->race_model->get_edition_id($id); $linked_to="edition"; }
+        // set the flag
         $set=$this->url_model->set_results_flag($linked_to, $id, $flag);
     }
 

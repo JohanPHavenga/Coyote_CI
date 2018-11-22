@@ -29,7 +29,7 @@
                 if (@$search_results) {
 
                     // create table
-                    $this->table->set_template(ftable('towns_table'));
+                    $this->table->set_template(ftable('list_table'));
                     $this->table->set_heading($heading);
                     foreach ($search_results as $id => $data_entry) {
 //                                    wts($data_entry);

@@ -364,7 +364,7 @@ echo "</div>";
                 <?php
                 if (!(empty($url_list))) {
                     // create table
-                    $this->table->set_template(ftable('url_table'));
+                    $this->table->set_template(ftable('list_table'));
                     $this->table->set_heading(["ID", "URL", "URL Type", "Actions"]);
                     foreach ($url_list as $id => $data_entry) {
 

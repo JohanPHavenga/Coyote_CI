@@ -63,7 +63,7 @@ class Edition_model extends MY_model {
             $this->db->join('edition_asa_member', 'edition_id', 'left');
             $this->db->join('asa_members', 'asa_member_id', 'left');
 
-            $this->db->order_by('editions.edition_id', 'ASC');
+            $this->db->order_by('editions.edition_date', 'DESC');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
@@ -82,7 +82,7 @@ class Edition_model extends MY_model {
             $this->db->from("editions");
             // limit the list a little
             $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));     
-            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
+//            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
             $this->db->order_by("edition_name");
             $query = $this->db->get();
 
