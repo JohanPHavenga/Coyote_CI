@@ -57,6 +57,8 @@ class Filetype_model extends MY_model {
     public function set_filetype($action, $id) {
         $data = array(
             'filetype_name' => $this->input->post('filetype_name'),
+            'filetype_helptext' => $this->input->post('filetype_helptext'),
+            'filetype_buttontext' => $this->input->post('filetype_buttontext'),
         );
 
         switch ($action) {

@@ -16,7 +16,6 @@ class MY_Controller extends CI_Controller {
 
 /**
  * Back end Controller
- *
  */
 class Admin_Controller extends MY_Controller {
 
@@ -211,7 +210,7 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Other Info",
                 "url" => 'admin/town/search',
                 "icon" => "settings",
-                "seg0" => ['role', 'town', 'province'],
+                "seg0" => ['town', 'file','url','quote'],
                 "submenu" => [
                     [
                         "text" => "Search Towns",
@@ -226,28 +225,45 @@ class Admin_Controller extends MY_Controller {
                         "url" => 'admin/url/view',
                     ],
                     [
+                        "text" => "Quotes",
+                        "url" => 'admin/quote/view',
+                    ],
+                ],
+            ],
+            // Types
+            [
+                "text" => "Static",
+                "url" => '',
+                "icon" => "puzzle",
+                "seg0" => ['asamember','role','racetype','filetype','urltype','area','province'],
+                "submenu" => [
+                    [
                         "text" => "ASA Members",
                         "url" => 'admin/asamember/view',
                     ],
                     [
-                        "text" => "Areas",
-                        "url" => 'admin/area/view',
-                    ],
-                    [
                         "text" => "Roles",
                         "url" => 'admin/role/view',
+                    ],   
+                    [
+                        "text" => "Race Types",
+                        "url" => 'admin/racetype/view',
                     ],                    
+                    [
+                        "text" => "File Types",
+                        "url" => 'admin/filetype/view',
+                    ],                    
+                    [
+                        "text" => "URL Types",
+                        "url" => 'admin/urltype/view',
+                    ],
+                    [
+                        "text" => "Areas",
+                        "url" => 'admin/area/view',
+                    ],       
                     [
                         "text" => "Provinces",
                         "url" => 'admin/province/view',
-                    ],
-                    [
-                        "text" => "Racetypes",
-                        "url" => 'admin/racetype/view',
-                    ],
-                    [
-                        "text" => "Quotes",
-                        "url" => 'admin/quote/view',
                     ],
                 ],
             ],

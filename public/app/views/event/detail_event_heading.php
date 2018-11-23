@@ -69,6 +69,10 @@
                         if (isset($event_detail['calc_edition_urls'][4])) {
                             echo '<a href="' . $event_detail['calc_edition_urls'][4] . '" target="_blank" class="' . $button_class . '">Race Results</a>';
                         }
+                        // ROUTE MAP
+                        if (isset($event_detail['calc_edition_urls'][7])) {
+                            echo '<a href="' . $event_detail['calc_edition_urls'][7] . '" target="_blank" class="' . $button_class . '">Route Map</a>';
+                        }
                         // FACEBOOK
                         if (isset($event_detail['calc_edition_urls'][6])) {
                             echo '<a href="' . $event_detail['calc_edition_urls'][6] . '" target="_blank" class="' . $button_class . '"><i class="fa fa-facebook"></i> Facebook</a>';

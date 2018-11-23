@@ -231,7 +231,7 @@ class Event extends Frontend_Controller {
             $calc_url_list[5]=$url_list[5][0]['url_name'];              
         } 
         
-        $url_check_list=[2,3,4,6];
+        $url_check_list=[2,3,4,6,7];
         foreach($url_check_list as $id) {
             if (@$file_list[$id]) {                            
                 $file_id = my_encrypt($file_list[$id][0]['file_id']);

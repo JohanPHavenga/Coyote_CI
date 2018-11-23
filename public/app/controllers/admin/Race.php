@@ -213,45 +213,4 @@ class Race extends Admin_Controller {
         redirect($this->return_url);
     }
 
-
-    public function delete_old($confirm=false) {
-
-        $id=$this->encryption->decrypt($this->input->post('race_id'));
-
-        if ($id==0) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: '.$id);
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-
-        if ($confirm=='confirm')
-        {
-            $db_del=$this->race_model->remove_race($id);
-            if ($db_del)
-            {
-                $msg="Race has been deleted";
-                $status="success";
-            }
-            else
-            {
-                $msg="Error committing to the database ID:'.$id";
-                $status="danger";
-            }
-
-            $this->session->set_flashdata('alert', $msg);
-            $this->session->set_flashdata('status', $status);
-            redirect($this->return_url);
-        }
-        else
-        {
-            $this->session->set_flashdata('alert', 'Cannot delete record');
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
-        }
-    }
-
-
-
 }

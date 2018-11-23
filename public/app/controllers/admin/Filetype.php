@@ -1,13 +1,13 @@
 <?php
-class Racetype extends Admin_Controller {
+class Filetype extends Admin_Controller {
 
-    private $return_url="/admin/racetype";
-    private $create_url="/admin/racetype/create";
+    private $return_url="/admin/filetype";
+    private $create_url="/admin/filetype/create";
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('racetype_model');
+        $this->load->model('filetype_model');
     }
 
     public function _remap($method, $params = array())
@@ -26,24 +26,24 @@ class Racetype extends Admin_Controller {
         // load helpers / libraries
         $this->load->library('table');
         
-        $this->data_to_view["racetype_data"] = $this->racetype_model->get_racetype_list();
-        $this->data_to_view['heading']=["ID","RaceType","Abbr","Status","Actions"];
+        $this->data_to_view["filetype_data"] = $this->filetype_model->get_filetype_list();
+        $this->data_to_view['heading']=["ID","FileType","Help Text","Button Text","Actions"];
         
         $this->data_to_view['create_link']=$this->create_url;
-        $this->data_to_header['title'] = "List of RaceTypes";
+        $this->data_to_header['title'] = "List of FileTypes";
         $this->data_to_header['crumbs'] =
                    [
                    "Home"=>"/admin",
-                   "RaceType"=>"/admin/racetype",
+                   "FileType"=>"/admin/filetype",
                    "List"=>"",
                    ];
         
         $this->data_to_header['page_action_list']=
                 [
                     [
-                        "name"=>"Add RaceType",
-                        "icon"=>"trophy",
-                        "uri"=>"racetype/create/add",
+                        "name"=>"Add FileType",
+                        "icon"=>"folder",
+                        "uri"=>"filetype/create/add",
                     ],
                 ];
         
@@ -67,7 +67,7 @@ class Racetype extends Admin_Controller {
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/racetype/view", $this->data_to_view);
+        $this->load->view("/admin/filetype/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -81,7 +81,7 @@ class Racetype extends Admin_Controller {
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_header['title'] = "RaceType Input Page";
+        $this->data_to_header['title'] = "File Type Input Page";
         $this->data_to_view['action']=$action;
         $this->data_to_view['form_url']=$this->create_url."/".$action;
 
@@ -89,19 +89,17 @@ class Racetype extends Admin_Controller {
         $this->data_to_view['js_script_to_load']='$(".autocomplete").select2({minimumInputLength: 2});';
         $this->data_to_view['css_to_load']=array("select2.css","select2-bootstrap.css");
 
-        $this->data_to_view['status_dropdown']=$this->racetype_model->get_status_dropdown();
+        $this->data_to_view['status_dropdown']=$this->filetype_model->get_status_dropdown();
         $this->data_to_view['town_dropdown']=$this->town_model->get_town_dropdown();
 
         if ($action=="edit")
         {
-        $this->data_to_view['racetype_detail']=$this->racetype_model->get_racetype_detail($id);
+        $this->data_to_view['filetype_detail']=$this->filetype_model->get_filetype_detail($id);
         $this->data_to_view['form_url']=$this->create_url."/".$action."/".$id;
         }
 
         // set validation rules
-        $this->form_validation->set_rules('racetype_name', 'Racetype Name', 'required');
-        $this->form_validation->set_rules('racetype_abbr', 'Racetype Abbreviation', 'required');
-        $this->form_validation->set_rules('racetype_status', 'Racetype Status', 'required');
+        $this->form_validation->set_rules('filetype_name', 'File Type Name', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
@@ -113,10 +111,10 @@ class Racetype extends Admin_Controller {
         }
         else
         {
-            $db_write=$this->racetype_model->set_racetype($action, $id);
+            $db_write=$this->filetype_model->set_filetype($action, $id);
             if ($db_write)
             {
-                $alert="Racetype has been updated";
+                $alert="File Type has been updated";
                 $status="success";
             }
             else
@@ -132,17 +130,16 @@ class Racetype extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
-                $this->return_url=base_url("admin/racetype/create/edit/".$id);
+                $this->return_url=base_url("admin/filetype/create/edit/".$id);
             }   
             
             redirect($this->return_url);
         }
     }
 
-    
-    public function delete($racetype_id) {
+    public function delete($filetype_id) {
 
-        if (($racetype_id == 0) AND ( !is_int($racetype_id))) {
+        if (($filetype_id == 0) AND ( !is_int($filetype_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
@@ -150,16 +147,16 @@ class Racetype extends Admin_Controller {
         }
 
         // get edition detail for nice delete message
-        $racetype_detail = $this->racetype_model->get_racetype_detail($racetype_id);
+        $filetype_detail = $this->filetype_model->get_filetype_detail($filetype_id);
         // delete record
-        $db_del = $this->racetype_model->remove_racetype($racetype_id);
+        $db_del = $this->filetype_model->remove_filetype($filetype_id);
 
 
         if ($db_del) {
-            $msg = "Race Type <b>".$racetype_detail['racetype_name']."</b> has been deleted";
+            $msg = "File Type <b>".$filetype_detail['filetype_name']."</b> has been deleted";
             $status = "success";
         } else {
-            $msg = "Error committing to the database ID:'.$racetype_id";
+            $msg = "Error committing to the database ID:'.$filetype_id";
             $status = "danger";
         }
 
@@ -167,5 +164,5 @@ class Racetype extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
-
+    
 }

@@ -33,8 +33,7 @@ var TableDatatablesManaged = function () {
                 { responsivePriority: 2, targets: -1 },
                 { responsivePriority: 3, targets: 1 },
                 { responsivePriority: 4, targets: 4 }
-                
-            ],             
+            ]           
         });
     };   
     
@@ -153,13 +152,11 @@ var TableDatatablesManaged = function () {
     
 
     return {
-
         //main function to initiate the module
         init: function () {
             if (!jQuery().dataTable) {
                 return;
             }
-
             initEventsTable();
             initEditionsTable();
             initRacesTable();
@@ -170,7 +167,6 @@ var TableDatatablesManaged = function () {
             initSearchTable();
             initListTable();
         }
-
     };
 
 }();
