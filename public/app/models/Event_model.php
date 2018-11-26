@@ -240,7 +240,8 @@ class Event_model extends MY_model {
     // ======================================================================================
     public function get_event_list_summary($from, $params) {
         // set fields to be fetched
-        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_logo", "edition_info_email_sent",
+        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured", 
+            "edition_logo", "edition_info_email_sent",
             "racetype_abbr", "town_name", "race_distance", "race_time_start",
             "user_name", "user_surname", "user_email"];
 

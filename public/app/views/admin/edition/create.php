@@ -248,29 +248,26 @@ echo form_open_multipart($form_url);
                 //  INFO CONFIRMED
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
-                echo "<div class='col-md-6'><div class='mt-checkbox-inline'>";
-                if (@$edition_detail['edition_info_isconfirmed']) {
-                    $c = "checked=''";
-                } else {
-                    $c = '';
-                }
-                echo '<label class="mt-checkbox">
+                echo "<div class='col-md-12'>";
+                    echo" <div class='mt-checkbox-inline'>";
+                        if ($edition_detail['edition_info_isconfirmed']) { $c = "checked=''"; } else { $c = ''; }
+                        echo '<label class="mt-checkbox">
                                     <input type="checkbox" id="edition_info_isconfirmed" name="edition_info_isconfirmed" value="1" ' . $c . '> Information confirmed
                                     <span></span>
                                 </label>';
-                echo "</div></div>";
-                
-                echo "<div class='col-md-6'><div class='mt-checkbox-inline'>";
-                if (@$edition_detail['edition_results_isloaded']) {
-                    $c = "checked=''";
-                } else {
-                    $c = '';
-                }
-                echo '<label class="mt-checkbox">
+                    
+                        if ($edition_detail['edition_isfeatured']) { $c = "checked=''"; } else { $c = ''; }
+                        echo '<label class="mt-checkbox">
+                                    <input type="checkbox" id="edition_isfeatured" name="edition_isfeatured" value="1" ' . $c . '> Is Featured
+                                    <span></span>
+                                </label>';
+                        if (@$edition_detail['edition_results_isloaded']) { $c = "checked=''"; } else { $c = '';}
+                        echo '<label class="mt-checkbox">
                                     <input type="checkbox" id="edition_results_isloaded" name="edition_results_isloaded" disabled="disabled" value="1" ' . $c . '> Results Loaded
                                     <span></span>
                                 </label>';
-                echo "</div></div>";
+                        echo "</div>";
+                echo "</div>";
                 echo "</div>";
                 echo "</div>";
                 ?>

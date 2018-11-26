@@ -562,14 +562,20 @@ class Frontend_Controller extends MY_Controller {
                                 $color = $this->race_model->get_race_color($distance);
                                 $badge .= "<span class='badge c-bg-$color'>" . $distance . "</span> ";
                             }
-
+                            
+                            $date_name=date("M j", strtotime($edition['edition_date'])) . ' - ' . substr($edition['edition_name'], 0, -5);
+                            
                             $return_html_arr[] = '<div class="panel">';
                             $return_html_arr[] = '<div class="panel-heading" role="tab" id="heading' . $edition_id . '">';
                             $return_html_arr[] = '<h4 class="panel-title">';
                             $return_html_arr[] = '<a class="" data-toggle="collapse" data-parent="#accordion_' . $rand . '" href="#collapse' . $edition_id . '" aria-expanded="true" aria-controls="collapse' . $edition_id . '">';
                             $return_html_arr[] = '<table class="accordian" style="width: 100%"><tr>';
                             $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-square" title="' . $bullet_info['text'] . '"></i> </td>';
-                            $return_html_arr[] = '<td>' . date("M j", strtotime($edition['edition_date'])) . '</b> - ' . substr($edition['edition_name'], 0, -5) . '</td>';
+                            if ($edition['edition_isfeatured']) {
+                                $return_html_arr[] = '<td><b>'.$date_name.'</b></td>';
+                            } else {
+                                $return_html_arr[] = '<td>'.$date_name.'</td>';
+                            }
                             $return_html_arr[] = '<td class="badges hidden-xs">' . $badge . '</td>';
                             $return_html_arr[] = '</tr></table>';
                             $return_html_arr[] = '</a>';
