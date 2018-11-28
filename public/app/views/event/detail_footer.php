@@ -2,11 +2,19 @@
     <div class="container">
         <div class="c-content-bar-2 c-opt-1">
             <div class="row" data-auto-height="true">
-                <div class="col-md-6">
-                    <p>
-                        <a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold" href="/event">
+                <div class="col-md-12">
+                    <?php
+                    // Edition BUTTONS
+                    $this->load->view("/event/buttons_edition", $event_detail);
+                    echo "<br>";
+                    // Race BUTTONS
+                    $this->load->view("/event/buttons_race", $event_detail);
+                    ?>
+                    <br>
+                    <div class="btn-group">
+                        <a class="btn c-theme-btn c-btn-uppercase btn-md c-btn-bold c-margin-t-20" href="/event">
                         <i class="icon-arrow-left"></i> Back to Events Calendar</a>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

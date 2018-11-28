@@ -16,25 +16,76 @@ class Calendar extends Frontend_Controller {
         }
         else
         {
-            $this->upcoming($method, $params = array());
+            $this->upcoming($method, $params);
         }
     }
 
 
-    public function upcoming($year=NULL)
+    public function upcoming($year=NULL, $args = array())
     {
         // load helpers / libraries
         $this->load->library('table');
         $this->data_to_header['section']="events";
 
         $this->data_to_header['title']="Running Events Calendar";
+        $this->data_to_header['page_heading']="Upcoming Running Events Calendar";
         $this->data_to_header['meta_description']="List of upcoming road running race events";
         $this->data_to_header['keywords']="Calendar, Upcoming, Races, Events, Listing, Race, Run, Marathon, Half-Marathon, 10k, Fun Run";
 
+        
+        if (is_numeric($year)) {
+            
+            $day=1;
+            $month=1;
+            $t_month=12;
+            $to_date_format="Y-m-t";
+                                   
+            $this->data_to_header['title']="Road Running Races in ".$year;
+            $this->data_to_header['page_heading']="Running Events for <strong>".$year."</strong>";
+            $crumbs=[
+                "Home"=>"/",
+                "Calendar"=> base_url("calendar"),
+                "$year"=>base_url("calendar/".$year),
+            ];            
+            
+            if (isset($args[0])) {
+                $month=$t_month=$args[0];
+                $month_name = date('F', mktime(0, 0, 0, $month, $day, $year));
+                $this->data_to_header['title']="Road Running Races in ".$month_name." ".$year;
+                $this->data_to_header['page_heading']="Running Events for <strong>".$month_name." ".$year."</strong>";
+                $crumbs[$month_name]=base_url("calendar/".$year."/".$month);
+            
+                if (isset($args[1])) {
+                    
+                    $day=$args[1];
+                    $this->data_to_header['title']="Road Running Races on ".$day." ".$month_name." ".$year;
+                    $this->data_to_header['page_heading']="Running Events on <strong>".$day." ".$month_name." ".$year."</strong>";
+                    $to_date_format="Y-m-d";
+                    $dotw = date('l jS', mktime(0, 0, 0, $month, $day, $year));
+                    $crumbs[$dotw]=base_url("calendar/".$year."/".$month."/".$day);
+                } 
+            } else {
+                $month=1;
+                $t_month=12;
+            }
+            // check for valid dat, else 404
+            if (!checkdate($month, $day, $year)) { redirect("404"); }
+            
+            // set to and from dates
+            $from=date("Y-m-d",mktime(0,0,0,$month,$day,$year));    
+            $to=date($to_date_format,mktime(0,0,0,$t_month,$day,$year));                           
+            $params=["date_from"=>$from,"date_to"=>$to];   
+            
+            // set crumbs;
+            $this->crumbs_arr=array_reverse($crumbs,true);
+        } else {
+            $params=["date_from"=>date("Y-m-d")];
+        }
+        
         // get race info
-        $upcoming_race_summary = $this->event_model->get_event_list_summary($from="date_range",$params=["date_from"=>date("Y-m-d")]);
+        $race_summary = $this->event_model->get_event_list_summary($from="date_range",$params);
         // render html
-        $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($upcoming_race_summary);
+        $this->data_to_view['upcoming_race_list_html']=$this->render_races_accordian_html($race_summary);
 
         // set title bar
         $this->data_to_view["title_bar"]=$this->render_topbar_html(
@@ -45,7 +96,7 @@ class Calendar extends Frontend_Controller {
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("calendar/upcoming", $this->data_to_view);
+        $this->load->view("calendar/list", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
     

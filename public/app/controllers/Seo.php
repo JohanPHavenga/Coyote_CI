@@ -1,5 +1,5 @@
 <?php
-Class Seo extends CI_Controller {
+Class Seo extends Frontend_Controller {
     
     public function __construct()
     {
@@ -16,6 +16,7 @@ Class Seo extends CI_Controller {
         $results_url_list=$this->event_model->get_event_list_sitemap(['results'=>1]);
         $old_url_list=$this->event_model->get_event_list_sitemap(['old'=>1]);
         $area_list=$this->area_model->get_area_list();
+        $date_list=$this->get_date_list();
         
 //        wts($area_list);
 //        die();
@@ -39,6 +40,17 @@ Class Seo extends CI_Controller {
             $data['pages_area'][$area_id]['priority']="0.8";
         }       
         $data["pages"]=array_merge_recursive($data['pages'],$data['pages_area']);
+        
+        // date ranges
+        foreach ($date_list as $year => $month_list) {
+            foreach ($month_list as $month_number => $month_name) {                
+                $url= "calendar/".$year."/".$month_number;
+                $data['date_list'][$year.$month_number]['url']=$url;
+                $data['date_list'][$year.$month_number]['change_freq']="weekly";
+                $data['date_list'][$year.$month_number]['priority']="0.8";
+            }
+        }
+        $data["pages"]=array_merge_recursive($data['pages'],$data['date_list']);
         
         // confirmed races
         foreach ($confirmed_races_url_list as $key=>$url) {

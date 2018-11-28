@@ -122,22 +122,29 @@ class Admin_Controller extends MY_Controller {
 
         return $sum_data;
     }
-    
+
     public function set_results_flag($linked_to, $id) {
         $this->load->model('url_model');
         $this->load->model('file_model');
         $this->load->model('race_model');
-        
+
         // chcek if there is a results URL
-        $has_results_url=$this->url_model->check_urltype_exists($linked_to, $id, 4);
-        $has_results_file=$this->file_model->check_filetype_exists($linked_to, $id, 4);
-                
+        $has_results_url = $this->url_model->check_urltype_exists($linked_to, $id, 4);
+        $has_results_file = $this->file_model->check_filetype_exists($linked_to, $id, 4);
+
         //this method is in MY_MODEL
-        if ($has_results_url||$has_results_file) { $flag=true; } else { $flag=false; }
+        if ($has_results_url || $has_results_file) {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
         // get edition info if the results is on race level
-        if ($linked_to=="race") { $id=$this->race_model->get_edition_id($id); $linked_to="edition"; }
+        if ($linked_to == "race") {
+            $id = $this->race_model->get_edition_id($id);
+            $linked_to = "edition";
+        }
         // set the flag
-        $set=$this->url_model->set_results_flag($linked_to, $id, $flag);
+        $set = $this->url_model->set_results_flag($linked_to, $id, $flag);
     }
 
     function set_admin_menu_array() {
@@ -210,12 +217,12 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Other Info",
                 "url" => 'admin/town/search',
                 "icon" => "settings",
-                "seg0" => ['town', 'file','url','quote'],
+                "seg0" => ['town', 'file', 'url', 'quote'],
                 "submenu" => [
                     [
                         "text" => "Search Towns",
                         "url" => 'admin/town/search',
-                    ],  
+                    ],
                     [
                         "text" => "Files",
                         "url" => 'admin/file/view',
@@ -235,7 +242,7 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Static",
                 "url" => '',
                 "icon" => "puzzle",
-                "seg0" => ['asamember','role','racetype','filetype','urltype','area','province'],
+                "seg0" => ['asamember', 'role', 'racetype', 'filetype', 'urltype', 'area', 'province'],
                 "submenu" => [
                     [
                         "text" => "ASA Members",
@@ -244,15 +251,15 @@ class Admin_Controller extends MY_Controller {
                     [
                         "text" => "Roles",
                         "url" => 'admin/role/view',
-                    ],   
+                    ],
                     [
                         "text" => "Race Types",
                         "url" => 'admin/racetype/view',
-                    ],                    
+                    ],
                     [
                         "text" => "File Types",
                         "url" => 'admin/filetype/view',
-                    ],                    
+                    ],
                     [
                         "text" => "URL Types",
                         "url" => 'admin/urltype/view',
@@ -260,7 +267,7 @@ class Admin_Controller extends MY_Controller {
                     [
                         "text" => "Areas",
                         "url" => 'admin/area/view',
-                    ],       
+                    ],
                     [
                         "text" => "Provinces",
                         "url" => 'admin/province/view',
@@ -295,7 +302,6 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "direction",
                 "seg0" => ['parkrun'],
             ],
-            
         ];
     }
 
@@ -333,24 +339,43 @@ class Frontend_Controller extends MY_Controller {
     function __construct() {
         parent::__construct();
 
-//        if (!isset($_SESSION['area_list'])) {
+        if (!isset($_SESSION['area_list'])) {
             $_SESSION['area_list'] = $this->get_area_list();
-//        }
+        }
 
         // Load shared resources here or in autoload.php
         $this->crumbs_arr = $this->set_crumbs();
         $this->data_to_header["title_bar"] = $this->render_topbar_html(["crumbs" => $this->crumbs_arr]);
         $this->data_to_header["menu_array"] = $this->set_top_menu_array();
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
+        $this->data_to_footer["date_list"] = $this->get_date_list();
     }
-    
-    function show_my_404($msg, $status){   
+
+    function show_my_404($msg, $status) {
         //Using 'location' not work well on some windows systems
         $this->session->set_flashdata([
-                'alert'=>$msg,
-                'status'=>$status,
-                ]);
-        redirect('404');  
+            'alert' => $msg,
+            'status' => $status,
+        ]);
+        redirect('404');
+    }
+    
+    function get_date_list() {
+        $dates_to_fetch=[
+//            "2 months ago",
+            "1 month ago",
+            "today",
+            "+1 month",
+            "+2 month",
+            "+3 month",
+            "+4 month",
+            "+5 month",
+//            "+6 month",
+            ];
+        foreach ($dates_to_fetch as $strtotime) {
+            $date_list[date("Y", strtotime($strtotime))][date("m", strtotime($strtotime))]=date("F Y", strtotime($strtotime));
+        }
+        return $date_list;
     }
 
     function set_top_menu_array() {
@@ -372,7 +397,7 @@ class Frontend_Controller extends MY_Controller {
                 "text" => "Results",
                 "url" => base_url('/calendar/results'),
                 "section" => 'results',
-            ],            
+            ],
             // Parkruns
             [
                 "text" => "Parkrun",
@@ -403,14 +428,10 @@ class Frontend_Controller extends MY_Controller {
             }
 
             // make controller prural for event and overwrite URI
-            if (($x == 1) && ($segs[$x]=="event")) {
+            if (($x == 1) && ($segs[$x] == "event")) {
                 $segs[$x] = $segs[$x] . "s";
                 $crumb_uri = "/calendar";
             }
-
-            // if ($segs[$x]=="admin") { $segs[$x]="home"; }
-            // if ($segs[$x]=="dashboard") { continue; }
-            // if ($segs[$x]=="delete") { $this->data_to_header['crumbs']=[]; break; }
 
             $segs[$x] = str_replace("_", " ", $segs[$x]);
             $crumbs[ucwords($segs[$x])] = $crumb_uri;
@@ -456,8 +477,6 @@ class Frontend_Controller extends MY_Controller {
         $return_html .= '</div>';
 
         $return_html .= $this->render_crumbs($params['crumbs']);
-
-
 
         $return_html .= '</div>';
         $return_html .= '</div>';
@@ -549,7 +568,7 @@ class Frontend_Controller extends MY_Controller {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-                            
+
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
@@ -562,9 +581,9 @@ class Frontend_Controller extends MY_Controller {
                                 $color = $this->race_model->get_race_color($distance);
                                 $badge .= "<span class='badge c-bg-$color'>" . $distance . "</span> ";
                             }
-                            
-                            $date_name=date("M j", strtotime($edition['edition_date'])) . ' - ' . substr($edition['edition_name'], 0, -5);
-                            
+
+                            $date_name = date("M j", strtotime($edition['edition_date'])) . ' - ' . substr($edition['edition_name'], 0, -5);
+
                             $return_html_arr[] = '<div class="panel">';
                             $return_html_arr[] = '<div class="panel-heading" role="tab" id="heading' . $edition_id . '">';
                             $return_html_arr[] = '<h4 class="panel-title">';
@@ -572,9 +591,9 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[] = '<table class="accordian" style="width: 100%"><tr>';
                             $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-square" title="' . $bullet_info['text'] . '"></i> </td>';
                             if ($edition['edition_isfeatured']) {
-                                $return_html_arr[] = '<td><b>'.$date_name.'</b></td>';
+                                $return_html_arr[] = '<td><b>' . $date_name . '</b></td>';
                             } else {
-                                $return_html_arr[] = '<td>'.$date_name.'</td>';
+                                $return_html_arr[] = '<td>' . $date_name . '</td>';
                             }
                             $return_html_arr[] = '<td class="badges hidden-xs">' . $badge . '</td>';
                             $return_html_arr[] = '</tr></table>';
@@ -686,7 +705,7 @@ class Frontend_Controller extends MY_Controller {
 
             $return_html_arr[] = '</div>'; // close row c-page-faq-2
         } else {
-            $return_html_arr[] = '<p>There is currently no event data to display. Please chack back again shortly.</p><p>&nbsp;</p>';
+            $return_html_arr[] = '<p>There is no event data to display.</p><p>&nbsp;</p>';
         }
 
         return implode("", $return_html_arr);

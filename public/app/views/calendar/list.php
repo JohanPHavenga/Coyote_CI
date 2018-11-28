@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="c-content-title-1">
-                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> Upcoming Running Events Calendar</h3>
+                                <h3 class="c-font-34 c-font-center c-font-bold c-font-uppercase c-margin-b-30"> <?= $page_heading; ?></h3>
                                 <div class="c-line-center c-theme-bg"></div>
                             </div>
                         </div>
@@ -94,10 +94,10 @@
                 <div class="c-container">
                     <div class="row">
                         <div class="col-md-12">
-                            <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
+                            <p><a class="btn c-theme-btn c-btn-uppercase btn-md c-btn-bold c-btn-round" href="/">
                                     <i class="icon-home"></i> Home</a>
-                                <a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/calendar/results">
-                                    <i class="icon-clock"></i> View past races</a>
+<!--                                <a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/calendar/results">
+                                    <i class="icon-clock"></i> View past races</a>-->
                             </p>
                         </div>
                     </div>

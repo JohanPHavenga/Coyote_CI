@@ -142,7 +142,8 @@ class Event extends Frontend_Controller {
         $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
         
         // set buttons
-        $this->data_to_view['event_detail']['calc_edition_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);
+        $this->data_to_view['event_detail']['calc_edition_urls']=$btn_data['calc_edition_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);   
+        
         foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
             $race_urls=$this->calc_urls_to_use($race['file_list'],$race['url_list']);
             if ($race_urls) {

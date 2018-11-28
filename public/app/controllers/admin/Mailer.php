@@ -32,18 +32,19 @@ class Mailer extends Admin_Controller {
     
     public function info_mail_body($edition_info) {
         $body="<p>Hi there</p>";
-        $body.="<p>I run a listing site aiming to list all road running events in and around Cape Town.<br>"
-                . "I loaded some basic information for your event, the <b>".substr($edition_info['edition_name'],0,-5)."</b> already. See the preliminary listing here:";
+        $body.="<p>Hope you are well. I represent a listing website aiming to list all road running events in the Western Cape, RoadRunning.co.za.<br>"
+                . "We loaded some basic information for your event, the <b>".substr($edition_info['edition_name'],0,-5)."</b> already. See the preliminary listing here:";
 
         $body.="<p><a href='http://www.roadrunning.co.za/event/".encode_edition_name($edition_info['edition_name'])."'>"
                 . "www.roadrunning.co.za/event/".encode_edition_name($edition_info['edition_name'])."</a></p>";
 
-        $body.="<p>Do you have any additional information I can add to the listing?<br><b>I am especially after the following information:</b></p>";
-        $body.="<ul><li>Entry fees</li><li>Race start times</li><li>How to enter</li></ul>";
+        $body.="<p>Do you have any additional information we can add to the listing? Even if it is still awaiting approval.<br>"
+                . "<b>The following information is what we are looking for:</b></p>";
+        $body.="<ul><li>Entry fees</li><li>Race start times</li><li>How to enter (on-the-day or online)</li><li>Route Map</li></ul>";
 
-        $body.="<p>Any other information, or the event flyer if ready, will be greatly appreciated.";
+        $body.="<p>Any other information, especially the event flyer (if ready), will be greatly appreciated.";
         $body.="<p>Hope to hear from you soon.</p>";
-        $body.="<p>Kind Regards<br>Johan</p>";
+        $body.="<p>Kind Regards<br>Johan from RoadRunning.co.za</p>";
         
         return $body;
     }
@@ -56,7 +57,7 @@ class Mailer extends Admin_Controller {
         $config['smtp_port'] = '465';
         $this->email->initialize($config);
 
-        $this->email->from("info@roadrunning.co.za", "Johan at RoadRunning.co.za");
+        $this->email->from("info@roadrunning.co.za", "Johan from RoadRunning.co.za");
         $this->email->to($data['to_email'], $data['to_name']);
         $this->email->bcc('info@roadrunning.co.za');
 
