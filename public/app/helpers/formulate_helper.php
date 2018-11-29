@@ -118,7 +118,7 @@ if ( ! function_exists('ftimeSort'))
         {
             return date("H:i",strtotime($time));
         } else {
-            return false;
+            return 0;
         }
     }
 }

@@ -56,7 +56,7 @@
                             echo form_input([
                                     'name'          => 'race_time_end',
                                     'id'            => 'race_time_end',
-                                    'value'         => set_value('race_time_end', ftimeSort(@$race_detail['race_time_end'],false)),
+                                    'value'         => set_value('race_time_end', ftimeSort(@$race_detail['race_time_end'])),
                                     'class'         => 'form-control timepicker timepicker-24',
                                 ]);    
                             echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
@@ -97,7 +97,7 @@
                             echo form_input([
                                     'name'          => 'race_name',
                                     'id'            => 'race_name',
-                                    'value'         => set_value('race_name', $race_detail['race_name']),
+                                    'value'         => set_value('race_name', @$race_detail['race_name']),
                                     'class'         => 'form-control input-medium',
                                 ]);
 
@@ -184,7 +184,7 @@
                             echo form_input([
                                     'name'          => 'race_minimum_age',
                                     'id'            => 'race_minimum_age',
-                                    'value'         => set_value('race_minimum_age', $race_detail['race_minimum_age']),
+                                    'value'         => set_value('race_minimum_age', @$race_detail['race_minimum_age']),
                                     'class'         => 'form-control input-xsmall',
                                 ]);
 
@@ -197,7 +197,7 @@
                     echo "<div class='row'>";
                     echo "<div class='col-md-12'>";
                         echo" <div class='mt-checkbox-inline'>";
-                            if ($race_detail['race_isover70free']) { $c = "checked=''"; } else { $c = ''; }
+                            if (@$race_detail['race_isover70free']) { $c = "checked=''"; } else { $c = ''; }
                             echo '<label class="mt-checkbox">
                                         <input type="checkbox" id="race_isover70free" name="race_isover70free" value="1" ' . $c . '> Over 70 free?
                                         <span></span>

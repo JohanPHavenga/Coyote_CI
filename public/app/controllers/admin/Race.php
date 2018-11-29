@@ -125,7 +125,8 @@ class Race extends Admin_Controller {
         } else {
             $this->data_to_view['race_detail']=[];
             $this->data_to_view['race_detail']['race_status']=1;
-            $this->data_to_view['race_detail']['racetype_id']=4;
+            $this->data_to_view['race_detail']['racetype_id']=4;            
+            $this->data_to_view['race_detail']["race_time_end"]="";
             if ($id>0) {
                 $this->data_to_view['edition_detail']=$this->edition_model->get_edition_detail($id);
                 $this->data_to_view['race_detail']['edition_id']=$id;
