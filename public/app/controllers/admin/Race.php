@@ -78,7 +78,7 @@ class Race extends Admin_Controller {
 
         // set return url to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url."#races_table";
         }
 
         // additional models
@@ -172,7 +172,7 @@ class Race extends Admin_Controller {
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
                 $this->return_url=base_url("admin/race/create/edit/".$id);
-            }  
+            }
 
             redirect($this->return_url);
         }

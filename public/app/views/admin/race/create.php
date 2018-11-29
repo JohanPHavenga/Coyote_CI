@@ -78,81 +78,134 @@
                     echo "</div>"; // end col
                 echo "</div>"; // end Row
                 
+                // Editions
                 echo "<div class='form-group'>";
-                echo form_label('Edition', 'edition_id');
-                echo form_dropdown('edition_id', $edition_dropdown, @$race_detail['edition_id'], ["id"=>"edition_id","class"=>"form-control"]);        
-                echo "</div>";
+                    echo "<div class='row'>";                 
+                    echo "<div class='col-md-12'>";
+                        echo "<div class='form-group'>";
+                        echo form_label('Edition', 'edition_id');
+                        echo form_dropdown('edition_id', $edition_dropdown, @$race_detail['edition_id'], ["id"=>"edition_id","class"=>"form-control"]);        
+                        echo "</div>"; 
+                    echo "</div>"; // end col
+                    echo "</div>"; // end Row
                 
                 
-                echo "<div class='form-group'>";
-                echo form_label('Flat Race Fee', 'race_fee_flat');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                echo form_input([
-                        'name'          => 'race_fee_flat',
-                        'id'            => 'race_fee_flat',
-                        'value'         => @$race_detail['race_fee_flat'],
-                        'class'         => 'form-control input-xsmall',
-                    
-                    ]);
-                echo "</div>";
-                echo "<p class='help-block' style='font-style: italic;'>Note if set this is the old fee that will display</p></div>";
-                
-                echo "<div class='form-group'>";
-                echo form_label('Senior Race Fee Licenced', 'race_fee_senior_licenced');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                echo form_input([
-                        'name'          => 'race_fee_senior_licenced',
-                        'id'            => 'race_fee_senior_licenced',
-                        'value'         => @$race_detail['race_fee_senior_licenced'],
-                        'class'         => 'form-control input-xsmall',
-                    
-                    ]);
-                echo "</div></div>";
-                
-                echo "<div class='form-group'>";
-                echo form_label('Senior Race Fee Unlicenced', 'race_fee_senior_unlicenced');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                echo form_input([
-                        'name'          => 'race_fee_senior_unlicenced',
-                        'id'            => 'race_fee_senior_unlicenced',
-                        'value'         => @$race_detail['race_fee_senior_unlicenced'],
-                        'class'         => 'form-control input-xsmall',
-                    ]);
-                echo "</div></div>";
-                
-                 echo "<div class='form-group'>";
-                echo form_label('Junior Race Fee Licenced', 'race_fee_junior_licenced');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                echo form_input([
-                        'name'          => 'race_fee_junior_licenced',
-                        'id'            => 'race_fee_junior_licenced',
-                        'value'         => @$race_detail['race_fee_junior_licenced'],
-                        'class'         => 'form-control input-xsmall',
-                    
-                    ]);
-                echo "</div></div>";
-                
-                echo "<div class='form-group'>";
-                echo form_label('Junior Race Fee Unlicenced', 'race_fee_junior_unlicenced');
-                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                echo form_input([
-                        'name'          => 'race_fee_junior_unlicenced',
-                        'id'            => 'race_fee_junior_unlicenced',
-                        'value'         => @$race_detail['race_fee_junior_unlicenced'],
-                        'class'         => 'form-control input-xsmall',
-                    ]);
-                echo "</div></div>";
-                
-                echo "<div class='form-group'>";
-                echo form_label('Race Name', 'race_name');
-                echo form_input([
-                        'name'          => 'race_name',
-                        'id'            => 'race_name',
-                        'value'         => set_value('race_name', @$race_detail['race_name']),
-                        'class'         => 'form-control input-medium',
-                    ]);
+                // Race Name
+                    echo "<div class='row'>";      
+                    echo "<div class='col-md-6'>";
+                            echo form_label('Race Name', 'race_name');
+                            echo form_input([
+                                    'name'          => 'race_name',
+                                    'id'            => 'race_name',
+                                    'value'         => set_value('race_name', $race_detail['race_name']),
+                                    'class'         => 'form-control input-medium',
+                                ]);
 
-                echo "<p class='help-block' style='font-style: italic;'>(optional)</p></div>";
+                            echo "<p class='help-block' style='font-style: italic;'>(optional)</p>";
+                    echo "</div>"; // end col
+                    echo "</div>"; // end Row
+                echo "</div>";
+                
+                // RACE FEES
+                echo "<div class='row'>";                 
+                    echo "<div class='col-md-6'>";
+                        echo "<div class='form-group'>";
+                        echo form_label('Flat Race Fee', 'race_fee_flat');
+                        echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                        echo form_input([
+                                'name'          => 'race_fee_flat',
+                                'id'            => 'race_fee_flat',
+                                'value'         => @$race_detail['race_fee_flat'],
+                                'class'         => 'form-control input-xsmall',
+
+                            ]);
+                        echo "</div>";
+                        echo "<p class='help-block' style='font-style: italic;'>Note if set this is the old fee that will display</p></div>";
+                    echo "</div>"; // end col
+                echo "</div>"; // end Row
+                
+                echo "<div class='row'>";                 
+                    echo "<div class='col-md-6'>";
+                        echo "<div class='form-group'>";
+                        echo form_label('Senior Race Fee Licenced', 'race_fee_senior_licenced');
+                        echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                        echo form_input([
+                                'name'          => 'race_fee_senior_licenced',
+                                'id'            => 'race_fee_senior_licenced',
+                                'value'         => @$race_detail['race_fee_senior_licenced'],
+                                'class'         => 'form-control input-xsmall',
+
+                            ]);
+                        echo "</div></div>";
+                
+                        echo "<div class='form-group'>";
+                        echo form_label('Senior Race Fee Unlicenced', 'race_fee_senior_unlicenced');
+                        echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                        echo form_input([
+                                'name'          => 'race_fee_senior_unlicenced',
+                                'id'            => 'race_fee_senior_unlicenced',
+                                'value'         => @$race_detail['race_fee_senior_unlicenced'],
+                                'class'         => 'form-control input-xsmall',
+                            ]);
+                        echo "</div></div>";
+                        
+                    echo "</div>"; // end col  
+                    echo "<div class='col-md-6'>";
+                
+                        echo "<div class='form-group'>";
+                        echo form_label('Junior Race Fee Licenced', 'race_fee_junior_licenced');
+                        echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                        echo form_input([
+                                'name'          => 'race_fee_junior_licenced',
+                                'id'            => 'race_fee_junior_licenced',
+                                'value'         => @$race_detail['race_fee_junior_licenced'],
+                                'class'         => 'form-control input-xsmall',
+
+                            ]);
+                        echo "</div></div>";
+
+                        echo "<div class='form-group'>";
+                        echo form_label('Junior Race Fee Unlicenced', 'race_fee_junior_unlicenced');
+                        echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                        echo form_input([
+                                'name'          => 'race_fee_junior_unlicenced',
+                                'id'            => 'race_fee_junior_unlicenced',
+                                'value'         => @$race_detail['race_fee_junior_unlicenced'],
+                                'class'         => 'form-control input-xsmall',
+                            ]);
+                        echo "</div></div>";
+                    echo "</div>"; // end col
+                echo "</div>"; // end Row
+                
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";                       
+                        echo "<div class='col-md-6'>";
+                            echo form_label('Minimum age', 'race_minimum_age');
+                            echo form_input([
+                                    'name'          => 'race_minimum_age',
+                                    'id'            => 'race_minimum_age',
+                                    'value'         => set_value('race_minimum_age', $race_detail['race_minimum_age']),
+                                    'class'         => 'form-control input-xsmall',
+                                ]);
+
+                        echo "</div>"; // end col
+                    echo "</div>"; // end Row
+                echo "</div>"; // end form-group
+                
+                // flags
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                    echo "<div class='col-md-12'>";
+                        echo" <div class='mt-checkbox-inline'>";
+                            if ($race_detail['race_isover70free']) { $c = "checked=''"; } else { $c = ''; }
+                            echo '<label class="mt-checkbox">
+                                        <input type="checkbox" id="race_isover70free" name="race_isover70free" value="1" ' . $c . '> Over 70 free?
+                                        <span></span>
+                                    </label>';
+                    echo "</div>"; // end col
+                    echo "</div>"; // end Row
+                echo "</div>"; // end form-group
+                
                 
                 //  Race Notes
                 echo "<div class='form-group'>";

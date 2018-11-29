@@ -62,6 +62,12 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                                 
                                     }
                                 }
+                                if ($race['race_isover70free']) {
+                                    echo '<div class="c-row c-title c-font-19">Licenced Athlete 70+</div>';
+                                }
+                                if ($race['race_minimum_age']>0) {
+                                    echo '<div class="c-row c-title c-font-19">Minimum age</div>';
+                                }
                             ?>
                         </div>
                     </div>
@@ -137,6 +143,23 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                                 <span class="c-sub-title">Unlicenced Junior: </span> 
                                 <span class="c-dollar c-font-19">R</span>
                                 <span class="c-font-19 c-font-bold"><?=$race['race_fee_junior_unlicenced']+0;?></span>
+                            </div>
+                            <?php
+                                }
+                                if ($race['race_isover70free']) {
+                            ?>
+                            <div class="c-row c-price">
+                                <span class="c-sub-title">Licenced Athlete 70+: </span> 
+                                <span class="c-font-19 c-font-bold">Free</span>
+                            </div>
+                            <?php
+                                }
+                                if ($race['race_minimum_age']>0) {
+                            ?>
+                            <div class="c-row c-price">
+                                <span class="c-sub-title">Minimum age: </span> 
+                                <span class="c-font-19 c-font-bold"><?=$race['race_minimum_age'];?></span>
+                                <span class="c-dollar c-font-19"> years</span>
                             </div>
                             <?php
                                 }

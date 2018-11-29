@@ -86,6 +86,7 @@ class Race_model extends MY_model {
             // POSTED DATA
             if (empty($race_data))
             {
+//                if (empty($this->input->post('race_isover70free'))) { $over70=false; } else { $over70=$this->input->post('race_isover70free'); }
                 $race_data = array(
                             'race_name' => $this->input->post('race_name'),
                             'race_distance' => $this->input->post('race_distance'),
@@ -100,6 +101,8 @@ class Race_model extends MY_model {
                             'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
                             'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
                             'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
+                            'race_minimum_age' => $this->input->post('race_minimum_age'),
+                            'race_isover70free' => $this->input->post('race_isover70free'),
                             'race_notes' => $this->input->post('race_notes'),
                         );
             } else {
