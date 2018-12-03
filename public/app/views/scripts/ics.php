@@ -33,6 +33,7 @@
 // 1. Set the correct headers for this file
 header('Content-type: text/calendar; charset=utf-8');
 header('Content-Disposition: attachment; filename=' . $filename);
+header("X-Robots-Tag: noindex, nofollow", true);
 
 // 2. Define helper functions
 

@@ -2,6 +2,7 @@
     if (!isset($title)) { $title="Run without being chased"; } 
     if (!isset($meta_description)) { $meta_description="Listing road running events in and around the Cape Town area. We are committed to having accurate information loaded on the site as soon as it becomes available from the race organisers."; }    
     if (!isset($keywords)) { $keywords="Road, Running, Event, Race, Races, List"; }
+    if (!isset($meta_robots)) { $meta_robots="index"; }
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +21,7 @@
         <meta name="description" content="<?=$meta_description;?>" />
         <meta name="keywords" content="<?=$keywords;?>" />
         <meta name="author" content="Johan Havenga" />
+        <meta name="robots" content="<?=$meta_robots;?>" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="<?= base_url('css/roboto-condensed.css'); ?>" rel="stylesheet" type="text/css" />
         <link href="<?= base_url('css/roboto.css'); ?>" rel="stylesheet" type="text/css" />
