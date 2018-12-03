@@ -15,7 +15,14 @@ if ( ! function_exists('wts'))
     }
     
     function encode_edition_name($edition_name) {
-        return urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$edition_name)))));
+//        return urlencode(str_replace(" ","-",(str_replace("'","",str_replace("/"," ",$edition_name)))));
+        return urlencode(str_replace(" ","-",(str_replace("-","--",($edition_name)))));
+    }
+    
+    function get_edition_name_from_url($encoded_edition_name) {
+        $name=str_replace("-", " ", urldecode($encoded_edition_name));
+        $name=str_replace("  ", "-", urldecode($name));
+        return $name;
     }
     
     function get_url_from_parkrun_name($encoded_parkrun_name) {

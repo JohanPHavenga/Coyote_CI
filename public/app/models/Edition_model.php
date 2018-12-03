@@ -14,16 +14,13 @@ class Edition_model extends MY_model {
 
 
         public function get_edition_id_from_name($edition_name)
-        {
-            $edition_name= str_replace("-", " ", $edition_name);
-            
-//            wts($edition_name);
-            
+        {            
             // CHECK Editions table vir die naame
-            $this->db->select("edition_id");
+            $this->db->select("edition_id, edition_name");
             $this->db->from("editions");
-            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
-            $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
+            $this->db->where("edition_name",$edition_name); 
+//            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
+//            $this->db->or_where("REPLACE(edition_name, '/', ' ')=$edition_name`"); // fix vir as daar 'n / in die naam is
 //            echo $this->db->get_compiled_select(); exit();
             $editions_query = $this->db->get();
             
@@ -31,8 +28,9 @@ class Edition_model extends MY_model {
             // CHECK Editions_Past vir as die naam van die edition verander
             $this->db->select("edition_id");
             $this->db->from("editions_past");
-            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is
-            $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
+            $this->db->where("edition_name",$edition_name); 
+//            $this->db->where("REPLACE(edition_name, '\'', '')=`$edition_name`"); // fix vir as daar 'n ' in die naam is
+//            $this->db->or_where("REPLACE(edition_name, '/', ' ')='$edition_name'"); // fix vir as daar 'n / in die naam is
 //            echo $this->db->get_compiled_select();   exit();
 
             $editions_past_query = $this->db->get();
@@ -41,12 +39,13 @@ class Edition_model extends MY_model {
             if ($editions_query->num_rows() > 0) 
             {
                 $result=$editions_query->result_array();
-                return $result[0]['edition_id'];
+                return $result[0];
             }
             elseif ($editions_past_query->num_rows() > 0) 
             {
                 $result=$editions_past_query->result_array();
-                return $result[0]['edition_id'];   
+                $result[0]['edition_name']=$this->get_edition_name_from_id($result[0]['edition_id']);
+                return $result[0];   
             }
             else 
             {
@@ -54,6 +53,26 @@ class Edition_model extends MY_model {
             }
         }
 
+        
+        public function get_edition_name_from_id($edition_id)
+        {
+            // CHECK Editions table vir die naame
+            $this->db->select("edition_name");
+            $this->db->from("editions");
+            $this->db->where("edition_id",$edition_id); 
+            $editions_query = $this->db->get();
+            if ($editions_query->num_rows() > 0) 
+            {
+                $result=$editions_query->result_array();
+                return $result[0]['edition_name'];
+            }            
+            else 
+            {
+            return false;
+            }
+        }
+        
+        
 
         public function get_edition_list()
         {
