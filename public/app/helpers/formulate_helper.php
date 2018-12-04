@@ -169,6 +169,10 @@ if ( ! function_exists('flableStatus'))
                 $text="Not Active";
                 $status="danger";
                 break;
+            case 3:
+                $text="Cancelled";
+                $status="warning";
+                break;
             default:
                 $text="No Status";
                 $status="warning";

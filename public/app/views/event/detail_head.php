@@ -10,7 +10,7 @@
                     <div class="col-sm-5" style="padding: 0;">
                         <div class="c-body" style="padding: 45px 45px 35px 40px;">
                             <div class="c-section">
-                                <h3><?= $event_detail['edition_name'];?></h3>
+                                <h3><?= $event_detail['edition_name_clean'];?></h3>
                             </div>
                             <div class="c-section">
                                 <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">General</div>

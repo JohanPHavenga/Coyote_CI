@@ -34,21 +34,22 @@ class Event extends Frontend_Controller {
         // decode die edition name uit die URL en kry ID
         $edition_name=get_edition_name_from_url($edition_name_encoded);
         $edition_data=$this->edition_model->get_edition_id_from_name($edition_name);
-                
-        $edition_id=$edition_data['edition_id'];
+        
         // AS DIE NAAM WAT INKOM, NIE DIELFDE AS DIE OFFICIAL NAAM IS NIE, DAN DOEN HY 'N 301 REDIRECT.
-        // PROBLEEM MET DIE OPLOSSING IS / IN DIE NAAM
         if ($edition_data['edition_name']!=$edition_name) {
             $url=get_url_from_edition_name(encode_edition_name($edition_data['edition_name']));
             redirect($url, 'location', 301);
         }
-
-        // edition in session vir contact form
+                
+        $edition_id=$edition_data['edition_id'];               
+        $edition_status=$edition_data['edition_status'];
         $edition_name=str_replace("-", " ", $edition_name);
-        $this->session->set_flashdata([
-            "last_visited_event"=>$edition_name
-        ]);
-
+        $this->session->set_flashdata(["last_visited_event"=>$edition_name]);    // edition in session vir contact form     
+        
+        // set edition names
+        $e_names=$this->get_edition_name_from_status($edition_name, $edition_status);       
+        if ($edition_status==2) { $this->data_to_header['meta_robots']="noindex, nofollow"; }
+        
         if (!$edition_id)
         {
             // if name cannot be matched to an edition
@@ -60,7 +61,7 @@ class Event extends Frontend_Controller {
             die();
         }
         
-        $this->data_to_header['title']=$edition_name;
+        $this->data_to_header['title']=$e_names['edition_name'];
 
         // set data to view
         $this->data_to_header['css_to_load']=array(
@@ -84,11 +85,19 @@ class Event extends Frontend_Controller {
             );
 
         // get event details
-        $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);     
+        $this->data_to_view['event_detail']=$this->edition_model->get_edition_detail_full($edition_id);    
+        $this->data_to_view['event_detail']['edition_name']=$e_names['edition_name'];         
+        $this->data_to_view['event_detail']['edition_name_clean']=$e_names['edition_name_clean'];        
+        $this->data_to_view['event_detail']['edition_name_no_date']=$e_names['edition_name_no_date'];
         $this->data_to_view['event_detail']['race_list']=$this->race_model->get_race_list($edition_id);
         foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
+            if ($race['race_status']==2) {
+                unset($this->data_to_view['event_detail']['race_list'][$race_id]);
+                continue;
+            }
             $this->data_to_view['event_detail']['race_list'][$race_id]['file_list']=$this->file_model->get_file_list("race",$race_id,true);
             $this->data_to_view['event_detail']['race_list'][$race_id]['url_list']=$this->url_model->get_url_list("race",$race_id,true);
+            $this->data_to_view['event_detail']['race_list'][$race_id]['race_name']=$this->get_race_name_from_status($race['race_name'],$race['race_distance'],$race['racetype_name'],$race['race_status']);
         }
         $this->data_to_view['event_detail']['file_list']=$this->file_model->get_file_list("edition",$edition_id,true);
         $this->data_to_view['event_detail']['summary']=$this->event_model->get_event_list_summary("id",["event_id"=>$this->data_to_view['event_detail']['event_id']]);
@@ -97,8 +106,10 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['sponsor_url_list']=$this->url_model->get_url_list("sponsor",$this->data_to_view['event_detail']['sponsor_id'],false);
         $this->data_to_view['event_detail']['club_url_list']=$this->url_model->get_url_list("club",$this->data_to_view['event_detail']['club_id'],false);
         // get next an previous races
+        if ($this->data_to_view['event_detail']['race_list']) {
         $this->data_to_view['next_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
         $this->data_to_view['prev_race_list']=$this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
+        }
         // get url for Google Calendar
         $this->data_to_view['event_detail']['google_cal_url']=$this->google_cal(
                 [
@@ -259,18 +270,32 @@ class Event extends Frontend_Controller {
     function formulate_detail_notice($event_detail) {
         // check if events is in the past
         $return='';
-        if ($event_detail['edition_date'] < date("Y-m-d")) {
-            $msg="<strong>Please note:</strong> You are viewing an event that has already taken place. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> to view a list of upcoming events.";
-            $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-        } elseif ($event_detail['edition_info_isconfirmed']) {
-            $msg="The information for this event has been <strong>confirmed</strong>. ";
-            if ($event_detail['edition_url_flyer']) { 
-                $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers."; 
-            } elseif ($event_detail['edition_url']) {
-                $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url']."' style='color: #27a4b0; text-decoration: underline;'>Race Website</a> for more information set as supplied by the event organisers."; 
-            }
-            $return="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+        switch ($event_detail['edition_status']) {
+            case 2:
+                $msg="<strong>This event is set to DRAFT mode.</strong> All detail has not yet been confirmed";
+                $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                break;
+            case 3:
+                $email=$event_detail['user_email'];
+                $msg="<strong>This event has been CANCELLED.</strong> Please contact the event organisers for more detail on: <a href='mailto:$email' class='link' title='Email organisers'>$email</a>";
+                $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                break;
+            default:
+                if ($event_detail['edition_date'] < date("Y-m-d")) {
+                    $msg="<strong>Please note:</strong> You are viewing an event that has already taken place. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> to view a list of upcoming events.";
+                    $return="<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                } elseif ($event_detail['edition_info_isconfirmed']) {
+                    $msg="The information for this event has been <strong>confirmed</strong>. ";
+                    if ($event_detail['edition_url_flyer']) { 
+                        $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url_flyer']."' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers."; 
+                    } elseif ($event_detail['edition_url']) {
+                        $msg.="Please see the <a target='_blank' href='".$event_detail['edition_url']."' style='color: #27a4b0; text-decoration: underline;'>Race Website</a> for more information set as supplied by the event organisers."; 
+                    }
+                    $return="<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                }
+                break;
         }
+        
         return $return;
     }
     

@@ -5,7 +5,7 @@
                 <div class="col-md-8">
                     <!-- Begin: Title 1 component -->
                     <div class="c-content-title-1" data-height="height">
-                        <h3 class="c-font-uppercase c-font-bold"><?= substr($event_detail['edition_name'], 0, -4); ?></h3>
+                        <h3 class="c-font-uppercase c-font-bold"><?= $event_detail['edition_name_no_date']; ?></h3>
                     </div>
                     <p class="c-font-sbold">                            
                         Annual <?= $event_detail['event_name']; ?> 

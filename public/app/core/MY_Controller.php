@@ -488,6 +488,13 @@ class Frontend_Controller extends MY_Controller {
 
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event inforamtion";
+        
+        if ($params['status']!=1) { 
+            $return['color'] = "c-font-yellow-2";
+            $return['text'] = "Event cancelled";
+            return $return; 
+            
+        }
 
         if ($params['confirmed']) {
             $return['color'] = "c-font-green-2";
@@ -508,6 +515,41 @@ class Frontend_Controller extends MY_Controller {
             $result = array_merge($result, $sub);
         }
         return array_keys($result);
+    }
+    
+    function get_edition_name_from_status($edition_name, $edition_status) {
+        // set edition names
+        $e_names['edition_name']=$edition_name;
+        $e_names['edition_name_clean']=$edition_name;
+        $e_names['edition_name_no_date']=substr($edition_name,0,-5);
+        switch ($edition_status) {
+            case 2:
+                $e_names['edition_name']=$e_names['edition_name_no_date']=$edition_name." - DRAFT";
+                break;
+            case 3:
+                $e_names['edition_name']=$e_names['edition_name_no_date']=$edition_name." - CANCELLED";
+                break;
+        }        
+        return $e_names;
+    }
+    
+    function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
+        
+        $return_name=$race_name;
+        if (empty($race_name))
+        {
+            $return_name=fraceDistance($race_distance)." ".$racetype_name;                                            
+        }
+        
+        switch ($race_status) {
+            case 2:
+                $return_name=$return_name." - DRAFT";
+                break;
+            case 3:
+                $return_name=$return_name." - CANCELLED";
+                break;
+        }        
+        return $return_name;
     }
 
     // generate html for the accordian holding event data
@@ -568,11 +610,14 @@ class Frontend_Controller extends MY_Controller {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-
+                            
+                            $e_names=$this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
+                            
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
                                 "results" => $edition['edition_results_isloaded'],
+                                "status" => $edition['edition_status'],
                             ]);
 
                             // set distance circles
@@ -582,7 +627,7 @@ class Frontend_Controller extends MY_Controller {
                                 $badge .= "<span class='badge c-bg-$color'>" . $distance . "</span> ";
                             }
 
-                            $date_name = date("M j", strtotime($edition['edition_date'])) . ' - ' . substr($edition['edition_name'], 0, -5);
+                            $date_name = date("M j", strtotime($edition['edition_date'])).' - '.$e_names['edition_name'];
 
                             $return_html_arr[] = '<div class="panel">';
                             $return_html_arr[] = '<div class="panel-heading" role="tab" id="heading' . $edition_id . '">';
@@ -643,11 +688,14 @@ class Frontend_Controller extends MY_Controller {
                     $n = 0;
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
+                            
+                            $e_names=$this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
                                 "results" => $edition['edition_results_isloaded'],
+                                "status" => $edition['edition_status'],
                             ]);
 
                             // set distance circles
@@ -665,7 +713,7 @@ class Frontend_Controller extends MY_Controller {
                             $return_html_arr[] = '<a class="" data-toggle="collapse" data-parent="#accordion' . $month_key . '" href="#collapse' . $uid . '" aria-expanded="true" aria-controls="collapse' . $uid . '">';
                             $return_html_arr[] = '<table class="accordian" style="width: 100%"><tr>';
                             $return_html_arr[] = '<td style="width: 10px;"><i class="' . $bullet_info['color'] . ' fa fa-check-square" title="' . $bullet_info['text'] . '"></i> </td>';
-                            $return_html_arr[] = '<td>' . date("M j", strtotime($edition['edition_date'])) . '</b> - ' . substr($edition['edition_name'], 0, -5) . '</td>';
+                            $return_html_arr[] = '<td>' . date("M j", strtotime($edition['edition_date'])) . '</b> - ' . $e_names['edition_name'] . '</td>';
                             $return_html_arr[] = '<td class="badges hidden-xs">' . $badge . '</td>';
                             $return_html_arr[] = '</tr></table>';
                             $return_html_arr[] = '</a>';

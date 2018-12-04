@@ -16,7 +16,7 @@ class Edition_model extends MY_model {
         public function get_edition_id_from_name($edition_name)
         {            
             // CHECK Editions table vir die naame
-            $this->db->select("edition_id, edition_name");
+            $this->db->select("edition_id, edition_name, edition_status");
             $this->db->from("editions");
             $this->db->where("edition_name",$edition_name); 
 //            $this->db->where("REPLACE(edition_name, '\'', '')='$edition_name'"); // fix vir as daar 'n ' in die naam is

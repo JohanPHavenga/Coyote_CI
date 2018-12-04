@@ -218,9 +218,12 @@ class Event_model extends MY_model {
             $this->db->where("edition_results_isloaded", $params['results']);
         }
 
-        $this->db->where("events.event_status", 1);
-        $this->db->where("editions.edition_status", 1);
-        $this->db->where("races.race_status", 1);
+//        $this->db->where("events.event_status", 1);
+        $this->db->where('events.event_status !=', 2);
+//        $this->db->where("editions.edition_status", 1);
+        $this->db->where("editions.edition_status !=", 2);
+//        $this->db->where("races.race_status", 1);
+        $this->db->where("races.race_status !=", 2);
 
         $this->db->order_by("edition_date", $sort);
         $this->db->order_by("race_distance", "DESC");

@@ -20,8 +20,8 @@ class Race_model extends MY_model {
             $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
             if ($edition_id>0) {
                 $this->db->where('races.edition_id', $edition_id);
-            }
-            $this->db->where('races.race_status', 1);
+            } 
+//            $this->db->where('races.race_status', 1);
             $this->db->order_by('races.race_distance', 'DESC');
             $query = $this->db->get();
 

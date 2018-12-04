@@ -1,6 +1,8 @@
 <?php
 foreach ($event_detail['race_list'] as $race_id=>$race) {
     
+    
+    
     if ($race['race_date']>0) {
         $race_date=fdateHuman($race['race_date']);
     } else {
@@ -15,12 +17,7 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                     <div class="c-content-title-1 c-title-pricing-1">
                         <h3 class="c-font-uppercase c-font-bold">
                             <?php
-                                if (!empty($race['race_name'])) {
-                                    echo $race['race_name'];
-                                } else {
-                                    echo fraceDistance($race['race_distance']);
-                                    echo " ".$race['racetype_name']."</h3>";                                            
-                                }
+                            echo $race['race_name'];
                             ?>
                         </h3>
                     </div>
