@@ -404,11 +404,17 @@ class Frontend_Controller extends MY_Controller {
                 "url" => base_url('/parkrun/calendar'),
                 "section" => 'parkrun',
             ],
-            // Events
+            // FAQ
+            [
+                "text" => "FAQ",
+                "url" => base_url('/faq'),
+                "section" => 'faq',
+            ],
+            // Contact
             [
                 "text" => "Contact Us",
-                "url" => base_url('/pages/home/#contact'),
-                "section" => '',
+                "url" => base_url('/contact'),
+                "section" => 'contact',
             ],
         ];
     }

@@ -29,6 +29,8 @@ Class Seo extends Frontend_Controller {
             ["url"=>"calendar","change_freq"=>"weekly","priority"=>"1"],
             ["url"=>"calendar/results","change_freq"=>"weekly","priority"=>"1"],
             ["url"=>"parkrun/calendar","change_freq"=>"monthly","priority"=>"1"],
+            ["url"=>"faq","change_freq"=>"monthly","priority"=>"1"],
+            ["url"=>"contact","change_freq"=>"monthly","priority"=>"1"],
             ];
         $data["pages"]=array_merge_recursive($data['pages'],$data['pages_high']);
         

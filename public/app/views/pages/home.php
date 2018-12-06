@@ -52,14 +52,16 @@
         <div class="container">
             <div class="c-content-feedback-1 c-option-1">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="c-container c-bg-green c-bg-img-bottom-right" style="background-image:url(img/feedback_box_1.png)">
                             <div class="c-content-title-1 c-inverse">
                                 <h3 class="c-font-uppercase c-font-bold">About us</h3>
                                 <div class="c-line-left"></div>
                                 <p class="c-font-lowercase">We are amateur runners in it for the love of the road, the simplicity and beauty of it.<br>
-                                    This project started out due to a lack of a comprehensive, modern listing site for running events in the Cape Town area. Since then a few has 
-                                    been established but our goal remains and hope to make this a national project one day. 
+                                    This project started out due to a lack of a <strong>comprehensive, modern listing site for running events</strong>
+                                    in the Cape Town area. Since then a few of  these sites has been established, but our goal remains and hope to make 
+                                    this a national project one day. </p>
+                                <p>
                                     The mission is to become the number one road running events listing site in the country.</p>
                             </div>
                         </div>
@@ -70,48 +72,6 @@
                                 <p>The goal is to have the site ready for an early 2017 launch. Watch this space!</p>
                             </div>
                         </div>-->
-                    </div>
-                    <div class="col-md-6" id="contact">
-                        <div class="c-contact">
-                            <div class="c-content-title-1">
-                                <h3 class="c-font-uppercase c-font-bold">Keep in touch</h3>
-                                <div class="c-line-left"></div>
-                                <p class="c-font-lowercase">Our proverbial door is always open to comments and ideas. Please send us a message using the form below.</p>
-                            </div>
-                            <?php
-                            if ($_POST) {
-                                if(!@$email_send) {
-                                    echo '<div class="alert alert-danger" role="alert">';
-                                    echo validation_errors();
-                                    echo '</div>';
-                                } else {
-                                    echo '<div class="alert alert-success" role="alert">';
-                                    echo "Thank you for contacting us. Your message has successfully been send.<br>We will get back to you as soon as we can.";
-                                    echo '</div>';
-                                }
-                            }
-
-                            if($this->session->flashdata('last_visited_event')) { $form_data['devent']=$this->session->flashdata('last_visited_event'); }
-                            ?>
-                            <?php echo form_open('pages/mailer#contact'); ?>
-                                <div class="form-group">
-                                    <label for="dname">Your name</label>
-                                    <?php echo form_input(array('id'=>'dname', 'name'=>'dname', 'value'=>@$form_data['dname'], 'placeholder'=>'John Smith', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                <div class="form-group">
-                                    <label for="demail">Your email address</label>
-                                    <?php echo form_input(array('id'=>'demail', 'name'=>'demail', 'value'=>@$form_data['demail'], 'placeholder'=>'name.surname@example.com', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                <!--<div class="form-group">
-                                    <?php echo form_input(array('id'=>'dphone', 'name'=>'dphone', 'value'=>@$form_data['dphone'], 'placeholder'=>'Contact Phone', 'class'=>'form-control c-square c-theme input-lg')); ?></div>-->
-                                <div class="form-group">
-                                    <label for="devent">Event name</label>
-                                    <?php echo form_input(array('id'=>'devent', 'name'=>'devent', 'value'=>@$form_data['devent'], 'placeholder'=>'Name of event or race you are enquiring about', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                <div class="form-group">                                    
-                                    <label for="dmsg">Comment</label>
-                                    <?php echo form_textarea(array('id'=>'dmsg', 'name'=>'dmsg', 'value'=>@$form_data['dmsg'], 'placeholder'=>'Write comment here ...', 'rows'=>'8', 'class'=>'form-control c-square c-theme input-lg')); ?></div>
-                                    <?php echo form_button(array('type'=>'submit', 'class'=>'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round','content'=>'Submit')); ?>
-                            <?php echo form_close(); ?>
-
-                        </div>
                     </div>
                 </div>
             </div>

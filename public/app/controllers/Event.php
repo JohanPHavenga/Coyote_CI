@@ -27,6 +27,8 @@ class Event extends Frontend_Controller {
         $this->load->model('race_model');
         $this->load->model('file_model');
         $this->load->model('url_model');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
                         
         // as daar nie 'n edition_name deurgestuur word nie
         if ($edition_name_encoded=="index") { redirect("/event/calendar");  }
@@ -185,11 +187,10 @@ class Event extends Frontend_Controller {
         }
 
         // Event description
-        if (strlen($this->data_to_view['event_detail']['edition_description'])>10) {
-            $this->load->view("/event/detail_event_info_description", $this->data_to_view);
-            $bc=!$bc;
-            $this->data_to_view['box_color']= $box_color_arr[$bc];
-        } 
+        $this->load->view("/event/detail_event_info_description", $this->data_to_view);
+        $bc=!$bc;
+        $this->data_to_view['box_color']= $box_color_arr[$bc];
+        
 
         // Google Add
         $this->load->view("/event/google_ad_bottom", $this->data_to_view);
@@ -208,8 +209,14 @@ class Event extends Frontend_Controller {
         $this->load->model('urltype_model');
         $urltype_list=$this->urltype_model->get_urltype_list();
         
+        // check eers vir flyer
+        if ($file_list[2]) { 
+            $file_id = my_encrypt($file_list[2][0]['file_id']);
+            $calc_url_list[0]=base_url("file/handler/".$file_id); 
+        } elseif ($url_list[2]) { 
+            $calc_url_list[0]=$url_list[2][0]['url_name'];              
+        }
         
-        if (@$url_list[2]) { $calc_url_list[0]=$url_list[2][0]['url_name'];  } // check eers vir flyer
         if (@$url_list[1]) { // dan website
             $calc_url_list[0]=$url_list[1][0]['url_name'];  
             $calc_url_list[1]=$url_list[1][0]['url_name'];              
