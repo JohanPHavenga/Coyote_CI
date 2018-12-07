@@ -27,10 +27,12 @@ class Contact extends Frontend_Controller {
         $this->data_to_header['title'] = "Contact Us";
 
         // set validation rules
-        $this->form_validation->set_rules('dname', 'Name', 'required');
+        $this->form_validation->set_rules('dname', 'Name', 'required', 'Please enter your name');
         $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
 //        $this->form_validation->set_rules('dphone', 'Phone', 'alpha_numeric_spaces');
         $this->form_validation->set_rules('dmsg', 'Comment', 'required');
+        
+        $this->form_validation->set_message('required', 'Please complete the <b>{field}</b> field');
         
         // set title bar
         $this->data_to_header["title_bar"]=$this->render_topbar_html(
@@ -57,27 +59,34 @@ class Contact extends Frontend_Controller {
         else
         {
             $this->load->library('email');
+            
             $config['mailtype'] = 'html';
             $config['smtp_host'] = 'dandelion.aserv.co.za';
             $config['smtp_port'] = '465';
-//            $config['bcc_batch_mode'] = true;
+            $config['smtp_crypto'] = "ssl";            
+            $config['charset'] = 'iso-8859-1';
             $this->email->initialize($config);
 
-            $this->email->from($this->input->post('demail'), $this->input->post('dname'));
+            $this->email->set_newline("\r\n");
+            $this->email->from("info@roadrunning.co.za", $this->input->post('dname'));
+            $this->email->reply_to($this->input->post('demail'), $this->input->post('dname'));
             if ($this->input->post('dto')) {
                 $this->email->to($this->input->post('dto'));
+                if ($this->input->post('dto')!='info@roadrunning.co.za') {
+                    $this->email->cc('info@roadrunning.co.za');
+                }
             } else {
                 $this->email->to('info@roadrunning.co.za');
             }
-            // add BCC
-            $this->email->bcc($this->input->post('demail'),'info@roadrunning.co.za');
+            $this->email->bcc($this->input->post('demail'));
 
             $this->email->subject('RoadRunning.co.za enquiry: '.$this->input->post('devent'));
-
-            $msg_arr[]="Name: ".$this->input->post('dname');
-            $msg_arr[]="Email: ".$this->input->post('demail');
-            $msg_arr[]="Event: ".$this->input->post('devent');
-            $msg_arr[]="Comment: ".$this->input->post('dmsg');
+            $msg_arr[]="<p>This is an enquiry send from the RoadRunning.co.za website by an user:<br>";
+            $msg_arr[]="<b>Name:</b> ".$this->input->post('dname');
+            $msg_arr[]="<b>Email:</b> ".$this->input->post('demail');
+            $msg_arr[]="<b>Event:</b> ".$this->input->post('devent');
+            $msg_arr[]="<b>Comment:</b> ".$this->input->post('dmsg');
+            $msg_arr[]="</p>";
             $msg=implode("<br>",$msg_arr);
 
             $this->email->message($msg);

@@ -17,7 +17,6 @@
             <?php
                 }
             ?>
-            <!--
             <div class="col-md-6" id="contact">
                 <div class="c-contact">
                     <div class="c-content-title-1">
@@ -95,7 +94,6 @@
                         ?>
                 </div>
             </div>
-            -->
         </div>
     </div>
 </div>

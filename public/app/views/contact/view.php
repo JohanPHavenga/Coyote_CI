@@ -3,24 +3,33 @@
     <?= $title_bar; ?>
 
     <!-- BEGIN: CONTENT/CONTACT/FEEDBACK-1 -->
-    <div class="c-content-box c-size-md c-bg-white">
+    <div class="c-content-box c-size-sm c-bg-white">
         <div class="container">
             <div class="c-content-feedback-1 c-option-1">
-                <div class="row">        
-                    <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
                         <?php
+                            $show_text=true;
                             if ($_POST) {
                                 if (!@$email_send) {
                                     echo '<div class="alert alert-danger" role="alert">';
                                     echo validation_errors();
                                     echo '</div>';
+                                    $show_text=false;
                                 } else {
                                     echo '<div class="alert alert-success" role="alert">';
-                                    echo "Thank you for contacting us. Your message has successfully been send.<br>We will get back to you as soon as we can.";
+                                    echo "Thank you for contacting us. <b>Your message has successfully been send.</b><br>We will get back to you as soon as we can.";
                                     echo '</div>';
                                 }
                             }
                             ?>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <?php
+                    if ($show_text) {
+                    ?>
+                    <div class="col-md-6">
                         <div class="c-container c-bg-green c-bg-img-bottom-right" style="background-image:url(img/feedback_box_1.png)">
                             <div class="c-content-title-1 c-inverse">
                                 <h3 class="c-font-uppercase c-font-bold">Need to know more?</h3>
@@ -46,6 +55,9 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                    }
+                    ?>
                     <div class="col-md-6" id="contact">
                         <div class="c-contact">
                             <div class="c-content-title-1">
@@ -78,7 +90,7 @@
                                         [
                                             'id' => 'dname', 
                                             'name' => 'dname', 
-                                            'value' => @$form_data['dname'], 
+                                            'value' => @$form_data['dname'],
                                             'placeholder' => 'John Smith', 
                                             'class' => 'form-control c-square c-theme input-lg'
                                         ]
