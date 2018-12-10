@@ -59,36 +59,40 @@ echo form_open_multipart($form_url);
 
                 //  DATE
                 echo "<div class='form-group'>";
-                echo form_label('Date <span class="compulsary">*</span>', 'edition_date');
-                echo '<div class="input-group input-medium date date-picker">';
-                echo form_input([
-                    'name' => 'edition_date',
-                    'id' => 'edition_date',
-                    'value' => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
-                    'class' => 'form-control',
-//                        'readonly'      => '',
-                ]);
-                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-                echo "</div>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-4'>";
+                        echo form_label('Date Start <span class="compulsary">*</span>', 'edition_date');
+                            echo '<div class="input-group input-medium date date-picker">';
+                            echo form_input([
+                                'name' => 'edition_date',
+                                'id' => 'edition_date',
+                                'value' => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
+                                'class' => 'form-control',
+            //                        'readonly'      => '',
+                            ]);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        echo "</div>";
 
                 //  DATE END
-//                echo "<div class='form-group'>";
-//                echo form_label('Edition Date End', 'edition_date_end');
-//                echo '<div class="input-group input-medium date date-picker">';
-//                echo form_input([
-//                        'name'          => 'edition_date_end',
-//                        'id'            => 'edition_date_end',
-//                        'value'         => set_value('edition_date_end', @fdateShort($edition_detail['edition_date_end'])),
-//                        'class'         => 'form-control',
-////                        'readonly'      => '',
-//                    ]);    
-//                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-//                
-//                echo "<p class='help-block' style='font-style: italic;'> Only if applicable </p>";
-//                echo "</div>";     
+                        echo "<div class='col-md-4'>";
+                        echo form_label('Date End', 'edition_date_end');
+                            echo '<div class="input-group input-medium date date-picker">';
+                            echo form_input([
+                                    'name'          => 'edition_date_end',
+                                    'id'            => 'edition_date_end',
+                                    'value'         => set_value('edition_date_end', @fdateShort($edition_detail['edition_date_end'])),
+                                    'class'         => 'form-control',
+            //                        'readonly'      => '',
+                                ]);    
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        echo "</div>"; // col
+                    echo "</div>"; // row
+                echo "</div>"; // form-group
+                
+                
                 //  ADDRESS
                 echo "<div class='form-group'>";
-                echo form_label('Street Address', 'edition_address');
+                echo form_label('Street Address <span class="compulsary">*</span>', 'edition_address');
                 echo form_input([
                     'name' => 'edition_address',
                     'id' => 'edition_address',
@@ -112,7 +116,7 @@ echo form_open_multipart($form_url);
 //                echo "</div>";
                 //  GPS
                 echo "<div class='form-group'>";
-                echo form_label('Latitude and Longitude', 'latitude_num');
+                echo form_label('Latitude and Longitude <span class="compulsary">*</span>', 'latitude_num');
                 echo "<div class='row'>";
                 echo "<div class='col-md-3 col-sm-6'>";
                 echo form_input([
@@ -136,53 +140,6 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 echo "</div>";
 
-                //  More info URL
-//                echo "<div class='form-group'>";
-//                echo form_label('Link to event website (More Info)', 'edition_url');
-//                echo form_input([
-//                    'name' => 'edition_url',
-//                    'id' => 'edition_url',
-//                    'value' => set_value('edition_url', @$edition_detail['edition_url']),
-//                    'class' => 'form-control',
-//                ]);
-//
-//                echo "</div>";
-//
-//                //  Entry URL
-//                echo "<div class='form-group'>";
-//                echo form_label('Link to race entry (Enter Now)', 'edition_url_entry');
-//                echo form_input([
-//                    'name' => 'edition_url_entry',
-//                    'id' => 'edition_url_entry',
-//                    'value' => set_value('edition_url_entry', @$edition_detail['edition_url_entry']),
-//                    'class' => 'form-control',
-//                ]);
-//
-//                echo "</div>";
-//
-//                //  Flyer URL
-//                echo "<div class='form-group'>";
-//                echo form_label('Link to race flyer (Race Flyer)', 'edition_url_entry');
-//                echo form_input([
-//                    'name' => 'edition_url_flyer',
-//                    'id' => 'edition_url_flyer',
-//                    'value' => set_value('edition_url_flyer', @$edition_detail['edition_url_flyer']),
-//                    'class' => 'form-control',
-//                ]);
-//
-//                echo "</div>";
-//
-//                //  Results URL
-//                echo "<div class='form-group'>";
-//                echo form_label('Link to results (Event Results)', 'edition_url_results');
-//                echo form_input([
-//                    'name' => 'edition_url_results',
-//                    'id' => 'edition_url_results',
-//                    'value' => set_value('edition_url_results', @$edition_detail['edition_url_results']),
-//                    'class' => 'form-control',
-//                ]);
-//
-//                echo "</div>";
 
                 //  OLD LOGO
                 // #toberemoved
@@ -199,6 +156,39 @@ echo form_open_multipart($form_url);
 
                     echo "</div>";
                 }
+                
+                
+                //  ONLINE ENTRIES OPEN AND CLOSE
+                echo "<div class='form-group'>";
+                    echo "<div class='row'>";
+                        echo "<div class='col-md-4'>";
+                        echo form_label('Online Entries Open', 'edition_entries_date_open');
+                            echo '<div class="input-group input-medium">';
+                            echo form_input([
+                                'name' => 'edition_entries_date_open',
+                                'id' => 'edition_entries_date_open',
+                                'value' => set_value('edition_entries_date_open', @fdateLong($edition_detail['edition_entries_date_open'])),
+                                'class' => 'form-control form_datetime'
+                            ]);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        echo "</div>";
+
+                //  ENTRIES CLOSE
+                        echo "<div class='col-md-4'>";
+                        echo form_label('Online Entries Close', 'edition_entries_date_close');
+                            echo '<div class="input-group input-medium">';
+                            echo form_input([
+                                    'name'          => 'edition_entries_date_close',
+                                    'id'            => 'edition_entries_date_close',
+                                    'value'         => set_value('edition_entries_date_close', @fdateLong($edition_detail['edition_entries_date_close'])),
+                                    'class'         => 'form-control form_datetime',
+            //                        'readonly'      => '',
+                                ]);    
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        echo "</div>"; // col
+                    echo "</div>"; // row
+                echo "</div>"; // form-group
+                
 
                 //  ASA Membership
                 echo "<div class='form-group'>";

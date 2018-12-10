@@ -106,12 +106,14 @@ class Edition extends Admin_Controller {
 
         $this->data_to_header['css_to_load']=array(    
             "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+            "plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
             "plugins/bootstrap-summernote/summernote.css",        
             );
 
         $this->data_to_footer['js_to_load']=array(       
             "plugins/moment.min.js",
             "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+            "plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
             "plugins/bootstrap-summernote/summernote.min.js",     
             );
 
@@ -150,7 +152,9 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_name', 'Edition Name', 'required');
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
         $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
-        $this->form_validation->set_rules('edition_url', 'URL', 'valid_url');
+        $this->form_validation->set_rules('edition_address', 'Address', 'required');
+        $this->form_validation->set_rules('latitude_num', 'Latitude', 'required|numeric');
+        $this->form_validation->set_rules('longitude_num', 'Longitude', 'required|numeric');
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]',["greater_than"=>"Please select an event"]);
         $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a sponsor"]);
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a Contact Person"]);

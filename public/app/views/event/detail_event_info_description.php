@@ -4,7 +4,7 @@
             <?php            
                 if (strlen($event_detail['edition_description'])>10) {
             ?>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="c-content-title-1 ">
                     <h3 class="c-font-uppercase c-font-bold">
                         General Information
@@ -17,7 +17,7 @@
             <?php
                 }
             ?>
-            <div class="col-md-6" id="contact">
+            <div class="col-md-5" id="contact">
                 <div class="c-contact">
                     <div class="c-content-title-1">
                         <h3 class="c-font-uppercase c-font-bold">Contact Event Organiser</h3>

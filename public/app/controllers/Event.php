@@ -210,10 +210,10 @@ class Event extends Frontend_Controller {
         $urltype_list=$this->urltype_model->get_urltype_list();
         
         // check eers vir flyer
-        if ($file_list[2]) { 
+        if (@$file_list[2]) { 
             $file_id = my_encrypt($file_list[2][0]['file_id']);
             $calc_url_list[0]=base_url("file/handler/".$file_id); 
-        } elseif ($url_list[2]) { 
+        } elseif (@$url_list[2]) { 
             $calc_url_list[0]=$url_list[2][0]['url_name'];              
         }
         

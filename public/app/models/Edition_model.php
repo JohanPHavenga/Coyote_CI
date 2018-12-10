@@ -183,29 +183,34 @@ class Edition_model extends MY_model {
             {
 //                wts($_POST);
 //                exit();
-                if (empty($this->input->post('edition_date_end'))) { $end_date=NULL; } else { $end_date=$this->input->post('edition_date_end'); }
+                if (empty($this->input->post('edition_date_end'))) { $end_date=$this->input->post('edition_date');; } else { $end_date=$this->input->post('edition_date_end'); }
                 if (empty($this->input->post('edition_info_isconfirmed'))) { $edition_info_isconfirmed=false; } else { $edition_info_isconfirmed=$this->input->post('edition_info_isconfirmed'); }
                 if (empty($this->input->post('edition_isfeatured'))) { $edition_isfeatured=false; } else { $edition_isfeatured=$this->input->post('edition_isfeatured'); }
+                
+                if (empty($this->input->post('edition_entries_date_open'))) { $entries_open=NULL; } else { $entries_open=$this->input->post('edition_entries_date_open'); }
+                if (empty($this->input->post('edition_entries_date_close'))) { $entries_close=NULL; } else { $entries_close=$this->input->post('edition_entries_date_close'); }
                 $edition_data = array(
                             'edition_name' => $this->input->post('edition_name'),
                             'edition_status' => $this->input->post('edition_status'),
                             'edition_date' => $this->input->post('edition_date'),
+                            'edition_date_end' => $end_date,
                             'event_id' => $this->input->post('event_id'),
-                            'edition_url' => $this->input->post('edition_url'),
-                            'edition_url_entry' => $this->input->post('edition_url_entry'),
-                            'edition_url_flyer' => $this->input->post('edition_url_flyer'),
-                            'edition_url_results' => $this->input->post('edition_url_results'),
+//                            'edition_url' => $this->input->post('edition_url'),
+//                            'edition_url_entry' => $this->input->post('edition_url_entry'),
+//                            'edition_url_flyer' => $this->input->post('edition_url_flyer'),
+//                            'edition_url_results' => $this->input->post('edition_url_results'),
                             'edition_address' => $this->input->post('edition_address'),
                             'edition_address_end' => $this->input->post('edition_address_end'),
                             'latitude_num' => $this->input->post('latitude_num'),
                             'longitude_num' => $this->input->post('longitude_num'),
-                            'edition_date_end' => $end_date,
                             'edition_logo' => $this->input->post('edition_logo'),
                             'edition_info_isconfirmed' => $edition_info_isconfirmed,
                             'edition_isfeatured' => $edition_isfeatured,
                             'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                             'edition_entry_detail' => $this->input->post('edition_entry_detail'),
                             'edition_description' => $this->input->post('edition_description'),
+                            'edition_entries_date_open' => $entries_open,
+                            'edition_entries_date_close' => $entries_close,
                         );
                 
                 $edition_sponsor_data = ["edition_id"=>$edition_id,"sponsor_id"=>$this->input->post('sponsor_id')];

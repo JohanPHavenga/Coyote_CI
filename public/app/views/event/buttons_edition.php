@@ -4,7 +4,11 @@ if ($calc_edition_urls) {
     echo '<div class="btn-group">';
     // ENTRY
     if (isset($calc_edition_urls[5])) {
-        echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Now</a>';
+        if (($edition_entries_date_close)&&(strtotime($edition_entries_date_close)< strtotime("now"))) {
+            echo '<a href="" target="_blank" class="' . $button_class . '" title="Online Entries Closed" disabled>Entries Closed</a>';
+        } else {
+            echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Now</a>';
+        }
     }
     // MORE INFO
     if (isset($calc_edition_urls[1])) {

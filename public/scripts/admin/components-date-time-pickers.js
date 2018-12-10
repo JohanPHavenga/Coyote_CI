@@ -53,6 +53,7 @@ var ComponentsDateTimePickers = function () {
         if (!jQuery().datetimepicker) {
             return;
         }
+        
 
         $(".form_datetime").datetimepicker({
             autoclose: true,
@@ -80,8 +81,14 @@ var ComponentsDateTimePickers = function () {
             pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left"),
             todayBtn: true
         });
-
-        $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
+        
+        // handle input group button click
+        $('.datetimepicker').parent('.input-group').on('click', '.input-group-btn', function(e){
+            e.preventDefault();
+            $(this).parent('.input-group').find('.datetimepicker').datetimepicker('showWidget');
+        });
+        
+                $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
 
         // Workaround to fix datetimepicker position on window scroll
         $( document ).scroll(function(){
