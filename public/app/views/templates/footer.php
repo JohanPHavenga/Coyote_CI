@@ -24,7 +24,10 @@
                                 <a href="/parkrun/calendar"> Parkrun</a>
                             </li>
                             <li>
-                                <a href="/#contact">Contact Us</a>
+                                <a href="/faq"> FAQ</a>
+                            </li>
+                            <li>
+                                <a href="/contact">Contact Us</a>
                             </li>
                             <li>
                                 <a href="/search">Search</a>
@@ -141,6 +144,9 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <ul class="c-socials">
+                        <li><a href="https://www.patreon.com/roadrunningza" target="_blank" title="Support us on Patreon">
+                                <img src="/img/become_a_patron.png" alt="Support us on Patreon" style="height: 36px; margin-top: 1px;"></a>
+                        </li>
                         <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
                         <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>
                       <!--<li><a href="#"><i class="icon-social-youtube"></i></a></li>-->

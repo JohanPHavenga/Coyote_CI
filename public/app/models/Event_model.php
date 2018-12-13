@@ -373,51 +373,57 @@ class Event_model extends MY_model {
 
         $field_arr = ['edition_name'];
         $this->db->select($field_arr);
-        $this->db->from("editions");
+        $this->db->from("editions");     
+        $this->db->where("edition_status", 1);   
+        
+        $date_to = date("Y-m-d", strtotime("+3 months"));
+        $date_from = date("Y-m-d", strtotime("-3 months"));
+        $year_ago = date("Y-m-d", strtotime("-1 year"));
+        $today = date("Y-m-d");
 
         //c onfirmed races
         if (isset($params['confirmed'])) {
             $this->db->where("edition_info_isconfirmed", $params['confirmed']);
-            $this->db->where("edition_date >=", date("Y-m-d"));
+            $this->db->where("edition_date >=", $today);
         }
 
         // next 3 months races
-        if (isset($params['upcoming_3months'])) {
+        if (isset($params['upcoming_close'])) {
             $this->db->where("edition_info_isconfirmed !=", 1);
-            $date_to = date("Y-m-d", strtotime("+3 months"));
-            $this->db->where("(edition_date BETWEEN '" . date("Y-m-d") . "' AND '" . $date_to . "')");
+            $this->db->where("(edition_date BETWEEN '" . $today . "' AND '" . $date_to . "')");
         }
 
         // rest of upcoming races
-        if (isset($params['upcoming_older'])) {
+        if (isset($params['upcoming_further'])) {
             $this->db->where("edition_info_isconfirmed !=", 1);
-            $this->db->where("edition_date > ", date("Y-m-d", strtotime("+3 months")));
+            $this->db->where("edition_date >= ", $date_to);            
+        }
+        
+        // races past 3 months
+        if (isset($params['past_close'])) {
+            $this->db->where("(edition_date BETWEEN '" . $date_from . "' AND '" . $today . "')");        
         }
 
-        // rest of upcoming races
-        if (isset($params['results'])) {
-            $this->db->group_start();
-            $this->db->where("edition_url_results !=", "");
-            $this->db->where("edition_date < ", date("Y-m-d"));
-            $this->db->group_end();
-            $date_from = date("Y-m-d", strtotime("-3 months"));
-            $this->db->or_where("(edition_date BETWEEN '" . $date_from . "' AND '" . date("Y-m-d") . "')");
+        // has results, more than 3 months, less than a year
+        if (isset($params['has_results_year'])) {
+            $this->db->where("edition_results_isloaded", 1); 
+            $this->db->where("(edition_date BETWEEN '" . $year_ago . "' AND '" . $date_from . "')");
+        }
+        
+        // no results, more than 3 months, less than a year
+        if (isset($params['no_results_year'])) {
+            $this->db->where("edition_results_isloaded !=", 1); 
+            $this->db->where("(edition_date BETWEEN '" . $year_ago . "' AND '" . $date_from . "')");
         }
 
-        // rest of upcoming races
+        // more than a year old
         if (isset($params['old'])) {
-            $this->db->group_start();
-            $this->db->where("edition_url_results");
-            $this->db->or_where("edition_url_results", "");
-            $this->db->group_end();
-
-            $this->db->where("edition_date < ", date("Y-m-d", strtotime("-3 months")));
+            $this->db->where("edition_date < ", $year_ago);
         }
+        
+        $this->db->order_by("edition_date", "DESC");
 
-        $this->db->order_by("edition_date", "ASC");
-
-//            echo $this->db->get_compiled_select();
-//            exit();
+            
 
         $query = $this->db->get();
 
