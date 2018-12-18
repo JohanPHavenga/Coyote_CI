@@ -8,17 +8,15 @@ $(document).ready(function() {
         sliderType:"standard",
         sliderLayout:"fullwidth",
         delay: 7000,    
-        autoHeight: 'off',
-        
+        autoHeight: 'off',        
         touchenabled: "on",
-
         navigation: {
             keyboardNavigation:"off",
             keyboard_direction: "horizontal",
             mouseScrollNavigation:"off",
             onHoverStop:"on",
             arrows: {
-                style:"circle",
+                style:"none",
                 enable:true,
                 hide_onmobile:false,
                 hide_onleave:false,
@@ -37,20 +35,16 @@ $(document).ready(function() {
                 }
             }           
         },
-
+        lazyType: "smart",
         shadow: 0,
-
         spinner: "spinner2",
-
         disableProgressBar:"on",
-
         fullScreenOffsetContainer: '.tp-banner-container',
-
         hideThumbsOnMobile: "on",
         hideNavDelayOnMobile: 1500,
         hideBulletsOnMobile: "on",
         hideArrowsOnMobile: "on",
-        hideThumbsUnderResolution: 0,
+        hideThumbsUnderResolution: 0
     
     });
 }); //ready

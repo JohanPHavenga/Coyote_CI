@@ -28,9 +28,9 @@ class File extends Frontend_Controller {
         // set path
         $path="./uploads/".$id_type."/".$id."/".$file_detail['file_name'];        
         switch ($file_detail['file_ext']) {
-            case ".pdf":
-                $this->display('application/pdf',$path);
-                break;
+//            case ".pdf":
+//                $this->display('application/pdf',$path);
+//                break;
             default:
                 $this->download($path);
                 break;

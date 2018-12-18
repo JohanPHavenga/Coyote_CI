@@ -225,7 +225,7 @@ class File extends Admin_Controller {
 
         // set upload config
         $config['upload_path'] = $upload_path;
-        $config['allowed_types'] = "pdf|docx|doc|xls|xlsx|jpg|gif|jpeg|png";
+        $config['allowed_types'] = "pdf|docx|doc|xls|xlsx|jpg|gif|jpeg|png|ods";
         $config['max_size'] = "10240";
         $this->upload->initialize($config);
 

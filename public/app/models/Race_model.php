@@ -300,5 +300,4 @@ class Race_model extends MY_model {
 
         }
 
-
 }

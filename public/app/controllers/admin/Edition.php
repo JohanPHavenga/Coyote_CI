@@ -484,6 +484,27 @@ class Edition extends Admin_Controller {
         redirect($return_url);
         die();        
     }
+    
+    
+    // temp method - fix wehere end-date is empty
+    function end_date_fix() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');        
+        $edition_list = $this->edition_model->get_edition_list();    
+        $n=0; $r=0;
+        foreach ($edition_list as $e_id=>$edition) {
+            if (strtotime($edition['edition_date_end'])<1) {
+                
+                $update=$this->edition_model->update_field($e_id, "edition_date_end", $edition['edition_date']);
+                $n++;
+            }
+
+        }
+        
+        echo "Done<br>";
+        echo $n." dates were updated<br>";
+        
+    }
 
 
 }

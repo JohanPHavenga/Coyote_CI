@@ -23,13 +23,21 @@
         <meta name="author" content="Johan Havenga" />
         <meta name="robots" content="<?=$meta_robots;?>" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="<?= base_url('css/roboto-condensed.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('css/roboto.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/roboto-condensed.min.css'); ?>" rel="stylesheet" type="text/css" media="screen" />
+        <!--<link href="<?= base_url('css/roboto.css'); ?>" rel="stylesheet" type="text/css" />-->
         <link href="<?= base_url('plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/components.min.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
+            <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" /
+        <noscript>
+            <!--<link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />-->
+            <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
+        </noscript>
         <!-- END GLOBAL MANDATORY STYLES -->
         <?php
             // load extra CSS files from controller
@@ -41,12 +49,8 @@
             endif;
         ?>
         <!-- BEGIN THEME STYLES -->
-        <link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('css/components.min.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
-        <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
         <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
         <!-- END THEME STYLES -->
-        <!-- <link rel="shortcut icon" href="<?= base_url('favicon.ico'); ?>" />  -->
 
         <link rel="apple-touch-icon" sizes="57x57" href="<?= base_url('img/favicon/apple-icon-57x57.png');?>">
         <link rel="apple-touch-icon" sizes="60x60" href="<?= base_url('img/favicon/apple-icon-60x60.png');?>">
@@ -65,15 +69,12 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="<?= base_url('img/favicon/ms-icon-144x144.png');?>">
         <meta name="theme-color" content="#ffffff">
-        <!-- Google Auto Ads -->
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({
-                  google_ad_client: "ca-pub-8912238222537097",
-                  enable_page_level_ads: true
-             });
-        </script>
-        <!-- Auto ads end -->
+        <?php
+            // load extra CSS files from controller
+            if (isset($structured_data)) :
+            echo $structured_data;
+            endif;
+        ?>
     </head>
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
         <!-- Analytics -->

@@ -165,7 +165,51 @@
 </div>
 <!-- END: LAYOUT/FOOTERS/GO2TOP -->
 <!-- BEGIN: LAYOUT/BASE/BOTTOM -->
+
+<!-- DEFER LOADING OF CSS FILES -->
+<script type="text/javascript">
+    /* Font Awesome */
+    var font_awesome = document.createElement('link');
+    font_awesome.rel = 'stylesheet';
+    font_awesome.href = '<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>';
+    font_awesome.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(font_awesome, godefer);
+    
+    /* Simple Line Icons */
+    var simple_line_icons = document.createElement('link');
+    simple_line_icons.rel = 'stylesheet';
+    simple_line_icons.href = '<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>';
+    simple_line_icons.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(simple_line_icons, godefer);
+    
+    /* Animate */
+    var animate = document.createElement('link');
+    animate.rel = 'stylesheet';
+    animate.href = '<?= base_url('plugins/animate/animate.min.css'); ?>';
+    animate.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(animate, godefer);
+    
+    /* Plugins */
+    var plugins = document.createElement('link');
+    plugins.rel = 'stylesheet';
+    plugins.href = '<?= base_url('css/plugins.min.css'); ?>';
+    plugins.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(plugins, godefer);
+        
+    /* Custom */
+    var custom = document.createElement('link');
+    custom.rel = 'stylesheet';
+    custom.href = '<?= base_url('css/custom.css'); ?>';
+    custom.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(custom, godefer);
+</script>
 <!-- BEGIN: CORE PLUGINS -->
+
 <!--[if lt IE 9]>
 <script src="<?= base_url('plugins/excanvas.min.js'); ?>"></script>
 <![endif]-->

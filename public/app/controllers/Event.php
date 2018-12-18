@@ -128,7 +128,9 @@ class Event extends Frontend_Controller {
         $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);        
         $this->data_to_header['keywords']=$this->formulate_keywords($this->data_to_view['event_detail']['summary']);     
-        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
+//        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
+        
+        $this->data_to_header['structured_data']=$this->load->view('/event/structured_data', $this->data_to_view, TRUE);
         
         // set buttons
         $this->data_to_view['event_detail']['calc_edition_urls']=$btn_data['calc_edition_urls']=$this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'],$this->data_to_view['event_detail']['url_list']);   
@@ -408,32 +410,45 @@ class Event extends Frontend_Controller {
 
     
     function formulate_structured_data($event_detail) {
-        $start_date=date("Y-m-d", strtotime($event_detail['edition_date']));
+        $header=array();
         
-        $h[]='<script type="application/ld+json">';
-        $h[]='{';
-            $h[]='"@context": "http://schema.org",';
-            $h[]='"@type": "SportsEvent",';
-            $h[]='"name": "'.$event_detail['edition_name'].'",';
-            $h[]='"startDate": "'.$start_date.'",';
-            $h[]='"location": { ';
-                $h[]='"@type": "Place",';
-                $h[]='"name": "'.$event_detail['edition_address'].'",';
-                $h[]='"address": { ';
-                    $h[]='"@type": "PostalAddress",';
-                    $h[]='"streetAddress": "'.$event_detail['edition_address'].'",';
-                    $h[]='"addressLocality": "'.$event_detail['town_name'].'",';
-                    $h[]='"addressRegion": "WC",';
-                    $h[]='"addressCountry": "ZA"';
-                $h[]='}';
-            $h[]='},';
-            $h[]='"description": "Join us for the annual '.$event_detail['event_name'].' road running race in '.$event_detail['town_name'].'.",';
-            if ($event_detail['edition_logo']) {
-                $img_url=base_url("uploads/admin/edition/".$event_detail['edition_id']."/".$event_detail['edition_logo']);
-                $h[]='"image": "'.$img_url.'",';
+        $start_date=date("Y-m-d", strtotime($event_detail['edition_date']));
+        $end_date=date("Y-m-d", strtotime($event_detail['edition_date_end']));
+        
+        $header[]='<script type="application/ld+json">';
+        $header[]='{';        
+            $body[]='"@context": "http://schema.org",';
+            $body[]='"@type": "SportsEvent",';
+            $body[]='"name": "'.$event_detail['edition_name'].'",';
+            $body[]='"startDate": "'.$start_date.'",';
+            $body[]='"endDate": "'.$end_date.'",';
+            $body[]='"location": { ';
+                $body[]='"@type": "Place",';
+                $body[]='"name": "'.$event_detail['edition_address'].'",';
+                $body[]='"address": { ';
+                    $body[]='"@type": "PostalAddress",';
+                    $body[]='"streetAddress": "'.$event_detail['edition_address'].'",';
+                    $body[]='"addressLocality": "'.$event_detail['town_name'].'",';
+                    $body[]='"addressRegion": "WC",';
+                    $body[]='"addressCountry": "ZA"';
+                $body[]='}';
+            $body[]='},';
+            if ($event_detail['club_id']!=8) {
+                $body[]='"performer": { ';
+                    $body[]='"@type" : "Organization",';
+                    $body[]='"name" : "'.$event_detail['club_name'].'"';
+                    if (isset($event_detail['club_url_list'][0])) {
+                        $body[]=',"url" : "'.$event_detail['club_url_list'][0]['url_name'].'"';
+                    }
+                $body[]='},';
+            }
+            $body[]='"description": "Join us for the annual '.$event_detail['event_name'].' road running race in '.$event_detail['town_name'].'.",';
+            if (isset($event_detail['file_list'][1])) {
+                $img_url = base_url("uploads/edition/" . $event_detail['edition_id'] . "/" . $event_detail['file_list'][1][0]['file_name']);
+                $body[]='"image": "'.$img_url.'",';
             }
             
-            $h[]='"subEvent": [ ';  
+            $sEvent[]='"subEvent": [ ';  
             
                 foreach ($event_detail['race_list'] as $race) {
                     if (!empty($race['race_name'])) {
@@ -456,57 +471,78 @@ class Event extends Frontend_Controller {
 
                     $today_date=date("Y-m-d").'T'."00:00:00+02:00";
                     
-                    $h[]='{';
-                    $h[]='"@type": "SportsEvent",';
-                    $h[]='"name": "'.$rn.'",';
-                    $h[]='"startDate": "'.$race_start_date.'T'.$race['race_time_start'].'+02:00",';
-                    if ($race['race_time_end']) {
-                        $h[]='"endDate": "'.$race_start_date.'T'.$race['race_time_end'].'+02:00",';
+                    $sEvent[]='{';
+//                    $sEvent[]='"@type": "SportsEvent",';
+                    $sEvent[]='"name": "'.$rn.'",';
+                    $sEvent[]='"startDate": "'.$race_start_date.'T'.$race['race_time_start'].'+02:00",';
+                    if ($race['race_time_end']>0) {
+                        $sEvent[]='"endDate": "'.$race_start_date.'T'.$race['race_time_end'].'+02:00",';
                     }
-                    $h[]='"location": { ';
-                        $h[]='"@type": "Place",';
-                        $h[]='"name": "'.$event_detail['edition_address'].'",';
-                        $h[]='"address": { ';
-                            $h[]='"@type": "PostalAddress",';
-                            $h[]='"streetAddress": "'.$event_detail['edition_address'].'",';
-                            $h[]='"addressLocality": "'.$event_detail['town_name'].'",';
-                            $h[]='"addressRegion": "WC",';
-                            $h[]='"addressCountry": "ZA"';
-                        $h[]='}';
+                    $sEvent[]='"location": { ';
+                        $sEvent[]='"@type": "Place",';
+                        $sEvent[]='"name": "'.$event_detail['edition_address'].'",';
+                        $sEvent[]='"address": { ';
+                            $sEvent[]='"@type": "PostalAddress",';
+                            $sEvent[]='"streetAddress": "'.$event_detail['edition_address'].'",';
+                            $sEvent[]='"addressLocality": "'.$event_detail['town_name'].'",';
+                            $sEvent[]='"addressRegion": "WC",';
+                            $sEvent[]='"addressCountry": "ZA"';
+                        $sEvent[]='}';
                     if ($price>0) {
-                        $h[]='},';
-                        $h[]='"offers": { ';
-                            $h[]='"@type": "Offer",';
-                            $h[]='"price": "'.$price.'",';
-                            $h[]='"priceCurrency": "ZAR",';
-                            if ($event_detail['edition_url_entry']) {
-                                $h[]='"url": "'.$event_detail['edition_url_entry'].'",';
-                                $h[]='"availability": "http://schema.org/InStock",';
-                                $h[]='"validFrom": "'.$today_date.'"';
-                            }
-                        $h[]='}';
+                        $sEvent[]='},';
+                        $sEvent[]='"offers": { ';
+                            $sEvent[]='"@type": "Offer",';
+                            $sEvent[]='"price": "'.$price.'",';
+                            $sEvent[]='"priceCurrency": "ZAR"';
+                            if (isset($event_detail['url_list'][5])) {
+                                $url=$event_detail['url_list'][5][0]['url_name'];
+                                $sEvent[]=',"url": "'.$url.'",';
+                                $sEvent[]='"availability": "http://schema.org/InStock",';
+                                $sEvent[]='"validFrom": "'.$today_date.'"';
+                            } else {
+                                
+                                $sEvent[]=',"availability": "http://schema.org/InStock",';
+                                $sEvent[]='"validFrom": "'.$start_date.'"';
+                            }   
+                        $sEvent[]='},';
                     } else {
-                        $h[]='}';   
+                        $sEvent[]='},';   
+                    }
+                    // performer
+                    if ($event_detail['club_id']!=8) {
+                        $sEvent[]='"performer": { ';
+                            $sEvent[]='"@type" : "Organization",';
+                            $sEvent[]='"name" : "'.$event_detail['club_name'].'"';
+                            if (isset($event_detail['club_url_list'][0])) {
+                                $sEvent[]=',"url" : "'.$event_detail['club_url_list'][0]['url_name'].'"';
+                            }
+                        $sEvent[]='}';
                     }
                     
                     // loose comma at the end of the last one
                     if ($race === end($event_detail['race_list'])) {
-                        $h[]='}';
+                        $sEvent[]='}';
                     } else {
-                        $h[]='},';
+                        $sEvent[]='},';
                     }
                 }
             
-            $h[]=']';
+            $sEvent[]=']';
             
-        $h[]='}';
-        $h[]='</script>';
+        $footer[]='}';
+        $footer[]='</script>';
         
-        $html=implode("\n\r", $h);
+        $html_array=array_merge($header,$body,$footer);
         
-    //    echo $html;
-    //    wts($event_detail);
-    //    die();
+//        $html_array=$header+$body+$sEvent+$footer;        
+        $html=implode("\n\r", $html_array);
+        
+//        wts($sEvent);
+//        die();
+//        wts($html_array);
+        echo $html;
+//        wts($event_detail);
+        die();
         
         return $html;
     }

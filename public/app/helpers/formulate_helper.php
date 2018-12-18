@@ -136,6 +136,21 @@ if ( ! function_exists('fdateToCal'))
     }
 }
 
+if ( ! function_exists('fdateStructured'))
+{
+    function fdateStructured($timestamp) {
+        if ($timestamp)
+        {
+            return date('Y-m-d\TH:i:s'.'+02:00', $timestamp);
+        } else {
+            return false;
+        }
+    }
+}
+
+
+//                    $sEvent[]='"startDate": "'.$race_start_date.'T'.$race['race_time_start'].'+02:00",';
+
 // ================================================================
 // Formulate Lables
 // ================================================================

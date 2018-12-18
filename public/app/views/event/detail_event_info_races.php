@@ -143,6 +143,7 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                             </div>
                             <?php
                                 }
+                                }
                                 if ($race['race_isover70free']) {
                             ?>
                             <div class="c-row c-price">
@@ -160,7 +161,7 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                             </div>
                             <?php
                                 }
-                                }
+                                
                             ?>
                         </div>
                     </div>

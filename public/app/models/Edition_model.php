@@ -332,6 +332,21 @@ class Edition_model extends MY_model {
 
         }
 
+        
+        public function update_field($e_id,$field,$value)
+        {
+            if( ! ($e_id))
+            {
+                return false;
+            }
+            else
+            {
+                $this->db->trans_start();
+                $this->db->update('editions', [$field=>$value], array('edition_id' => $e_id));
+                $this->db->trans_complete();
+                return $this->db->trans_status();
+            }
+        }
 
         public function remove_edition($id)
         {
