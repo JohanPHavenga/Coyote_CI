@@ -105,12 +105,15 @@ class Edition_model extends MY_model {
             $this->db->order_by("edition_name");
             $query = $this->db->get();
 
-            if ($query->num_rows() > 0) {
-                $data[] = "Please Select";
-                foreach ($query->result_array() as $row) {
-                    if ($use_names) {
+            if ($query->num_rows() > 0) {                
+                if ($use_names) {
+                    $data["No event selected"] = "Please Select";
+                    foreach ($query->result_array() as $row) {
                         $data[$row['edition_name']] = $row['edition_name'];
-                    } else {
+                    }
+                } else {
+                    $data[] = "Please Select";                    
+                    foreach ($query->result_array() as $row) {
                         $data[$row['edition_id']] = $row['edition_name'];
                     }
                 }

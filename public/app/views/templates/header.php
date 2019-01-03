@@ -72,6 +72,8 @@
         
         <!-- GOOGLE ADS -->
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- reCaptcha -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         <?php
             // load extra CSS files from controller
             if (isset($structured_data)) :
