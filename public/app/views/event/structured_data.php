@@ -1,15 +1,15 @@
 <?php
-$start_date=fdateShort(strtotime($event_detail['edition_date']));
-$end_date=fdateShort(strtotime($event_detail['edition_date_end']));
+$start_date=fdateShort($event_detail['edition_date']);
+$end_date=fdateShort($event_detail['edition_date_end']);
 $today_date=date("Y-m-d").'T'."00:00:00+02:00";
 
 if ($event_detail['edition_entries_date_open']) {
-    $valid_from_date= fdateStructured(strtotime($event_detail['edition_entries_date_open']));  
+    $valid_from_date= fdateStructured($event_detail['edition_entries_date_open']);  
 } else {
-    $valid_from_date=fdateStructured(strtotime(date("Y-m-d"))); 
+    $valid_from_date=fdateStructured(date("Y-m-d")); 
 }
 if ($event_detail['edition_entries_date_close']) {
-    $valid_to_date= fdateStructured(strtotime($event_detail['edition_entries_date_close'])); 
+    $valid_to_date= fdateStructured($event_detail['edition_entries_date_close']); 
 } else {
     $valid_to_date=$end_date.'T'."23:59:59+02:00";
 }
@@ -19,7 +19,7 @@ if ($event_detail['edition_entries_date_close']) {
 {        
     "@context": "http://schema.org",
     "@type": "SportsEvent",
-    "name": "<?=$event_detail['edition_name'];?>'",
+    "name": "<?=$event_detail['edition_name'];?>",
     "startDate": "<?=$start_date;?>",
     "endDate": "<?=$end_date;?>",
     "location": { 
@@ -46,11 +46,11 @@ if ($event_detail['edition_entries_date_close']) {
     <?php 
         if (isset($event_detail['file_list'][1])) { 
         $img_url = base_url("uploads/edition/" . $event_detail['edition_id'] . "/" . $event_detail['file_list'][1][0]['file_name']);
+        } else {
+            $img_url="";
+        }
         ?>
-    "image": "<?=$img_url;?>",
-    <?php } 
-    ?>
-            
+    "image": "<?=$img_url;?>",     
     "offers": [
             
     <?php
@@ -79,17 +79,14 @@ if ($event_detail['edition_entries_date_close']) {
             if (isset($event_detail['url_list'][5])) {
                 $url=$event_detail['url_list'][5][0]['url_name']; ?>
                 ,"url": "<?=$url;?>",
+            <?php
+            }
+            ?>
                 "availability": "http://schema.org/InStock",
                 "validFrom": "<?=$valid_from_date;?>",
                 "validThrough": "<?=$valid_to_date;?>"
-                <?php
-            } else {
-                ?>
-                ,"availability": "http://schema.org/InStock",
-                "validFrom": "<?=$start_date;?>",
-                "validThrough": "<?=$valid_to_date;?>"
-                <?php
-            }   
+            
+            <?php
         }
         if ($race === end($event_detail['race_list'])) {
            echo "}";

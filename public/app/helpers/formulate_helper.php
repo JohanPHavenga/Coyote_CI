@@ -141,7 +141,7 @@ if ( ! function_exists('fdateStructured'))
     function fdateStructured($timestamp) {
         if ($timestamp)
         {
-            return date('Y-m-d\TH:i:s'.'+02:00', $timestamp);
+            return date('Y-m-d\TH:i:s'.'+02:00', strtotime($timestamp));
         } else {
             return false;
         }

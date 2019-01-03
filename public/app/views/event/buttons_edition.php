@@ -7,7 +7,7 @@ if ($calc_edition_urls) {
         if (($edition_entries_date_close)&&(strtotime($edition_entries_date_close)< strtotime("now"))) {
             echo '<a href="" target="_blank" class="' . $button_class . '" title="Online Entries Closed" disabled>Entries Closed</a>';
         } else {
-            echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Now</a>';
+            echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Online</a>';
         }
     }
     // MORE INFO

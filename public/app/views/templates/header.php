@@ -69,6 +69,9 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="<?= base_url('img/favicon/ms-icon-144x144.png');?>">
         <meta name="theme-color" content="#ffffff">
+        
+        <!-- GOOGLE ADS -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
             // load extra CSS files from controller
             if (isset($structured_data)) :

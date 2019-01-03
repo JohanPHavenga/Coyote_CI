@@ -6,8 +6,9 @@
                     <ins class="adsbygoogle"
                         style="display:block"
                         data-ad-client="ca-pub-8912238222537097"
-                        data-ad-slot="2234707964"
-                        data-ad-format="auto"></ins>
+                        data-ad-slot="4051530117"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
                    <script>
                    (adsbygoogle = window.adsbygoogle || []).push({});
                    </script>

@@ -210,6 +210,7 @@
 </script>
 <!-- BEGIN: CORE PLUGINS -->
 
+
 <!--[if lt IE 9]>
 <script src="<?= base_url('plugins/excanvas.min.js'); ?>"></script>
 <![endif]-->
