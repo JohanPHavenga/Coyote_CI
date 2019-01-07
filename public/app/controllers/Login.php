@@ -32,6 +32,7 @@ class Login extends Frontend_Controller {
     public function userlogin()
     {
         $this->data_to_header['title'] = "User Login";
+        $this->data_to_header['meta_robots']="noindex, nofollow";
         $this->data_to_view['form_url'] = '/login/userlogin/submit';
         $this->data_to_view['error_url'] = '/login';
         $this->data_to_view['success_url'] = '/';

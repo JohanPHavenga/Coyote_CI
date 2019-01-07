@@ -32,6 +32,7 @@ class File extends Frontend_Controller {
 //                $this->display('application/pdf',$path);
 //                break;
             default:
+                header("X-Robots-Tag: noindex, nofollow", true);
                 $this->download($path);
                 break;
         }
