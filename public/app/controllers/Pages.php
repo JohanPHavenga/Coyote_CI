@@ -35,7 +35,7 @@ class Pages extends Frontend_Controller {
         }
 
         if ($page=="home") {
-            $this->output->cache(60);
+//            $this->output->cache(60);
             $this->load->helper('form');
             $this->load->library('form_validation');
 
