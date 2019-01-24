@@ -257,7 +257,7 @@ if (isset($scripts_to_load)) :
         } else {
             $js_link = base_url($row);
         }
-        echo "<script src='$js_link' type='text/javascript'></script>";
+        echo "<script src='$js_link' type='text/javascript' defer></script>";
     endforeach;
 endif;
 

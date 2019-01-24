@@ -30,6 +30,10 @@ if ($calc_edition_urls) {
     if (isset($calc_edition_urls[7])) {
         echo '<a href="' . $calc_edition_urls[7] . '" target="_blank" class="' . $button_class . '">Route Map</a>';
     }
+    // Photos
+    if (isset($calc_edition_urls[9])) {
+        echo '<a href="' . $calc_edition_urls[9] . '" target="_blank" class="' . $button_class . '">Official Photos</a>';
+    }
     // FACEBOOK
     if (isset($calc_edition_urls[6])) {
         echo '<a href="' . $calc_edition_urls[6] . '" target="_blank" class="' . $button_class . '"><i class="fa fa-facebook"></i> Facebook</a>';

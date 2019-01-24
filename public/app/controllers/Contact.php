@@ -36,7 +36,11 @@ class Contact extends Frontend_Controller {
                 [
                     "crumbs" => ["Contact Us" => "/contact", "Home" => "/"],
         ]);
-
+        
+        $this->data_to_footer['scripts_to_load']=array(
+                "https://www.google.com/recaptcha/api.js"
+            );
+        
         // get edition dropdown
         $this->data_to_view['edition_dropdown'] = $this->edition_model->get_edition_dropdown(true);
 
@@ -47,6 +51,7 @@ class Contact extends Frontend_Controller {
             if (empty($this->data_to_view['form_data']['dto'])) {
                 $this->data_to_view['form_data']['dto'] = "info@roadrunning.co.za";
             }
+            
 
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view('contact/view', $this->data_to_view);

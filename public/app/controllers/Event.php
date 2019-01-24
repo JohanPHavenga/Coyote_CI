@@ -84,6 +84,7 @@ class Event extends Frontend_Controller {
         $this->data_to_footer['scripts_to_load']=array(
             GOOGLE_MAP_URL,
             "plugins/gmaps/gmaps.js",
+            "https://www.google.com/recaptcha/api.js"
             );
 
         // get event details
