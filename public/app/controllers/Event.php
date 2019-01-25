@@ -79,10 +79,10 @@ class Event extends Frontend_Controller {
             "plugins/fancybox/jquery.fancybox.pack.js",
             "plugins/smooth-scroll/jquery.smooth-scroll.js",
             "plugins/slider-for-bootstrap/js/bootstrap-slider.js",
+            GOOGLE_MAP_URL,
             );
 
         $this->data_to_footer['scripts_to_load']=array(
-            GOOGLE_MAP_URL,
             "plugins/gmaps/gmaps.js",
             "https://www.google.com/recaptcha/api.js"
             );

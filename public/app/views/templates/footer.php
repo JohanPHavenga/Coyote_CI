@@ -166,6 +166,28 @@
 <!-- END: LAYOUT/FOOTERS/GO2TOP -->
 <!-- BEGIN: LAYOUT/BASE/BOTTOM -->
 
+<link href="<?= base_url('css/roboto-condensed.min.css'); ?>" rel="stylesheet" type="text/css" media="screen" />
+<!--<link href="<?= base_url('css/roboto.css'); ?>" rel="stylesheet" type="text/css" />-->
+<link href="<?= base_url('plugins/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('css/components.min.css'); ?>" id="style_components" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
+<link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" /
+<noscript>
+    <!--<link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />-->
+    <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
+</noscript>
+
+<!-- END GLOBAL MANDATORY STYLES -->
+        
+        <!-- BEGIN THEME STYLES -->
+        <!--<link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />-->
+        <!-- END THEME STYLES -->
+        
 <!-- DEFER LOADING OF CSS FILES -->
 <script type="text/javascript">
     /* Font Awesome */
@@ -224,9 +246,13 @@
 <?php
 // load extra JS files from controller
 if (isset($js_to_load)) :
-    foreach ($js_to_load as $row):
-        $js_link = base_url($row);
-        echo "<script src='$js_link' type='text/javascript'></script>";
+    foreach ($js_to_load as $row):    
+        if (substr($row, 0, 4) == "http") {
+            $js_link = $row;
+        } else {
+            $js_link = base_url($row);
+        }
+        echo "<script src='$js_link'></script>";
     endforeach;
 endif;
 ?>
@@ -240,6 +266,7 @@ endif;
 <!-- BEGIN: THEME SCRIPTS -->
 <script src="<?= base_url('js/components.js'); ?>" type="text/javascript"></script>
 <script src="<?= base_url('js/app.js'); ?>" type="text/javascript"></script>
+<!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
 <script>
     $(document).ready(function ()
     {
@@ -257,7 +284,7 @@ if (isset($scripts_to_load)) :
         } else {
             $js_link = base_url($row);
         }
-        echo "<script src='$js_link' type='text/javascript' async></script>";
+        echo "<script src='$js_link' type='text/javascript' defer></script>";
     endforeach;
 endif;
 
