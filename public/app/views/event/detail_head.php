@@ -62,7 +62,10 @@
                 </div>
             </div>
         </div>
-        <div id="gmapbg" class="c-content-contact-1-gmap" style="height: 630px;"></div>
+        <div id="leaflet_map_bg" class="c-content-contact-1-gmap" style="height: 630px; z-index:0;"></div>
+        <!--<div id="gmapbg" class="c-content-contact-1-gmap" style="height: 630px;"></div>-->
     </div>
     
     <?= $notice; ?>
+
+    

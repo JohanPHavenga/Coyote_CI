@@ -71,6 +71,7 @@ class Event extends Frontend_Controller {
             "plugins/owl-carousel/assets/owl.carousel.css",
             "plugins/fancybox/jquery.fancybox.css",
             "plugins/slider-for-bootstrap/css/slider.css",
+            "plugins/leaflet/leaflet.css",
             );
 
         $this->data_to_footer['js_to_load']=array(
@@ -79,11 +80,12 @@ class Event extends Frontend_Controller {
             "plugins/fancybox/jquery.fancybox.pack.js",
             "plugins/smooth-scroll/jquery.smooth-scroll.js",
             "plugins/slider-for-bootstrap/js/bootstrap-slider.js",
-            GOOGLE_MAP_URL,
+            "plugins/leaflet/leaflet.js",
+//            GOOGLE_MAP_URL,
             );
 
         $this->data_to_footer['scripts_to_load']=array(
-            "plugins/gmaps/gmaps.js",
+//            "plugins/gmaps/gmaps.js",
             "https://www.google.com/recaptcha/api.js"
             );
 
@@ -125,7 +127,8 @@ class Event extends Frontend_Controller {
                 );
         
         // get other stuff
-        $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
+//        $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
+        $this->data_to_footer['scripts_to_display'][]=$this->formulate_leaflet_script($this->data_to_view['event_detail']);
         $this->data_to_view['notice']=$this->formulate_detail_notice($this->data_to_view['event_detail']);
         $this->data_to_header['meta_description']=$this->formulate_meta_description($this->data_to_view['event_detail']['summary']);        
         $this->data_to_header['keywords']=$this->formulate_keywords($this->data_to_view['event_detail']['summary']);     
@@ -343,6 +346,34 @@ class Event extends Frontend_Controller {
             $(document).ready(function() {
                 PageContact.init();
             });";
+        
+        return $return;
+    }
+    
+    
+    function formulate_leaflet_script($event_detail) {
+        $lat=$event_detail['latitude_num'];
+        $long=$event_detail['longitude_num'];
+        $long_center=$long+0.005;
+        $return="                
+            var mymap = L.map('leaflet_map_bg', {
+                center: [$lat, $long_center],
+                zoom: 13,
+                scrollWheelZoom : false,
+                touchZoom : true,
+                dragging: !L.Browser.mobile
+            });
+                
+            L.marker([$lat, $long]).addTo(mymap);
+                
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, ' +
+			'<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, ' +
+			'Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
+		id: 'mapbox.streets'
+            }).addTo(mymap);
+           ";
         
         return $return;
     }
