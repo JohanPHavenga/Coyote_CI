@@ -107,7 +107,7 @@ class Edition_model extends MY_model {
 
             if ($query->num_rows() > 0) {                
                 if ($use_names) {
-                    $data["No event selected"] = "Please Select";
+                    $data["General Query"] = "No event selected";
                     foreach ($query->result_array() as $row) {
                         $data[$row['edition_name']] = $row['edition_name'];
                     }

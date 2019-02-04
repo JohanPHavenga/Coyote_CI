@@ -113,7 +113,7 @@
                                 ?>
                             </div>
                             <div class="form-group">
-                                <label for="devent">Event enquiry is about</label>
+                                <label for="devent">Select event (if applicable)</label>
                                 <?php
                                 echo form_dropdown(
                                         'devent', 
