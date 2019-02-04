@@ -18,7 +18,7 @@
                                     $show_text=false;
                                 } else {
                                     echo '<div class="alert alert-success" role="alert">';
-                                    echo "Thank you for contacting us. <b>Your message has successfully been send.</b><br>We will get back to you as soon as we can.";
+                                    echo "Thank you for contacting us. <b>Your message has been sent successfully.</b><br>We will get back to you as soon as we can.";
                                     echo '</div>';
                                 }
                             }

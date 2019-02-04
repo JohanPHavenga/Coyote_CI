@@ -79,7 +79,7 @@ class Contact extends Frontend_Controller {
             }
             $this->email->bcc($this->input->post('demail'));
 
-            $this->email->subject($this->input->post('devent') . ' - RoadRunning.co.za enquiry');
+            $this->email->subject($this->input->post('devent') . ' - RoadRunning.co.za enquiry #'.mktime());
             $msg_arr[] = "<p>This is an enquiry send from the RoadRunning.co.za website by an user:<br>";
             $msg_arr[] = "<b>Name:</b> " . $this->input->post('dname');
             $msg_arr[] = "<b>Email:</b> " . $this->input->post('demail');
