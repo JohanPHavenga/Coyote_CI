@@ -5,18 +5,23 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
     
     switch ($race['race_distance']) {
         case 42.2:
+            $t_prog_text="Marathon Training Program";
             $t_prog_link="https://coachparry.com/marathon-training-roadmap/?ref=9";
             break;
         case 21.1:
+            $t_prog_text="Half-Marathon Training Program";
             $t_prog_link="https://coachparry.com/half-marathon-training-roadmap/?ref=9";
             break;
         case 10:
+            $t_prog_text="10K Training Program";
             $t_prog_link="https://coachparry.com/10k-training-roadmap/?ref=9";
             break;
         case 5:
+            $t_prog_text="Training Program";
             $t_prog_link="https://coachparry.com/join-coach-parry/?ref=9";
             break;
         default:
+            $t_prog_text="Training Program";
             $t_prog_link="https://coachparry.com/join-coach-parry/?ref=9";
             break;
     }
@@ -210,19 +215,21 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                             <div class="col-md-3"></div>
                             <div class="col-md-9 c-margin-t-20">
                                 <?=$race['race_notes'];?>
+                                <?php
+                                    if ($race['race_distance']>4) {
+                                ?>
                                 <div class="btn-group" style="float: right">
                                     <a href="<?=$t_prog_link;?>" target="_blank" class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20">
-                                        <i class="fa fa-calendar-o"></i> <?=fraceDistance($race['race_distance']);?> Training Program</a>
+                                        <i class="fa fa-calendar-o"></i> <?=$t_prog_text?></a>
                                 </div>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>
-                    
-                   
-
                 </div>
-            </div>
-            
+            </div>            
              
             <div class="row">
                 <div class="c-content-pricing-1 c-opt-1">
@@ -231,12 +238,18 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                             <div class="col-md-12" style="padding-top: 10px;">
                                 <?=$race['race_notes'];?>
                             </div>
-                            <div class="col-md-12">
-                            <div class="btn-group">
-                                <a href="<?=$t_prog_link;?>" target="_blank" class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-10">
-                                    <i class="fa fa-calendar-o"></i> <?=fraceDistance($race['race_distance']);?> Training Program</a>
-                            </div>
-                            </div>
+                            <?php
+                                if ($race['race_distance']>4) {
+                            ?>
+                                <div class="col-md-12">
+                                <div class="btn-group">
+                                    <a href="<?=$t_prog_link;?>" target="_blank" class="btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-10">
+                                        <i class="fa fa-calendar-o"></i> <?=$t_prog_text;?></a>
+                                </div>
+                                </div>
+                            <?php
+                                }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -244,7 +257,6 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
             
             <?php
             // NEXT AND PREVIOUS BUTTONS
-            
                 $button_class="btn btn-md c-btn-border-2x c-btn-square btn-theme c-btn-uppercase c-btn-bold c-margin-t-20";
             ?>
             
@@ -266,7 +278,6 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>  
     <?php
