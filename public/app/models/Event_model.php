@@ -314,6 +314,10 @@ class Event_model extends MY_model {
                             $value .= " W";
                             $value_arr .= "W";
                         }
+                        if ($row['racetype_abbr'] == "T") {
+                            $value .= " T";
+                            $value_arr .= "T";
+                        }
 
                         // also add an array of race distances
                         $data[$year][$month][$day][$id]['distance_arr'][$value_arr] = $value_arr;
