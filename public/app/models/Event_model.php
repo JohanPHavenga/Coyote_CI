@@ -212,6 +212,7 @@ class Event_model extends MY_model {
 
         if (isset($params['confirmed'])) {
             $this->db->where("edition_info_isconfirmed", $params['confirmed']);
+            $this->db->where("edition_status", 1);
         }
 
         if (isset($params['results'])) {

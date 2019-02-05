@@ -81,7 +81,7 @@ class Dashboard extends Admin_Controller {
             // get list of editions that has no results
             $params = [
                 'results' => 0,
-                'date_from' => date("Y-m-d", strtotime("-2 months")),
+                'date_from' => date("Y-m-d", strtotime("-1 month")),
                 'date_to' => date("Y-m-d"),
             ];
             $this->data_to_view['event_list_noresults'] = $this->event_model->get_event_list_summary("date_range", $params);

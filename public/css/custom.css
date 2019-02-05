@@ -179,6 +179,9 @@ td.badges {
     }
     
     .edition-logo { text-align: center; }
+    
+    .cp_ad { text-align: center; display: block; }
+    .g_ad_hide { display: none; }
 }
 
 @media (max-width: 991px) {
@@ -200,7 +203,8 @@ td.badges {
     .edition-logo { text-align: center; }
     .edition-logo img {
         margin-top: 20px;
-    }
+    }    
+    
 }
 
 @media (max-width: 768px) {    
@@ -229,9 +233,9 @@ td.badges {
     
     div.c-lg-hidden { display: block; }
     
-    .c-content-pricing-1 .c-content { margin-bottom: 10px; }
+    .c-content-pricing-1 .c-content { margin-bottom: 10px; }    
     
-    
+    .cp_ad { display: none; }
 }
 
 @media (max-width: 480px) {    
