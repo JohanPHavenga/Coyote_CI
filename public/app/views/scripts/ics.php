@@ -56,17 +56,18 @@ function escapeString($string) {
 // 3. Echo out the ics file's contents
 ?>
 BEGIN:VCALENDAR
-VERSION:2.0
 PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+VERSION:2.0
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
+CATEGORIES:Events
+SUMMARY:<?= escapeString($summary)."\n"; ?>
+DTSTART:<?= dateToCal($datestart)."\n"; ?>
 DTEND:<?= dateToCal($dateend)."\n"; ?>
 UID:<?= $uid."\n"; ?>
 DTSTAMP:<?= dateToCal(time())."\n"; ?>
 LOCATION:<?= escapeString($address)."\n"; ?>
 DESCRIPTION:<?= escapeString($uri)."\n"; ?>
 URL;VALUE=URI:<?= escapeString($uri)."\n"; ?>
-SUMMARY:<?= escapeString($summary)."\n"; ?>
-DTSTART:<?= dateToCal($datestart)."\n"; ?>
 END:VEVENT
 END:VCALENDAR
