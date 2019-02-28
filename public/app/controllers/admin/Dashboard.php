@@ -23,8 +23,8 @@ class Dashboard extends Admin_Controller {
 
         $this->data_to_header['title'] = ucfirst($page);
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Dashboard" => "",
+            "Home" => "/admin",
+            "Dashboard" => "",
         ];
 
         $this->data_to_footer['js_to_load'] = array(
@@ -43,27 +43,27 @@ class Dashboard extends Admin_Controller {
             $race_count = $this->race_model->record_count();
 
             $this->data_to_view['dashboard_stats_list'] = [
-                        [
-                            "text" => "Number of Events",
-                            "number" => $event_count,
-                            "font-color" => "green-sharp",
-                            "icon" => "icon-pie-chart",
-                            "uri" => "/admin/event/view",
-                        ],
-                        [
-                            "text" => "Number of Editions",
-                            "number" => $edition_count,
-                            "font-color" => "red-haze",
-                            "icon" => "icon-pie-chart",
-                            "uri" => "/admin/edition/view",
-                        ],
-                        [
-                            "text" => "Number of Races",
-                            "number" => $race_count,
-                            "font-color" => "blue-sharp",
-                            "icon" => "icon-pie-chart",
-                            "uri" => "/admin/race/view",
-                        ],
+                [
+                    "text" => "Number of Events",
+                    "number" => $event_count,
+                    "font-color" => "green-sharp",
+                    "icon" => "icon-pie-chart",
+                    "uri" => "/admin/event/view",
+                ],
+                [
+                    "text" => "Number of Editions",
+                    "number" => $edition_count,
+                    "font-color" => "red-haze",
+                    "icon" => "icon-bar-chart",
+                    "uri" => "/admin/edition/view",
+                ],
+                [
+                    "text" => "Number of Races",
+                    "number" => $race_count,
+                    "font-color" => "blue-sharp",
+                    "icon" => "icon-pie-chart",
+                    "uri" => "/admin/race/view",
+                ],
                     //font-purple-soft
             ];
 
@@ -86,26 +86,49 @@ class Dashboard extends Admin_Controller {
             ];
             $this->data_to_view['event_list_noresults'] = $this->event_model->get_event_list_summary("date_range", $params);
 
-
-
+            // get newsletter data
+            $this->load->model('url_model');
+            $newsletter_data = $this->event_model->get_event_data_newsletter();            
+            foreach ($newsletter_data as $period => $period_list) {
+                foreach ($period_list as $year => $year_list) {
+                    foreach ($year_list as $month => $month_list) {
+                        foreach ($month_list as $day => $edition_list) {
+                            foreach ($edition_list as $id=>$edition) {
+                                $url_list=$this->url_model->get_url_list("edition",$id ,true);
+                                if (isset($url_list[5])) {
+                                    $edition['edition_online_entry']=1;
+                                } else {                                    
+                                    $edition['edition_online_entry']=0;
+                                }
+                                
+                                $edition_url_name = encode_edition_name($edition['edition_name']);
+                                $edition['edition_url'] = base_url()."event/" . $edition_url_name;
+                                $new_newsletter_data[$period][$year][$month][$day][$id]=$edition;
+                            }
+                        }
+                    }
+                }
+            }
+            $this->data_to_view['event_list_newsletter'] = $new_newsletter_data;
+            
 
             // actions on the toolbar
             $this->data_to_header['page_action_list'] = [
-                        [
-                            "name" => "Add Event",
-                            "icon" => "rocket",
-                            "uri" => "event/create/add",
-                        ],
-                        [
-                            "name" => "Add Edition",
-                            "icon" => "calendar",
-                            "uri" => "edition/create/add",
-                        ],
-                        [
-                            "name" => "Add Race",
-                            "icon" => "trophy",
-                            "uri" => "race/create/add",
-                        ],
+                [
+                    "name" => "Add Event",
+                    "icon" => "rocket",
+                    "uri" => "event/create/add",
+                ],
+                [
+                    "name" => "Add Edition",
+                    "icon" => "calendar",
+                    "uri" => "edition/create/add",
+                ],
+                [
+                    "name" => "Add Race",
+                    "icon" => "trophy",
+                    "uri" => "race/create/add",
+                ],
             ];
         }
 
@@ -113,32 +136,31 @@ class Dashboard extends Admin_Controller {
         $this->load->view($this->view_url, $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
-    
-    
+
     public function audit() {
-        $year=2019;
-        $previous_year=$year-1;
-        
+        $year = 2019;
+        $previous_year = $year - 1;
+
         $this->load->library('table');
         $this->load->model('event_model');
 
         $this->data_to_header['title'] = "Data Audit";
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Dashboard" => "/admin/dashboard",
-                    "Audit" => "",
+            "Home" => "/admin",
+            "Dashboard" => "/admin/dashboard",
+            "Audit" => "",
         ];
 
         $this->data_to_footer['js_to_load'] = array(
             "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
         );
-        
-        $this->data_to_view['year']=$year;
+
+        $this->data_to_view['year'] = $year;
         $event_info = $this->event_model->get_missing_editions($year);
-        
-        foreach ($event_info as $event_id=>$event) {
-            if (isset($event[$previous_year])&&(!isset($event[$year]))) {
-                $this->data_to_view['missing_editions'][$event_id]=$event;
+
+        foreach ($event_info as $event_id => $event) {
+            if (isset($event[$previous_year]) && (!isset($event[$year]))) {
+                $this->data_to_view['missing_editions'][$event_id] = $event;
             }
         }
 
@@ -146,7 +168,6 @@ class Dashboard extends Admin_Controller {
         $this->load->view("/admin/dashboard/audit", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
-    
 
     public function search() {
         $page = "search";

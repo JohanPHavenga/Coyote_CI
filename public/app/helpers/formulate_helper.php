@@ -1,6 +1,22 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// ================================================================
+// Formulate display for yes no
+// ================================================================
+
+if ( ! function_exists('fyesNo'))
+{
+    function fyesNo($bool) 
+    {
+        if ($bool)
+        {
+            return "Yes";
+        } else {
+            return "No";
+        }
+    }
+}
 
 // ================================================================
 // Formulate display of race distance

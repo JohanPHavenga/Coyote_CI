@@ -502,5 +502,54 @@ class Event_model extends MY_model {
         }
         return false;     
     }
+    
+    public function get_event_data_newsletter() {
+        
+        $field_list="events.event_id, event_name, edition_id, edition_name, edition_date, edition_info_isconfirmed, edition_results_isloaded";
+        
+        // last month
+        $from=date("Y-m-1 00:00:00",strtotime("10 days ago"));
+        $to=date("Y-m-d 23:59:59");
+        
+        $this->db->select($field_list);
+        $this->db->from("events");
+        $this->db->join('editions', 'editions.event_id = events.event_id');
+        $this->db->where("(edition_date BETWEEN '" . $from . "' AND '" . $to . "')");
+        $this->db->where('editions.edition_status =', 1);
+        $this->db->order_by("edition_date", "ASC");
+        $query = $this->db->get();
+
+        foreach ($query->result_array() as $row) {
+            $year = date("Y", strtotime($row['edition_date']));
+            $month = date("F", strtotime($row['edition_date']));
+            $day = date("d", strtotime($row['edition_date']));
+            $id = $row['edition_id'];
+            
+            $data["past"][$year][$month][$day][$id]=$row;            
+        }
+        
+        // next 2 month
+        $from=date("Y-m-d 00:00:00");
+        $to=date("Y-m-t 23:59:59",strtotime("2 months"));
+        
+        $this->db->select($field_list);
+        $this->db->from("events");
+        $this->db->join('editions', 'editions.event_id = events.event_id');
+        $this->db->where("(edition_date BETWEEN '" . $from . "' AND '" . $to . "')");
+        $this->db->where('editions.edition_status =', 1);
+        $this->db->order_by("edition_date", "ASC");
+        $query = $this->db->get();
+
+        foreach ($query->result_array() as $row) {
+            $year = date("Y", strtotime($row['edition_date']));
+            $month = date("F", strtotime($row['edition_date']));
+            $day = date("d", strtotime($row['edition_date']));
+            $id = $row['edition_id'];
+            
+            $data["future"][$year][$month][$day][$id]=$row;            
+        }
+        
+        return $data;
+    }
 
 }
