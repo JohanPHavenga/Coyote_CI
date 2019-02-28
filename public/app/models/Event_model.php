@@ -227,7 +227,8 @@ class Event_model extends MY_model {
         $this->db->where("races.race_status !=", 2);
 
         $this->db->order_by("edition_date", $sort);
-        $this->db->order_by("race_distance", "DESC");
+        $this->db->order_by('race_distance', 'DESC');
+        $this->db->order_by('racetype_name', 'ASC');
 
         $this->db->select($field_arr);
 

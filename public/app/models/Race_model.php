@@ -23,6 +23,7 @@ class Race_model extends MY_model {
             } 
 //            $this->db->where('races.race_status', 1);
             $this->db->order_by('races.race_distance', 'DESC');
+            $this->db->order_by('racetype_name', 'ASC');
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {

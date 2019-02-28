@@ -165,7 +165,7 @@
                 $this->table->set_template(ftable('editions_audit_future'));
                 foreach ($event_list_newsletter['future'] as $year => $year_list) {
                     foreach ($year_list as $month => $month_list) {
-                        $cell = array('data' => "<b>$month</b>", 'colspan' => 3);
+                        $cell = array('data' => "<b>$month</b>", 'colspan' => 4);
                         $this->table->add_row($cell,"");
                         $headers=["<b>Date</b>","<b>Event</b>","<b>Info Confirmed?</b>","<b>Online entries open?</b>"];
                         $this->table->add_row($headers);
