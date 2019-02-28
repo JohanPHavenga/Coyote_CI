@@ -72,10 +72,10 @@
                             <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li>
+<!--                            <li>
                                 <a href="<?= base_url('admin/entry'); ?>">
                                     <i class="icon-docs"></i> Result Set </a>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="<?= base_url('admin/event/import'); ?>">
                                     <i class="icon-info"></i> Event Information </a>

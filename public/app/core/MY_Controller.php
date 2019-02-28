@@ -320,6 +320,10 @@ class Admin_Controller extends MY_Controller {
     function get_contact_field_list() {
         return ['user_id', 'user_name', 'user_surname', 'user_email'];
     }
+    
+    function get_asa_member_field_list() {
+        return ['asa_member_id'];
+    }
 
 }
 

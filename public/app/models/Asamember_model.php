@@ -101,4 +101,18 @@ class Asamember_model extends MY_model {
             }
         }
         
+        
+        public function set_asamember_edition($asa_member_id, $edition_id)
+        {            
+            $data_arr=array('asa_member_id' => $asa_member_id,'edition_id' => $edition_id);
+            
+            $this->db->trans_start();
+            $this->db->delete('edition_asa_member',array('edition_id' => $edition_id));
+            $this->db->insert('edition_asa_member', $data_arr);
+            $this->db->trans_complete();
+           
+            return $this->db->trans_status();                         
+            
+        }
+        
 }

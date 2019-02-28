@@ -204,9 +204,11 @@ class Event extends Admin_Controller {
         $this->load->library('upload');
         $this->load->library('table');
         $this->load->model('racetype_model');
+        $this->load->model('asamember_model');
 
         $this->data_to_header['title'] = "Import Events";
         $this->data_to_view['form_url']="/admin/event/import/confirm";
+        $this->data_to_view['asamember_list']=$this->asamember_model->get_asamember_list(true);
 
         $config['upload_path']          = $this->upload_path;
         $config['allowed_types']        = 'csv';
@@ -264,6 +266,7 @@ class Event extends Admin_Controller {
         $this->load->model('edition_model');
         $this->load->model('race_model');
         $this->load->model('user_model');
+        $this->load->model('asamember_model');
 
         $event_data=$edition_data=$race_data=[];
 
@@ -284,8 +287,6 @@ class Event extends Admin_Controller {
                 if (!empty($event_data)) {
                     $event_id=$this->event_model->set_event($event_action, $event_id, $event_data, $debug);
                 }
-
-
 
                 // EDITIONS
                 foreach ($event['edition_data'] as $edition_action=>$edition_list) {
@@ -311,30 +312,6 @@ class Event extends Admin_Controller {
                             $edition_data['user_id']=$user_id;
                             unset($contact_data);
                         }
-                        
-                        
-//                        // CONTACTS
-//                        $contact_field_list=$this->get_contact_field_list();
-//                        foreach ($contact_field_list as $contact_field) {
-//                            // as daar 'n value is
-//                            if ($edition[$contact_field]) {
-//                                $contact_data[$contact_field]=$edition[$contact_field];
-//                            }
-//                        }
-//                        // write to DB
-//                        if (!empty($contact_data)) {
-//                            if (@$contact_data['user_id']) { 
-//                                $user_action="edit"; 
-//                                $user_id=$contact_data['user_id'];
-//                            } else { 
-//                                $user_action="add";                                 
-//                            }
-//                            if (strlen($contact_data['user_name'])>2) { //run net as daar actually iets is
-//                                $user_id=$this->user_model->set_user($user_action, @$contact_data['user_id'], $contact_data);
-//                            }
-//                            $edition_data['user_id']=$user_id;
-//                        }
-                        
                         
                         // set die edition_data array
                         $edition_field_list=$this->get_edition_field_list();
@@ -374,6 +351,25 @@ class Event extends Admin_Controller {
                             }
                         }
                         
+                        // ASA MEMBERS
+                        foreach ($edition['asa_member_data'] as $asa_member_action=>$asa_member) {
+                            // set die contact_data array
+                            $asa_member_field_list=$this->get_asa_member_field_list();
+                            foreach ($asa_member_field_list as $asa_member_field) {
+                                
+                                if ($asa_member[$asa_member_field]) {
+                                    $asa_member_data[$asa_member_field]=$asa_member[$asa_member_field];
+                                }
+                            }
+
+                            // write to DB
+                            if (!empty($asa_member_data)) {
+                                if ($asa_member_data['asa_member_id']>0) {
+                                    $status=$this->asamember_model->set_asamember_edition($asa_member_data['asa_member_id'], $edition_id);
+                                }
+                            }
+                            unset($asa_member_data);
+                        }
                         
                         unset($edition_data);
                     }
@@ -578,7 +574,11 @@ class Event extends Admin_Controller {
                 
                 // add contact information
                 $contact_data=$this->formulate_contact_data($event_data, $edition_key_field, $edition_key_value);
-                $return_arr[$edition_action][$edition_key_value]['contact_data']=$contact_data;
+                $return_arr[$edition_action][$edition_key_value]['contact_data']=$contact_data;                
+                
+                // add asa_member information
+                $asa_member_data=$this->formulate_asa_member_data($event_data, $edition_key_field, $edition_key_value);
+                $return_arr[$edition_action][$edition_key_value]['asa_member_data']=$asa_member_data;
 
             }
         }
@@ -641,6 +641,42 @@ class Event extends Admin_Controller {
                     }
 
                     $return_arr[$contact_action][$contact_field]=$le[$contact_field];
+                }
+
+                // full list item
+                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
+            }
+            $k++;
+        }
+
+        return $return_arr;
+    }
+    
+    private function formulate_asa_member_data($event_data, $edition_key_field, $edition_key_value) {
+        $this->load->model('user_model');
+        $asa_member_field_list=$this->get_asa_member_field_list();
+
+        $k=0;
+        foreach ($event_data as $le) {
+            if (trim($le[$edition_key_field])==$edition_key_value) {
+                
+                // set event level data
+                foreach ($asa_member_field_list as $asa_member_field) {
+//                    // check fir user ID
+//                    if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
+//                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
+//                    }
+//
+//                    if ($le['user_id']) {
+//                        $contact_action="edit";
+//                        $contact_key_field="user_id";
+//                        $contact_key_value=$le[$contact_key_field];
+//                    } else {                    
+//                        $contact_action="add";
+//                        $contact_key_value=$k;
+//                    }
+
+                    $return_arr["add"][$asa_member_field]=$le[$asa_member_field];
                 }
 
                 // full list item
