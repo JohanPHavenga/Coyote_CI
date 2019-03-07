@@ -15,8 +15,7 @@ class Emailque_model extends MY_model {
         $this->db->select("emailques.*");
         $this->db->from("emailques");
         if ($top>0) { $this->db->limit($top); }
-        if ($ready_to_send) { $this->db->where("emailque_isreadytosend",1); }
-        $this->db->where("emailque_issent",0); 
+        if ($ready_to_send) { $this->db->where("emailque_status",5); } // staus 5 = pending
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

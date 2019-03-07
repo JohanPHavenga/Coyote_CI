@@ -12,12 +12,17 @@ class Mailer extends Frontend_Controller {
     
     public function process_que() {
         $mail_que=$this->fetch_mail_que($this->ini_array['emailque']['que_size']);
-        foreach ($mail_que as $mail_id=>$mail_data) {
-            $mail_sent=$this->send_mail($mail_data);
-            echo $mail_id." ".$mail_sent."<br>";
+        if ($mail_que) {
+            foreach ($mail_que as $mail_id=>$mail_data) {
+                $mail_sent=$this->send_mail($mail_data);
+                echo $mail_id." ".$mail_sent."<br>";
+            }
+            $msg="mail send";
+        } else {
+            $msg="no mail to send";
         }
         wts($mail_que);
-        die("the end");
+        die($msg);
     }
 
     private function fetch_mail_que($top=0) {
