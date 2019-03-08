@@ -26,6 +26,20 @@ class Emailque_model extends MY_model {
         }
         return false;
     }
+        
+    public function set_emailque_status($id, $sent) {
+        if ($sent) { $status_id=6; } else { $status_id=7; } // 6 success, 7 failed
+        $data = array(
+            'emailque_status'   => $status_id,
+            'updated_date'      => date("Y-m-d H:i:s"),
+        );
+         return $this->db->update('emailques', $data, array('emailque_id' => $id));
+    }
+    
+    
+    
+    
+    
 
     public function set_emailque($action, $id) {
         $data = array(

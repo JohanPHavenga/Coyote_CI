@@ -15,11 +15,12 @@ class Mailer extends Frontend_Controller {
         if ($mail_que) {
             foreach ($mail_que as $mail_id=>$mail_data) {
                 $mail_sent=$this->send_mail($mail_data);
-                echo $mail_id." ".$mail_sent."<br>";
+                echo $mail_data['emailque_to_address'].": ".fyesNo($mail_sent)."<br>";
+                $this->update_mail_status($mail_id, $mail_sent);
             }
-            $msg="mail send";
+            die("<br>Mailqueue has processed ".sizeof($mail_que)." mails: ".date("Y-m-d H:i:s"));
         } else {
-            $msg="no mail to send";
+            die("Nothing to process in mailqueue: ".date("Y-m-d H:i:s"));
         }
         wts($mail_que);
         die($msg);
@@ -29,6 +30,10 @@ class Mailer extends Frontend_Controller {
 
         $emailque = $this->emailque_model->get_emailque_list($top,true);
         return $emailque;
+    }
+    
+    private function update_mail_status($id, $send) {
+        $set=$this->emailque_model->set_emailque_status($id, $send);
     }
 
     private function send_mail($data = "") {
