@@ -58,7 +58,7 @@
                     <?php
                     if (@$event_detail['file_list'][1]) {
                         $img_url = base_url("uploads/edition/" . $event_detail['edition_id'] . "/" . $event_detail['file_list'][1][0]['file_name']);
-                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px; float:right;'>";
+                        echo "<img src='$img_url' style='max-width: 100%; float:right;'>";
 
                         // =================================
                         // #toberemoved                      
