@@ -358,7 +358,7 @@ class Event extends Frontend_Controller {
         $return="                
             var mymap = L.map('leaflet_map_bg', {
                 center: [$lat, $long_center],
-                zoom: 14.5,
+                zoom: 15,
                 scrollWheelZoom : false,
                 touchZoom : true,
                 dragging: !L.Browser.mobile
