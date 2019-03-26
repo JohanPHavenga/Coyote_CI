@@ -358,7 +358,7 @@ class Event extends Frontend_Controller {
         $return="                
             var mymap = L.map('leaflet_map_bg', {
                 center: [$lat, $long_center],
-                zoom: 13,
+                zoom: 14.5,
                 scrollWheelZoom : false,
                 touchZoom : true,
                 dragging: !L.Browser.mobile
@@ -371,10 +371,16 @@ class Event extends Frontend_Controller {
 		attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, ' +
 			'<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, ' +
 			'Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
-		id: 'mapbox.streets'
+		id: 'mapbox.outdoors'
             }).addTo(mymap);
-           ";
-        
+           ";        
+         
+//    streets-v9
+//    satellite-streets-v9
+//    light-v9
+//    dark-v9
+//    outdoors-v9
+
         return $return;
     }
     
