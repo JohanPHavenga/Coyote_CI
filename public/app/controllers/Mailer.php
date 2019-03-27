@@ -28,16 +28,23 @@ class Mailer extends Frontend_Controller {
 
     private function fetch_mail_que($top=0) {
 
-        $emailque = $this->emailque_model->get_emailque_list($top,true);
+        $emailque = $this->emailque_model->get_emailque_list($top,5);
         return $emailque;
     }
     
     private function update_mail_status($id, $send) {
-        $set=$this->emailque_model->set_emailque_status($id, $send);
+         if ($sent) {
+            $status_id = 6;
+        } else {
+            $status_id = 7;
+        }
+        $set=$this->emailque_model->set_emailque_status($id, $status_id);
     }
 
     private function send_mail($data = "") {
         $this->load->library('email');
+        
+//        wts($this->ini_array);
 
         $config['mailtype'] = 'html';
         $config['smtp_host'] = $this->ini_array['email']['smtp_server'];

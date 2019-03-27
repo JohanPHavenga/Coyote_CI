@@ -133,6 +133,26 @@ var TableDatatablesManaged = function () {
         });
     };
     
+    emailques_table
+    
+    // Search  
+    var initEmailQueTable = function () {
+        var table = $('#emailques_table');
+        table.dataTable({
+            order: [[4,"asc"]],
+            responsive: true,
+            columnDefs: [
+                { orderable: false, targets: [-1] }, 
+                { searchable: false, targets: [-1] },
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 },
+                { responsivePriority: 3, targets: 1 },
+                { responsivePriority: 4, targets: 4 },
+                { responsivePriority: 5, targets: 2 }
+                
+            ], 
+        });
+    };
     
     // GENERIC list table
     var initListTable = function () {
@@ -165,6 +185,7 @@ var TableDatatablesManaged = function () {
             initSponsorsTable();
             initParkRunsTable();            
             initSearchTable();
+            initEmailQueTable();
             initListTable();
         }
     };

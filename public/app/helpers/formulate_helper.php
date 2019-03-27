@@ -221,7 +221,7 @@ if ( ! function_exists('flableStatus'))
 // ================================================================
 if ( ! function_exists('fbutton')) 
 {
-    function fbutton($text="Submit",$type="submit",$status="default",$size=NULL,$name="") 
+    function fbutton($text="Submit",$type="submit",$status="default",$size=NULL,$name="",$value="") 
     {
         // status: default|primary|success|warning|danger|link
         // size: lg|sm|xs
@@ -234,7 +234,24 @@ if ( ! function_exists('fbutton'))
         {
             $btn_size=NULL;
         }
-        return "<button type='$type' name='$name' class='btn btn-$status $btn_size'>$text</button>";
+        return "<button type='$type' name='$name' class='btn btn-$status $btn_size' value='$value'>$text</button>";
+    }
+}
+
+if ( ! function_exists('fbuttonSave')) 
+{
+    function fbuttonSave($params) 
+    {
+        // status: default|primary|success|warning|danger|link
+        // size: lg|sm|xs
+        
+        $btn_size=NULL;
+        if (isset($params['size'])) { $btn_size="btn-".$params['size']; }
+        $status="default";
+        if (isset($params['status'])) { $status=$params['status']; } 
+        $value="";
+        if (isset($params['value'])) { $value=$params['value']; } 
+        return "<button type='submit' name='save-btn' class='btn btn-$status $btn_size' value='$value'>".@$params['text']."</button>";
     }
 }
 
@@ -310,6 +327,14 @@ if ( ! function_exists('fbuttonActionGroup'))
         $html.="</ul></div>";
         
         return $html;
+    }
+}
+
+if ( ! function_exists('fLink')) 
+{
+    function fLink($url,$text) 
+    {
+        return "<a href='$url'>$text</a>";
     }
 }
 

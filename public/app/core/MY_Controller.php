@@ -171,46 +171,36 @@ class Admin_Controller extends MY_Controller {
                         "url" => 'admin/dashboard/search',
                         "icon" => "magnifier",
                     ],
+                    [
+                        "text" => "Export Events",
+                        "url" => 'admin/event/export',
+                        "icon" => "arrow-down",
+                    ]
                 ],
             ],
             // Events
             [
-                "text" => "Events",
+                "text" => "Events Info",
                 "url" => 'admin/event',
-                "icon" => "rocket",
-                "seg0" => ['event'],
+                "icon" => "calendar",
+                "seg0" => ['event','edition','race'],
                 "submenu" => [
                     [
-                        "text" => "List All Events",
+                        "text" => "Events",
                         "url" => 'admin/event/view',
+                        "icon" => "rocket",
                     ],
                     [
-                        "text" => "Add Event",
-                        "url" => 'admin/event/create/add',
+                        "text" => "Editions",
+                        "url" => 'admin/edition',
+                        "icon" => "calendar",
                     ],
                     [
-                        "text" => "Import Events",
-                        "url" => 'admin/event/import',
-                    ],
-                    [
-                        "text" => "Export Events",
-                        "url" => 'admin/event/export',
+                        "text" => "Races",
+                        "url" => 'admin/race',
+                        "icon" => "trophy",
                     ],
                 ],
-            ],
-            // Editions
-            [
-                "text" => "Editions",
-                "url" => 'admin/edition',
-                "icon" => "calendar",
-                "seg0" => ['edition'],
-            ],
-            // Races
-            [
-                "text" => "Races",
-                "url" => 'admin/race',
-                "icon" => "trophy",
-                "seg0" => ['race'],
             ],
             // Other info
             [
@@ -237,6 +227,32 @@ class Admin_Controller extends MY_Controller {
                     ],
                 ],
             ],
+            // Mail Queue
+            [
+                "text" => "Email Module",
+                "url" => 'admin/emailque/view/4',
+                "icon" => "envelope",
+                "seg0" => ['emailque', 'emailmerges'],
+                "submenu" => [
+                    [
+                        "text" => "Drafts",
+                        "url" => 'admin/emailque/view/4',
+                    ],
+                    [
+                        "text" => "Pending",
+                        "url" => 'admin/emailque/view/5',
+                    ],
+                    [
+                        "text" => "Send",
+                        "url" => 'admin/emailque/view/6',
+                    ],
+                    [
+                        "text" => "Failed",
+                        "url" => 'admin/emailque/view/7',
+                    ],
+                ],
+            ],
+            
             // Types
             [
                 "text" => "Static",
@@ -295,6 +311,7 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "wallet",
                 "seg0" => ['sponsor'],
             ],
+            
             // Parkruns
             [
                 "text" => "Parkruns",

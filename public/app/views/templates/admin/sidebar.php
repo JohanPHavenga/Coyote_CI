@@ -21,7 +21,7 @@
 
             echo "<li class='nav-item $s'>";
                 echo "<a href='".base_url().$section['url']."/' class='nav-link nav-toggle'>";
-                echo "<i class='icon-".$section['icon']."'></i>";
+                if ($section['icon']) { echo "<i class='icon-".$section['icon']."'></i>"; }
                 echo "<span class='title'>$section[text]</span>";
             if (in_array($segs[0],$section['seg0'])) {
                 echo "<span class='selected'></span><span class='arrow open'></span>";
@@ -36,7 +36,7 @@
                         if ($uri_string==$page['url']) { $s.=" active open"; }
                         echo "<li class='nav-item $s'>";
                             echo "<a href='".base_url().$page['url']."/' class='nav-link'>";
-                            if (@$page['icon']) { echo "<i class='icon-".$page['icon']."'></i>"; }
+                            if (@$page['icon']) { echo "<i class='icon-".$page['icon']."'></i> "; }
                             echo "<span class='title'>$page[text]</span>";
                         if (@in_array($segs[1],$section['seg1'])) {
                             echo "<span class='selected'></span>";
