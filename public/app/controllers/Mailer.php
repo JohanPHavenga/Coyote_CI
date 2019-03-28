@@ -32,8 +32,8 @@ class Mailer extends Frontend_Controller {
         return $emailque;
     }
     
-    private function update_mail_status($id, $send) {
-         if ($sent) {
+    private function update_mail_status($id, $sent) {
+        if ($sent) {
             $status_id = 6;
         } else {
             $status_id = 7;

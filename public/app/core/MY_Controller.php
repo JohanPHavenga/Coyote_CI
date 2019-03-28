@@ -243,7 +243,7 @@ class Admin_Controller extends MY_Controller {
                         "url" => 'admin/emailque/view/5',
                     ],
                     [
-                        "text" => "Send",
+                        "text" => "Sent",
                         "url" => 'admin/emailque/view/6',
                     ],
                     [

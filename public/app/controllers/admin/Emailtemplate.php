@@ -1,13 +1,13 @@
 <?php
 
-class Emailque extends Admin_Controller {
+class Emailtemplate extends Admin_Controller {
 
-    private $return_url = "/admin/emailque/view";
-    private $create_url = "/admin/emailque/create";
+    private $return_url = "/admin/emailtemplate/view";
+    private $create_url = "/admin/emailtemplate/create";
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('emailque_model');
+        $this->load->model('emailtemplate_model');
         $this->ini_array = parse_ini_file("server_config.ini", true);
     }
 
@@ -19,73 +19,66 @@ class Emailque extends Admin_Controller {
         }
     }
 
-    public function view($status_id = 4) {
+    public function view() {
         // load helpers / libraries
-        $this->load->library('table');
+        $this->load->library('table');        
+        $this->data_to_view['heading'] = ["ID", "Template Name", "Linked To", "Actions"];
+        $this->data_to_header['title'] = "List of email templates";
 
-        $this->return_url = "/admin/emailque/view/" . $status_id;
-
-        $this->data_to_view["emailque_status"] = $this->emailque_model->get_emailstatus_name($status_id);
-        $this->data_to_view["emailque_data"] = $this->emailque_model->get_emailque_list(0, $status_id);
-        $this->data_to_view['heading'] = ["ID", "Subject", "To Address", "To Name", "Updated", "Actions"];
-
-        if ($status_id == 4) {
-            $this->data_to_view['create_link'] = $this->create_url;
-            $this->data_to_header['page_action_list'] = [
-                [
-                    "name" => "Compose Email",
-                    "icon" => "envelope-open",
-                    "uri" => "emailque/create/add",
-                ],
-            ];
-        }
-        $this->data_to_header['title'] = "List of emails in " . ucfirst($this->data_to_view["emailque_status"]) . " status";
-
+        $this->data_to_view["emailtemplate_data"] = $this->emailtemplate_model->get_emailtemplate_list();
+        $this->data_to_view['create_link'] = $this->create_url;
+        $this->data_to_header['page_action_list'] = [
+            [
+                "name" => "Compose Email",
+                "icon" => "envelope-open",
+                "uri" => "emailtemplate/create/add",
+            ],
+        ];
         $this->data_to_header['crumbs'] = [
             "Home" => "/admin",
-            "Email Module" => "/admin/emailque",
-            $this->data_to_view["emailque_status"]." Emails" => "",
+            "Users" => "/admin/emailtemplate",
+            "List" => "",
         ];
 
         // set $action array in controller instead of view
-        if (!(empty($this->data_to_view["emailque_data"]))) {
-            foreach ($this->data_to_view["emailque_data"] as $emailque_id => $data_entry) {
+        if (!(empty($this->data_to_view["emailtemplate_data"]))) {
+            foreach ($this->data_to_view["emailtemplate_data"] as $emailtemplate_id => $data_entry) {
                 // first set normal action array
-                $this->data_to_view['action_array'][$emailque_id] = [
+                $this->data_to_view['action_array'][$emailtemplate_id] = [
                     [
-                        "url" => "/admin/emailque/create/edit/" . $data_entry['emailque_id'],
+                        "url" => "/admin/emailtemplate/create/edit/" . $data_entry['emailtemplate_id'],
                         "text" => "Edit",
                         "icon" => "icon-pencil",
                     ],
                     [
-                        "url" => "/admin/emailque/delete/" . $data_entry['emailque_id']."/".$data_entry['emailque_status'],
+                        "url" => "/admin/emailtemplate/delete/" . $data_entry['emailtemplate_id'],
                         "text" => "Delete",
                         "icon" => "icon-close",
                         "confirmation_text" => "<b>Are you sure?</b>",
                     ],
                 ];
 
-                switch ($data_entry['emailque_status']) {
+                switch ($data_entry['emailtemplate_status']) {
                     case 4: // draft
                         break;
                     case 5: // pending
-                        unset($this->data_to_view['action_array'][$emailque_id]);
-                        $this->data_to_view['action_array'][$emailque_id][0] = [
-                            "url" => "/admin/emailque/status/$emailque_id/4",
+                        unset($this->data_to_view['action_array'][$emailtemplate_id]);
+                        $this->data_to_view['action_array'][$emailtemplate_id][0] = [
+                            "url" => "/admin/emailtemplate/status/$emailtemplate_id/4",
                             "text" => "Cancel send",
                             "icon" => "icon-ban",
                         ];
                         break;
                     case 6: // send
-                        $this->data_to_view['action_array'][$emailque_id][0] = [
-                            "url" => "/admin/emailque/resend/" . $data_entry['emailque_id'],
+                        $this->data_to_view['action_array'][$emailtemplate_id][0] = [
+                            "url" => "/admin/emailtemplate/resend/" . $data_entry['emailtemplate_id'],
                             "text" => "Resend Email",
                             "icon" => "icon-envelope",
                         ];
                         break;
                     case 7: // failed
-                        $this->data_to_view['action_array'][$emailque_id][0] = [
-                            "url" => "/admin/emailque/resend/" . $data_entry['emailque_id'],
+                        $this->data_to_view['action_array'][$emailtemplate_id][0] = [
+                            "url" => "/admin/emailtemplate/resend/" . $data_entry['emailtemplate_id'],
                             "text" => "Resend Email",
                             "icon" => "icon-envelope",
                         ];
@@ -116,7 +109,7 @@ class Emailque extends Admin_Controller {
 
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/emailque/view", $this->data_to_view);
+        $this->load->view("/admin/emailtemplate/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -134,17 +127,17 @@ class Emailque extends Admin_Controller {
         $this->data_to_footer['scripts_to_load'] = array("scripts/admin/components-editors.js",);
 
         if ($action == "edit") {
-            $this->data_to_view['emailque_detail'] = $this->emailque_model->get_emailque_detail($id);
+            $this->data_to_view['emailtemplate_detail'] = $this->emailtemplate_model->get_emailtemplate_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            $this->data_to_view['emailque_detail']['emailque_status'] = 4;
+            $this->data_to_view['emailtemplate_detail']['emailtemplate_status'] = 4;
         }
         // set return URL
-        $this->return_url = "/admin/emailque/view/" . $this->data_to_view['emailque_detail']['emailque_status'];
+        $this->return_url = "/admin/emailtemplate/view/" . $this->data_to_view['emailtemplate_detail']['emailtemplate_status'];
         // set validation rules
-        $this->form_validation->set_rules('emailque_subject', 'Subject', 'required');
-        $this->form_validation->set_rules('emailque_to_address', 'To Address', 'required|valid_email');
-        $this->form_validation->set_rules('emailque_body', 'Email body', 'required');
+        $this->form_validation->set_rules('emailtemplate_subject', 'Subject', 'required');
+        $this->form_validation->set_rules('emailtemplate_to_address', 'To Address', 'required|valid_email');
+        $this->form_validation->set_rules('emailtemplate_body', 'Email body', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {
@@ -163,15 +156,15 @@ class Emailque extends Admin_Controller {
                     break;
             }
             $data = array(
-                'emailque_subject' => $this->input->post('emailque_subject'),
-                'emailque_to_address' => $this->input->post('emailque_to_address'),
-                'emailque_to_name' => $this->input->post('emailque_to_name'),
-                'emailque_body' => $this->input->post('emailque_body'),
-                'emailque_status' => $mail_status,
-                'emailque_from_address' => $this->ini_array['email']['from_address'],
-                'emailque_from_name' => $this->ini_array['email']['from_name'],
+                'emailtemplate_subject' => $this->input->post('emailtemplate_subject'),
+                'emailtemplate_to_address' => $this->input->post('emailtemplate_to_address'),
+                'emailtemplate_to_name' => $this->input->post('emailtemplate_to_name'),
+                'emailtemplate_body' => $this->input->post('emailtemplate_body'),
+                'emailtemplate_status' => $mail_status,
+                'emailtemplate_from_address' => $this->ini_array['email']['from_address'],
+                'emailtemplate_from_name' => $this->ini_array['email']['from_name'],
             );
-            $set = $this->emailque_model->set_emailque($action, $id, $data);
+            $set = $this->emailtemplate_model->set_emailtemplate($action, $id, $data);
             if ($set) {
                 $alert = "Email has been " . $action . "ed";
                 $status = "success";
@@ -183,10 +176,10 @@ class Emailque extends Admin_Controller {
             // take person back to the right screen
             switch ($this->input->post('save-btn')) {
                 case "save_only":
-                    $this->return_url = base_url("admin/emailque/create/edit/" . $id);
+                    $this->return_url = base_url("admin/emailtemplate/create/edit/" . $id);
                     break;
                 case "send_mail":
-                    $this->return_url = base_url("admin/emailque/view/5");
+                    $this->return_url = base_url("admin/emailtemplate/view/5");
                     $alert = "Email set to pending";
                     $status = "warning";
                     break;
@@ -200,27 +193,25 @@ class Emailque extends Admin_Controller {
         }
     }
 
-    public function delete($emailque_id=0,$status_id=4) {
+    public function delete($emailtemplate_id = 0) {
 
-        $this->return_url=$this->return_url."/".$status_id;
-        
-        if (($emailque_id == 0) AND ( !is_int($emailque_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $emailque_id);
+        if (($emailtemplate_id == 0) AND ( !is_int($emailtemplate_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $emailtemplate_id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
             die();
         }
 
-        // get emailque detail for nice delete message
-        $emailque_detail = $this->emailque_model->get_emailque_detail($emailque_id);
+        // get emailtemplate detail for nice delete message
+        $emailtemplate_detail = $this->emailtemplate_model->get_emailtemplate_detail($emailtemplate_id);
         // delete record
-        $db_del = $this->emailque_model->remove_emailque($emailque_id);
+        $db_del = $this->emailtemplate_model->remove_emailtemplate($emailtemplate_id);
 
         if ($db_del) {
-            $msg = "Email has successfully been deleted: " . $emailque_detail['emailque_subject'];
+            $msg = "Email has successfully been deleted: " . $emailtemplate_detail['emailtemplate_subject'];
             $status = "warning";
         } else {
-            $msg = "Error in deleting the record:'.$emailque_id";
+            $msg = "Error in deleting the record:'.$emailtemplate_id";
             $status = "danger";
         }
 
@@ -230,24 +221,24 @@ class Emailque extends Admin_Controller {
     }
 
     // change status with URL call
-    public function status($emailque_id, $emailque_status) {
+    public function status($emailtemplate_id, $emailtemplate_status) {
         $range = [4, 5, 6, 7];
-        $valid_id = $this->emailque_model->check_id($emailque_id);
-        if ((in_array($emailque_status, $range)) && ($valid_id)) {
-            $status_update = $this->emailque_model->set_emailque_status($emailque_id, $emailque_status);
+        $valid_id = $this->emailtemplate_model->check_id($emailtemplate_id);
+        if ((in_array($emailtemplate_status, $range)) && ($valid_id)) {
+            $status_update = $this->emailtemplate_model->set_emailtemplate_status($emailtemplate_id, $emailtemplate_status);
             if ($status_update) {
                 $msg = "Email status successfully updated";
                 $status = "success";
-                $this->return_url = base_url("admin/emailque/view/$emailque_status");
+                $this->return_url = base_url("admin/emailtemplate/view/$emailtemplate_status");
             } else {
                 $msg = "Update to database failed";
                 $status = "danger";
-                $this->return_url = base_url("admin/emailque/view/4");
+                $this->return_url = base_url("admin/emailtemplate/view/4");
             }
         } else {
             $msg = "Status not in range or invalid ID";
             $status = "danger";
-            $this->return_url = base_url("admin/emailque/view/4");
+            $this->return_url = base_url("admin/emailtemplate/view/4");
         }
 
         $this->session->set_flashdata('alert', $msg);
@@ -256,17 +247,17 @@ class Emailque extends Admin_Controller {
     }
 
     // resend email by copy
-    public function resend($emailque_id) {
-        $new_id = $this->emailque_model->copy_email($emailque_id);
-        $status_update = $this->emailque_model->set_emailque_status($new_id, 4);
+    public function resend($emailtemplate_id) {
+        $new_id = $this->emailtemplate_model->copy_email($emailtemplate_id);
+        $status_update = $this->emailtemplate_model->set_emailtemplate_status($new_id, 4);
         if ($status_update) {
             $msg = "Email successfully copied";
             $status = "success";
-            $this->return_url = base_url("admin/emailque/create/edit/$new_id");
+            $this->return_url = base_url("admin/emailtemplate/create/edit/$new_id");
         } else {
             $msg = "Email copy failed";
             $status = "danger";
-            $this->return_url = base_url("admin/emailque/view/4");
+            $this->return_url = base_url("admin/emailtemplate/view/4");
         }
 
         $this->session->set_flashdata('alert', $msg);

@@ -110,7 +110,7 @@ class Emailque_model extends MY_model {
             return false;
         } else {
             $this->db->trans_start();
-            $this->db->delete('areas', array('area_id' => $id));
+            $this->db->delete('emailques', array('emailque_id' => $id));
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
