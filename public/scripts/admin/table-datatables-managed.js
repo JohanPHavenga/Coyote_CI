@@ -3,173 +3,171 @@ var TableDatatablesManaged = function () {
     var initEventsTable = function () {
         var table = $('#events_table');
         table.dataTable({
-            order: [[3,"desc"]],
+            order: [[3, "desc"]],
             responsive: true,
-            bStateSave: true,  
+            bStateSave: true,
             columnDefs: [
-                { orderable: false, targets: [6] }, 
-                { searchable: false, targets: [6] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
-                
-            ] 
+                {orderable: false, targets: [6]},
+                {searchable: false, targets: [6]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
+
+            ]
         });
         table.on('change', 'tbody tr .checkboxes', function () {
             $(this).parents('tr').toggleClass("active");
         });
     };
-    
+
     var initEditionsTable = function () {
         var table = $('#editions_table');
-        table.dataTable({           
-            order: [[4,"desc"]],
+        table.dataTable({
+            order: [[4, "desc"]],
             responsive: true,
-            bStateSave: true,  
+            bStateSave: true,
             columnDefs: [
-                { orderable: false, targets: [6] }, 
-                { searchable: false, targets: [6] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 },
-                { responsivePriority: 4, targets: 4 }
-            ]           
+                {orderable: false, targets: [6]},
+                {searchable: false, targets: [6]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1},
+                {responsivePriority: 4, targets: 4}
+            ]
         });
-    };   
-    
+    };
+
     var initRacesTable = function () {
         var table = $('#races_table');
         table.dataTable({
-            order: [[0,"desc"]],
+            order: [[0, "desc"]],
             responsive: true,
-            bStateSave: true,  
+            bStateSave: true,
             columnDefs: [
-                { orderable: false, targets: [3,5,7] }, 
-                { searchable: false, targets: [7] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 },
-                { responsivePriority: 4, targets: 3 }                
+                {orderable: false, targets: [3, 5, 7]},
+                {searchable: false, targets: [7]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1},
+                {responsivePriority: 4, targets: 3}
             ]
         });
     };
-    
+
     var initUsersTable = function () {
         var table = $('#users_table');
         table.dataTable({
-            order: [[0,"desc"]],
+            order: [[0, "desc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [5] }, 
-                { searchable: false, targets: [5] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 3 }
-                
+                {orderable: false, targets: [5]},
+                {searchable: false, targets: [5]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 3}
+
             ]
-        });   
+        });
     };
-    
+
     var initClubsTable = function () {
         var table = $('#clubs_table');
         table.dataTable({
-            order: [[1,"asc"]],
+            order: [[1, "asc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [6] }, 
-                { searchable: false, targets: [6] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
-                
+                {orderable: false, targets: [6]},
+                {searchable: false, targets: [6]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
+
             ]
-        }); 
+        });
     };
-    
+
     var initSponsorsTable = function () {
         var table = $('#sponsors_table');
         table.dataTable({
-            order: [[1,"asc"]],
+            order: [[1, "asc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [3] }, 
-                { searchable: false, targets: [3] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
+                {orderable: false, targets: [3]},
+                {searchable: false, targets: [3]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
             ]
         });
     };
-    
+
     var initParkRunsTable = function () {
         var table = $('#parkruns_table');
         table.dataTable({
-            order: [[1,"asc"]],
+            order: [[1, "asc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [6] }, 
-                { searchable: false, targets: [6] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
+                {orderable: false, targets: [6]},
+                {searchable: false, targets: [6]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
             ]
         });
     };
-    
+
     // Search  
     var initSearchTable = function () {
         var table = $('#search_table');
         table.dataTable({
-            order: [[3,"desc"]],
+            order: [[3, "desc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [5] }, 
-                { searchable: false, targets: [5] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
-                
-            ], 
+                {orderable: false, targets: [5]},
+                {searchable: false, targets: [5]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
+
+            ],
         });
     };
-    
-    emailques_table
-    
+
     // Search  
     var initEmailQueTable = function () {
         var table = $('#emailques_table');
         table.dataTable({
-            order: [[4,"asc"]],
+            order: [[4, "asc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [-1] }, 
-                { searchable: false, targets: [-1] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 },
-                { responsivePriority: 4, targets: 4 },
-                { responsivePriority: 5, targets: 2 }
-                
-            ], 
+                {orderable: false, targets: [-1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1},
+                {responsivePriority: 4, targets: 4},
+                {responsivePriority: 5, targets: 2}
+
+            ],
         });
     };
-    
+
     // GENERIC list table
     var initListTable = function () {
         var table = $('#list_table');
         table.dataTable({
-            order: [[1,"asc"]],
+            order: [[1, "asc"]],
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [-1] }, 
-                { searchable: false, targets: [-1] },
-                { responsivePriority: 1, targets: 0 },
-                { responsivePriority: 2, targets: -1 },
-                { responsivePriority: 3, targets: 1 }
-            ], 
+                {orderable: false, targets: [-1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
+            ],
         });
     };
-    
+
 
     return {
         //main function to initiate the module
@@ -183,7 +181,7 @@ var TableDatatablesManaged = function () {
             initUsersTable();
             initClubsTable();
             initSponsorsTable();
-            initParkRunsTable();            
+            initParkRunsTable();
             initSearchTable();
             initEmailQueTable();
             initListTable();
@@ -192,8 +190,8 @@ var TableDatatablesManaged = function () {
 
 }();
 
-if (App.isAngularJsApp() === false) { 
-    jQuery(document).ready(function() {
+if (App.isAngularJsApp() === false) {
+    jQuery(document).ready(function () {
         TableDatatablesManaged.init();
     });
 }
