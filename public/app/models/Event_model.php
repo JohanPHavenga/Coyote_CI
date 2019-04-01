@@ -217,6 +217,7 @@ class Event_model extends MY_model {
 
         if (isset($params['results'])) {
             $this->db->where("edition_results_isloaded", $params['results']);
+            $this->db->where("edition_status", 1);
         }
 
 //        $this->db->where("events.event_status", 1);

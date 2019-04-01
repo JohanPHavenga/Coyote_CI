@@ -44,7 +44,7 @@ class Asamember extends Admin_Controller {
                 [
                     [
                         "name"=>"Add ASA Member",
-                        "icon"=>"wallet",
+                        "icon"=>"umbrella",
                         "uri"=>"asamember/create/add",
                     ],
                 ];

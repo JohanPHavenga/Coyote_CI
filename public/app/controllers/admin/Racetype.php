@@ -42,7 +42,7 @@ class Racetype extends Admin_Controller {
                 [
                     [
                         "name"=>"Add RaceType",
-                        "icon"=>"trophy",
+                        "icon"=>"compass",
                         "uri"=>"racetype/create/add",
                     ],
                 ];

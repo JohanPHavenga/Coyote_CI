@@ -32,17 +32,17 @@ class Url extends Admin_Controller {
         $this->data_to_header['title'] = "List of URLs";
 
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Users" => "/admin/url",
-                    "List" => "",
+            "Home" => "/admin",
+            "Users" => "/admin/url",
+            "List" => "",
         ];
 
         $this->data_to_header['page_action_list'] = [
-                    [
-                        "name" => "Add URL",
-                        "icon" => "link",
-                        "uri" => "url/create/add",
-                    ],
+            [
+                "name" => "Add URL",
+                "icon" => "link",
+                "uri" => "url/create/add",
+            ],
         ];
 
         $this->data_to_view['url'] = $this->url_disect();
@@ -69,13 +69,13 @@ class Url extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    public function create($action, $id = 0, $linked_type=NULL) {
-        
+    public function create($action, $id = 0, $linked_type = NULL) {
+
         // set return url to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
             $this->return_url = $this->session->edition_return_url;
         }
-        
+
         // additional models
         $this->load->model('urltype_model');
 
@@ -120,14 +120,13 @@ class Url extends Admin_Controller {
             $this->data_to_view['url_detail'] = $this->url_model->get_url_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            if ($id>0) {
-                $this->data_to_view['url_detail']['linked_id']=$id;
-                $this->data_to_view['url_detail']['url_linked_to']=$linked_type;
+            if ($id > 0) {
+                $this->data_to_view['url_detail']['linked_id'] = $id;
+                $this->data_to_view['url_detail']['url_linked_to'] = $linked_type;
             }
         }
-        
-//        wts($this->data_to_view['url_detail']);
 
+//        wts($this->data_to_view['url_detail']);
         // set validation rules
         $this->form_validation->set_rules('url_name', 'URL Name', 'required|valid_url');
         $this->form_validation->set_rules('urltype_id', 'URL Type', 'required|greater_than[0]', ["greater_than" => "Please select a URL Type"]);
@@ -139,17 +138,17 @@ class Url extends Admin_Controller {
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
-        } else {            
+        } else {
             // SET URL
             $id = $this->url_model->set_url($action, $id);
             // set the results flag
-            $results_link_arr=['edition','race'];
-            if (in_array($this->input->post("url_linked_to"),$results_link_arr)) {
+            $results_link_arr = ['edition', 'race'];
+            if (in_array($this->input->post("url_linked_to"), $results_link_arr)) {
                 $id_type = $this->input->post("url_linked_to") . "_id";
                 $linked_id = $this->input->post($id_type);
                 $set = $this->set_results_flag($this->input->post("url_linked_to"), $linked_id);
             }
-            
+
             if ($id) {
                 $alert = "URL details has been " . $action . "ed";
                 $status = "success";
@@ -173,7 +172,7 @@ class Url extends Admin_Controller {
     }
 
     public function delete($url_id = 0) {
-        
+
         // set return url to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
             $this->return_url = $this->session->edition_return_url;
@@ -190,10 +189,10 @@ class Url extends Admin_Controller {
         $url_detail = $this->url_model->get_url_detail($url_id);
         // delete record
         $db_del = $this->url_model->remove_url($url_id);
-        
+
         // check results flag
-        $results_link_arr=['edition','race'];
-        if (in_array($url_detail['url_linked_to'],$results_link_arr)) {
+        $results_link_arr = ['edition', 'race'];
+        if (in_array($url_detail['url_linked_to'], $results_link_arr)) {
             $set = $this->set_results_flag($url_detail['url_linked_to'], $url_detail['linked_id']);
         }
 
@@ -209,28 +208,29 @@ class Url extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
-    
-    function exists($linked_type,$linked_id,$urltype_id) {
-        return $this->url_model->exists($linked_type,$linked_id,$urltype_id);    
+
+    function exists($linked_type, $linked_id, $urltype_id) {
+        return $this->url_model->exists($linked_type, $linked_id, $urltype_id);
     }
-    
+
     function port() {
         // function to port old URLs from fields directly on Edition to URl table
         $this->load->model('edition_model');
         $this->load->model('urltype_model');
-        
-        $edition_list = $this->edition_model->get_edition_list();        
+
+        $edition_list = $this->edition_model->get_edition_list();
         $urltype_list = $this->urltype_model->get_urltype_list();
-        
-        $url_map_arr=[
-            "edition_url"=>1,
-            "edition_url_entry"=>5,
-            "edition_url_flyer"=>2,
-            "edition_url_results"=>4,
-        ];         
-        $n=0; $r=0;
-        foreach ($edition_list as $e_id=>$edition) {
-            foreach ($url_map_arr as $old_field=>$map_id) {
+
+        $url_map_arr = [
+            "edition_url" => 1,
+            "edition_url_entry" => 5,
+            "edition_url_flyer" => 2,
+            "edition_url_results" => 4,
+        ];
+        $n = 0;
+        $r = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            foreach ($url_map_arr as $old_field => $map_id) {
                 if ($edition[$old_field] && !$this->exists("edition", $e_id, $map_id)) {
                     $url_data = array(
                         'url_name' => $edition[$old_field],
@@ -238,21 +238,20 @@ class Url extends Admin_Controller {
                         'url_linked_to' => "edition",
                         'linked_id' => $e_id,
                     );
-                    $set=$this->url_model->set_url("add",0,$url_data,false);
+                    $set = $this->url_model->set_url("add", 0, $url_data, false);
                     $n++;
                 }
-                
-                if ($edition[$old_field] && $map_id==4) {
+
+                if ($edition[$old_field] && $map_id == 4) {
                     $r++;
-                    $set_results_flag=$this->url_model->set_results_flag("edition", $e_id, 1);
+                    $set_results_flag = $this->url_model->set_results_flag("edition", $e_id, 1);
                 }
             }
         }
-        
+
         echo "Done<br>";
-        echo $n." records added to URL table<br>";
-        echo $r." results flags set<br>";
-        
+        echo $n . " records added to URL table<br>";
+        echo $r . " results flags set<br>";
     }
 
 }

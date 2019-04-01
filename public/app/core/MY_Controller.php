@@ -212,18 +212,27 @@ class Admin_Controller extends MY_Controller {
                     [
                         "text" => "Search Towns",
                         "url" => 'admin/town/search',
+                        "icon" => "home",
                     ],
                     [
                         "text" => "Files",
                         "url" => 'admin/file/view',
+                        "icon" => "folder-alt",
                     ],
                     [
                         "text" => "URLs",
                         "url" => 'admin/url/view',
+                        "icon" => "link",
+                    ],                    
+                    [
+                        "text" => "Email Templates",
+                        "url" => 'admin/emailtemplate/view',
+                        "icon" => "envelope-letter",
                     ],
                     [
                         "text" => "Quotes",
                         "url" => 'admin/quote/view',
+                        "icon" => "speech",
                     ],
                 ],
             ],
@@ -263,30 +272,37 @@ class Admin_Controller extends MY_Controller {
                     [
                         "text" => "ASA Members",
                         "url" => 'admin/asamember/view',
+                        "icon" => "umbrella",
                     ],
                     [
                         "text" => "Roles",
                         "url" => 'admin/role/view',
+                        "icon" => "user",
                     ],
                     [
                         "text" => "Race Types",
                         "url" => 'admin/racetype/view',
+                        "icon" => "compass",
                     ],
                     [
                         "text" => "File Types",
                         "url" => 'admin/filetype/view',
+                        "icon" => "folder",
                     ],
                     [
                         "text" => "URL Types",
                         "url" => 'admin/urltype/view',
+                        "icon" => "link",
                     ],
                     [
                         "text" => "Areas",
                         "url" => 'admin/area/view',
+                        "icon" => "map",
                     ],
                     [
                         "text" => "Provinces",
                         "url" => 'admin/province/view',
+                        "icon" => "globe-alt",
                     ],
                 ],
             ],

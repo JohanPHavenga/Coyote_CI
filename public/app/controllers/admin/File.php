@@ -38,7 +38,7 @@ class File extends Admin_Controller {
         $this->data_to_header['page_action_list'] = [
             [
                 "name" => "Add File",
-                "icon" => "folder",
+                "icon" => "folder-alt",
                 "uri" => "file/create/add",
             ],
         ];

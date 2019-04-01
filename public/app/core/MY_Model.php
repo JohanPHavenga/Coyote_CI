@@ -24,11 +24,12 @@ class MY_model extends CI_Model {
         return false;
     }
     
-    public function get_linked_to_dropdown()
+    public function get_linked_to_dropdown($count=6,$start=0)
     {
         $this->db->select("*");
         $this->db->from("linked_to");
-        $this->db->limit(6);
+        $this->db->limit($count,$start);
+//        echo $this->db->get_compiled_select();   exit();
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
