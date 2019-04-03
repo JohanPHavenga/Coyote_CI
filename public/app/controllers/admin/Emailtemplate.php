@@ -21,7 +21,7 @@ class Emailtemplate extends Admin_Controller {
 
     public function view() {
         // load helpers / libraries
-        $this->load->library('table');        
+        $this->load->library('table');
         $this->data_to_view['heading'] = ["ID", "Template Name", "Linked To", "Actions"];
         $this->data_to_header['title'] = "List of email templates";
 
@@ -39,7 +39,7 @@ class Emailtemplate extends Admin_Controller {
             "Email Templates" => "/admin/emailtemplate",
             "List" => "",
         ];
-        
+
         $this->data_to_view['url'] = $this->url_disect();
 
         $this->data_to_header['css_to_load'] = array(
@@ -64,26 +64,27 @@ class Emailtemplate extends Admin_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    public function create($action, $id=0) {
+    public function create($action, $id = 0) {
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
         // set data
         $this->data_to_header['title'] = "Email Template Input Page";
         $this->data_to_view['action'] = $action;
-        $this->data_to_view['form_url'] = $this->create_url."/".$action;
+        $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
 
         $this->data_to_header['css_to_load'] = array("plugins/bootstrap-summernote/summernote.css",);
         $this->data_to_footer['js_to_load'] = array("plugins/moment.min.js", "plugins/bootstrap-summernote/summernote.min.js",);
         $this->data_to_footer['scripts_to_load'] = array("scripts/admin/components-editors.js",);
-        
-        $this->data_to_view['linked_to_dropdown'] = $this->emailtemplate_model->get_linked_to_dropdown(50,0);
+
+        $this->data_to_view['linked_to_dropdown'] = $this->emailtemplate_model->get_linked_to_dropdown(50, 0);
 
         if ($action == "edit") {
             $this->data_to_view['emailtemplate_detail'] = $this->emailtemplate_model->get_emailtemplate_detail($id);
         } else {
             
         }
+
         // set validation rules
         $this->form_validation->set_rules('emailtemplate_name', 'Name', 'required');
         $this->form_validation->set_rules('emailtemplate_body', 'Body', 'required');
@@ -96,26 +97,27 @@ class Emailtemplate extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-            
+
             $data = array(
                 'emailtemplate_name' => $this->input->post('emailtemplate_name'),
                 'emailtemplate_body' => $this->input->post('emailtemplate_body'),
                 'emailtemplate_linked_to' => $this->input->post('emailtemplate_linked_to'),
             );
-            $return_id = $this->emailtemplate_model->set_emailtemplate($action, $id, $data);
+            $return_id=$this->emailtemplate_model->set_emailtemplate($action, $id, $data);
+
             if ($return_id) {
                 $alert = "Email Template has been " . $action . "ed";
                 $status = "success";
+
+                // take person back to the right screen
+                switch ($this->input->post('save-btn')) {
+                    case "save_only":
+                        $this->return_url = base_url("admin/emailtemplate/create/edit/" . $return_id);
+                        break;
+                }
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
-            }
-
-            // take person back to the right screen
-            switch ($this->input->post('save-btn')) {
-                case "save_only":
-                    $this->return_url = base_url("admin/emailtemplate/create/edit/" . $return_id);
-                    break;
             }
 
             $this->session->set_flashdata([
@@ -141,7 +143,7 @@ class Emailtemplate extends Admin_Controller {
         $db_del = $this->emailtemplate_model->remove_emailtemplate($emailtemplate_id);
 
         if ($db_del) {
-            $msg = "Email has successfully been deleted: <b>" . $emailtemplate_detail['emailtemplate_name']."</b>";
+            $msg = "Email has successfully been deleted: <b>" . $emailtemplate_detail['emailtemplate_name'] . "</b>";
             $status = "warning";
         } else {
             $msg = "Error in deleting the record:'.$emailtemplate_id";
@@ -152,7 +154,5 @@ class Emailtemplate extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
-
-    
 
 }

@@ -42,7 +42,6 @@ class Emailtemplate_model extends MY_model {
     }
 
     public function set_emailtemplate($action, $emailtemplate_id, $data) {
-
         switch ($action) {
             case "add":
                 $this->db->trans_start();
