@@ -4,8 +4,8 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption font-dark">
-                    <i class="icon-list font-dark"></i>
-                    <span class="caption-subject bold uppercase"> List of all events</span>
+                    <i class="icon-rocket"></i> 
+                    <span class="caption-subject bold uppercase">List of all events</span>
                 </div>
             </div>
             <div class="portlet-body">

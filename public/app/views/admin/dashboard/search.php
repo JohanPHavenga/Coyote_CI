@@ -3,7 +3,7 @@
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="icon-edit font-dark"></i>
+                    <i class="icon-magnifier"></i> 
                     <span class="caption-subject font-dark bold uppercase">Search Results</span>
                 </div>
             </div>
