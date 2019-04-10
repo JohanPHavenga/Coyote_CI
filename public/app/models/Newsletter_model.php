@@ -1,5 +1,9 @@
 <?php
 
+// NOT SURE IF THIS CONTROLLER IS IN USE 
+// bar the dropdown method that returns nothing
+
+
 class Newsletter_model extends MY_model {
 
     public function __construct() {
@@ -25,7 +29,8 @@ class Newsletter_model extends MY_model {
         return false;
     }
 
-    public function get_newsletter_dropdown() {
+    public function get_newsletter_dropdown() {                        
+        
         $this->db->select("newsletter_id, newsletter_name");
         $this->db->from("newsletters");
         $this->db->order_by("newsletter_name");

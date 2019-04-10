@@ -32,7 +32,7 @@ class Mailer extends Admin_Controller {
     
     public function info_mail_body($edition_info) {
         $body="<p>Hi there</p>";
-        $body.="<p>Hope you are well. I represent a listing website aiming to list all road running events in the Western Cape, RoadRunning.co.za.<br>"
+        $body.="<p>Hope you are well. I represent a listing website aiming to list all road running events in the Western, Northern and Eastern Cape called RoadRunning.co.za.<br>"
                 . "We loaded some basic information for your event, the <b>".substr($edition_info['edition_name'],0,-5)."</b> already. See the preliminary listing here:";
 
         $body.="<p><a href='http://www.roadrunning.co.za/event/".encode_edition_name($edition_info['edition_name'])."'>"

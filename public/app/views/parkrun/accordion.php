@@ -2,6 +2,7 @@
 
     <div class="panel-group" id="accordionParkrun" role="tablist" style="padding-top:10px;">
         <?php
+        if ($parkrun_list) {
         foreach ($parkrun_list as $id => $parkrun) {
             // if first
             reset($parkrun_list);
@@ -54,6 +55,9 @@
             </div>
             <?php
         unset($expanded);
+        }
+        } else {
+            echo "<p>No Parkruns availble in this area";
         }
         ?>
     </div> <!-- .panel-group -->

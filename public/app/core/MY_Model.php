@@ -42,11 +42,11 @@ class MY_model extends CI_Model {
         return false;
     }
     
-    public function get_linked_to_list()
+    public function get_linked_to_list($count=6,$start=0)
     {
         $this->db->select("*");
         $this->db->from("linked_to");
-        $this->db->limit(6);
+        $this->db->limit($count,$start);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

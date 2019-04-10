@@ -22,7 +22,8 @@ label {
 .hidden-input-race,
 .hidden-input-club,
 .hidden-input-sponsor,
-.hidden-input-user
+.hidden-input-user,
+.hidden-input-newsletter
 {
     display: none;
 }z

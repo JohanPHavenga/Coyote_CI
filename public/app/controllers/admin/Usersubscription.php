@@ -17,13 +17,34 @@ class Usersubscription extends Admin_Controller {
             $this->view($params);
         }
     }
+    
+    private function populate_view_data($usersubdata) {
+        $this->load->model('user_model');
+        // add better data for view
+        foreach ($usersubdata as $id=>$data_arr) {
+            foreach ($data_arr as $field=>$data) {
+                switch ($field) {
+                    case "user_id":
+                        $user_data=$this->user_model->get_user_name($data);
+                        $usersubdata[$id]['user_name']=$user_data['user_name'];
+                        $usersubdata[$id]['user_surname']=$user_data['user_surname'];
+                        break;
+                }
+            }
+        }
+        return $usersubdata;
+    }
 
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
 
-        $this->data_to_view["usersubscription_data"] = $this->usersubscription_model->get_usersubscription_list();
-        $this->data_to_view['heading'] = ["User", "Linked To Type", "Linked To Name", "Actions"];
+        $usersubdata=$this->usersubscription_model->get_usersubscription_list();
+        $this->data_to_view["usersubscription_data"] = $this->populate_view_data($usersubdata);
+        
+//        wts($this->data_to_view["usersubscription_data"]);
+//        die();
+        $this->data_to_view['heading'] = ["User ID", "Name", "Linked To Type", "Linked To Name", "Actions"];
 
         $this->data_to_view['create_link'] = $this->create_url;
         $this->data_to_header['title'] = "List of User Subscriptions";
@@ -36,8 +57,8 @@ class Usersubscription extends Admin_Controller {
 
         $this->data_to_header['page_action_list'] = [
             [
-                "name" => "Add URL",
-                "icon" => "link",
+                "name" => "Add Subscription",
+                "icon" => "present",
                 "uri" => "usersubscription/create/add",
             ],
         ];
@@ -61,29 +82,24 @@ class Usersubscription extends Admin_Controller {
         );
 
         // load view
-        $this->load->view($this->header_usersubscription, $this->data_to_header);
+        $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/usersubscription/view", $this->data_to_view);
-        $this->load->view($this->footer_usersubscription, $this->data_to_footer);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    public function create($action, $id = 0, $linked_type = NULL) {
-
-        // set return usersubscription to session should it exists
-        if ($this->session->has_userdata('edition_return_usersubscription')) {
-            $this->return_usersubscription = $this->session->edition_return_usersubscription;
-        }
+    public function create($action) {
 
         // additional models
-        $this->load->model('usersubscriptiontype_model');
+        $this->load->model('user_model');
 
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
 
         // set data
-        $this->data_to_header['title'] = "URL Input Page";
+        $this->data_to_header['title'] = "User Subscription Input Page";
         $this->data_to_view['action'] = $action;
-        $this->data_to_view['form_usersubscription'] = $this->create_usersubscription . "/" . $action;
+        $this->data_to_view['form_url'] = $this->create_url . "/" . $action;
 
         $this->data_to_header['css_to_load'] = array(
             "plugins/typeahead/typeahead.css"
@@ -99,9 +115,17 @@ class Usersubscription extends Admin_Controller {
             "scripts/admin/linked_to_hide_show.js",
         );
 
-        $this->data_to_view['usersubscriptiontype_dropdown'] = $this->usersubscriptiontype_model->get_usersubscriptiontype_dropdown();
-        $this->data_to_view['linked_to_dropdown'] = $this->usersubscriptiontype_model->get_linked_to_dropdown();
-        $this->data_to_view['linked_to_list'] = $this->usersubscriptiontype_model->get_linked_to_list();
+        $this->data_to_view['user_dropdown'] = $this->user_model->get_user_dropdown();
+        $this->data_to_view['linked_to_dropdown'] = $this->usersubscription_model->get_linked_to_dropdown(7);
+        $this->data_to_view['linked_to_list'] = $this->usersubscription_model->get_linked_to_list(7);
+        
+        // unset linked to we are not using for now
+        $unset_arr=[1,3,4,5,6];
+        foreach ($unset_arr as $unset) {
+            $name=$this->data_to_view['linked_to_list'][$unset];
+            unset($this->data_to_view['linked_to_list'][$unset]);
+            unset($this->data_to_view['linked_to_dropdown'][$name]);
+        }        
 
         // dynamically get drop downs using the linked_to_table
         foreach ($this->data_to_view['linked_to_list'] as $linked_to_id => $linked_to_name) {
@@ -111,43 +135,24 @@ class Usersubscription extends Admin_Controller {
 
             $this->load->model($model);
             $this->data_to_view[$dropdown] = $this->$model->$method();
+            $this->data_to_view[$dropdown][0] = "All";                    
         }
-
-        if ($action == "edit") {
-            $this->data_to_view['usersubscription_detail'] = $this->usersubscription_model->get_usersubscription_detail($id);
-            $this->data_to_view['form_usersubscription'] = $this->create_usersubscription . "/" . $action . "/" . $id;
-        } else {
-            if ($id > 0) {
-                $this->data_to_view['usersubscription_detail']['linked_id'] = $id;
-                $this->data_to_view['usersubscription_detail']['usersubscription_linked_to'] = $linked_type;
-            }
-        }
-
-//        wts($this->data_to_view['usersubscription_detail']);
-        // set validation rules
-        $this->form_validation->set_rules('usersubscription_name', 'URL Name', 'required|valid_usersubscription');
-        $this->form_validation->set_rules('usersubscriptiontype_id', 'URL Type', 'required|greater_than[0]', ["greater_than" => "Please select a URL Type"]);
-
+        
+        $this->form_validation->set_rules('user_id', 'User', 'required|greater_than[0]', ["greater_than" => "Please select a User"]);
+        $this->form_validation->set_rules('linked_id', 'Linked ID', 'integer');
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {
-            $this->data_to_view['return_usersubscription'] = $this->return_usersubscription;
-            $this->load->view($this->header_usersubscription, $this->data_to_header);
-            $this->load->view($this->create_usersubscription, $this->data_to_view);
-            $this->load->view($this->footer_usersubscription, $this->data_to_footer);
+            $this->data_to_view['return_url'] = $this->return_url;
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view($this->create_url, $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-            // SET URL
-            $id = $this->usersubscription_model->set_usersubscription($action, $id);
-            // set the results flag
-            $results_link_arr = ['edition', 'race'];
-            if (in_array($this->input->post("usersubscription_linked_to"), $results_link_arr)) {
-                $id_type = $this->input->post("usersubscription_linked_to") . "_id";
-                $linked_id = $this->input->post($id_type);
-                $set = $this->set_results_flag($this->input->post("usersubscription_linked_to"), $linked_id);
-            }
+            // SET subscription
+            $set = $this->usersubscription_model->set_usersubscription($action);            
 
-            if ($id) {
-                $alert = "URL details has been " . $action . "ed";
+            if ($set) {
+                $alert = "User Subscription has been " . $action . "ed";
                 $status = "success";
             } else {
                 $alert = "Error committing to the database";
@@ -159,96 +164,38 @@ class Usersubscription extends Admin_Controller {
                 'status' => $status,
             ]);
 
-            // save_only takes you back to the edit page.
-            if (array_key_exists("save_only", $_POST)) {
-                $this->return_usersubscription = base_usersubscription("admin/usersubscription/create/edit/" . $id);
-            }
-
-            redirect($this->return_usersubscription);
+            redirect($this->return_url);
         }
     }
 
-    public function delete($usersubscription_id = 0) {
+    public function delete($user_id, $linked_to, $linked_id) {
 
-        // set return usersubscription to session should it exists
-        if ($this->session->has_userdata('edition_return_usersubscription')) {
-            $this->return_usersubscription = $this->session->edition_return_usersubscription;
-        }
 
-        if (($usersubscription_id == 0) AND ( !is_int($usersubscription_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $usersubscription_id);
+        if ($user_id == 0) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $user_id);
             $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_usersubscription);
+            redirect($this->return_url);
             die();
         }
 
-        // get usersubscription detail for nice delete message
-        $usersubscription_detail = $this->usersubscription_model->get_usersubscription_detail($usersubscription_id);
         // delete record
-        $db_del = $this->usersubscription_model->remove_usersubscription($usersubscription_id);
-
-        // check results flag
-        $results_link_arr = ['edition', 'race'];
-        if (in_array($usersubscription_detail['usersubscription_linked_to'], $results_link_arr)) {
-            $set = $this->set_results_flag($usersubscription_detail['usersubscription_linked_to'], $usersubscription_detail['linked_id']);
-        }
+        $db_del = $this->usersubscription_model->remove_usersubscription($user_id, $linked_to, $linked_id);
 
         if ($db_del) {
-            $msg = "URL has successfully been deleted: " . $usersubscription_detail['usersubscription_name'];
+            $msg = "User subsciprtion has successfully been deleted: " . $user_id;
             $status = "success";
         } else {
-            $msg = "Error in deleting the record:'.$usersubscription_id";
+            $msg = "Error in deleting the record:'.$user_id";
             $status = "danger";
         }
 
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
-        redirect($this->return_usersubscription);
+        redirect($this->return_url);
     }
 
-    function exists($linked_type, $linked_id, $usersubscriptiontype_id) {
-        return $this->usersubscription_model->exists($linked_type, $linked_id, $usersubscriptiontype_id);
-    }
-
-    function port() {
-        // function to port old URLs from fields directly on Edition to URl table
-        $this->load->model('edition_model');
-        $this->load->model('usersubscriptiontype_model');
-
-        $edition_list = $this->edition_model->get_edition_list();
-        $usersubscriptiontype_list = $this->usersubscriptiontype_model->get_usersubscriptiontype_list();
-
-        $usersubscription_map_arr = [
-            "edition_usersubscription" => 1,
-            "edition_usersubscription_entry" => 5,
-            "edition_usersubscription_flyer" => 2,
-            "edition_usersubscription_results" => 4,
-        ];
-        $n = 0;
-        $r = 0;
-        foreach ($edition_list as $e_id => $edition) {
-            foreach ($usersubscription_map_arr as $old_field => $map_id) {
-                if ($edition[$old_field] && !$this->exists("edition", $e_id, $map_id)) {
-                    $usersubscription_data = array(
-                        'usersubscription_name' => $edition[$old_field],
-                        'usersubscriptiontype_id' => $map_id,
-                        'usersubscription_linked_to' => "edition",
-                        'linked_id' => $e_id,
-                    );
-                    $set = $this->usersubscription_model->set_usersubscription("add", 0, $usersubscription_data, false);
-                    $n++;
-                }
-
-                if ($edition[$old_field] && $map_id == 4) {
-                    $r++;
-                    $set_results_flag = $this->usersubscription_model->set_results_flag("edition", $e_id, 1);
-                }
-            }
-        }
-
-        echo "Done<br>";
-        echo $n . " records added to URL table<br>";
-        echo $r . " results flags set<br>";
+    function exists($linked_type, $linked_id, $user_id) {
+        return $this->usersubscription_model->check_usersubscription_exists($linked_type, $linked_id, $user_id);
     }
 
 }

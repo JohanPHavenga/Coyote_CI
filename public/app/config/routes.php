@@ -90,6 +90,8 @@ $route['kleinkaroo'] = 'landing/klein+karoo';
 $route['KleinKaroo'] = 'landing/klein+karoo';
 $route['centralkaroo'] = 'landing/central+karoo';
 $route['CentralKaroo'] = 'landing/central+karoo';
+$route['griqualandwest'] = 'landing/griqualand+west';
+$route['GriqualandWest'] = 'landing/griqualand+west';
 
 $route['content-overview'] = 'calendar';
 

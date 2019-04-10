@@ -183,7 +183,7 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Events Info",
                 "url" => 'admin/event',
                 "icon" => "calendar",
-                "seg0" => ['event','edition','race'],
+                "seg0" => ['event', 'edition', 'race'],
                 "submenu" => [
                     [
                         "text" => "Events",
@@ -223,7 +223,7 @@ class Admin_Controller extends MY_Controller {
                         "text" => "URLs",
                         "url" => 'admin/url/view',
                         "icon" => "link",
-                    ],                    
+                    ],
                     [
                         "text" => "Email Templates",
                         "url" => 'admin/emailtemplate/view',
@@ -261,7 +261,6 @@ class Admin_Controller extends MY_Controller {
                     ],
                 ],
             ],
-            
             // Types
             [
                 "text" => "Static",
@@ -311,7 +310,19 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Users",
                 "url" => 'admin/user',
                 "icon" => "users",
-                "seg0" => ['user'],
+                "seg0" => ['user', 'usersubscriptions'],
+                "submenu" => [
+                    [
+                        "text" => "List users",
+                        "url" => 'admin/user/view',
+                        "icon" => "users",
+                    ],
+                    [
+                        "text" => "User Subscriptions",
+                        "url" => 'admin/usersubscription/view',
+                        "icon" => "present",
+                    ],
+                ],
             ],
             // Clubs
             [
@@ -327,7 +338,6 @@ class Admin_Controller extends MY_Controller {
                 "icon" => "wallet",
                 "seg0" => ['sponsor'],
             ],
-            
             // Parkruns
             [
                 "text" => "Parkruns",
@@ -353,7 +363,7 @@ class Admin_Controller extends MY_Controller {
     function get_contact_field_list() {
         return ['user_id', 'user_name', 'user_surname', 'user_email'];
     }
-    
+
     function get_asa_member_field_list() {
         return ['asa_member_id'];
     }
@@ -396,9 +406,9 @@ class Frontend_Controller extends MY_Controller {
         ]);
         redirect('404');
     }
-    
+
     function get_date_list() {
-        $dates_to_fetch=[
+        $dates_to_fetch = [
 //            "2 months ago",
             "1 month ago",
             "today",
@@ -408,9 +418,9 @@ class Frontend_Controller extends MY_Controller {
             "+4 month",
             "+5 month",
 //            "+6 month",
-            ];
+        ];
         foreach ($dates_to_fetch as $strtotime) {
-            $date_list[date("Y", strtotime($strtotime))][date("m", strtotime($strtotime))]=date("F Y", strtotime($strtotime));
+            $date_list[date("Y", strtotime($strtotime))][date("m", strtotime($strtotime))] = date("F Y", strtotime($strtotime));
         }
         return $date_list;
     }
@@ -531,12 +541,11 @@ class Frontend_Controller extends MY_Controller {
 
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event inforamtion";
-        
-        if ($params['status']!=1) { 
+
+        if ($params['status'] != 1) {
             $return['color'] = "c-font-yellow-2";
             $return['text'] = "Event cancelled";
-            return $return; 
-            
+            return $return;
         }
 
         if ($params['confirmed']) {
@@ -559,39 +568,38 @@ class Frontend_Controller extends MY_Controller {
         }
         return array_keys($result);
     }
-    
+
     function get_edition_name_from_status($edition_name, $edition_status) {
         // set edition names
-        $e_names['edition_name']=$edition_name;
-        $e_names['edition_name_clean']=$edition_name;
-        $e_names['edition_name_no_date']=substr($edition_name,0,-5);
+        $e_names['edition_name'] = $edition_name;
+        $e_names['edition_name_clean'] = $edition_name;
+        $e_names['edition_name_no_date'] = substr($edition_name, 0, -5);
         switch ($edition_status) {
             case 2:
-                $e_names['edition_name']=$e_names['edition_name_no_date']=$edition_name." - DRAFT";
+                $e_names['edition_name'] = $e_names['edition_name_no_date'] = $edition_name . " - DRAFT";
                 break;
             case 3:
-                $e_names['edition_name']=$e_names['edition_name_no_date']=$edition_name." - CANCELLED";
+                $e_names['edition_name'] = $e_names['edition_name_no_date'] = $edition_name . " - CANCELLED";
                 break;
-        }        
+        }
         return $e_names;
     }
-    
+
     function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
-        
-        $return_name=$race_name;
-        if (empty($race_name))
-        {
-            $return_name=fraceDistance($race_distance)." ".$racetype_name;                                            
+
+        $return_name = $race_name;
+        if (empty($race_name)) {
+            $return_name = fraceDistance($race_distance) . " " . $racetype_name;
         }
-        
+
         switch ($race_status) {
             case 2:
-                $return_name=$return_name." - DRAFT";
+                $return_name = $return_name . " - DRAFT";
                 break;
             case 3:
-                $return_name=$return_name." - CANCELLED";
+                $return_name = $return_name . " - CANCELLED";
                 break;
-        }        
+        }
         return $return_name;
     }
 
@@ -653,9 +661,9 @@ class Frontend_Controller extends MY_Controller {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-                            
-                            $e_names=$this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
-                            
+
+                            $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
+
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
@@ -670,7 +678,7 @@ class Frontend_Controller extends MY_Controller {
                                 $badge .= "<span class='badge c-bg-$color'>" . $distance . "</span> ";
                             }
 
-                            $date_name = date("M j", strtotime($edition['edition_date'])).' - '.$e_names['edition_name'];
+                            $date_name = date("M j", strtotime($edition['edition_date'])) . ' - ' . $e_names['edition_name'];
 
                             $return_html_arr[] = '<div class="panel">';
                             $return_html_arr[] = '<div class="panel-heading" role="tab" id="heading' . $edition_id . '">';
@@ -731,8 +739,8 @@ class Frontend_Controller extends MY_Controller {
                     $n = 0;
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
-                            
-                            $e_names=$this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
+
+                            $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([

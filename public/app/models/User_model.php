@@ -60,12 +60,12 @@ class User_model extends MY_model {
     }
 
 
-    public function get_user_dropdown($id=NULL) {
+    public function get_user_dropdown($role_id=NULL) {
         $this->db->select("user_id, user_name, user_surname");
         $this->db->from("users");
-        if (isset($id)) {
+        if (isset($role_id)) {
             $this->db->join('user_role', 'user_id', 'left');
-            $this->db->where("role_id", $id);
+            $this->db->where("role_id", $role_id);
         }
         $this->db->order_by('user_name', 'user_surname');
         $query = $this->db->get();
@@ -92,6 +92,27 @@ class User_model extends MY_model {
             $this->db->select("users.*, club_id");
             $this->db->from("users");
             $this->db->join('clubs', 'club_id', 'left');
+            $this->db->where('user_id', $id);
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                return $query->row_array();
+            }
+            return false;
+        }
+
+    }
+    
+    public function get_user_name($id)
+    {
+        if( ! ($id))
+        {
+            return false;
+        }
+        else
+        {
+            $this->db->select("user_name, user_surname");
+            $this->db->from("users");
             $this->db->where('user_id', $id);
             $query = $this->db->get();
 
