@@ -29,8 +29,8 @@ class Newsletter_model extends MY_model {
         return false;
     }
 
-    public function get_newsletter_dropdown() {                        
-        
+    public function get_newsletter_dropdown() {
+
         $this->db->select("newsletter_id, newsletter_name");
         $this->db->from("newsletters");
         $this->db->order_by("newsletter_name");
@@ -45,6 +45,21 @@ class Newsletter_model extends MY_model {
             return $data;
         }
         return false;
+    }
+
+    public function get_newsletter_list_simple() {
+        $data[0]="All Newsletters";
+        $this->db->select("newsletter_id, newsletter_name");
+        $this->db->from("newsletters");
+        $this->db->order_by("newsletter_id");
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $data[] = "Please Select";
+            foreach ($query->result_array() as $row) {
+                $data[$row['newsletter_id']] = $row['newsletter_name'];
+            }
+        }
+        return $data;
     }
 
     public function get_newsletter_detail($id) {

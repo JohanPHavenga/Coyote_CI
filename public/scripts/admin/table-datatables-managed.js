@@ -44,12 +44,11 @@ var TableDatatablesManaged = function () {
             responsive: true,
             bStateSave: true,
             columnDefs: [
-                {orderable: false, targets: [3, 5, 7]},
-                {searchable: false, targets: [7]},
+                {orderable: false, targets: [3, 4, -1]},
+                {searchable: false, targets: [-1]},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: -1},
-                {responsivePriority: 3, targets: 1},
-                {responsivePriority: 4, targets: 3}
+                {responsivePriority: 3, targets: 1}
             ]
         });
     };

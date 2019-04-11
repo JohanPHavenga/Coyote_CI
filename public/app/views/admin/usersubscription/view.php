@@ -30,7 +30,19 @@
                         $row['user']=$data_entry['user_id']; 
                         $row['user_name']=$data_entry['user_name']." ".$data_entry['user_surname'];  
                         $row['linked_to']=$data_entry['linked_to'];
-                        $row['linked_id']=$data_entry['linked_id'];
+                        
+                        switch ($data_entry['linked_to']) {
+                            case "edition":
+                                $id_value=$edition_list[$data_entry['linked_id']];
+                                break;
+                            case "newsletter":
+                                $id_value=$newsletter_list[$data_entry['linked_id']];
+                                break;
+                            default:
+                                $id_value=$data_entry['linked_id'];
+                                break;
+                        }
+                        $row['linked_id']=$id_value;
                         $row['actions']= fbuttonActionGroup($action_array);
                       
                         $this->table->add_row($row);

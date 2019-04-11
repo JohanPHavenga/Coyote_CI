@@ -38,6 +38,14 @@ class Usersubscription extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
+        
+        // TO PUT THIS IN SESSION 
+        $this->load->model("edition_model");
+        $this->data_to_view["edition_list"]=$this->edition_model->get_edition_list_simple();                
+                
+        $this->load->model("newsletter_model");
+        $this->data_to_view["newsletter_list"]=$this->newsletter_model->get_newsletter_list_simple();
+        // =======================
 
         $usersubdata=$this->usersubscription_model->get_usersubscription_list();
         $this->data_to_view["usersubscription_data"] = $this->populate_view_data($usersubdata);
