@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="c-line"></div>
+            <div class="c-line"></div>
             <div class="c-foot">
                 <div class="row">
                     <div class="col-md-7">
@@ -110,17 +110,17 @@
                             <div class="c-line-left hide"></div>
                         </div>
                         <div class="c-line-left hide"></div>
-                        <form action="/newsletter">
+                        <form action="/newsletter" method="post">
                             <div class="input-group input-group-lg c-square">
                                 <input type="email" class="c-input form-control c-square c-theme" placeholder="Your Email Here" name="demail"/>
                                 <span class="input-group-btn">
-                                    <button class="btn c-theme-btn c-theme-border c-btn-square c-btn-uppercase c-font-16" type="button">Subscribe</button>
+                                    <button class="btn c-theme-btn c-theme-border c-btn-square c-btn-uppercase c-font-16" type="submit" name="button" value="footer-btn">Subscribe</button>
                                 </span>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
     </div>
     <div class="c-postfooter c-bg-dark-2">

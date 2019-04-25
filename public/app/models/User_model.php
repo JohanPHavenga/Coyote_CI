@@ -111,6 +111,7 @@ class User_model extends MY_model {
     }
 
     public function set_user($action, $user_id, $user_data = [], $debug = FALSE) {
+        $role_arr = [];    
         // POSTED DATA
         if (empty($user_data)) {
             $user_data = array(
@@ -124,7 +125,11 @@ class User_model extends MY_model {
             );
             $role_arr = $this->input->post('role_id');
         } else {
-            $role_arr = [];
+            // way to pass that the user role
+            if ($user_data['role_arr']) { 
+                $role_arr = $user_data['role_arr'];   
+                unset($user_data['role_arr']);
+            }
             if (isset($user_data['user_password'])) {
                 $user_data['user_password'] = $this->hash_pass($user_data['user_password']);
             }

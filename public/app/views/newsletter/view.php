@@ -9,9 +9,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <?php
+                        if ($this->session->flashdata('alert')) {
+                            $alert_msg = $this->session->flashdata('alert');
+                            if (!($this->session->flashdata('status'))) {
+                                $status = 'warning';
+                            } else {
+                                $status = $this->session->flashdata('status');
+                            }
+                            echo "<div class='alert alert-$status' role='alert'>$alert_msg</div>";
+                        }
                         // flash data here
                         // 
-                        if ($_POST) {
+                        if (@_POST['button']=="subscribe-btn") {
                             if (validation_errors()) {
                                 echo '<div class="alert alert-danger" role="alert">';
                                 echo validation_errors();
@@ -19,10 +28,11 @@
                                 $show_text=false;
                             } else {
                                 echo '<div class="alert alert-success" role="alert">';
-                                echo "Thank you for contacting us. <b>Your message has been sent successfully.</b><br>We will get back to you as soon as we can.";
+                                echo "Thank you for <b>subscribing</b>! Expect an confirmation email sent to your inbox soon.";
                                 echo '</div>';
                             }
                         }
+//                        wts($_POST);
                         ?>
                     </div>
                 </div>
@@ -35,30 +45,7 @@
                             <a href="#" class="c-title c-font-uppercase c-theme-on-hover c-font-bold">Newsletter Subscription</a>
                             <p class="c-font-lowercase">Please complete the form below to subscribe to our monthly newsletter</p>
 
-                            <!--                            <div class="c-content-title-3 c-theme-border c-font-bold c-font-uppercase">
-                                                            <h1>Newsletter Subscription</h1>
-                                                            <p class="c-font-lowercase">Please complete the form below to subscribe to our monthly newsletter</p>
-                                                        </div>-->
-
-                            <!--                            <div class="c-content-title-1">
-                                                            <h3 class="c-font-uppercase c-font-bold">Keep in touch</h3>
-                                                            <div class="c-line-left"></div>
-                                                            <p class="c-font-lowercase">Please send us a message using the form below.</p>
-                                                        </div>-->
                             <?php
-//                            if ($_POST) {
-//                                if (!@$email_send) {
-//                                    echo '<div class="alert alert-danger" role="alert">';
-//                                    echo validation_errors();
-//                                    echo '</div>';
-//                                } else {
-//                                    echo '<div class="alert alert-success" role="alert">';
-//                                    echo "Thank you for contacting us. Your message has successfully been send.<br>We will get back to you as soon as we can.";
-//                                    echo '</div>';
-//                                }
-//                            }
-                            
-
                             echo form_open('newsletter');
                             ?>
                             <div class="form-group">
@@ -104,13 +91,15 @@
                                 );
                                 ?>
                             </div>
-                            <div class="form-group g-recaptcha" data-sitekey="6LcxdoYUAAAAAADszn1zvLq3C9UFfwnafqzMWYoV"></div>
+                            <!--<div class="form-group g-recaptcha" data-sitekey="6LcxdoYUAAAAAADszn1zvLq3C9UFfwnafqzMWYoV"></div>-->
                             <?php
                             echo form_button(
                                     [
                                         'type' => 'submit',
                                         'class' => 'btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round',
-                                        'content' => 'Subscribe'
+                                        'content' => 'Subscribe',
+                                        'name' => 'button',
+                                        'value' => 'subscribe-btn'
                                     ]
                             );
                             echo form_hidden('dto', @$form_data['dto']);

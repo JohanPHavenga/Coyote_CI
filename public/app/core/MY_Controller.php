@@ -1,22 +1,19 @@
 <?php
 
-// core/MY_Controller.php
-/**
- * Base Controller
- *
- */
+//=======================================
+// Central Controller
+//=======================================
 class MY_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        // Load any front-end only dependencies
     }
 
 }
 
-/**
- * Back end Controller
- */
+//=======================================
+// Default Back-end Controller
+//=======================================
 class Admin_Controller extends MY_Controller {
 
     public $data_to_header = [];
@@ -379,10 +376,10 @@ class Admin_Controller extends MY_Controller {
 
 }
 
-/**
- * Default Front-end Controller
- *
- */
+//=======================================
+// Default Front-end Controller
+//=======================================
+
 class Frontend_Controller extends MY_Controller {
 
     public $data_to_header = ["section" => ""];
@@ -407,7 +404,7 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_footer["date_list"] = $this->get_date_list();
     }
 
-    function show_my_404($msg, $status) {
+    public function show_my_404($msg, $status) {
         //Using 'location' not work well on some windows systems
         $this->session->set_flashdata([
             'alert' => $msg,
@@ -416,7 +413,7 @@ class Frontend_Controller extends MY_Controller {
         redirect('404');
     }
 
-    function get_date_list() {
+    public function get_date_list() {
         $dates_to_fetch = [
 //            "2 months ago",
             "1 month ago",
@@ -434,7 +431,7 @@ class Frontend_Controller extends MY_Controller {
         return $date_list;
     }
 
-    function set_top_menu_array() {
+    public function set_top_menu_array() {
         return [
             // Dashboard
             [
@@ -467,11 +464,11 @@ class Frontend_Controller extends MY_Controller {
                 "section" => 'faq',
             ],
             // Newletter
-//            [
-//                "text" => "Newsletter",
-//                "url" => base_url('/newsletter'),
-//                "section" => 'newsletter',
-//            ],
+            [
+                "text" => "Newsletter",
+                "url" => base_url('/newsletter'),
+                "section" => 'newsletter',
+            ],
             // Contact
             [
                 "text" => "Contact Us",
@@ -481,7 +478,7 @@ class Frontend_Controller extends MY_Controller {
         ];
     }
 
-    function set_crumbs() {
+    public function set_crumbs() {
         // setup auto crumbs from URI
         $segs = $this->uri->segment_array();
         $crumb_uri = substr(base_url(), 0, -1);
@@ -512,7 +509,7 @@ class Frontend_Controller extends MY_Controller {
         return array_reverse($crumbs);
     }
 
-    function render_crumbs($crumb_arr) {
+    public function render_crumbs($crumb_arr) {
         // crumbs
         $return_html = '<ul class="c-page-breadcrumbs c-theme-nav c-pull-right c-fonts-regular">';
         foreach ($crumb_arr as $display => $url) {
@@ -526,7 +523,7 @@ class Frontend_Controller extends MY_Controller {
         return $return_html;
     }
 
-    function render_topbar_html($params) {
+    public function render_topbar_html($params) {
         if (isset($params['sub_title'])) {
             $return_html = '<div class="c-layout-breadcrumbs-1 c-subtitle c-fonts-uppercase c-fonts-bold">';
         } else {
@@ -552,7 +549,7 @@ class Frontend_Controller extends MY_Controller {
         return $return_html;
     }
 
-    function get_bullet_color($params) {
+    public function get_bullet_color($params) {
 
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event inforamtion";
@@ -576,7 +573,7 @@ class Frontend_Controller extends MY_Controller {
         return $return;
     }
 
-    function getL2Keys($array) {
+    public function getL2Keys($array) {
         $result = array();
         foreach ($array as $sub) {
             $result = array_merge($result, $sub);
@@ -584,7 +581,7 @@ class Frontend_Controller extends MY_Controller {
         return array_keys($result);
     }
 
-    function get_edition_name_from_status($edition_name, $edition_status) {
+    public function get_edition_name_from_status($edition_name, $edition_status) {
         // set edition names
         $e_names['edition_name'] = $edition_name;
         $e_names['edition_name_clean'] = $edition_name;
@@ -600,7 +597,7 @@ class Frontend_Controller extends MY_Controller {
         return $e_names;
     }
 
-    function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
+    public function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
 
         $return_name = $race_name;
         if (empty($race_name)) {
@@ -618,9 +615,7 @@ class Frontend_Controller extends MY_Controller {
         return $return_name;
     }
 
-    // generate html for the accordian holding event data
-
-    function render_races_accordian_html($race_summary, $filter_title = "All") {
+    public function render_races_accordian_html($race_summary, $filter_title = "All") {
         $this->load->model('race_model');
 
         $return_html_arr = [];
@@ -825,7 +820,7 @@ class Frontend_Controller extends MY_Controller {
         return implode("", $return_html_arr);
     }
 
-    function render_races_table_html($race_summary, $page = "other") {
+    public function render_races_table_html($race_summary, $page = "other") {
         $return_html_arr = [];
 
         if ($race_summary) {
@@ -875,10 +870,55 @@ class Frontend_Controller extends MY_Controller {
         return implode("", $return_html_arr);
     }
 
-    function get_area_list() {
+    public function get_area_list() {
         $this->load->model('area_model');
         $area_list = $this->area_model->get_area_list();
         return $area_list;
+    }
+
+    public function subscribe_user($user_data, $linked_to, $linked_id) {
+        // this function will add a user to a subscription        
+        $this->load->model('user_model');
+        $this->load->model('role_model');
+        $this->load->model('usersubscription_model');
+
+        // get user id
+        $user_id = $this->user_model->get_user_id($user_data['user_email']);
+        // new user
+        if (!$user_id) {
+            $user_data['role_arr'] = [2]; // role 2 = user
+            $user_id = $this->user_model->set_user("add", 0, $user_data, true);
+        } else {
+        // check if role 2 exist
+            $role_list = $this->role_model->get_role_list_per_user($user_id);
+            if (!in_array(2, $role_list)) {
+                $this->role_model->set_user_role($user_id,2);
+            }
+        }
+
+        // check if subscription exists
+        $sub_exists=$this->usersubscription_model->exists($user_id,$linked_to,$linked_id);
+        if ($sub_exists) {
+            $alert="<b>Note</b>: We found a subsciption already existed for the email address entered.<br>If you beliece this to be an error please contact the site administrator.";
+            $status="info";
+        } else {
+            $usersubscription_data = array(
+                'user_id' => $user_id,
+                'linked_to' => $linked_to,
+                'linked_id' => $linked_id,
+            );
+            $add=$this->usersubscription_model->set_usersubscription("add",$usersubscription_data);
+            if ($add) {
+                $alert="<b>Success!</b> Thank you. You have been added to the subscription";
+                $status="success";
+            } else {
+                $alert="<b>Note</b>:Failed to add subsciprtion. Please contact the site administrator";
+                $status="danger";
+            }
+        }
+        // set session flash data
+        $this->session->set_flashdata(['alert'=>$alert,'status'=>$status,]);
+        
     }
 
 }
