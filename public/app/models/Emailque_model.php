@@ -77,8 +77,8 @@ class Emailque_model extends MY_model {
         return $this->db->update('emailques', $data, array('emailque_id' => $emailque_id));
     }
 
-    public function set_emailque($action, $emailque_id, $data) {
-
+    public function set_emailque($action, $emailque_id, $data) {       
+        $data['updated_date'] = date("Y-m-d H:i:s"); 
         switch ($action) {
             case "add":
                 $this->db->trans_start();

@@ -9,30 +9,31 @@
     <div class="c-content-box c-size-md c-bg-white">
         <div class="container">
 
+
             <div class="row">
-                <div class="c-content-title-1">
-                    <h3 class="c-center c-font-dark c-font-uppercase">Sorry!</h3>
-                    <div class="c-line-center c-theme-bg"></div>
+                <div class="col-md-4">
+                    <div class="c-content-media-1 c-bordered" style="min-height: 380px; visibility: visible;">
+                        <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">404</div>
+                        <a href="#" class="c-title c-font-uppercase c-theme-on-hover c-font-bold">Page not found</a>
+                        <p>The page you are looking for seems to have been moved. Please use the menu above to navigate the site.</p>
+                        <div class="btn-group">
+                            <a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-margin-t-20" href="/">
+                                Return to Home page</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="c-center">
-                    <?php
-                    if ($this->session->flashdata('alert')) {
-                        $alert_msg = $this->session->flashdata('alert');
-                        $status = $this->session->flashdata('status');
-                        
-                        echo "<div class='alert alert-$status alert-dismissible' role='alert'>"
-                                . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>'
-                                . "$alert_msg"
-                                . "</div>";
-                        
-                    }
-                    ?>
-                    <p>The page you are looking for could not be found.<br>Please try again.</p>
-                    <p>&nbsp;</p>
-                    <p><a class="btn c-theme-btn c-btn-uppercase btn-lg c-btn-bold c-btn-round" href="/">
-                        <i class="icon-home"></i> Home</a></p>
+
+                <div class="col-md-8">		
+                    <div class="c-content-media-2-slider" data-slider="owl" style="visibility: visible;">
+                        <div class="c-content-label c-font-uppercase c-font-bold">Why do we run?</div>
+
+                        <div class="c-content-media-2 c-bg-img-center" style="background-image: url(img/404.jpg); min-height: 380px;">
+
+                        </div>		
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!-- END: CONTENT/FEATURES/FEATURES-1 -->

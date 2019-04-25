@@ -3,8 +3,8 @@
     $segs = $this->uri->segment_array();
     $uri_string = $this->uri->uri_string();
     array_shift($segs);
-    // echo $uri_string;
-    // wts($segs);
+//     echo $uri_string;
+//     wts($segs);
 
     if (empty($segs)) { $segs[0]='dashboard'; }
     // if (!isset($segs[2])) { $segs[2]="dashboard"; }
@@ -32,15 +32,11 @@
 
                     foreach ($section['submenu'] as $page_key=>$page) {
                         if ($page_key==0) { $s="start"; } else { $s=''; }
-                        // if (@in_array($segs[1],$page['seg1'])) { $s.=" active open"; }
-                        if ($uri_string==$page['url']) { $s.=" active open"; }
+                        if (strpos($uri_string, $page['url']) !== false) { $s.=" active open"; }
                         echo "<li class='nav-item $s'>";
                             echo "<a href='".base_url().$page['url']."/' class='nav-link'>";
                             if (@$page['icon']) { echo "<i class='icon-".$page['icon']."'></i> "; }
                             echo "<span class='title'>$page[text]</span>";
-                        if (@in_array($segs[1],$section['seg1'])) {
-                            echo "<span class='selected'></span>";
-                        }
                         echo "</a></li>";
                     }
 

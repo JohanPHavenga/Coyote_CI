@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="c-content-title-1 c-title-md">
-                            <h3 class="c-title c-font-uppercase c-font-bold">Menu</h3>
+                            <h3 class="c-font-white c-font-uppercase c-font-bold">Main Menu</h3>
                             <div class="c-line-left hide"></div>
                         </div>
                         <ul class="c-links c-theme-ul">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="c-content-title-1 c-title-md">
-                            <h3 class="c-title c-font-uppercase c-font-bold">Races by area</h3>
+                            <h3 class="c-font-white c-font-uppercase c-font-bold">Events By Area</h3>
                             <div class="c-line-left hide"></div>
                         </div>
                         <ul class="c-links c-theme-ul">
@@ -53,53 +53,42 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="c-content-title-1 c-title-md">
-                            <h3 class="c-title c-font-uppercase c-font-bold">Races by date</h3>
+                            <h3 class="c-font-white c-font-uppercase c-font-bold">Events By Date</h3>
                             <div class="c-line-left hide"></div>
                         </div>
                         <ul class="c-links c-theme-ul">
-                            <?php                            
+                            <?php
                             foreach ($date_list as $year => $month_list) {
                                 foreach ($month_list as $month_number => $month_name) {
-                                    echo "<li><a href='" . base_url() . "calendar/".$year."/".$month_number."'>" . $month_name . "</a></li>";
+                                    echo "<li><a href='" . base_url() . "calendar/" . $year . "/" . $month_number . "'>" . $month_name . "</a></li>";
                                 }
                             }
                             ?>
                         </ul>
                     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="c-content-title-1 c-title-md">
-                            <h3 class="c-title c-font-uppercase c-font-bold">About
-                                <span class="c-theme-font">RoadRunning.co.za</span>
-                            </h3>
-                            <div class="c-line-left hide"></div>
+                    <div class="col-md-3">
+                        <div class="c-container c-last">
+                            <div class="c-content-title-1 c-title-md">
+                                <h3 class="c-font-uppercase c-font-bold c-font-white">Get In Touch</h3>
+                                <div class="c-line-left hide"></div>
+                                <p>Please get in touch, we would love to hear from you. Send us suggestions on how we can make this site even better.</p>
+                            </div>
+                            <ul class="c-socials">
+                                <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Follow us on Facebook"><i class="icon-social-facebook"></i></a></li>
+                                <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
+<!--                                <li><a href="#"><i class="icon-social-youtube"></i></a></li>
+                                <li><a href="#"><i class="icon-social-tumblr"></i></a></li>-->
+                            </ul>
+                            <ul class="c-address">
+                                <li><i class="icon-pointer c-theme-font"></i> Cape Town, South Africa</li>
+                                <!--<li><i class="icon-call-end c-theme-font"></i> +1800 1234 5678</li>-->
+                                <li><i class="icon-envelope c-theme-font"></i> <a href="mailto:info@roadrunning.co.za">info@roadrunning.co.za</a></li>
+                            </ul>
                         </div>
-                        <p class="c-text c-font-16 c-font-regular">
-                            We are amateur runners in it for the love of the road, the simplicity and beauty of it.
-                            This website intends to be a comprehensive listing site for road running events in and around the Cape Town area.
-                        </p>
                     </div>
-                    <!-- <div class="col-md-3 col-sm-12 col-xs-12">
-                        <div class="c-content-title-1 c-title-md">
-                            <h3 class="c-title c-font-uppercase c-font-bold">Contact Us</h3>
-                            <div class="c-line-left hide"></div>
-                        </div>
-                        <p class="c-address c-font-16"> 25, Lorem Lis Street, Orange
-                            <br/> California, US
-                            <br/> Phone: 800 123 3456
-                            <br/> Fax: 800 123 3456
-                            <br/> Email:
-                            <a href="mailto:info@jango.com">
-                                <span class="c-theme-color">info@jango.com</span>
-                            </a>
-                            <br/> Skype:
-                            <a href="#">
-                                <span class="c-theme-color">jango</span>
-                            </a>
-                        </p>
-                    </div> -->
                 </div>
             </div>
-            <!-- <div class="c-line"></div>
+<!--            <div class="c-line"></div>
             <div class="c-foot">
                 <div class="row">
                     <div class="col-md-7">
@@ -110,8 +99,9 @@
                             <div class="c-line-left hide"></div>
                         </div>
                         <p class="c-text c-font-16 c-font-regular">
-                            We are amateur runners in it for the love of the road, the simplicity and beauty of it.
-                            This website intends to be a comprehensive listing site for road running events in and around the Cape Town area.
+                            We are amateur runners in it for the love of the road, the simplicity and beauty of it.<br>
+                            This project started out due to a lack of a <b>comprehensive, modern listing site for running events</b>. 
+                            Since then a few has been established, but our goal remains and the mission is to become the <b>number one road running events listing site</b> in the country.
                         </p>
                     </div>
                     <div class="col-md-5">
@@ -120,9 +110,9 @@
                             <div class="c-line-left hide"></div>
                         </div>
                         <div class="c-line-left hide"></div>
-                        <form action="#">
+                        <form action="/newsletter">
                             <div class="input-group input-group-lg c-square">
-                                <input type="text" class="c-input form-control c-square c-theme" placeholder="Your Email Here" />
+                                <input type="email" class="c-input form-control c-square c-theme" placeholder="Your Email Here" name="demail"/>
                                 <span class="input-group-btn">
                                     <button class="btn c-theme-btn c-theme-border c-btn-square c-btn-uppercase c-font-16" type="button">Subscribe</button>
                                 </span>
@@ -147,8 +137,8 @@
                         <li><a href="https://www.patreon.com/roadrunningza" target="_blank" title="Support us on Patreon">
                                 <img src="/img/become_a_patron.png" alt="Support us on Patreon" style="height: 36px; margin-top: 1px;"></a>
                         </li>
-                        <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
-                        <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>
+<!--                                                        <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
+                        <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>-->
                       <!--<li><a href="#"><i class="icon-social-youtube"></i></a></li>-->
                       <!--<li><a href="#"><i class="icon-social-dribbble"></i></a></li>-->
                     </ul>
@@ -173,21 +163,21 @@
 <link href="<?= base_url('css/theme.css'); ?>" rel="stylesheet" id="style_theme" type="text/css" />
 <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
 <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" /
-<noscript>
-    <!--<link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />-->
-    <link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
+      <noscript>
+          <!--<link href="<?= base_url('plugins/bootstrap-social/bootstrap-social.css'); ?>" rel="stylesheet" type="text/css" />-->
+<link href="<?= base_url('plugins/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('plugins/simple-line-icons/simple-line-icons.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('plugins/animate/animate.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('css/plugins.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />
 </noscript>
 
 <!-- END GLOBAL MANDATORY STYLES -->
-        
-        <!-- BEGIN THEME STYLES -->
-        <!--<link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />-->
-        <!-- END THEME STYLES -->
-        
+
+<!-- BEGIN THEME STYLES -->
+<!--<link href="<?= base_url('css/custom.css'); ?>" rel="stylesheet" type="text/css" />-->
+<!-- END THEME STYLES -->
+
 <!-- DEFER LOADING OF CSS FILES -->
 <script type="text/javascript">
     /* Font Awesome */
@@ -197,7 +187,7 @@
     font_awesome.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(font_awesome, godefer);
-    
+
     /* Simple Line Icons */
     var simple_line_icons = document.createElement('link');
     simple_line_icons.rel = 'stylesheet';
@@ -205,7 +195,7 @@
     simple_line_icons.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(simple_line_icons, godefer);
-    
+
     /* Animate */
     var animate = document.createElement('link');
     animate.rel = 'stylesheet';
@@ -213,7 +203,7 @@
     animate.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(animate, godefer);
-    
+
     /* Plugins */
     var plugins = document.createElement('link');
     plugins.rel = 'stylesheet';
@@ -221,7 +211,7 @@
     plugins.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(plugins, godefer);
-        
+
     /* Custom */
     var custom = document.createElement('link');
     custom.rel = 'stylesheet';
@@ -246,7 +236,7 @@
 <?php
 // load extra JS files from controller
 if (isset($js_to_load)) :
-    foreach ($js_to_load as $row):    
+    foreach ($js_to_load as $row):
         if (substr($row, 0, 4) == "http") {
             $js_link = $row;
         } else {

@@ -1,6 +1,6 @@
 <?php
 
-class Emailtemplate_model extends MY_model {
+class Emailmerge_model extends MY_model {
 
     public function __construct() {
         parent::__construct();
@@ -8,13 +8,13 @@ class Emailtemplate_model extends MY_model {
     }
 
     public function record_count() {
-        return $this->db->count_all("emailtemplates");
+        return $this->db->count_all("emailmerges");
     }
 
-    public function get_emailtemplate_list($top = 0) {
+    public function get_emailmerge_list($top=0) {
 
-        $this->db->select("emailtemplates.*");
-        $this->db->from("emailtemplates");
+        $this->db->select("emailmerges.*");
+        $this->db->from("emailmerges");
         if ($top > 0) {
             $this->db->limit($top);
         }
@@ -22,18 +22,20 @@ class Emailtemplate_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[$row['emailtemplate_id']] = $row;
+                $count_arr= explode(",",$row['emailmerge_recipients']);
+                $row['count']=count($count_arr);
+                $data[$row['emailmerge_id']] = $row;
             }
             return $data;
         }
         return false;
     }
 
-    public function get_emailtemplate_detail($id) {
+    public function get_emailmerge_detail($id) {
 
-        $this->db->select("emailtemplates.*");
-        $this->db->from("emailtemplates");
-        $this->db->where("emailtemplate_id", $id);
+        $this->db->select("emailmerges.*");
+        $this->db->from("emailmerges");
+        $this->db->where("emailmerge_id", $id);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->row_array();
@@ -41,19 +43,20 @@ class Emailtemplate_model extends MY_model {
         return false;
     }
 
-    public function set_emailtemplate($action, $emailtemplate_id, $data) {
+    public function set_emailmerge($action, $emailmerge_id, $data) {    
+        $data['updated_date'] = date("Y-m-d H:i:s"); 
         switch ($action) {
             case "add":
                 $this->db->trans_start();
-                $this->db->insert('emailtemplates', $data);
+                $this->db->insert('emailmerges', $data);
                 // get edition ID from Insert
-                $emailtemplate_id = $this->db->insert_id();
+                $emailmerge_id = $this->db->insert_id();
                 $this->db->trans_complete();
                 break;
             case "edit":
                 $this->db->trans_start();
                 $data['updated_date'] = date("Y-m-d H:i:s");
-                $this->db->update('emailtemplates', $data, array('emailtemplate_id' => $emailtemplate_id));
+                $this->db->update('emailmerges', $data, array('emailmerge_id' => $emailmerge_id));
                 $this->db->trans_complete();
                 break;
             default:
@@ -62,18 +65,18 @@ class Emailtemplate_model extends MY_model {
         }
         // return ID if transaction successfull
         if ($this->db->trans_status()) {
-            return $emailtemplate_id;
+            return $emailmerge_id;
         } else {
             return false;
         }
     }
 
-    public function remove_emailtemplate($id) {
+    public function remove_emailmerge($id) {
         if (!($id)) {
             return false;
         } else {
             $this->db->trans_start();
-            $this->db->delete('emailtemplates', array('emailtemplate_id' => $id));
+            $this->db->delete('emailmerges', array('emailmerge_id' => $id));
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
@@ -81,12 +84,12 @@ class Emailtemplate_model extends MY_model {
 
     public function copy_template($id) {
         /* generate the select query */
-        $this->db->where('emailtemplate_id', $id);
-        $query = $this->db->get('emailtemplates');
+        $this->db->where('emailmerge_id', $id);
+        $query = $this->db->get('emailmerges');
 
         foreach ($query->result() as $row) {
             foreach ($row as $key => $val) {
-                if ($key != 'emailtemplate_id') {
+                if ($key != 'emailmerge_id') {
                     /* $this->db->set can be used instead of passing a data array directly to the insert or update functions */
                     $this->db->set($key, $val);
                 }//endif              
@@ -95,32 +98,15 @@ class Emailtemplate_model extends MY_model {
 
         /* insert the new record into table */
         $this->db->trans_start();
-        $this->db->insert('emailtemplates');
+        $this->db->insert('emailmerges');
         $edition_id = $this->db->insert_id();
         $this->db->trans_complete();
-
+        
         if ($this->db->trans_status()) {
             return $edition_id;
         } else {
             return false;
         }
-    }
-
-    public function get_emailtemplate_dropdown() {
-        $this->db->select("emailtemplate_id, emailtemplate_name, emailtemplate_linked_to");
-        $this->db->from("emailtemplates");
-        $this->db->order_by("emailtemplate_linked_to, emailtemplate_name");
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            $data[0] = "None";
-            foreach ($query->result_array() as $row) {
-                $data[$row['emailtemplate_id']] = ucfirst($row['emailtemplate_linked_to'])." | ".$row['emailtemplate_name'];
-            }
-//                return array_slice($data, 0, 500, true);
-            return $data;
-        }
-        return false;
     }
 
 }

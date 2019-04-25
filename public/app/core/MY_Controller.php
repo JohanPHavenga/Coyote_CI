@@ -187,7 +187,7 @@ class Admin_Controller extends MY_Controller {
                 "submenu" => [
                     [
                         "text" => "Events",
-                        "url" => 'admin/event/view',
+                        "url" => 'admin/event',
                         "icon" => "rocket",
                     ],
                     [
@@ -210,28 +210,23 @@ class Admin_Controller extends MY_Controller {
                 "seg0" => ['town', 'file', 'url', 'quote'],
                 "submenu" => [
                     [
-                        "text" => "Search Towns",
-                        "url" => 'admin/town/search',
+                        "text" => "Towns",
+                        "url" => 'admin/town',
                         "icon" => "home",
                     ],
                     [
                         "text" => "Files",
-                        "url" => 'admin/file/view',
+                        "url" => 'admin/file',
                         "icon" => "folder-alt",
                     ],
                     [
                         "text" => "URLs",
-                        "url" => 'admin/url/view',
+                        "url" => 'admin/url',
                         "icon" => "link",
                     ],
                     [
-                        "text" => "Email Templates",
-                        "url" => 'admin/emailtemplate/view',
-                        "icon" => "envelope-letter",
-                    ],
-                    [
                         "text" => "Quotes",
-                        "url" => 'admin/quote/view',
+                        "url" => 'admin/quote',
                         "icon" => "speech",
                     ],
                 ],
@@ -241,23 +236,37 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Email Module",
                 "url" => 'admin/emailque/view/4',
                 "icon" => "envelope",
-                "seg0" => ['emailque', 'emailmerges'],
+                "seg0" => ['emailque', 'emailmerge', 'emailtemplate'],
                 "submenu" => [
                     [
                         "text" => "Drafts",
                         "url" => 'admin/emailque/view/4',
+                        "icon" => "pencil",
                     ],
                     [
                         "text" => "Pending",
                         "url" => 'admin/emailque/view/5',
+                        "icon" => "login",
                     ],
                     [
                         "text" => "Sent",
                         "url" => 'admin/emailque/view/6',
+                        "icon" => "like",
                     ],
                     [
                         "text" => "Failed",
                         "url" => 'admin/emailque/view/7',
+                        "icon" => "dislike",
+                    ],
+                    [
+                        "text" => "Email Merges",
+                        "url" => 'admin/emailmerge',
+                        "icon" => "envelope-open",
+                    ],
+                    [
+                        "text" => "Email Templates",
+                        "url" => 'admin/emailtemplate',
+                        "icon" => "envelope-letter",
                     ],
                 ],
             ],
@@ -270,37 +279,37 @@ class Admin_Controller extends MY_Controller {
                 "submenu" => [
                     [
                         "text" => "ASA Members",
-                        "url" => 'admin/asamember/view',
+                        "url" => 'admin/asamember',
                         "icon" => "umbrella",
                     ],
                     [
                         "text" => "Roles",
-                        "url" => 'admin/role/view',
+                        "url" => 'admin/role',
                         "icon" => "user",
                     ],
                     [
                         "text" => "Race Types",
-                        "url" => 'admin/racetype/view',
+                        "url" => 'admin/racetype',
                         "icon" => "compass",
                     ],
                     [
                         "text" => "File Types",
-                        "url" => 'admin/filetype/view',
+                        "url" => 'admin/filetype',
                         "icon" => "folder",
                     ],
                     [
                         "text" => "URL Types",
-                        "url" => 'admin/urltype/view',
+                        "url" => 'admin/urltype',
                         "icon" => "link",
                     ],
                     [
                         "text" => "Areas",
-                        "url" => 'admin/area/view',
+                        "url" => 'admin/area',
                         "icon" => "map",
                     ],
                     [
                         "text" => "Provinces",
-                        "url" => 'admin/province/view',
+                        "url" => 'admin/province',
                         "icon" => "globe-alt",
                     ],
                 ],
@@ -310,16 +319,16 @@ class Admin_Controller extends MY_Controller {
                 "text" => "Users",
                 "url" => 'admin/user',
                 "icon" => "users",
-                "seg0" => ['user', 'usersubscriptions'],
+                "seg0" => ['user', 'usersubscription'],
                 "submenu" => [
                     [
                         "text" => "List users",
-                        "url" => 'admin/user/view',
+                        "url" => 'admin/user',
                         "icon" => "users",
                     ],
                     [
                         "text" => "User Subscriptions",
-                        "url" => 'admin/usersubscription/view',
+                        "url" => 'admin/usersubscription',
                         "icon" => "present",
                     ],
                 ],
@@ -457,6 +466,12 @@ class Frontend_Controller extends MY_Controller {
                 "url" => base_url('/faq'),
                 "section" => 'faq',
             ],
+            // Newletter
+//            [
+//                "text" => "Newsletter",
+//                "url" => base_url('/newsletter'),
+//                "section" => 'newsletter',
+//            ],
             // Contact
             [
                 "text" => "Contact Us",

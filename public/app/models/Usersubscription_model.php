@@ -29,7 +29,7 @@ class Usersubscription_model extends MY_model {
         $this->db->select("*");
         $this->db->from("usersubscriptions");
 
-        if ($linked_id > 0) {
+        if ($linked_to) {
             $this->db->where('linked_to', $linked_to);
             $this->db->where('linked_id', $linked_id);
         }

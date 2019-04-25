@@ -204,6 +204,18 @@ if ( ! function_exists('flableStatus'))
                 $text="Cancelled";
                 $status="warning";
                 break;
+            case 4:
+                $text="Draft";
+                $status="warning";
+                break;
+            case 8:
+                $text="Completed";
+                $status="success";
+                break;
+            case 9:
+                $text="Postponed";
+                $status="warning";
+                break;
             default:
                 $text="No Status";
                 $status="warning";
