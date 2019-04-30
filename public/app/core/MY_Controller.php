@@ -403,9 +403,9 @@ class Admin_Controller extends MY_Controller {
         return $new_newsletter_data;
     }
     
-    public function formulate_newsletter_table($newsletter_data, $period) {
+    public function formulate_newsletter_table($newsletter_data, $period, $is_newsletter=false) {
         $this->load->library('table');
-        $this->table->set_template(ftable('newsletter_'.$period));
+        $this->table->set_template(ftable('newsletter_'.$period,$is_newsletter));
         switch ($period) {
             case "past":
                 $colspan=3;

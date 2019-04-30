@@ -356,11 +356,16 @@ if ( ! function_exists('fLink'))
 
 if ( ! function_exists('ftable')) 
 {
-    function ftable($id="") 
+    function ftable($id="",$is_newsletter=false) 
     {
-        $template = array(
-                'table_open' => '<table class="table table-striped table-bordered table-hover order-column" id="'.$id.'">'
-        );
+        $template = array('table_open' => '<table class="table table-striped table-bordered table-hover order-column" id="'.$id.'">');
+        if ($is_newsletter) {
+            $template = array(
+                'table_open' => '<table style="border: 1px solid #e7ecf1;width: 100%;margin-bottom: 20px;border-collapse: collapse;border-spacing: 0;" id="'.$id.'" border="0" cellpadding="0" cellspacing="0">',
+                'cell_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top;background-color: #fbfcfd;">',
+                'cell_alt_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top;">',
+            );
+        }
         return $template;
     }
 }
