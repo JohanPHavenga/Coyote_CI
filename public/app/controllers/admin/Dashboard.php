@@ -87,29 +87,9 @@ class Dashboard extends Admin_Controller {
             $this->data_to_view['event_list_noresults'] = $this->event_model->get_event_list_summary("date_range", $params);
 
             // get newsletter data
-            $this->load->model('url_model');
-            $newsletter_data = $this->event_model->get_event_data_newsletter();            
-            foreach ($newsletter_data as $period => $period_list) {
-                foreach ($period_list as $year => $year_list) {
-                    foreach ($year_list as $month => $month_list) {
-                        foreach ($month_list as $day => $edition_list) {
-                            foreach ($edition_list as $id=>$edition) {
-                                $url_list=$this->url_model->get_url_list("edition",$id ,true);
-                                if (isset($url_list[5])) {
-                                    $edition['edition_online_entry']=1;
-                                } else {                                    
-                                    $edition['edition_online_entry']=0;
-                                }
-                                
-                                $edition_url_name = encode_edition_name($edition['edition_name']);
-                                $edition['edition_url'] = base_url()."event/" . $edition_url_name;
-                                $new_newsletter_data[$period][$year][$month][$day][$id]=$edition;
-                            }
-                        }
-                    }
-                }
-            }
-            $this->data_to_view['event_list_newsletter'] = $new_newsletter_data;
+            $event_list_newsletter = $this->fetch_newsletter_data();
+            $this->data_to_view['newsletter_data']['past']=$this->formulate_newsletter_table($event_list_newsletter['past'],"past");
+            $this->data_to_view['newsletter_data']['future']=$this->formulate_newsletter_table($event_list_newsletter['future'],"future");
             
 
             // actions on the toolbar

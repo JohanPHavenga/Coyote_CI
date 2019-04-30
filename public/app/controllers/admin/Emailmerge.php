@@ -262,10 +262,19 @@ class Emailmerge extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
+    
+    
 
-    public function fill_variables($text, $data_arr) {
+    public function fill_variables($return_text, $data_arr) {
         // to replace %name% with name in data_arr etc.
-        $return_text = str_replace("%name%", $data_arr['name'], $text);
+        $return_text = str_replace("%name%", $data_arr['name'], $return_text);
+        $return_text = str_replace("%surname%", $data_arr['surname'], $return_text);
+        $return_text = str_replace("%email%", $data_arr['email'], $return_text);
+        
+        $newsletter_data = $this->fetch_newsletter_data();
+        $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past"), $return_text);
+        $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future"), $return_text);
+        
         return $return_text;
     }
 
@@ -274,6 +283,7 @@ class Emailmerge extends Admin_Controller {
         $merge_data = array(
             'name' => $user['user_name'],
             'surname' => $user['user_surname'],
+            'email' => $user['user_email'],
         );
         // switch on the linked type
         switch ($linked_to) {

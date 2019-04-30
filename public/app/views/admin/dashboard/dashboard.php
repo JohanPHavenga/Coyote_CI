@@ -123,30 +123,7 @@
             </div>
             <div class="portlet-body">
                 <?php
-                // create table
-//                wts($event_list_newsletter);
-                $this->table->set_template(ftable('editions_audit_past'));
-                foreach ($event_list_newsletter['past'] as $year => $year_list) {
-                    foreach ($year_list as $month => $month_list) {
-                        $cell = array('data' => "<b>$month</b>", 'colspan' => 3);
-                        $this->table->add_row($cell,"");
-                        $headers=["<b>Date</b>","<b>Event</b>","<b>Results loaded?</b>"];
-                        $this->table->add_row($headers);
-                        foreach ($month_list as $day => $edition_list) {
-                            foreach ($edition_list as $edition) {
-//                                if (!$edition['results_file']) {
-                                $row['date'] = fdateDay($edition['edition_date']);
-                                $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
-                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
-                                $row['admin'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>Admin</a>";
-                                $this->table->add_row($row);
-                                unset($row);
-//                                }
-                            }
-                        }
-                    }
-                }
-                echo $this->table->generate();
+                echo $newsletter_data['past'];
                 ?>
             </div>
         </div>
@@ -160,31 +137,7 @@
             </div>
             <div class="portlet-body">
                 <?php
-                // create table
-//                wts($event_list_newsletter);
-                $this->table->set_template(ftable('editions_audit_future'));
-                foreach ($event_list_newsletter['future'] as $year => $year_list) {
-                    foreach ($year_list as $month => $month_list) {
-                        $cell = array('data' => "<b>$month</b>", 'colspan' => 4);
-                        $this->table->add_row($cell,"");
-                        $headers=["<b>Date</b>","<b>Event</b>","<b>Info Confirmed?</b>","<b>Online entries open?</b>"];
-                        $this->table->add_row($headers);
-                        foreach ($month_list as $day => $edition_list) {
-                            foreach ($edition_list as $edition) {
-//                                if (!$edition['results_file']) {
-                                $row['date'] = fdateDay($edition['edition_date']);
-                                $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
-                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
-                                $row['entries'] = fyesNo($edition['edition_online_entry']);
-                                $row['admin'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>Admin</a>";
-                                $this->table->add_row($row);
-                                unset($row);
-//                                }
-                            }
-                        }
-                    }
-                }
-                echo $this->table->generate();
+                echo $newsletter_data['future'];
                 ?>
             </div>
         </div>

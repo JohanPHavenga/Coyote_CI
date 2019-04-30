@@ -21,7 +21,7 @@ echo form_open($form_url);
                             'name' => 'emailmerge_subject',
                             'id' => 'emailmerge_subject',
                             'value' => set_value('emailmerge_subject', utf8_encode(@$emailmerge_detail['emailmerge_subject'])),
-                            'class' => 'form-control',
+                            'class' => 'form-control input-xlarge',
                             'required' => '',
                         ]);
 
@@ -34,12 +34,25 @@ echo form_open($form_url);
                         echo form_label('Recipients <span class="compulsary">*</span>', 'emailmerge_recipients');
                         $dropdown_data = [
                             "id" => "emailmerge_recipients",
-                            "class" => "form-control input-large",
-                            "size" => 20,
+                            "class" => "form-control input-xlarge",
+                            "size" => 15,
                         ];
                         $select_arr = explode(",", $emailmerge_detail['emailmerge_recipients']);
                         echo form_multiselect('emailmerge_recipients[]', $user_dropdown, $select_arr, $dropdown_data);
                         echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+                        
+                        echo "<div class='row'>";
+                        echo "<div class='col-md-12'>";
+                        echo form_label('Variable Options');
+                        echo "<ul>";
+                            echo "<li>%name% - Adds user name</li>";
+                            echo "<li>%surname% - Adds user surname</li>";
+                            echo "<li>%email% - Adds user email address</li>";
+                            echo "<li>%events_past% - Adds table of events of past month</li>";
+                            echo "<li>%events_future% - Adds table of events for next 2 months</li>";
+                        echo "</ul>";
                         echo "</div>";
                         echo "</div>";
                         ?>

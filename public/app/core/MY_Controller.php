@@ -374,6 +374,79 @@ class Admin_Controller extends MY_Controller {
         return ['asa_member_id'];
     }
 
+    public function fetch_newsletter_data() {
+        
+        $this->load->model('url_model');
+        $this->load->model('event_model');
+        $newsletter_data = $this->event_model->get_event_data_newsletter(); 
+        
+        foreach ($newsletter_data as $period => $period_list) {
+            foreach ($period_list as $year => $year_list) {
+                foreach ($year_list as $month => $month_list) {
+                    foreach ($month_list as $day => $edition_list) {
+                        foreach ($edition_list as $id => $edition) {
+                            $url_list = $this->url_model->get_url_list("edition", $id, true);
+                            if (isset($url_list[5])) {
+                                $edition['edition_online_entry'] = 1;
+                            } else {
+                                $edition['edition_online_entry'] = 0;
+                            }
+
+                            $edition_url_name = encode_edition_name($edition['edition_name']);
+                            $edition['edition_url'] = base_url() . "event/" . $edition_url_name;
+                            $new_newsletter_data[$period][$year][$month][$day][$id] = $edition;
+                        }
+                    }
+                }
+            }
+        }
+        return $new_newsletter_data;
+    }
+    
+    public function formulate_newsletter_table($newsletter_data, $period) {
+        $this->load->library('table');
+        $this->table->set_template(ftable('newsletter_'.$period));
+        switch ($period) {
+            case "past":
+                $colspan=3;
+                $headers_end=["<b>Results loaded?</b>"];
+                break;
+            case "future":
+                $colspan=3;
+                $headers_end=["<b>Info Confirmed?</b>","<b>Online entries open?</b>"];
+                break;
+        }
+        foreach ($newsletter_data as $year => $year_list) {
+            foreach ($year_list as $month => $month_list) {
+                $cell = array('data' => "<b>$month</b>", 'colspan' => $colspan);
+                $this->table->add_row($cell,"");
+                $headers=["<b>Date</b>","<b>Event</b>",];
+                $headers=array_merge($headers,$headers_end);
+                $this->table->add_row($headers);
+                foreach ($month_list as $day => $edition_list) {
+                    foreach ($edition_list as $edition) {
+                        $row['date'] = fdateDay($edition['edition_date']);
+                        $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
+                        switch ($period) {
+                            case "past":
+                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
+                                break;
+                            case "future":
+                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
+                                $row['entries'] = fyesNo($edition['edition_online_entry']);
+                                break;
+                        }
+                        
+                        $this->table->add_row($row);
+                        unset($row);
+                    }
+                }
+            }
+        }
+        return $this->table->generate();        
+    }
+    
+
 }
 
 //=======================================
@@ -889,36 +962,35 @@ class Frontend_Controller extends MY_Controller {
             $user_data['role_arr'] = [2]; // role 2 = user
             $user_id = $this->user_model->set_user("add", 0, $user_data, true);
         } else {
-        // check if role 2 exist
+            // check if role 2 exist
             $role_list = $this->role_model->get_role_list_per_user($user_id);
             if (!in_array(2, $role_list)) {
-                $this->role_model->set_user_role($user_id,2);
+                $this->role_model->set_user_role($user_id, 2);
             }
         }
 
         // check if subscription exists
-        $sub_exists=$this->usersubscription_model->exists($user_id,$linked_to,$linked_id);
+        $sub_exists = $this->usersubscription_model->exists($user_id, $linked_to, $linked_id);
         if ($sub_exists) {
-            $alert="<b>Note</b>: We found a subsciption already existed for the email address entered.<br>If you beliece this to be an error please contact the site administrator.";
-            $status="info";
+            $alert = "<b>Note</b>: We found a subsciption already existed for the email address entered.<br>If you beliece this to be an error please contact the site administrator.";
+            $status = "info";
         } else {
             $usersubscription_data = array(
                 'user_id' => $user_id,
                 'linked_to' => $linked_to,
                 'linked_id' => $linked_id,
             );
-            $add=$this->usersubscription_model->set_usersubscription("add",$usersubscription_data);
+            $add = $this->usersubscription_model->set_usersubscription("add", $usersubscription_data);
             if ($add) {
-                $alert="<b>Success!</b> Thank you. You have been added to the subscription";
-                $status="success";
+                $alert = "<b>Success!</b> Thank you. You have been added to the subscription";
+                $status = "success";
             } else {
-                $alert="<b>Note</b>:Failed to add subsciprtion. Please contact the site administrator";
-                $status="danger";
+                $alert = "<b>Note</b>:Failed to add subsciprtion. Please contact the site administrator";
+                $status = "danger";
             }
         }
         // set session flash data
-        $this->session->set_flashdata(['alert'=>$alert,'status'=>$status,]);
-        
+        $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
     }
 
 }
