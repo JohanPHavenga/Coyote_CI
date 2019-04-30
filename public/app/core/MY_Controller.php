@@ -236,6 +236,11 @@ class Admin_Controller extends MY_Controller {
                 "seg0" => ['emailque', 'emailmerge', 'emailtemplate'],
                 "submenu" => [
                     [
+                        "text" => "Email Merges",
+                        "url" => 'admin/emailmerge',
+                        "icon" => "envelope-open",
+                    ],
+                    [
                         "text" => "Drafts",
                         "url" => 'admin/emailque/view/4',
                         "icon" => "pencil",
@@ -254,11 +259,6 @@ class Admin_Controller extends MY_Controller {
                         "text" => "Failed",
                         "url" => 'admin/emailque/view/7',
                         "icon" => "dislike",
-                    ],
-                    [
-                        "text" => "Email Merges",
-                        "url" => 'admin/emailmerge',
-                        "icon" => "envelope-open",
                     ],
                     [
                         "text" => "Email Templates",
@@ -408,7 +408,7 @@ class Admin_Controller extends MY_Controller {
         $this->table->set_template(ftable('newsletter_'.$period,$is_newsletter));
         switch ($period) {
             case "past":
-                $colspan=3;
+                $colspan=2;
                 $headers_end=["<b>Results loaded?</b>"];
                 break;
             case "future":

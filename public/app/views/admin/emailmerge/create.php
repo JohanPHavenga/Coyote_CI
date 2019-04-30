@@ -42,16 +42,17 @@ echo form_open($form_url);
                         echo "</div>";
                         echo "</div>";
                         echo "</div>";
-                        
+
                         echo "<div class='row'>";
                         echo "<div class='col-md-12'>";
                         echo form_label('Variable Options');
                         echo "<ul>";
-                            echo "<li>%name% - Adds user name</li>";
-                            echo "<li>%surname% - Adds user surname</li>";
-                            echo "<li>%email% - Adds user email address</li>";
-                            echo "<li>%events_past% - Adds table of events of past month</li>";
-                            echo "<li>%events_future% - Adds table of events for next 2 months</li>";
+                        echo "<li>%name% - Adds user name</li>";
+                        echo "<li>%surname% - Adds user surname</li>";
+                        echo "<li>%email% - Adds user email address</li>";
+                        echo "<li>%edition_name% - Adds name of event</li>";
+                        echo "<li>%events_past% - Adds table of events of past month</li>";
+                        echo "<li>%events_future% - Adds table of events for next 2 months</li>";
                         echo "</ul>";
                         echo "</div>";
                         echo "</div>";
@@ -76,9 +77,13 @@ echo form_open($form_url);
                             echo fbuttonSave($save_btn);
                             $save_close_btn = ["text" => "Save & Close", "value" => "save_close", "status" => "success"];
                             echo fbuttonSave($save_close_btn);
+                            $test_btn = ["text" => "Test Merge", "data-toggle" => "modal", "data-target" => "#mergeModal", "status" => "default", "type" => "button"];
+                            echo fbuttonSave($test_btn);
                             echo "</div>";
                         }
                         echo "<div class='btn-group' style='padding-bottom: 20px; float: right'>";
+                        $test_email_btn = ["text" => "Test email", "value" => "test_merge", "status" => "default"];
+                        echo fbuttonSave($test_email_btn);
                         if ($emailmerge_detail['emailmerge_status'] == 4) {
                             $merge_btn = ["text" => "Execute Merge", "value" => "merge", "status" => "warning"];
                             echo fbuttonSave($merge_btn);
@@ -96,3 +101,16 @@ echo form_open($form_url);
 <?php
 echo form_close();
 ?>
+
+<div class="modal fade bd-example-modal-lg" id="mergeModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <?= $test_merge_body; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

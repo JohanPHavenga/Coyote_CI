@@ -47,6 +47,7 @@
                             echo "<li>%name% - Adds user name</li>";
                             echo "<li>%surname% - Adds user surname</li>";
                             echo "<li>%email% - Adds user email address</li>";
+                            echo "<li>%edition_name% - Adds name of event</li>";
                             echo "<li>%events_past% - Adds table of events of past month</li>";
                             echo "<li>%events_future% - Adds table of events for next 2 months</li>";
                         echo "</ul>";

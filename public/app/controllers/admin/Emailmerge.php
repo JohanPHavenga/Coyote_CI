@@ -187,6 +187,11 @@ class Emailmerge extends Admin_Controller {
         } else {
             die("please use wizard");
         }
+        
+        // Create test merge
+        $emailmerge_data = $this->emailmerge_model->get_emailmerge_detail($this->data_to_view['emailmerge_detail']['emailmerge_id']);
+        $merge_data = $this->get_merge_data(60, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']); // 60 = info@roadrunning.co.za
+        $this->data_to_view['test_merge_body'] = $this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data);
 
         // set validation rules
         $this->form_validation->set_rules('emailmerge_subject', 'Subject', 'required');
@@ -219,8 +224,16 @@ class Emailmerge extends Admin_Controller {
                     case "save_only":
                         $this->return_url = base_url("admin/emailmerge/create/edit/" . $return_id);
                         break;
+                    case "test_merge":
+                        $run_merge=$this->merge($return_id,true);
+                        $this->return_url = base_url("admin/emailmerge/create/edit/" . $return_id);
+                        $alert=$run_merge['alert'];
+                        $msg=$run_alert['status'];
+                        break;
                     case "merge":
                         $run_merge=$this->merge($return_id);
+                        $alert=$run_merge['alert'];
+                        $msg=$run_alert['status'];
                         break;
                 }
             } else {
@@ -262,28 +275,32 @@ class Emailmerge extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
-    
-    
 
     public function fill_variables($return_text, $data_arr) {
         // to replace %name% with name in data_arr etc.
         $return_text = str_replace("%name%", $data_arr['name'], $return_text);
         $return_text = str_replace("%surname%", $data_arr['surname'], $return_text);
         $return_text = str_replace("%email%", $data_arr['email'], $return_text);
+        $return_text = str_replace("%edition_name%", @$data_arr['edition_name'], $return_text);
         
         $newsletter_data = $this->fetch_newsletter_data();
         $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past",true), $return_text);
         $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future",true), $return_text);
         
+        $return_text = str_replace("<p>", "<p style='font: 14px \"Open Sans\", sans-serif;'>", $return_text);
+        
+        
         return $return_text;
     }
 
-    public function set_merge_data($user, $linked_to, $linked_id) {
+    public function get_merge_data($user_id, $linked_to, $linked_id) {
+        $this->load->model('user_model');
+        $user_data = $this->user_model->get_user_detail($user_id);
         // set main return array
         $merge_data = array(
-            'name' => $user['user_name'],
-            'surname' => $user['user_surname'],
-            'email' => $user['user_email'],
+            'name' => $user_data['user_name'],
+            'surname' => $user_data['user_surname'],
+            'email' => $user_data['user_email'],
         );
         // switch on the linked type
         switch ($linked_to) {
@@ -300,22 +317,25 @@ class Emailmerge extends Admin_Controller {
         return $merge_data;
     }
 
-    public function merge($emailmerge_id) {
+    public function merge($emailmerge_id,$test=false) {
+        
         // load user model
-        $this->load->model('user_model');
         $this->load->model('emailque_model');
         // get the data
         $emailmerge_data = $this->emailmerge_model->get_emailmerge_detail($emailmerge_id);
-        // get recipient list
-        $recipient_list = explode(",", $emailmerge_data['emailmerge_recipients']);
+        // get recipient list        
+        if ($test) {
+            $recipient_list=[60]; // 60 = info@roadrunning.co.za
+        } else {        
+            $recipient_list = explode(",", $emailmerge_data['emailmerge_recipients']);
+        }
         // loop through recipients
         foreach ($recipient_list as $user_id) {
-            $user_data = $this->user_model->get_user_detail($user_id);
-            $merge_data = $this->set_merge_data($user_data, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']);
+            $merge_data = $this->get_merge_data($user_id, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']);
             $emailque_data = array(
                 'emailque_subject' => $emailmerge_data['emailmerge_subject'],
-                'emailque_to_address' => $user_data['user_email'],
-                'emailque_to_name' => $user_data['user_name'] . " " . $user_data['user_surname'],
+                'emailque_to_address' => $merge_data['email'],
+                'emailque_to_name' => $merge_data['name'] . " " . $merge_data['surname'],
                 'emailque_body' => $this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data),
                 'emailque_status' => 5,
                 'emailque_from_address' => $this->ini_array['email']['from_address'],
@@ -326,16 +346,27 @@ class Emailmerge extends Admin_Controller {
         }
 
         if ($emailque_id) {
-            $msg = "Merge was successfuly completed";
             $status = "success";
-            $this->set_status($emailmerge_id, 8); // 8 = completed
+            if ($test) { 
+                 $msg = "Test email successfully send";
+            } else {
+                $msg = "Merge was successfuly completed";
+                $this->set_status($emailmerge_id, 8); // 8 = completed                 
+            } 
         } else {
             $msg = "Error creating merge:'.$emailmerge_id";
             $status = "danger";
         }
 
-        $this->session->set_flashdata('alert', $msg);
-        $this->session->set_flashdata('status', $status);
+        $return=[
+            'alert'=>$msg,
+            'status'=>$status,
+            ];
+        
+        return $return;
+        
+//        $this->session->set_flashdata('alert', $msg);
+//        $this->session->set_flashdata('status', $status);
 //        redirect($this->return_url);
     }
 

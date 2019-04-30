@@ -263,7 +263,12 @@ if ( ! function_exists('fbuttonSave'))
         if (isset($params['status'])) { $status=$params['status']; } 
         $value="";
         if (isset($params['value'])) { $value=$params['value']; } 
-        return "<button type='submit' name='save-btn' class='btn btn-$status $btn_size' value='$value'>".@$params['text']."</button>";
+        $type="submit";
+        if (isset($params['type'])) { $type=$params['type']; } 
+        $dt="";
+        if (isset($params['data-toggle'])) { $dt="data-toggle='".$params['data-toggle']."' data-target='".$params['data-target']."'"; }
+        
+        return "<button type='$type' name='save-btn' class='btn btn-$status $btn_size' value='$value' $dt>".@$params['text']."</button>";
     }
 }
 
@@ -362,8 +367,8 @@ if ( ! function_exists('ftable'))
         if ($is_newsletter) {
             $template = array(
                 'table_open' => '<table style="border: 1px solid #e7ecf1;width: 100%;margin-bottom: 20px;border-collapse: collapse;border-spacing: 0;" id="'.$id.'" border="0" cellpadding="0" cellspacing="0">',
-                'cell_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top;background-color: #fbfcfd;">',
-                'cell_alt_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top;">',
+                'cell_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top;background-color: #fbfcfd; font: 14px "Open Sans", sans-serif;">',
+                'cell_alt_start' => '<td style="border: 1px solid #e7ecf1;padding: 8px;line-height: 1.42857;vertical-align: top; font: 14px "Open Sans", sans-serif;">',
             );
         }
         return $template;
