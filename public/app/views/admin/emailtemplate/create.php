@@ -39,6 +39,19 @@
                                 echo "</div>";
                             echo "</div>";
                         echo "</div>";
+                        
+                        echo "<div class='row'>";
+                        echo "<div class='col-md-12'>";
+                        echo form_label('Variable Options');
+                        echo "<ul>";
+                            echo "<li>%name% - Adds user name</li>";
+                            echo "<li>%surname% - Adds user surname</li>";
+                            echo "<li>%email% - Adds user email address</li>";
+                            echo "<li>%events_past% - Adds table of events of past month</li>";
+                            echo "<li>%events_future% - Adds table of events for next 2 months</li>";
+                        echo "</ul>";
+                        echo "</div>";
+                        echo "</div>";
                         ?>
                     </div> <!-- col -->
                     <div class="col-md-8">

@@ -272,8 +272,8 @@ class Emailmerge extends Admin_Controller {
         $return_text = str_replace("%email%", $data_arr['email'], $return_text);
         
         $newsletter_data = $this->fetch_newsletter_data();
-        $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past"), $return_text, true);
-        $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future"), $return_text, true);
+        $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past",true), $return_text);
+        $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future",true), $return_text);
         
         return $return_text;
     }
