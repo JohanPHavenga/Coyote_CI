@@ -24,7 +24,7 @@ class Newsletter extends Frontend_Controller {
         $this->form_validation->set_rules('dname', 'Name', 'required', 'Please enter your name');
         $this->form_validation->set_rules('dsurname', 'Surame', 'required', 'Please enter your last name');
         $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
-//        $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
+        $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
 
         $this->form_validation->set_message('required', 'Please complete the <b>{field}</b> field');
 //        wts($this->input->post());
