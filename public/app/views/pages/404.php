@@ -27,7 +27,7 @@
                     <div class="c-content-media-2-slider" data-slider="owl" style="visibility: visible;">
                         <div class="c-content-label c-font-uppercase c-font-bold">Why do we run?</div>
 
-                        <div class="c-content-media-2 c-bg-img-center" style="background-image: url(img/404.jpg); min-height: 380px;">
+                        <div class="c-content-media-2 c-bg-img-center" style="background-image: url(<?=base_url();?>/img/404.jpg); min-height: 380px;">
 
                         </div>		
                     </div>
