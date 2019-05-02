@@ -287,10 +287,16 @@ class Emailmerge extends Admin_Controller {
         $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past",true), $return_text);
         $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future",true), $return_text);
         
-        $return_text = str_replace("<p>", "<p style='font: 14px \"Open Sans\", sans-serif;'>", $return_text);
-        
+//        $return_text = str_replace("<p>", "<p style='font: 14px \"Open Sans\", sans-serif;'>", $return_text);        
         
         return $return_text;
+    }
+    
+    private function set_email_html($text) {
+        $start = "<body>";
+        $end = "</body>";
+        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);        
+        return $start.$text.$end;
     }
 
     public function get_merge_data($user_id, $linked_to, $linked_id) {
@@ -332,11 +338,12 @@ class Emailmerge extends Admin_Controller {
         // loop through recipients
         foreach ($recipient_list as $user_id) {
             $merge_data = $this->get_merge_data($user_id, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']);
+            $body_text=$this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data);
             $emailque_data = array(
                 'emailque_subject' => $emailmerge_data['emailmerge_subject'],
                 'emailque_to_address' => $merge_data['email'],
                 'emailque_to_name' => $merge_data['name'] . " " . $merge_data['surname'],
-                'emailque_body' => $this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data),
+                'emailque_body' => $this->set_email_html($body_text),
                 'emailque_status' => 5,
                 'emailque_from_address' => $this->ini_array['email']['from_address'],
                 'emailque_from_name' => $this->ini_array['email']['from_name'],
