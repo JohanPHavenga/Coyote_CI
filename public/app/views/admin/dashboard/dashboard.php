@@ -114,7 +114,7 @@
             </div>
         </div>
         
-        <div class="portlet light">
+<!--        <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-rocket"></i>
@@ -140,7 +140,7 @@
                 echo $newsletter_data['future'];
                 ?>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 

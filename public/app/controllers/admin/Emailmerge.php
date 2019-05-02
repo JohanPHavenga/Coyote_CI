@@ -191,7 +191,7 @@ class Emailmerge extends Admin_Controller {
         // Create test merge
         $emailmerge_data = $this->emailmerge_model->get_emailmerge_detail($this->data_to_view['emailmerge_detail']['emailmerge_id']);
         $merge_data = $this->get_merge_data(60, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']); // 60 = info@roadrunning.co.za
-        $this->data_to_view['test_merge_body'] = $this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data);
+        $this->data_to_view['test_merge_body'] = $this->set_email_html($this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data),$merge_data);
 
         // set validation rules
         $this->form_validation->set_rules('emailmerge_subject', 'Subject', 'required');
@@ -275,38 +275,127 @@ class Emailmerge extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
+    
+    
+     public function fetch_newsletter_data() {
+        
+        $this->load->model('url_model');
+        $this->load->model('event_model');
+        $newsletter_data = $this->event_model->get_event_data_newsletter(); 
+        
+        foreach ($newsletter_data as $period => $period_list) {
+            foreach ($period_list as $year => $year_list) {
+                foreach ($year_list as $month => $month_list) {
+                    foreach ($month_list as $day => $edition_list) {
+                        foreach ($edition_list as $id => $edition) {
+                            $url_list = $this->url_model->get_url_list("edition", $id, true);
+                            if (isset($url_list[5])) {
+                                $edition['edition_online_entry'] = 1;
+                            } else {
+                                $edition['edition_online_entry'] = 0;
+                            }
 
-    public function fill_variables($return_text, $data_arr) {
-        // to replace %name% with name in data_arr etc.
-        $return_text = str_replace("%name%", $data_arr['name'], $return_text);
-        $return_text = str_replace("%surname%", $data_arr['surname'], $return_text);
-        $return_text = str_replace("%email%", $data_arr['email'], $return_text);
-        $return_text = str_replace("%edition_name%", @$data_arr['edition_name'], $return_text);
-        
-        $newsletter_data = $this->fetch_newsletter_data();
-        $return_text = str_replace("%events_past%", $this->formulate_newsletter_table($newsletter_data['past'],"past",true), $return_text);
-        $return_text = str_replace("%events_future%", $this->formulate_newsletter_table($newsletter_data['future'],"future",true), $return_text);
-        
-//        $return_text = str_replace("<p>", "<p style='font: 14px \"Open Sans\", sans-serif;'>", $return_text);        
-        
-        return $return_text;
+                            $edition_url_name = encode_edition_name($edition['edition_name']);
+                            $edition['edition_url'] = base_url() . "event/" . $edition_url_name;
+                            $new_newsletter_data[$period][$year][$month][$day][$id] = $edition;
+                        }
+                    }
+                }
+            }
+        }
+        return $new_newsletter_data;
     }
     
-    private function set_email_html($text) {
+    public function formulate_newsletter_table($newsletter_data, $period, $is_newsletter=false) {
+        $this->load->library('table');
+        $this->table->set_template(ftable('newsletter_'.$period,$is_newsletter));
+        switch ($period) {
+            case "past":
+                $colspan=2;
+                $headers_end=["<b>Results loaded?</b>"];
+                break;
+            case "future":
+                $colspan=3;
+                $headers_end=["<b>Info Confirmed?</b>","<b>Online entries open?</b>"];
+                break;
+        }
+        foreach ($newsletter_data as $year => $year_list) {
+            foreach ($year_list as $month => $month_list) {
+                $cell = array('data' => "<b>$month</b>", 'colspan' => $colspan);
+                $this->table->add_row($cell,"");
+                $headers=["<b>Date</b>","<b>Event</b>",];
+                $headers=array_merge($headers,$headers_end);
+                $this->table->add_row($headers);
+                foreach ($month_list as $day => $edition_list) {
+                    foreach ($edition_list as $edition) {
+                        $row['date'] = fdateDay($edition['edition_date']);
+                        $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
+                        switch ($period) {
+                            case "past":
+                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
+                                break;
+                            case "future":
+                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
+                                $row['entries'] = fyesNo($edition['edition_online_entry']);
+                                break;
+                        }
+                        
+                        $this->table->add_row($row);
+                        unset($row);
+                    }
+                }
+            }
+        }
+        return $this->table->generate();        
+    }
+    
+    
+    private function formulate_unsubscribe_url($user_id, $linked_to, $linked_id) {
+        $crypt=my_encrypt($user_id."|".$linked_to."|".$linked_id);
+        $url=base_url("subscription/unsubscribe/".$crypt);
+        return $url;
+    }
+
+    public function fill_variables($text, $data_arr) {
+        // to replace %name% with name in data_arr etc.
+        $newsletter_data = $this->fetch_newsletter_data();
+        $trans = array(
+            "%name%" => $data_arr['name'],            
+            "%surname%" => $data_arr['surname'],
+            "%email%" => $data_arr['email'],
+            "%edition_name%" => @$data_arr['edition_name'],
+            "%events_past%" => $this->formulate_newsletter_table($newsletter_data['past'],"past",true),
+            "%events_future%" => $this->formulate_newsletter_table($newsletter_data['future'],"future",true),
+            "%unsubscribe_url%" => $data_arr['unsubscribe_url'],
+            );
+        return strtr($text, $trans);
+    }
+    
+    private function set_email_html($text,$merge_data) {
         $start = "<body>";
-        $end = "</body>";
-        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);        
+        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
+        
+        $url=$merge_data['unsubscribe_url'];
+        $end = "<p style='text-align:center;font-family: arial, sans-serif; font-size: 11px;'>This email was sent to ".$merge_data['email']."<br>"
+               . "<a href='$url'>Unsubscribe</a> from this list<br>"
+               . "RoadRunning.co.za</p>";
+        
         return $start.$text.$end;
     }
 
     public function get_merge_data($user_id, $linked_to, $linked_id) {
         $this->load->model('user_model');
         $user_data = $this->user_model->get_user_detail($user_id);
+        $unsubscribe_url=$this->formulate_unsubscribe_url($user_id,$linked_to,$linked_id);
         // set main return array
         $merge_data = array(
+            'id' => $user_id,
             'name' => $user_data['user_name'],
             'surname' => $user_data['user_surname'],
             'email' => $user_data['user_email'],
+            'linked_to' => $linked_to,
+            'linked_id' => $linked_id,
+            'unsubscribe_url' => $unsubscribe_url,
         );
         // switch on the linked type
         switch ($linked_to) {
@@ -343,7 +432,7 @@ class Emailmerge extends Admin_Controller {
                 'emailque_subject' => $emailmerge_data['emailmerge_subject'],
                 'emailque_to_address' => $merge_data['email'],
                 'emailque_to_name' => $merge_data['name'] . " " . $merge_data['surname'],
-                'emailque_body' => $this->set_email_html($body_text),
+                'emailque_body' => $this->set_email_html($body_text,$merge_data),
                 'emailque_status' => 5,
                 'emailque_from_address' => $this->ini_array['email']['from_address'],
                 'emailque_from_name' => $this->ini_array['email']['from_name'],

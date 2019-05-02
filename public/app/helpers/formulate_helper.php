@@ -366,18 +366,12 @@ if ( ! function_exists('ftable'))
         $template = array('table_open' => '<table class="table table-striped table-bordered table-hover order-column" id="'.$id.'">');
         if ($is_newsletter) {
             $template = array(
-//                'table_open' => '<table style="border: 1px solid #e7ecf1;width: 100%;margin-bottom: 20px;border-collapse: collapse;border-spacing: 0;" id="'.$id.'" border="0" cellpadding="0" cellspacing="0">',
-//                'cell_start' => '<td style="border: 1px solid #e7ecf1;background-color: #fbfcfd; padding-bottom: 3px; font-family: Arial, sans-serif; font-size: 13px; mso-line-height-rule: exactly; line-height: 15px;">',
-//                'cell_alt_start' => '<td style="border: 1px solid #e7ecf1; font: 14px arial, sans-serif;">',
-                
                 'table_open' => '<table border="0" cellpadding="4" cellspacing="0" style="border: 1px solid #e7ecf1;width: 100%;">',
                 'cell_start' => '<td style="font-size: 15px;  line-height: 20px; border: 1px solid #e7ecf1;background-color: #fbfcfd;font-family: arial, sans-serif; font-size: 14px;">',
                 'cell_alt_start' => '<td style="font-size: 15px;  line-height: 20px; border: 1px solid #e7ecf1; font-family: arial, sans-serif; font-size: 14px;" >',
             );
         }
-        
-        // padding-bottom: 3px; font-family: Arial, sans-serif; font-size: 13px; mso-line-height-rule: exactly; line-height: 15px;
-        return $template;
+         return $template;
     }
 }
 

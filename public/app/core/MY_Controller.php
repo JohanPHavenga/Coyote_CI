@@ -373,78 +373,10 @@ class Admin_Controller extends MY_Controller {
     function get_asa_member_field_list() {
         return ['asa_member_id'];
     }
-
-    public function fetch_newsletter_data() {
-        
-        $this->load->model('url_model');
-        $this->load->model('event_model');
-        $newsletter_data = $this->event_model->get_event_data_newsletter(); 
-        
-        foreach ($newsletter_data as $period => $period_list) {
-            foreach ($period_list as $year => $year_list) {
-                foreach ($year_list as $month => $month_list) {
-                    foreach ($month_list as $day => $edition_list) {
-                        foreach ($edition_list as $id => $edition) {
-                            $url_list = $this->url_model->get_url_list("edition", $id, true);
-                            if (isset($url_list[5])) {
-                                $edition['edition_online_entry'] = 1;
-                            } else {
-                                $edition['edition_online_entry'] = 0;
-                            }
-
-                            $edition_url_name = encode_edition_name($edition['edition_name']);
-                            $edition['edition_url'] = base_url() . "event/" . $edition_url_name;
-                            $new_newsletter_data[$period][$year][$month][$day][$id] = $edition;
-                        }
-                    }
-                }
-            }
-        }
-        return $new_newsletter_data;
-    }
     
-    public function formulate_newsletter_table($newsletter_data, $period, $is_newsletter=false) {
-        $this->load->library('table');
-        $this->table->set_template(ftable('newsletter_'.$period,$is_newsletter));
-        switch ($period) {
-            case "past":
-                $colspan=2;
-                $headers_end=["<b>Results loaded?</b>"];
-                break;
-            case "future":
-                $colspan=3;
-                $headers_end=["<b>Info Confirmed?</b>","<b>Online entries open?</b>"];
-                break;
-        }
-        foreach ($newsletter_data as $year => $year_list) {
-            foreach ($year_list as $month => $month_list) {
-                $cell = array('data' => "<b>$month</b>", 'colspan' => $colspan);
-                $this->table->add_row($cell,"");
-                $headers=["<b>Date</b>","<b>Event</b>",];
-                $headers=array_merge($headers,$headers_end);
-                $this->table->add_row($headers);
-                foreach ($month_list as $day => $edition_list) {
-                    foreach ($edition_list as $edition) {
-                        $row['date'] = fdateDay($edition['edition_date']);
-                        $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
-                        switch ($period) {
-                            case "past":
-                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
-                                break;
-                            case "future":
-                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
-                                $row['entries'] = fyesNo($edition['edition_online_entry']);
-                                break;
-                        }
-                        
-                        $this->table->add_row($row);
-                        unset($row);
-                    }
-                }
-            }
-        }
-        return $this->table->generate();        
-    }
+    
+    // newsletter functions had to be put here to work in dashboard and merge
+   
     
 
 }

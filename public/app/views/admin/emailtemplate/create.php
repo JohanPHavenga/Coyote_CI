@@ -50,6 +50,7 @@
                             echo "<li>%edition_name% - Adds name of event</li>";
                             echo "<li>%events_past% - Adds table of events of past month</li>";
                             echo "<li>%events_future% - Adds table of events for next 2 months</li>";
+                            echo "<li>%unsubscribe_url% - Unsubscribe link</li>";                        
                         echo "</ul>";
                         echo "</div>";
                         echo "</div>";

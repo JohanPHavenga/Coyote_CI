@@ -58,7 +58,6 @@ class Newsletter extends Frontend_Controller {
         }
     }
 
-
     public function recaptcha($str = "") {
         $google_url = "https://www.google.com/recaptcha/api/siteverify";
         $secret = '6LcxdoYUAAAAAFphXeYMlOL2w5ysa9ovdOdCLJyP';
