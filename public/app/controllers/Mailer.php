@@ -51,6 +51,7 @@ class Mailer extends Frontend_Controller {
         $config['smtp_port'] = $this->ini_array['email']['smtp_port'];
         $config['smtp_crypto'] = $this->ini_array['email']['smtp_crypto'];
         $config['charset'] = $this->ini_array['email']['email_charset'];
+        $config['useragent'] = $this->ini_array['email']['useragent'];
         $this->email->initialize($config);
 
         $this->email->from($data['emailque_from_address'], $data['emailque_from_name']);
