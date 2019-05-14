@@ -98,7 +98,7 @@ class User_model extends MY_model {
         if (!($id)) {
             return false;
         } else {
-            $this->db->select("user_name, user_surname");
+            $this->db->select("user_id, user_name, user_surname, user_email");
             $this->db->from("users");
             $this->db->where('user_id', $id);
             $query = $this->db->get();

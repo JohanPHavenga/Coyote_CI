@@ -905,7 +905,7 @@ class Frontend_Controller extends MY_Controller {
         $sub_exists = $this->usersubscription_model->exists($user_id, $linked_to, $linked_id);
         if ($sub_exists) {
             $alert = "<b>Note</b>: We found a subsciption already existed for the email address entered.<br>If you beliece this to be an error please contact the site administrator.";
-            $status = "info";
+            $status = "warning";
         } else {
             $usersubscription_data = array(
                 'user_id' => $user_id,
@@ -923,6 +923,29 @@ class Frontend_Controller extends MY_Controller {
         }
         // set session flash data
         $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
+    }
+    
+    
+    public function recaptcha($str = "") {
+        $google_url = "https://www.google.com/recaptcha/api/siteverify";
+        $secret = '6LcxdoYUAAAAAFphXeYMlOL2w5ysa9ovdOdCLJyP';
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $url = $google_url . "?secret=" . $secret . "&response=" . $str . "&remoteip=" . $ip;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.16) Gecko/20110319 Firefox/3.6.16");
+        $res = curl_exec($curl);
+        curl_close($curl);
+        $res = json_decode($res, true);
+        //reCaptcha success check
+        if ($res['success']) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('recaptcha', 'The <b>reCAPTCHA</b> field is telling me that you are a robot. Shall we give it another try?');
+            return FALSE;
+        }
     }
 
 }

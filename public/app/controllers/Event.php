@@ -6,6 +6,7 @@ class Event extends Frontend_Controller {
         parent::__construct();
         $this->load->model('event_model');
         $this->data_to_header['section']="events";
+        $this->load->helper('cookie');
     }
 
     // check if method exists, if not calls "view" method
@@ -146,6 +147,9 @@ class Event extends Frontend_Controller {
             }
         }
         
+        // get cookie
+        $this->data_to_view['rr_cookie']['sub_email']=get_cookie("sub_email");
+        
         
         // set title bar
         // remove firt element in  crumbs_arr, and replace with generic text        
@@ -192,6 +196,9 @@ class Event extends Frontend_Controller {
             $this->data_to_view['box_color']= $box_color_arr[$bc];
         }
 
+        // subscribe to event
+        $this->load->view("/event/detail_subscribe", $this->data_to_view);
+
         // Event description
         $this->load->view("/event/detail_event_info_description", $this->data_to_view);
         $bc=!$bc;
@@ -201,7 +208,7 @@ class Event extends Frontend_Controller {
         // Google Add
         $this->load->view("/event/google_ad_bottom", $this->data_to_view);
         $bc=!$bc;  $this->data_to_view['box_color']=$box_color_arr[$bc];
-
+        
         // Detail footer
         $this->load->view("/event/detail_footer", $this->data_to_view);
 
@@ -209,6 +216,91 @@ class Event extends Frontend_Controller {
         $this->load->view($this->footer_url, $this->data_to_footer);
 
     }
+    
+    public function subscription() {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->data_to_header['title'] = "Event Subsciption";
+        
+        $edition_id = $this->session->flashdata('edition_id');
+        echo $edition_id;
+        die();
+
+        // set validation rules
+        $this->form_validation->set_rules('dname', 'Name', 'required', 'Please enter your name');
+        $this->form_validation->set_rules('dsurname', 'Surame', 'required', 'Please enter your last name');
+        $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
+
+        $this->form_validation->set_message('required', 'Please complete the <b>{field}</b> field');
+//        wts($this->input->post());
+        // set title bar
+        $this->data_to_header["title_bar"] = $this->render_topbar_html(
+                ["crumbs" => ["Event Subsciption" => "/newsletter", "Home" => "/"],
+        ]);
+
+        $this->data_to_footer['scripts_to_load'] = array(
+            "https://www.google.com/recaptcha/api.js"
+        );
+
+        // load correct view
+        if ($this->form_validation->run() === FALSE) {
+            $this->data_to_view['form_data'] = $_POST;
+
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view('newsletter/view', $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
+        } else {
+            $user_info = [
+                "user_email" => $this->input->post('demail'),
+                "user_name" => $this->input->post('dname'),
+                "user_surname" => $this->input->post('dsurname'),
+            ];
+            $success = $this->subscribe_user($user_info, "newsletter", 0);
+
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view('newsletter/view', $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
+        }
+    }
+    
+    
+    public function subscribe() {
+        $this->load->helper('email');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->model('edition_model'); 
+        $this->load->model('user_model');
+        
+        // check if edition ID was posted and get return URL
+        if (is_numeric($this->input->post("edition_id"))) {
+            $edition_name=$this->edition_model->get_edition_name_from_id($this->input->post("edition_id"));
+            $return_url = base_url()."event/".encode_edition_name($edition_name);
+        } else {
+            die("No return ID found");
+        }
+
+        // check vir valid email
+        if (valid_email($this->input->post("sub_email"))) {
+            set_cookie("sub_email",$this->input->post("sub_email"),604800);
+            $user_id = $this->user_model->get_user_id($this->input->post("sub_email"));            
+            
+            if ($user_id) {
+                $user_info=$this->user_model->get_user_name($user_id);
+                $success = $this->subscribe_user($user_info, "edition", $this->input->post("edition_id"));
+            } else {
+               $this->session->set_flashdata(['edition_id' => $this->input->post("edition_id")]);
+               redirect("/event/subscription");
+            }
+        } else {
+            $alert = "<b>Error</b>: You entered an invalid email address when subscribing to the event. Please try again.";
+            $status = "danger";
+            $this->session->set_flashdata(['alert' => $alert, 'status' => $status]);
+        }
+        redirect($return_url);
+    }
+    
+    
     
     function calc_urls_to_use($file_list,$url_list) {
         $calc_url_list=[];
