@@ -407,6 +407,8 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_header["menu_array"] = $this->set_top_menu_array();
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
         $this->data_to_footer["date_list"] = $this->get_date_list();
+        
+        $this->ini_array = parse_ini_file("server_config.ini", true);
     }
 
     public function show_my_404($msg, $status) {
@@ -880,6 +882,45 @@ class Frontend_Controller extends MY_Controller {
         $area_list = $this->area_model->get_area_list();
         return $area_list;
     }
+    
+    private function set_subscribe_confirmation_email($usersub_data) {
+        $this->load->model('user_model');
+        $this->load->model('emailque_model');
+        // get user data
+        $user_data=$this->user_model->get_user_detail($usersub_data['user_id']);
+        // get edition_data
+        if ($usersub_data['linked_to']=="edition") {
+            $this->load->model('edition_model');
+            $edition_data=$this->edition_model->get_edition_url_from_id($usersub_data['linked_id']);
+        }
+        // set body
+        switch ($usersub_data['linked_to']) {
+            case "newsletter":
+                $switch=" our <strong>monthly newletter</strong>.";
+                break;
+            case "edition":
+                $switch=" updates regarding the <strong>".$edition_data['edition_name']."</strong> event.";
+                break;
+        }
+        $body_arr[] = "Hi ".$user_data['user_name'];
+        $body_arr[] = "This is a courtesy email to confirm you have been subscribed to receive ".$switch;
+        $body_arr[] = "If this is not correct, please reply to this email.";
+        $body_arr[] = "Kind Regards";
+        $body_arr[] = "Johan from RoadRunning.co.za";
+        $body= implode("<br>", $body_arr);
+        
+        $data = array(
+            'emailque_subject' => ucfirst($usersub_data['linked_to'])." subscription successful",
+            'emailque_to_address' => $user_data['user_email'],
+            'emailque_to_name' => $user_data['user_name']." ".$user_data['user_surname'],
+            'emailque_body' => $body,
+            'emailque_status' => 5,
+            'emailque_from_address' => $this->ini_array['email']['from_address_server'],
+            'emailque_from_name' => $this->ini_array['email']['from_name_server'],
+            'emailque_bcc_address' => $this->ini_array['email']['bcc_address'],
+        );
+        $set = $this->emailque_model->set_emailque("add", 0, $data);
+    }
 
     public function subscribe_user($user_data, $linked_to, $linked_id) {
         // this function will add a user to a subscription        
@@ -904,16 +945,18 @@ class Frontend_Controller extends MY_Controller {
         // check if subscription exists
         $sub_exists = $this->usersubscription_model->exists($user_id, $linked_to, $linked_id);
         if ($sub_exists) {
-            $alert = "<b>Note</b>: We found a subsciption already existed for the email address entered.<br>If you beliece this to be an error please contact the site administrator.";
+            $alert = "<b>Note</b>: We found a subsciption already existed for the email address entered.  If you believe this to be an error please contact the site administrator.";
             $status = "warning";
         } else {
             $usersubscription_data = array(
                 'user_id' => $user_id,
                 'linked_to' => $linked_to,
                 'linked_id' => $linked_id,
-            );
+            );            
+            
             $add = $this->usersubscription_model->set_usersubscription("add", $usersubscription_data);
             if ($add) {
+                $email=$this->set_subscribe_confirmation_email($usersubscription_data);
                 $alert = "<b>Success!</b> Thank you. You have been added to the subscription";
                 $status = "success";
             } else {

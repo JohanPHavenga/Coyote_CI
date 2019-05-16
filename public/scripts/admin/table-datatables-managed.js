@@ -136,7 +136,7 @@ var TableDatatablesManaged = function () {
     var initEmailQueTable = function () {
         var table = $('#emailques_table');
         table.dataTable({
-            order: [[4, "asc"]],
+            order: [[4, "desc"]],
             responsive: true,
             columnDefs: [
                 {orderable: false, targets: [-1]},

@@ -1,6 +1,20 @@
 <div class="c-layout-page">
 
     <?= $title_bar; ?>
+     <?php
+    if ($this->session->flashdata('alert')) {
+        $alert_msg = $this->session->flashdata('alert');
+        if (!($this->session->flashdata('status'))) {
+            $status = 'warning';
+        } else {
+            $status = $this->session->flashdata('status');
+        }
+        echo "<div class='alert alert-$status' role='alert' style='margin-bottom:0'><div class='container'>$alert_msg</div></div>";
+        
+    } else {
+        echo $notice;
+    }
+    ?>
 
     <div class="c-content-box c-size-sm c-bg-img-top c-no-padding c-pos-relative">
         <div class="container">
@@ -67,18 +81,5 @@
     </div>
 
 
-    <?php
-    if ($this->session->flashdata('alert')) {
-        $alert_msg = $this->session->flashdata('alert');
-        if (!($this->session->flashdata('status'))) {
-            $status = 'warning';
-        } else {
-            $status = $this->session->flashdata('status');
-        }
-        echo "<div class='alert alert-$status' role='alert' style='margin-bottom:0'><div class='container'>$alert_msg</div></div>";
-        
-    } else {
-        echo $notice;
-    }
-    ?>
+   
 

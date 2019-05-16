@@ -47,6 +47,18 @@
                             'class' => 'form-control',
                         ]);
                         echo "</div>";
+                        
+                        
+                        echo "<div class='form-group'>";
+                        echo form_label('Bcc', 'emailque_bcc_address');
+                        echo form_input([
+                            'name' => 'emailque_bcc_address',
+                            'id' => 'emailque_bcc_address',
+                            'type' => 'email',
+                            'value' => set_value('emailque_bcc_address', utf8_encode(@$emailque_detail['emailque_bcc_address'])),
+                            'class' => 'form-control',
+                        ]);
+                        echo "</div>";
                         ?>
                     </div> <!-- col -->
                     <div class="col-md-8">

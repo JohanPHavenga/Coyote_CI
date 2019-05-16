@@ -20,7 +20,7 @@
                         }
                         // flash data here
                         // 
-                        if (@_POST['button']=="subscribe-btn") {
+                        if (@$_POST['button']=="subscribe-btn") {
                             if (validation_errors()) {
                                 echo '<div class="alert alert-danger" role="alert">';
                                 echo validation_errors();
@@ -42,11 +42,11 @@
                         <div class="c-content-media-1 c-bordered">
 
                             <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">Subscribe Now</div>
-                            <a href="#" class="c-title c-font-uppercase c-theme-on-hover c-font-bold">Newsletter Subscription</a>
-                            <p class="c-font-lowercase">Please complete the form below to subscribe to our monthly newsletter</p>
+                            <a href="#" class="c-title c-font-uppercase c-theme-on-hover c-font-bold">Event Subscription</a>
+                            <p class="c-font-lowercase">Please complete the form below to receive updates for this event</p>
 
                             <?php
-                            echo form_open('newsletter');
+                            echo form_open('event/subscription');
                             ?>
                             <div class="form-group">
                                 <label for="dname">Name *</label>
@@ -102,8 +102,6 @@
                                         'value' => 'subscribe-btn'
                                     ]
                             );
-                            echo form_hidden('dto', @$form_data['dto']);
-                            echo form_hidden('dreturn_url', @$form_data['dreturn_url']);
                             echo form_close();
                             ?>
                         </div>

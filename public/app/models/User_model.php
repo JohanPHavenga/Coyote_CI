@@ -112,6 +112,7 @@ class User_model extends MY_model {
 
     public function set_user($action, $user_id, $user_data = [], $debug = FALSE) {
         $role_arr = [];    
+//        wts($user_data); die();
         // POSTED DATA
         if (empty($user_data)) {
             $user_data = array(

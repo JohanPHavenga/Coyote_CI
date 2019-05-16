@@ -59,6 +59,26 @@ class Edition_model extends MY_model {
         }
     }
 
+    public function get_edition_url_from_id($edition_id) {
+        // CHECK Editions table vir die naame
+        $this->db->select("edition_name");
+        $this->db->from("editions");
+        $this->db->where("edition_id", $edition_id);
+        $editions_query = $this->db->get();
+        if ($editions_query->num_rows() > 0) {
+            $result = $editions_query->result_array();
+            $e_name = $result[0]['edition_name'];
+            $return = [
+                'edition_id' => $edition_id,
+                'edition_name' => $e_name,
+                'edition_url' => base_url() . "event/" . encode_edition_name($e_name)
+            ];
+            return $return;
+        } else {
+            return false;
+        }
+    }
+
     public function get_edition_list() {
         $this->db->select("editions.*, event_name, asa_member_abbr");
         $this->db->from("editions");
@@ -105,7 +125,7 @@ class Edition_model extends MY_model {
     }
 
     public function get_edition_list_simple() {
-        $data[0]="All Editions";
+        $data[0] = "All Editions";
         $this->db->select("edition_id, edition_name");
         $this->db->from("editions");
         $this->db->order_by("edition_id");
