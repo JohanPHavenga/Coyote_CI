@@ -393,6 +393,7 @@ class Frontend_Controller extends MY_Controller {
     public $header_url = 'templates/header';
     public $footer_url = 'templates/footer';
     public $crumbs_arr = [];
+    public $ini_array = [];
 
     function __construct() {
         parent::__construct();
@@ -902,9 +903,9 @@ class Frontend_Controller extends MY_Controller {
                 $switch=" updates regarding the <strong>".$edition_data['edition_name']."</strong> event.";
                 break;
         }
-        $body_arr[] = "Hi ".$user_data['user_name'];
+        $body_arr[] = "Hi ".$user_data['user_name']."<br>";
         $body_arr[] = "This is a courtesy email to confirm you have been subscribed to receive ".$switch;
-        $body_arr[] = "If this is not correct, please reply to this email.";
+        $body_arr[] = "If this is not correct, please reply to this email.<br>";
         $body_arr[] = "Kind Regards";
         $body_arr[] = "Johan from RoadRunning.co.za";
         $body= implode("<br>", $body_arr);

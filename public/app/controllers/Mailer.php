@@ -1,13 +1,10 @@
 <?php
 // public mailer class to get list from mailques table and send it out
-class Mailer extends Frontend_Controller {
-    
-    private $ini_array = [];
+class Mailer extends Frontend_Controller {    
 
     public function __construct() {
         parent::__construct();
         $this->load->model('emailque_model');
-        $this->ini_array = parse_ini_file("server_config.ini", true);
     }
     
     public function process_que() {
