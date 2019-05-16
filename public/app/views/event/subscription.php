@@ -49,7 +49,7 @@
                             echo form_open('event/subscription');
                             ?>
                             <div class="form-group">
-                                <label for="dname">Name *</label>
+                                <label for="dname">First Name *</label>
                                 <?php
                                 echo form_input(
                                         [
