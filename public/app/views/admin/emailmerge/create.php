@@ -67,7 +67,8 @@ echo form_open($form_url);
                         echo form_textarea([
                             'name' => 'emailmerge_body',
                             'id' => 'emailmerge_body',
-                            'value' => utf8_encode(@$emailmerge_detail['emailmerge_body']),
+//                            'value' => utf8_encode(@$emailmerge_detail['emailmerge_body']),
+                            'value' => set_value('emailmerge_body',$emailmerge_detail['emailmerge_body'], FALSE),
                         ]);
                         echo "</div>";
 

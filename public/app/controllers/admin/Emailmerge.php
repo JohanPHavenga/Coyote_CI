@@ -130,14 +130,20 @@ class Emailmerge extends Admin_Controller {
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
             // SET merge
-            $emailtemplate = $this->emailtemplate_model->get_emailtemplate_detail($this->input->post('emailtemplate_id'));
+            if ($this->input->post('emailtemplate_id')>0) {
+                $emailtemplate = $this->emailtemplate_model->get_emailtemplate_detail($this->input->post('emailtemplate_id'));
+            } else {
+                $emailtemplate['emailtemplate_name']="";
+                $emailtemplate['emailtemplate_body']="";
+            }
             // get type of ID to use and get USER list
             $id_name=$this->input->post('linked_to')."_id";
             $user_arr = $this->usersubscription_model->get_usersubscription_list($this->input->post('linked_to'),$this->input->post($id_name));
-            foreach ($user_arr as $user) {
-                $user_list[]=$user['user_id'];
-            }
-            $user_str=implode(",", $user_list);
+            $user_str="";
+            if (!empty($user_arr)) {
+                foreach ($user_arr as $user) { $user_list[]=$user['user_id']; }
+                $user_str=implode(",", $user_list);
+            } 
             // create email merge
             $merge_data = array (
                 "emailmerge_status" => 4,
@@ -196,7 +202,8 @@ class Emailmerge extends Admin_Controller {
         // set validation rules
         $this->form_validation->set_rules('emailmerge_subject', 'Subject', 'required');
         $this->form_validation->set_rules('emailmerge_body', 'Body', 'required');
-        $this->form_validation->set_rules('emailmerge_recipients[]', 'Recipients', 'required');
+        $this->form_validation->set_rules('emailmerge_recipients[]', 'Recipients', 'required', 
+                 array('required' => 'You need to select at least one recipient'));
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {

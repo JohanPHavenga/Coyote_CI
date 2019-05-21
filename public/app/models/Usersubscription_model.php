@@ -33,7 +33,8 @@ class Usersubscription_model extends MY_model {
             $this->db->where('linked_to', $linked_to);
             $this->db->where('linked_id', $linked_id);
         }
-
+//        echo $this->db->get_compiled_select();
+//        die();        
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
