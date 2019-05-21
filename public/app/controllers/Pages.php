@@ -42,7 +42,7 @@ class Pages extends Frontend_Controller {
             $this->data_to_header['section']="home";
 
             // get races for the next 3 months
-            $race_summary=$this->event_model->get_event_list_summary($from="date_range",["date_from"=>date("Y-m-d"),"date_to"=>date("Y-m-d",strtotime("+3 months"))]);
+            $race_summary=$this->event_model->get_event_list_summary($from="date_range",["date_from"=>date("Y-m-d"),"date_to"=>date("Y-m-d",strtotime("+3 months")),"only_active"=>true]);
             $this->data_to_view['race_list_html']=$this->render_races_accordian_html($race_summary, "Next 3 Months");
 
             $this->data_to_header['css_to_load']=array(

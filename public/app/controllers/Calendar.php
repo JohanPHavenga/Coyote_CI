@@ -78,6 +78,8 @@ class Calendar extends Frontend_Controller {
             $params = ["date_from" => date("Y-m-d")];
         }
 
+//        $params["only_active"]=true;
+        
         // get race info
         $race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params);
         // render html
@@ -107,7 +109,7 @@ class Calendar extends Frontend_Controller {
 
         // get race info
         $past_date = date("Y-m-d", strtotime("-11 months", time()));
-        $past_race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params = ["date_from" => $past_date, "date_to" => date("Y-m-d"), "sort" => "DESC"]);
+        $past_race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params = ["date_from" => $past_date, "date_to" => date("Y-m-d"), "sort" => "DESC", "only_active"=>true]);
         // render html
         $this->data_to_view['past_race_list_html'] = $this->render_races_accordian_html($past_race_summary);
 
