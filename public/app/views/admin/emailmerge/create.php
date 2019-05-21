@@ -20,7 +20,8 @@ echo form_open($form_url);
                         echo form_input([
                             'name' => 'emailmerge_subject',
                             'id' => 'emailmerge_subject',
-                            'value' => set_value('emailmerge_subject', utf8_encode(@$emailmerge_detail['emailmerge_subject'])),
+//                            'value' => set_value('emailmerge_subject', utf8_encode(@$emailmerge_detail['emailmerge_subject'])),
+                            'value' => set_value('emailmerge_subject',$emailmerge_detail['emailmerge_subject'], FALSE),
                             'class' => 'form-control input-xlarge',
                             'required' => '',
                         ]);
