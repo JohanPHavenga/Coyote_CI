@@ -562,9 +562,14 @@ class Frontend_Controller extends MY_Controller {
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event inforamtion";
 
-        if ($params['status'] != 1) {
+        if ($params['status'] == 3) {
             $return['color'] = "c-font-yellow-2";
             $return['text'] = "Event cancelled";
+            return $return;
+        }
+        if ($params['status'] == 9) {
+            $return['color'] = "c-font-yellow-2";
+            $return['text'] = "Event Postponed";
             return $return;
         }
 
@@ -576,6 +581,24 @@ class Frontend_Controller extends MY_Controller {
         if ($params['results']) {
             $return['color'] = "c-font-yellow-1";
             $return['text'] = "Results Loaded";
+        }
+        
+        if (isset($params['results_status'])) {
+            switch ($params['results_status']) {
+                case 10:
+                    $return['color'] = "c-font-green-2";
+                    $return['text'] = "Results pending";
+                    break;
+                case 11:
+                    $return['color'] = "c-font-yellow-1";
+                    $return['text'] = "Results Loaded";
+                    break;
+                case 12:
+                    $return['color'] = "c-font-yellow-4";
+                    $return['text'] = "No results expected";
+                    break;
+            }
+            
         }
 
         return $return;
@@ -600,6 +623,9 @@ class Frontend_Controller extends MY_Controller {
                 break;
             case 3:
                 $e_names['edition_name'] = $e_names['edition_name_no_date'] = $edition_name . " - CANCELLED";
+                break;
+            case 9:
+                $e_names['edition_name'] = $e_names['edition_name_no_date'] = $edition_name . " - POSTPONED";
                 break;
         }
         return $e_names;
@@ -686,6 +712,7 @@ class Frontend_Controller extends MY_Controller {
                             $bullet_info = $this->get_bullet_color([
                                 "confirmed" => $edition['edition_info_isconfirmed'],
                                 "results" => $edition['edition_results_isloaded'],
+                                "results_status" => $edition['edition_results_status'],
                                 "status" => $edition['edition_status'],
                             ]);
 

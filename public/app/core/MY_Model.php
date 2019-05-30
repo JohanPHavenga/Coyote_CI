@@ -24,6 +24,24 @@ class MY_model extends CI_Model {
         return false;
     }
     
+    // new way to pull status list using the status_
+    public function get_status_list($use=NULL)
+    {
+        $this->db->select("*");
+        $this->db->from("status");
+        if ($use) { $this->db->like('status_use',$use); }
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $data[] = "Please Select";
+            foreach ($query->result_array() as $row) {
+                $data[$row['status_id']] = $row['status_name'];
+            }
+            return $data;
+        }
+        return false;
+    }
+    
     public function get_linked_to_dropdown($count=6,$start=0)
     {
         $this->db->select("*");
@@ -61,10 +79,17 @@ class MY_model extends CI_Model {
     public function set_results_flag($linked_to, $linked_id, $flag) {
         $id_field=$linked_to."_id";
         $table=$linked_to."s";
-        $field=$linked_to."_results_isloaded";
+        $field=$linked_to."_results_isloaded";        
         
         $this->db->trans_start();
         $this->db->update($table, [$field => $flag], array($id_field => $linked_id));
+        $this->db->trans_complete();
+        
+        // new results status field also needs to be set
+        if ($flag) { $status=11; } else { $status=10; }
+        $field=$linked_to."_results_status";
+        $this->db->trans_start();
+        $this->db->update($table, [$field => $status], array($id_field => $linked_id));
         $this->db->trans_complete();
               
         // return ID if transaction successfull

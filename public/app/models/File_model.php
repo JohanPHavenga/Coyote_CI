@@ -9,7 +9,8 @@ class File_model extends MY_model {
 
     public function set_file($params) {
         // FIRST SEE IF FILE ALREADY EXISTS
-        if ($file_id=$this->get_file_id($params)) {
+        $file_id=$this->get_file_id($params);
+        if ($file_id) {
             $action = "edit";
         } else {
             $action = "add";

@@ -80,7 +80,8 @@ class Dashboard extends Admin_Controller {
 
             // get list of editions that has no results
             $params = [
-                'results' => 0,
+                'results_status' => 10,
+//                'results' => 0,
                 'date_from' => date("Y-m-d", strtotime("-1 month")),
                 'date_to' => date("Y-m-d"),
             ];

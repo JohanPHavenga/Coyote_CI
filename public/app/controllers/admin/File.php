@@ -194,7 +194,7 @@ class File extends Admin_Controller {
             if ($file_db_w) {
                 $alert = "File has been " . $action . "ed";
                 $status = "success";
-            } else {
+            } elseif (empty($alert)) {
                 $alert = "Error committing to the database";
                 $status = "danger";
             }
@@ -226,12 +226,12 @@ class File extends Admin_Controller {
         // set upload config
         $config['upload_path'] = $upload_path;
         $config['allowed_types'] = "pdf|docx|doc|xls|xlsx|jpg|gif|jpeg|png|ods";
-        $config['max_size'] = "10240";
+        $config['max_size'] = "0";
         $this->upload->initialize($config);
 
         if (!$this->upload->do_upload($params['form_field'])) {
             $error = array('error' => $this->upload->display_errors());
-            $return['alert_text'] = "Issue uploading a file: " . strip_tags($error['error']);
+            $return['alert_text'] = "<b>Warning:</b> " . strip_tags($error['error']);
         } else {
             $return['success'] = true;
             $return['data'] = $this->upload->data();

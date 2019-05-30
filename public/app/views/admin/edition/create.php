@@ -194,7 +194,7 @@ echo form_open_multipart($form_url);
                 echo "<div class='form-group'>";
                 echo form_label('ASA Affiliation', 'edition_asa_member');
                 echo "<div class='row'>";
-                echo "<div class='col-md-6'><div class='mt-radio-inline'>";
+                echo "<div class='col-md-9'><div class='mt-radio-inline'>";
                 foreach ($asamember_list as $asamember) {
                     $id = $asamember['asa_member_id'];
                     $abbr = $asamember['asa_member_abbr'];
@@ -234,11 +234,15 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
-
-                //  INFO CONFIRMED
+                
+                //  RESULTS STATUS
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
-                echo "<div class='col-md-12'>";
+                echo "<div class='col-md-3'>";
+                echo form_label('Results Status <span class="compulsary">*</span>', 'edition_results_status');
+                echo form_dropdown('edition_results_status', $results_status_dropdown, @$edition_detail['edition_results_status'], ["id" => "edition_results_status", "class" => "form-control input-small"]);
+                echo "</div>";
+                echo "<div class='col-md-8' style='padding-top: 20px;'>";
                     echo" <div class='mt-checkbox-inline'>";
                         if ($edition_detail['edition_info_isconfirmed']) { $c = "checked=''"; } else { $c = ''; }
                         echo '<label class="mt-checkbox">
@@ -260,6 +264,7 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
+
                 ?>
             </div>
             <div class="portlet-footer">

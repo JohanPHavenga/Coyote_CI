@@ -219,6 +219,11 @@ class Event_model extends MY_model {
             $this->db->where("edition_results_isloaded", $params['results']);
             $this->db->where("edition_status", 1);
         }
+        
+        if (isset($params['results_status'])) {
+            $this->db->where("edition_results_status", $params['results_status']);
+            $this->db->where("edition_status", 1);
+        }
 
         // ONLY ACTIVE 
         if (@$params['only_active']) {
@@ -237,8 +242,9 @@ class Event_model extends MY_model {
 
         $this->db->select($field_arr);
 
-//            echo $this->db->get_compiled_select();
-//            exit();
+//        wts($params);
+//        echo $this->db->get_compiled_select();
+//        exit();
 
 
         return $this->db->get();
@@ -250,7 +256,7 @@ class Event_model extends MY_model {
     // ======================================================================================
     public function get_event_list_summary($from, $params) {
         // set fields to be fetched
-        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
+        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_results_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
             "edition_logo", "edition_info_email_sent",
             "racetype_abbr", "town_name", "race_distance", "race_time_start",
             "user_name", "user_surname", "user_email"];
@@ -276,6 +282,7 @@ class Event_model extends MY_model {
                         "sort" => $params['sort'],
                         "confirmed" => @$params['confirmed'],
                         "results" => @$params['results'],
+                        "results_status" => @$params['results_status'],
                         "only_active" => @$params['only_active'],
                     ]
             );
