@@ -68,7 +68,7 @@ class File_model extends MY_model {
         } else {
             $this->db->select("file_id");
             $this->db->from("files");
-            $this->db->where("file_name", $params['data']['orig_name']);
+            $this->db->where("file_name", $params['data']['file_name']);
             $this->db->where("file_linked_to", $params['file_linked_to']);
             $this->db->where("linked_id", $params['id']);
             $query = $this->db->get();

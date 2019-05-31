@@ -88,9 +88,7 @@ class Edition extends Admin_Controller {
         $this->load->library('table');
 
         // set return url to session should it exists
-        if ($this->session->has_userdata('dashboard_return_url')) {
-            $this->return_url = $this->session->dashboard_return_url;
-        }
+        if ($this->session->has_userdata('dashboard_return_url')) { $this->return_url = $this->session->dashboard_return_url; }
 
         // set data
         $this->data_to_header['title'] = "Edition Input Page";
@@ -115,20 +113,20 @@ class Edition extends Admin_Controller {
             "scripts/admin/components-editors.js",
         );
 
+        // GET DATA TO SEND TO VIEW
         $this->data_to_view['contact_dropdown'] = $this->user_model->get_user_dropdown(3);
         $this->data_to_view['sponsor_dropdown'] = $this->sponsor_model->get_sponsor_dropdown();
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
 //        $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("results");
-
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true);
 
         if ($action == "edit") {
+            $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($id);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $id);
-            $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($id);
             $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $id, true);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
             // set edition_return_url for races
@@ -136,6 +134,8 @@ class Edition extends Admin_Controller {
         } else {
             $this->data_to_view['edition_detail']['edition_status'] = 1;
             $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded
+            $this->data_to_view['edition_detail']['edition_info_isconfirmed']=0;
+            $this->data_to_view['edition_detail']['edition_isfeatured']=0;
         }
 
         // set default contact
@@ -148,13 +148,13 @@ class Edition extends Admin_Controller {
         }
 
         // set validation rules
-        $this->form_validation->set_rules('edition_name', 'Edition Name', 'required');
-        $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
-        $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
-        $this->form_validation->set_rules('edition_address', 'Address', 'required');
-        $this->form_validation->set_rules('latitude_num', 'Latitude', 'required|numeric');
-        $this->form_validation->set_rules('longitude_num', 'Longitude', 'required|numeric');
+        $this->form_validation->set_rules('edition_name', 'Edition Name', 'trim|required|min_length[5]|callback_name_check',array('name_check' => 'Enter a valid year at the end of the Edition Name'));
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an event"]);
+        $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
+        $this->form_validation->set_rules('edition_date', 'Start date', 'required');
+        $this->form_validation->set_rules('edition_address', 'Address', 'required');
+        $this->form_validation->set_rules('latitude_num', 'Latitude', 'trim|required|numeric');
+        $this->form_validation->set_rules('longitude_num', 'Longitude', 'trim|required|numeric');
         $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a sponsor"]);
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Contact Person"]);
 
@@ -172,82 +172,6 @@ class Edition extends Admin_Controller {
             if ($id) {
                 $alert = $this->input->post('edition_name') . " has been successfully " . $action . "ed";
                 $status = "success";
-
-                // ================================================================================
-                // LOGO UPLOAD
-                if ($_FILES['edition_logo_upload']) {
-                    if ($_FILES['edition_logo_upload']['error'] == 4) {
-                        // no file upload attempted
-                        $logo_upload['success'] = false;
-                    } else {
-                        $ul_params = [
-                            "edition_id" => $id,
-                            "field" => 'edition_logo_upload',
-                            "allowed_types" => 'jpg|gif|png|jpeg',
-                            "max_size" => '2048',
-                        ];
-                        $logo_upload = $this->upload_file($ul_params);
-
-                        // if all went well, write info to db | 1 = logo file
-                        if ($logo_upload['success']) {
-                            $file_db_w = $this->set_file($logo_upload['data'], 1, $id);
-                        } else {
-                            $alert = $logo_upload['alert_text'];
-                            $status = $logo_upload['alert_status'];
-                        }
-                    }
-                }
-
-
-                // ================================================================================
-                // FLYER UPLOAD
-                if ($_FILES['edition_flyer_upload']) {
-                    if ($_FILES['edition_flyer_upload']['error'] == 4) {
-                        // no file upload attempted
-                        $flyer_upload = true;
-                    } else {
-                        $ul_params = [
-                            "edition_id" => $id,
-                            "field" => 'edition_flyer_upload',
-                            "allowed_types" => 'pdf',
-                            "max_size" => '10240',
-                        ];
-                        $flyer_upload = $this->upload_file($ul_params);
-
-                        // if all went well, write info to db | 2= flyer
-                        if ($flyer_upload['success']) {
-                            $file_db_w = $this->set_file($flyer_upload['data'], 2, $id);
-                        } else {
-                            $alert = $flyer_upload['alert_text'];
-                            $status = $flyer_upload['alert_status'];
-                        }
-                    }
-                }
-
-                // ================================================================================
-                // RESULTS UPLOAD
-                if ($_FILES['edition_results_upload']) {
-                    if ($_FILES['edition_results_upload']['error'] == 4) {
-                        // no file upload attempted
-                        $results_upload = true;
-                    } else {
-                        $ul_params = [
-                            "edition_id" => $id,
-                            "field" => 'edition_results_upload',
-                            "allowed_types" => 'pdf|csv|xls|xlsx',
-                            "max_size" => '10240',
-                        ];
-                        $results_upload = $this->upload_file($ul_params);
-
-                        // if all went well, write info to db | 4 = results
-                        if ($results_upload['success']) {
-                            $file_db_w = $this->set_file($results_upload['data'], 4, $id);
-                        } else {
-                            $alert = $results_upload['alert_text'];
-                            $status = $results_upload['alert_status'];
-                        }
-                    }
-                }
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -265,6 +189,17 @@ class Edition extends Admin_Controller {
 
             redirect($this->return_url);
         }
+    }
+    
+    public function name_check($str)
+    {
+        $year= substr($str, -4);
+        $valid = true;
+
+        if (strtotime($year) === false) {
+            $valid = false;
+        }
+        return $valid;
     }
 
     private function upload_file($params) {

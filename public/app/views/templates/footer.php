@@ -262,6 +262,7 @@ endif;
     {
         App.init(); // init core
     });
+});
 </script>
 <!-- END: THEME SCRIPTS -->
 <!-- BEGIN: PAGE SCRIPTS -->

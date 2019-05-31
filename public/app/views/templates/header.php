@@ -64,6 +64,7 @@
             echo $structured_data;
             endif;
         ?>
+        <script src="<?= base_url('scripts/scg_smooth_scrolling.js'); ?>" type="text/javascript"></script>
     </head>
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
         <!-- Analytics -->
