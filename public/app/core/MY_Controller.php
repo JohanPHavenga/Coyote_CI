@@ -561,46 +561,38 @@ class Frontend_Controller extends MY_Controller {
 
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event inforamtion";
-
-        if ($params['status'] == 3) {
-            $return['color'] = "c-font-yellow-2";
-            $return['text'] = "Event cancelled";
-            return $return;
-        }
-        if ($params['status'] == 9) {
-            $return['color'] = "c-font-yellow-2";
-            $return['text'] = "Event Postponed";
-            return $return;
-        }
-
-        if ($params['confirmed']) {
-            $return['color'] = "c-font-green-2";
-            $return['text'] = "Event information confirmed";
-        }
-
-        if ($params['results']) {
-            $return['color'] = "c-font-yellow-1";
-            $return['text'] = "Results Loaded";
-        }
         
-        if (isset($params['results_status'])) {
-            switch ($params['results_status']) {
-                case 10:
+        switch (@$params['results_status']) {
+            case 10:
+                if ($params['confirmed']) {
                     $return['color'] = "c-font-green-2";
-                    $return['text'] = "Results pending";
-                    break;
-                case 11:
-                    $return['color'] = "c-font-yellow-1";
-                    $return['text'] = "Results Loaded";
-                    break;
-                case 12:
-                    $return['color'] = "c-font-yellow-4";
-                    $return['text'] = "No results expected";
-                    break;
-            }
-            
+                    $return['text'] = "Event information confirmed";
+                    return $return;
+                }
+                switch($params['status']) {
+                    case 3:
+                        $return['color'] = "c-font-yellow-2";
+                        $return['text'] = "Event cancelled";
+                        return $return;
+                        break;
+                    case 9:
+                        $return['color'] = "c-font-yellow-2";
+                        $return['text'] = "Event Postponed";
+                        return $return;
+                        break;
+                }
+                break;
+            case 11:
+                $return['color'] = "c-font-yellow-1";
+                $return['text'] = "Results Loaded";
+                return $return;
+                break;
+            case 12:
+                $return['color'] = "c-font-yellow-4";
+                $return['text'] = "No results expected";
+                return $return;
+                break;
         }
-
         return $return;
     }
 
