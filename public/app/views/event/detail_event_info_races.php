@@ -260,9 +260,11 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                 $button_class="btn btn-md c-btn-border-2x c-btn-square btn-theme c-btn-uppercase c-btn-bold c-margin-t-20";
                 // check for last iteration of the loop
                 if( !next( $event_detail['race_list'] ) ) { $sub_id="subscribe"; } else { $sub_id=""; }
+                
             ?>
+            <div class="row" id="<?=$sub_id;?>"></div>
              
-            <div class="row" id="<?=$sub_id;?>">
+<!--            <div class="row" id="<?=$sub_id;?>">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <?php
                     if ($prev_race_list[$race_id]) {
@@ -279,7 +281,7 @@ foreach ($event_detail['race_list'] as $race_id=>$race) {
                     ?>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>  
     <?php

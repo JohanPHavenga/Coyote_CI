@@ -47,7 +47,7 @@
                         
                     // Edition BUTTONS
                     $this->load->view("/event/buttons_edition", $event_detail);
-                    echo "<br>";
+//                    echo "<br>";
                     // Race BUTTONS
                     $this->load->view("/event/buttons_race", $event_detail);
                     ?>
@@ -70,6 +70,32 @@
                     ?>
                 </div>
             </div>
+            <?php
+//            wts($event_history);
+                if ($event_history) {
+                $button_class="btn btn-md c-btn-border-2x c-btn-square btn-theme c-btn-uppercase c-btn-bold c-margin-t-20";
+            ?>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <?php
+                    if (@$event_history["past"]) {
+                        echo '<a href="'.$event_history["past"]['edition_url'].'" title="" class="'.$button_class.' btn-default previous-btn"><i class="fa fa-angle-left"></i> Previous '.$event_detail['event_name'].'</a>';  
+                    }
+                    ?>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="c-pull-right">
+                    <?php
+                    if (@$event_history["future"]) {
+                        echo '<a href="'.$event_history["future"]['edition_url'].'" title="" class="'.$button_class.' btn-default next-btn">Next '.$event_detail['event_name'].'<i class="fa fa-angle-right"></i></a>';   
+                    }
+                    ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+                }
+            ?>
         </div>
     </div>
 </div>

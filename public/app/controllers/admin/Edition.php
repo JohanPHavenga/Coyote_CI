@@ -170,8 +170,14 @@ class Edition extends Admin_Controller {
 //            die();
             $id = $this->edition_model->set_edition($action, $id, [], false);
             if ($id) {
-                $alert = $this->input->post('edition_name') . " has been successfully " . $action . "ed";
+                $alert = "<b>".$this->input->post('edition_name') . "</b> has been successfully saved";
                 $status = "success";
+                if ($action=="edit") {
+                    if ($this->input->post('edition_status')!==$this->data_to_view['edition_detail']['edition_status']) {
+                        $this->race_status_update(array_keys($this->data_to_view['race_list']),$this->input->post('edition_status'));
+                        $alert.="<br>Status change on races also actioned";
+                    }
+                }                
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -189,6 +195,11 @@ class Edition extends Admin_Controller {
 
             redirect($this->return_url);
         }
+    }
+    
+    public function race_status_update($race_id_arr, $status_id) {        
+        $this->load->model('race_model');
+        return $this->race_model->update_race_status($race_id_arr,$status_id);
     }
     
     public function name_check($str)

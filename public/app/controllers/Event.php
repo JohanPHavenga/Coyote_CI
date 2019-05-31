@@ -115,11 +115,13 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['url_list'] = $this->url_model->get_url_list("edition", $edition_id, true);
         $this->data_to_view['event_detail']['sponsor_url_list'] = $this->url_model->get_url_list("sponsor", $this->data_to_view['event_detail']['sponsor_id'], false);
         $this->data_to_view['event_detail']['club_url_list'] = $this->url_model->get_url_list("club", $this->data_to_view['event_detail']['club_id'], false);
+        // get event history / furture
+        $this->data_to_view['event_history'] = $this->get_event_history($this->data_to_view['event_detail']['event_id'],$edition_id);
         // get next an previous races
-        if ($this->data_to_view['event_detail']['race_list']) {
-            $this->data_to_view['next_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
-            $this->data_to_view['prev_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
-        }
+//        if ($this->data_to_view['event_detail']['race_list']) {
+//            $this->data_to_view['next_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
+//            $this->data_to_view['prev_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
+//        }
         // get url for Google Calendar
         $this->data_to_view['event_detail']['google_cal_url'] = $this->google_cal(
                 [
@@ -220,6 +222,43 @@ class Event extends Frontend_Controller {
 
         //FOOTER
         $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
+    
+    public function get_event_history($event_id,$edition_id) {
+        // get list of editions linked to this event
+        $edition_list=$this->event_model->get_edition_list($event_id);
+        
+        // remove the one you are looking at
+        $current_year=date("Y",strtotime($edition_list[$edition_id]['edition_date']));
+        unset($edition_list[$edition_id]);
+        
+        foreach ($edition_list as $edition) {
+            if ($edition['edition_year']<$current_year) {
+                if (isset($return['past'])) {
+                    if ($edition['edition_year']>$return['past']['edition_year']) {
+                        $return['past']=$edition;
+                    }
+                } else {
+                    $return['past']=$edition;
+                }
+            } elseif ($edition['edition_year']>$current_year) {
+                if (isset($return['future'])) {
+                    if ($edition['edition_year']<$return['future']['edition_year']) {
+                        $return['future']=$edition;
+                    }
+                } else {
+                    $return['future']=$edition;
+                }
+            }
+        }
+        return $return;
+//        wts($return);
+//        wts($current_year);
+//        wts($edition_list);
+//        echo $event_id;
+//        echo $edition_id;
+//        die();
     }
 
     public function subscription() {
