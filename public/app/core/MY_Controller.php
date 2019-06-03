@@ -195,7 +195,7 @@ class Admin_Controller extends MY_Controller {
                     [
                         "text" => "Races",
                         "url" => 'admin/race',
-                        "icon" => "trophy",
+                        "icon" => "speedometer",
                     ],
                 ],
             ],
@@ -329,6 +329,13 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "present",
                     ],
                 ],
+            ],
+            // Results
+            [
+                "text" => "Results",
+                "url" => 'admin/result',
+                "icon" => "trophy",
+                "seg0" => ['result'],
             ],
             // Clubs
             [

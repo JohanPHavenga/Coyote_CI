@@ -57,8 +57,10 @@ class Urltype_model extends MY_model {
     public function set_urltype($action, $id) {
         $data = array(
             'urltype_name' => $this->input->post('urltype_name'),
+            'urltype_helptext' => $this->input->post('urltype_helptext'),
+            'urltype_buttontext' => $this->input->post('urltype_buttontext'),
         );
-
+        
         switch ($action) {
             case "add":
                 return $this->db->insert('urltypes', $data);
