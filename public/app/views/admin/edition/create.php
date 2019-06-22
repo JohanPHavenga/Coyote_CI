@@ -37,8 +37,12 @@ echo form_open_multipart($form_url);
 
                 //  
                 echo "<div class='col-md-5'>";
-
+                    echo form_label('Town Name', 'town_name');
+                    echo "<p class='help-block'> ".@$edition_detail['town_name']."</p>";
+                    echo form_label('Organising Club', 'town_name');
+                    echo "<p class='help-block'> ".@$edition_detail['club_name']."</p>";
                 echo "</div>";
+                
                 echo "</div>";
                 echo "</div>";
 
@@ -46,8 +50,13 @@ echo form_open_multipart($form_url);
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
                 echo "<div class='col-md-7'>";
-                echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
-                echo form_dropdown('event_id', $event_dropdown, set_value('event_id', @$edition_detail['event_id']), ["id" => "event_id", "class" => "form-control input-xlarge"]);
+                if ($action=="edit") {                    
+                    echo form_label('Event', 'event_id');
+                    echo "<p class='help-block'> ".@$edition_detail['event_name']." (<a href='".$event_edit_url."'>Edit</a>)</p>";
+                } else {
+                    echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
+                    echo form_dropdown('event_id', $event_dropdown, set_value('event_id', @$edition_detail['event_id']), ["id" => "event_id", "class" => "form-control input-xlarge"]);
+                }
                 echo "</div>";
 
                 //  EDITION STATUS

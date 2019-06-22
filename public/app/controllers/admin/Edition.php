@@ -131,6 +131,7 @@ class Edition extends Admin_Controller {
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
             // set edition_return_url for races
             $this->session->set_userdata('edition_return_url', "/" . uri_string());
+            $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/".$this->data_to_view['edition_detail']['event_id'];
         } else {
             $this->data_to_view['edition_detail']['edition_status'] = 1;
             $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded

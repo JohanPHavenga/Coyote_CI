@@ -142,9 +142,13 @@ class Edition_model extends MY_model {
         if (!($id)) {
             return false;
         } else {
-            $this->db->select("editions.*, sponsor_id, users.user_id, user_name, user_surname, user_email, asa_member_id AS edition_asa_member");
+            $this->db->select("editions.*, sponsor_id, users.user_id, user_name, user_surname, user_email, asa_member_id AS edition_asa_member, event_name, town_name, club_name");
             $this->db->from("editions");
             $this->db->join('edition_sponsor', 'edition_id', 'left');
+            $this->db->join('events', 'event_id', 'left');
+            $this->db->join('towns', 'town_id', 'left');
+            $this->db->join('organising_club', 'event_id', 'left');
+            $this->db->join('clubs', 'club_id', 'left');
             $this->db->join('edition_user', 'edition_id', 'left');
             $this->db->join('users', 'user_id', 'left');
             $this->db->join('edition_asa_member', 'edition_id', 'left');

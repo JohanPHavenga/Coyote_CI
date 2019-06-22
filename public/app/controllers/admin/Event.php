@@ -67,6 +67,11 @@ class Event extends Admin_Controller {
     }
 
     public function create($action, $id = 0) {
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
+        
         // additional models
         $this->load->model('town_model');
         $this->load->model('club_model');
