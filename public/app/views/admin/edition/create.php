@@ -37,12 +37,12 @@ echo form_open_multipart($form_url);
 
                 //  
                 echo "<div class='col-md-5'>";
-                    echo form_label('Town Name', 'town_name');
-                    echo "<p class='help-block'> ".@$edition_detail['town_name']."</p>";
-                    echo form_label('Organising Club', 'town_name');
-                    echo "<p class='help-block'> ".@$edition_detail['club_name']."</p>";
+                echo form_label('Town Name', 'town_name');
+                echo "<p class='help-block'> " . @$edition_detail['town_name'] . "</p>";
+                echo form_label('Organising Club', 'town_name');
+                echo "<p class='help-block'> " . @$edition_detail['club_name'] . "</p>";
                 echo "</div>";
-                
+
                 echo "</div>";
                 echo "</div>";
 
@@ -50,9 +50,15 @@ echo form_open_multipart($form_url);
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
                 echo "<div class='col-md-7'>";
-                if ($action=="edit") {                    
+                if ($action == "edit") {
                     echo form_label('Event', 'event_id');
-                    echo "<p class='help-block'> ".@$edition_detail['event_name']." (<a href='".$event_edit_url."'>Edit</a>)</p>";
+                    echo "<p class='help-block'> " . @$edition_detail['event_name'] . " (<a href='" . $event_edit_url . "'>Edit</a>)</p>";
+                    echo form_input([
+                        'name' => 'event_id',
+                        'id' => 'event_id',
+                        'value' => set_value('event_id', @$edition_detail['event_id']),
+                        'type' => 'hidden',
+                    ]);
                 } else {
                     echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
                     echo form_dropdown('event_id', $event_dropdown, set_value('event_id', @$edition_detail['event_id']), ["id" => "event_id", "class" => "form-control input-xlarge"]);
@@ -298,7 +304,7 @@ echo form_open_multipart($form_url);
                 echo form_textarea([
                     'name' => 'edition_intro_detail',
                     'id' => 'edition_intro_detail',
-                    'value' => set_value('edition_intro_detail', @$edition_detail['edition_intro_detail'],false),
+                    'value' => set_value('edition_intro_detail', @$edition_detail['edition_intro_detail'], false),
                 ]);
 
                 echo "</div>";
@@ -309,7 +315,7 @@ echo form_open_multipart($form_url);
                 echo form_textarea([
                     'name' => 'edition_entry_detail',
                     'id' => 'edition_entry_detail',
-                    'value' => set_value('edition_entry_detail', @$edition_detail['edition_entry_detail'],false),
+                    'value' => set_value('edition_entry_detail', @$edition_detail['edition_entry_detail'], false),
                 ]);
 
                 echo "</div>";
@@ -320,7 +326,7 @@ echo form_open_multipart($form_url);
                 echo form_textarea([
                     'name' => 'edition_description',
                     'id' => 'edition_description',
-                    'value' => set_value('edition_description', @$edition_detail['edition_description'],false),
+                    'value' => set_value('edition_description', @$edition_detail['edition_description'], false),
                 ]);
 
                 echo "</div>";

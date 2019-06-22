@@ -944,7 +944,7 @@ class Frontend_Controller extends MY_Controller {
             'emailque_status' => 5,
             'emailque_from_address' => $this->ini_array['email']['from_address_server'],
             'emailque_from_name' => $this->ini_array['email']['from_name_server'],
-            'emailque_bcc_address' => $this->ini_array['email']['bcc_address'],
+//            'emailque_bcc_address' => $this->ini_array['email']['bcc_address'],
         );
         $set = $this->emailque_model->set_emailque("add", 0, $data);
     }

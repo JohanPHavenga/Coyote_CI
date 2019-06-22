@@ -55,6 +55,8 @@ class Mailer extends Frontend_Controller {
         $this->email->to($data['emailque_to_address'], $data['emailque_to_name']);
         if ($data['emailque_cc_address']) { $this->email->bcc($data['emailque_cc_address']); }
         if ($data['emailque_bcc_address']) { $this->email->bcc($data['emailque_bcc_address']); }
+        // add default BCC address to ALL outgoing email
+        $this->email->bcc($this->ini_array['email']['bcc_address']);
 
         $this->email->subject($data['emailque_subject']);
         $this->email->message($data['emailque_body']);
