@@ -150,7 +150,7 @@ var TableDatatablesManaged = function () {
             ],
         });
     };
-    
+
     // Email Templates  
     var initEmailTemplateTable = function () {
         var table = $('#emailtemplates_table');
@@ -161,9 +161,24 @@ var TableDatatablesManaged = function () {
                 {orderable: false, targets: [-1]},
                 {searchable: false, targets: [-1]},
                 {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 2, targets: -1}
+            ]
+        });
+    };
 
-            ],
+    // Email Merges 
+    var initEmailMergesTable = function () {
+        var table = $('#emailmerges_table');
+        table.dataTable({
+            order: [[4, "desc"]],
+            responsive: true,
+            columnDefs: [
+                {orderable: false, targets: [-1]},
+                {searchable: false, targets: [1,3,-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: -2}
+            ]
         });
     };
 
@@ -179,7 +194,7 @@ var TableDatatablesManaged = function () {
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: -1},
                 {responsivePriority: 3, targets: 1}
-            ],
+            ]
         });
     };
 
@@ -200,6 +215,7 @@ var TableDatatablesManaged = function () {
             initSearchTable();
             initEmailQueTable();
             initEmailTemplateTable();
+            initEmailMergesTable();
             initListTable();
         }
     };

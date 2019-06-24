@@ -22,7 +22,7 @@ class Emailmerge extends Admin_Controller {
     public function view() {
         // load helpers / libraries
         $this->load->library('table');
-        $this->data_to_view['heading'] = ["ID", "Subject", "Status", "Recipient Count", "Actions"];
+        $this->data_to_view['heading'] = ["ID", "Subject", "Status", "Recipient Count", "Updated", "Actions"];
         $this->data_to_header['title'] = "List of Mail Merges";
 
         $this->data_to_view["emailmerge_data"] = $this->emailmerge_model->get_emailmerge_list();

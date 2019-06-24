@@ -10,7 +10,7 @@
             <div class="portlet-body">
                 <?php
                 if (!(empty($emailmerge_data))) {
-                    // create table
+                    // create tables
                     $this->table->set_template(ftable('emailmerges_table'));
                     $this->table->set_heading($heading);
                     foreach ($emailmerge_data as $data_entry) {
@@ -42,6 +42,7 @@
                         $row['subject'] = $data_entry['emailmerge_subject'];
                         $row['status'] = flableStatus($data_entry['emailmerge_status']);
                         $row['recipient_count'] = $data_entry['count'];
+                        $row['updated'] = $data_entry['updated_date'];
                         $row['actions'] = fbuttonActionGroup($action_array);
 
                         $this->table->add_row($row);
@@ -63,3 +64,6 @@
     </div>
 </div>
 
+<?php
+//wts($emailmerge_data);
+?>
