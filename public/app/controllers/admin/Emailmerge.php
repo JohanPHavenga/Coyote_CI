@@ -370,7 +370,7 @@ class Emailmerge extends Admin_Controller {
             "%name%" => $data_arr['name'],            
             "%surname%" => $data_arr['surname'],
             "%email%" => $data_arr['email'],
-            "%edition_name%" => @$data_arr['edition_name'],
+            "%event_name%" => @$data_arr['edition_name'],
             "%events_past%" => $this->formulate_newsletter_table($newsletter_data['past'],"past",true),
             "%events_future%" => $this->formulate_newsletter_table($newsletter_data['future'],"future",true),
             "%unsubscribe_url%" => $data_arr['unsubscribe_url'],
@@ -379,11 +379,12 @@ class Emailmerge extends Admin_Controller {
     }
     
     private function set_email_html($text,$merge_data) {
-        $start = "<body>";
-        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
+        $start="";
+//        $start = "<body>";
+//        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
         
         $url=$merge_data['unsubscribe_url'];
-        $end = "<p style='text-align:center;font-family: arial, sans-serif; font-size: 11px;'>This email was sent to ".$merge_data['email']."<br>"
+        $end = "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 9px;'>This email was sent to ".$merge_data['email']."<br>"
                . "<a href='$url'>Unsubscribe</a> from this list<br>"
                . "RoadRunning.co.za</p>";
         
