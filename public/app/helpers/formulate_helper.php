@@ -95,6 +95,24 @@ if ( ! function_exists('fdateHuman'))
     }
 }
 
+if ( ! function_exists('fdateHumanFull'))
+{
+    function fdateHumanFull($date, $show_dotw=FALSE) 
+    {
+        if ($date>0)
+        {
+            if ($show_dotw) 
+            {
+                return date("l, j F Y",strtotime($date));
+            } else {
+                return date("j F Y",strtotime($date));
+            }            
+        } else {
+            return false;
+        }
+    }
+}
+
 if ( ! function_exists('fdateLong'))
 {
     function fdateLong($date, $show_sec=TRUE) 

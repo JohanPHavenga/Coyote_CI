@@ -241,6 +241,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "envelope-open",
                     ],
                     [
+                        "text" => "Email Templates",
+                        "url" => 'admin/emailtemplate',
+                        "icon" => "envelope-letter",
+                    ],
+                    [
                         "text" => "Drafts",
                         "url" => 'admin/emailque/view/4',
                         "icon" => "pencil",
@@ -259,11 +264,6 @@ class Admin_Controller extends MY_Controller {
                         "text" => "Failed",
                         "url" => 'admin/emailque/view/7',
                         "icon" => "dislike",
-                    ],
-                    [
-                        "text" => "Email Templates",
-                        "url" => 'admin/emailtemplate',
-                        "icon" => "envelope-letter",
                     ],
                 ],
             ],
