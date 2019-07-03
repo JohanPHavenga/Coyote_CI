@@ -384,7 +384,7 @@ class Emailmerge extends Admin_Controller {
 //        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
         
         $url=$merge_data['unsubscribe_url'];
-        $end = "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 9px;'>This email was sent to ".$merge_data['email']."<br>"
+        $end = "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 0.9em;'>This email was sent to ".$merge_data['email']."<br>"
                . "<a href='$url'>Unsubscribe</a> from this list<br>"
                . "RoadRunning.co.za</p>";
         

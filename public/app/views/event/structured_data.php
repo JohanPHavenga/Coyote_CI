@@ -74,20 +74,22 @@ if ($event_detail['edition_entries_date_close']) {
         <?php
         if ($price>0) { ?>
             ,"price": "<?=$price;?>",
-            "priceCurrency": "ZAR"
+            "priceCurrency": "ZAR",
             <?php
             if (isset($event_detail['url_list'][5])) {
                 $url=$event_detail['url_list'][5][0]['url_name']; ?>
-                ,"url": "<?=$url;?>",
-            <?php
-            }
-            ?>
+                "url": "<?=$url;?>",
                 "availability": "http://schema.org/InStock",
                 "validFrom": "<?=$valid_from_date;?>",
-                "validThrough": "<?=$valid_to_date;?>"
-            
+                "validThrough": "<?=$valid_to_date;?>"            
             <?php
+            } else { ?>
+                "availability": "http://schema.org/InStoreOnly"
+                <?php
+            }
         }
+            
+        
         if ($race === end($event_detail['race_list'])) {
            echo "}";
         } else {
