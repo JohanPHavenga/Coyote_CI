@@ -160,8 +160,8 @@ class Edition_model extends MY_model {
             }
             return false;
         }
-    }    
-
+    }
+    
     public function get_edition_detail_lite($id) {
         if (!($id)) {
             return false;
@@ -172,6 +172,32 @@ class Edition_model extends MY_model {
                     . "towns.town_name");
             $this->db->from("editions");
             $this->db->join('events', 'events.event_id=editions.event_id', 'left');
+            $this->db->join('towns', 'towns.town_id=events.town_id', 'left');
+            $this->db->where('editions.edition_id', $id);
+            $query = $this->db->get();
+
+            if ($query->num_rows() > 0) {
+                return $query->row_array();
+            }
+            return false;
+        }
+    }
+
+    public function get_edition_detail_full($id) {
+        if (!($id)) {
+            return false;
+        } else {
+            $this->db->select("events.*,editions.*, sponsors.*, clubs.club_id, club_name, users.user_email, towns.town_name, asa_members.*");
+            $this->db->from("editions");
+            $this->db->join('events', 'events.event_id=editions.event_id', 'left');
+            $this->db->join('organising_club', 'events.event_id=organising_club.event_id', 'left');
+            $this->db->join('clubs', 'organising_club.club_id=clubs.club_id', 'left');
+            $this->db->join('edition_user', 'editions.edition_id=edition_user.edition_id', 'left');
+            $this->db->join('users', 'users.user_id=edition_user.user_id', 'left');
+            $this->db->join('edition_sponsor', 'editions.edition_id=edition_sponsor.edition_id', 'left');
+            $this->db->join('edition_asa_member', 'editions.edition_id=edition_asa_member.edition_id', 'left');
+            $this->db->join('asa_members', 'edition_asa_member.asa_member_id=asa_members.asa_member_id', 'left');
+            $this->db->join('sponsors', 'sponsors.sponsor_id=edition_sponsor.sponsor_id', 'left');
             $this->db->join('towns', 'towns.town_id=events.town_id', 'left');
             $this->db->where('editions.edition_id', $id);
             $query = $this->db->get();
