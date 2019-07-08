@@ -44,14 +44,15 @@ class Event extends Frontend_Controller {
 
         // SET THE BASICS
         $edition_id = $edition_data['edition_id'];
-        $edition_status = $edition_data['edition_status'];        
-        $edition_name = str_replace("-", " ", $edition_name);
-        
+        $edition_status = $edition_data['edition_status'];
+//        $edition_name = str_replace("-", " ", $edition_name);
+//        $edition_name=$this->get_display_edition_name($edition_name);
+
         $this->session->set_flashdata(["last_visited_event" => $edition_name]);    // edition in session vir contact form // this is old way, should read from full session data below
         // get basic edition data and add it to session
         $basic_edition_detail = $this->edition_model->get_edition_url_from_id($edition_id);
-        $this->session->set_userdata($basic_edition_detail);        
-        
+        $this->session->set_userdata($basic_edition_detail);
+
         // set edition names
         $e_names = $this->get_edition_name_from_status($edition_name, $edition_status);
         if ($edition_status == 2) {
@@ -116,7 +117,7 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['sponsor_url_list'] = $this->url_model->get_url_list("sponsor", $this->data_to_view['event_detail']['sponsor_id'], false);
         $this->data_to_view['event_detail']['club_url_list'] = $this->url_model->get_url_list("club", $this->data_to_view['event_detail']['club_id'], false);
         // get event history / furture
-        $this->data_to_view['event_history'] = $this->get_event_history($this->data_to_view['event_detail']['event_id'],$edition_id);
+        $this->data_to_view['event_history'] = $this->get_event_history($this->data_to_view['event_detail']['event_id'], $edition_id);
         // get next an previous races
 //        if ($this->data_to_view['event_detail']['race_list']) {
 //            $this->data_to_view['next_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
@@ -223,32 +224,31 @@ class Event extends Frontend_Controller {
         //FOOTER
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
-    
-    
-    public function get_event_history($event_id,$edition_id) {
+
+    public function get_event_history($event_id, $edition_id) {
         // get list of editions linked to this event
-        $edition_list=$this->event_model->get_edition_list($event_id);
-        
+        $edition_list = $this->event_model->get_edition_list($event_id);
+
         // remove the one you are looking at
-        $current_year=date("Y",strtotime($edition_list[$edition_id]['edition_date']));
+        $current_year = date("Y", strtotime($edition_list[$edition_id]['edition_date']));
         unset($edition_list[$edition_id]);
-        
+
         foreach ($edition_list as $edition) {
-            if ($edition['edition_year']<$current_year) {
+            if ($edition['edition_year'] < $current_year) {
                 if (isset($return['past'])) {
-                    if ($edition['edition_year']>$return['past']['edition_year']) {
-                        $return['past']=$edition;
+                    if ($edition['edition_year'] > $return['past']['edition_year']) {
+                        $return['past'] = $edition;
                     }
                 } else {
-                    $return['past']=$edition;
+                    $return['past'] = $edition;
                 }
-            } elseif ($edition['edition_year']>$current_year) {
+            } elseif ($edition['edition_year'] > $current_year) {
                 if (isset($return['future'])) {
-                    if ($edition['edition_year']<$return['future']['edition_year']) {
-                        $return['future']=$edition;
+                    if ($edition['edition_year'] < $return['future']['edition_year']) {
+                        $return['future'] = $edition;
                     }
                 } else {
-                    $return['future']=$edition;
+                    $return['future'] = $edition;
                 }
             }
         }
@@ -264,7 +264,7 @@ class Event extends Frontend_Controller {
     public function subscription() {
         $this->data_to_header['title'] = "Event Subsciption";
 
-        $edition_id=$this->session->edition_id;  
+        $edition_id = $this->session->edition_id;
 //        die();
         // set validation rules
         $this->form_validation->set_rules('user_name', 'Name', 'required', 'Please enter your name');
@@ -282,11 +282,11 @@ class Event extends Frontend_Controller {
         $this->data_to_footer['scripts_to_load'] = array(
             "https://www.google.com/recaptcha/api.js"
         );
-        
+
         // load correct view
         if ($this->form_validation->run() === FALSE) {
-            if (!$this->input->post('button')) {    
-               $this->data_to_view['form_data']['user_email'] = get_cookie("sub_email");
+            if (!$this->input->post('button')) {
+                $this->data_to_view['form_data']['user_email'] = get_cookie("sub_email");
             } else {
                 $this->data_to_view['form_data'] = $this->input->post(NULL);
             }
@@ -294,13 +294,13 @@ class Event extends Frontend_Controller {
             $this->load->view($this->header_url, $this->data_to_header);
             $this->load->view('event/subscription', $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
-        } else {           
-            $user_data=[
-                "user_name"=>$this->input->post(user_name),
-                "user_surname"=>$this->input->post(user_surname),
-                "user_email"=>$this->input->post(user_email),
+        } else {
+            $user_data = [
+                "user_name" => $this->input->post(user_name),
+                "user_surname" => $this->input->post(user_surname),
+                "user_email" => $this->input->post(user_email),
             ];
-            $success = $this->subscribe_user($user_data, "edition", $this->session->edition_id);            
+            $success = $this->subscribe_user($user_data, "edition", $this->session->edition_id);
             redirect($this->session->edition_url);
         }
     }

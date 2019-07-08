@@ -417,7 +417,7 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_footer["date_list"] = $this->get_date_list();
         
         $this->ini_array = parse_ini_file("server_config.ini", true);
-    }
+    }    
 
     public function show_my_404($msg, $status) {
         //Using 'location' not work well on some windows systems

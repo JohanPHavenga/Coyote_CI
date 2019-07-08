@@ -19,8 +19,10 @@ if ( ! function_exists('wts'))
         return urlencode(str_replace(" ","-",(str_replace("-","--",($edition_name)))));
     }
     
-    function get_edition_name_from_url($encoded_edition_name) {
-        $name=str_replace("-", " ", urldecode($encoded_edition_name));
+    function get_edition_name_from_url($encoded_edition_name) { 
+        $name = str_replace("--", "^", $encoded_edition_name);  
+        $name=str_replace("-", " ", urldecode($name));
+        $name = str_replace("^", "-", $name);
         $name=str_replace("  ", "-", urldecode($name));
         return $name;
     }
