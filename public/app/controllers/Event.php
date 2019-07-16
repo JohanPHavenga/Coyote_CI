@@ -226,6 +226,7 @@ class Event extends Frontend_Controller {
     }
 
     public function get_event_history($event_id, $edition_id) {
+        $return=[];
         // get list of editions linked to this event
         $edition_list = $this->event_model->get_edition_list($event_id);
 

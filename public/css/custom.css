@@ -205,6 +205,20 @@ td.badges {
 
 .c-content-feature-13 .c-feature-13-container { padding: 0; }
 
+
+/* ad block */
+#xNOsjtKgLQiH {
+    display: none;
+    margin-bottom: 30px;
+    padding: 20px 10px;
+    background: #D30000;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+}
+
+
 @media (min-width: 992px) {
     .c-layout-header .c-brand {
         margin-top: 32px;
