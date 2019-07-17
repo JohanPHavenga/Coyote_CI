@@ -144,10 +144,10 @@ endif;
                     <div class="c-navbar-wrapper clearfix">
                         <div class="c-brand c-pull-left">
                             <a href="/" class="c-logo ">
-<?php $img_url = "img/logo-vec-37.png"; ?>
+<?php $img_url = "img/logo_37.png"; ?>
                                 <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo">
                                 <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo-inverse">
-                                <img src="<?= base_url('img/logo-vec-27.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo">
+                                <img src="<?= base_url('img/logo_27.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo">
                             </a>
                             <button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
                                 <span class="c-line"></span>

@@ -218,6 +218,9 @@ td.badges {
     border-radius: 5px;
 }
 
+.c-layout-header .c-brand .c-desktop-logo {
+    height: 37px
+}
 
 @media (min-width: 992px) {
     .c-layout-header .c-brand {
