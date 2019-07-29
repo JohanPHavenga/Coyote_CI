@@ -95,7 +95,14 @@
                 // create table
                 $this->table->set_template(ftable('editions_entries_close_table'));
                 foreach ($event_list_entry_date as $edition) {
-                    $this->table->add_row($edition);
+                    if ($edition['entry_close']-time()<604800) { $font_color="red"; $font_weight="bold"; } else { $font_color="inherit"; $font_weight="normal"; }
+                    $entry_data = "<span style='color: $font_color; font-weight: $font_weight;'>".fdateLong($edition['entry_close'], FALSE)."</span>";  
+                    $row['name']=$edition['name'];
+                    $row['entry_date']=$entry_data;
+                    $row['merge_url']=$edition['merge_url'];
+                    
+                    $this->table->add_row($row);
+                    unset($row);
                 }
                 echo $this->table->generate();
                 ?>

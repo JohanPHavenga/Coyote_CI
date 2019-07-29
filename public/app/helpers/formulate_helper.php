@@ -117,13 +117,14 @@ if ( ! function_exists('fdateLong'))
 {
     function fdateLong($date, $show_sec=TRUE) 
     {
+        if (!is_int($date)) { $date=strtotime($date); }
         if ($date)
         {
             if ($show_sec) 
             {
-                return date("Y-m-d H:i:s",strtotime($date));
+                return date("Y-m-d H:i:s",$date);
             } else {
-                return date("Y-m-d H:i",strtotime($date));
+                return date("Y-m-d H:i",$date);
             }
         } else {
             return false;
