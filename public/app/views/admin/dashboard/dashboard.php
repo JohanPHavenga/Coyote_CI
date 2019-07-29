@@ -82,6 +82,26 @@
     </div>
 
     <div class="col-md-6">
+        
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-rocket"></i>
+                    <span class="bold"> Entry dates close within the next month</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <?php
+                // create table
+                $this->table->set_template(ftable('editions_entries_close_table'));
+                foreach ($event_list_entry_date as $edition) {
+                    $this->table->add_row($edition);
+                }
+                echo $this->table->generate();
+                ?>
+            </div>
+        </div>
+        
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
@@ -114,33 +134,6 @@
             </div>
         </div>
         
-<!--        <div class="portlet light">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-rocket"></i>
-                    <span class="bold"> Past events audit</span>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <?php
-                echo $newsletter_data['past'];
-                ?>
-            </div>
-        </div>
-        
-        <div class="portlet light">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-rocket"></i>
-                    <span class="bold"> Future events audit</span>
-                </div>
-            </div>
-            <div class="portlet-body">
-                <?php
-                echo $newsletter_data['future'];
-                ?>
-            </div>
-        </div>-->
     </div>
 </div>
 

@@ -86,12 +86,30 @@ class Dashboard extends Admin_Controller {
                 'date_to' => date("Y-m-d"),
             ];
             $this->data_to_view['event_list_noresults'] = $this->event_model->get_event_list_summary("date_range", $params);
-
-            // get newsletter data
-//            $event_list_newsletter = $this->fetch_newsletter_data();
-//            $this->data_to_view['newsletter_data']['past']=$this->formulate_newsletter_table($event_list_newsletter['past'],"past");
-//            $this->data_to_view['newsletter_data']['future']=$this->formulate_newsletter_table($event_list_newsletter['future'],"future");
             
+            // get list of editions where the entry closing dates is near
+            $params = [
+                'date_from' => date("Y-m-d"),
+                'entry_date' => date("Y-m-d", strtotime("1 month")),
+                'only_active' => 1,
+            ];
+            $entry_date_close_data=$this->event_model->get_event_list_summary("date_range", $params);
+            $entry_data=[];
+            foreach ($entry_date_close_data as $year => $year_list) {
+                foreach ($year_list as $month => $month_list) {
+                    foreach ($month_list as $day => $edition_list) {
+                        foreach ($edition_list as $edition_id=>$edition) {
+                            $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
+                            if (strtotime($edition['edition_entries_date_close'])-time()<604800) { $font_color="red"; } else { $font_color="inherit"; }
+                            $entry_data[$edition_id]['entry_close'] = "<span style='color: $font_color;'><strong>".fdateLong($edition['edition_entries_date_close'], FALSE)."</strong></span>";  
+                            $entry_data[$edition_id]['merge_url'] = '<a href="https://roadrunning/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
+                        }
+                    }
+                }
+            }
+            // sort array
+            uasort($entry_data, function ($item1, $item2) { return $item2['entry_close'] <=> $item1['entry_close']; });
+            $this->data_to_view['event_list_entry_date'] = $entry_data;
 
             // actions on the toolbar
             $this->data_to_header['page_action_list'] = [

@@ -37,10 +37,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="c-content-title-1">
-                                <a href="http://coachparry.com/join-coach-parry/?ref=9" title="Coach Parry" class="cp_ad" target="_blank">
-                                    <img src="http://coachparry.com/wp-content/uploads/2019/02/Banner-1.jpg" alt="Coach Parry" /></a>
-                                <!-- Landing Pages -->
-<!--                                <ins class="adsbygoogle"
+<!--                                <a href="http://coachparry.com/join-coach-parry/?ref=9" title="Coach Parry" class="cp_ad" target="_blank">
+                                    <img src="http://coachparry.com/wp-content/uploads/2019/02/Banner-1.jpg" alt="Coach Parry" /></a>-->
+                                 <!--Landing Pages--> 
+                                <ins class="adsbygoogle"
                                      style="display:block"
                                      data-ad-client="ca-pub-8912238222537097"
                                      data-ad-slot="9867943209"
@@ -48,7 +48,7 @@
                                      data-full-width-responsive="true" class="g_ad_hide"></ins>
                                 <script>
                                     (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>-->
+                                </script>
                             </div>
                         </div>
                     </div>

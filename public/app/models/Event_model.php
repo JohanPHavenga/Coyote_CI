@@ -224,6 +224,10 @@ class Event_model extends MY_model {
             $this->db->where("edition_results_status", $params['results_status']);
             $this->db->where("edition_status", 1);
         }
+        
+        if (isset($params['entry_date'])) {
+            $this->db->where("(edition_entries_date_close BETWEEN '" . $params['date_from'] . "' AND '" . $params['entry_date'] . "')");
+        }
 
         // ONLY ACTIVE 
         if (@$params['only_active']) {
@@ -257,7 +261,7 @@ class Event_model extends MY_model {
     public function get_event_list_summary($from, $params) {
         // set fields to be fetched
         $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_results_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
-            "edition_logo", "edition_info_email_sent",
+            "edition_logo", "edition_info_email_sent", "edition_entries_date_close",
             "racetype_abbr", "town_name", "race_distance", "race_time_start",
             "user_name", "user_surname", "user_email"];
 
@@ -276,14 +280,15 @@ class Event_model extends MY_model {
             $query = $this->get_event_list_data(
                     [
                         "field_arr" => $field_arr,
-                        "date_from" => $params['date_from'],
-                        "date_to" => $params['date_to'],
-                        "area" => $params['area'],
-                        "sort" => $params['sort'],
+                        "date_from" => @$params['date_from'],
+                        "date_to" => @$params['date_to'],
+                        "area" => @$params['area'],
+                        "sort" => @$params['sort'],
                         "confirmed" => @$params['confirmed'],
                         "results" => @$params['results'],
                         "results_status" => @$params['results_status'],
                         "only_active" => @$params['only_active'],
+                        "entry_date" => @$params['entry_date']
                     ]
             );
         } elseif ($from == "search") {

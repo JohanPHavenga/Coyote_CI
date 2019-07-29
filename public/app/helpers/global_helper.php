@@ -53,6 +53,5 @@ if ( ! function_exists('wts'))
             return substr($string, 0, -7);
         }
     }
-}
-
     
+}

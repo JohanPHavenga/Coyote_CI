@@ -26,7 +26,6 @@ class Emailque_model extends MY_model {
         $this->db->select("status_name");
         $this->db->from("status");
         $this->db->where("status_id", $id);
-//        echo $this->db->get_compiled_select();
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -77,8 +76,8 @@ class Emailque_model extends MY_model {
         return $this->db->update('emailques', $data, array('emailque_id' => $emailque_id));
     }
 
-    public function set_emailque($action, $emailque_id, $data) {       
-        $data['updated_date'] = date("Y-m-d H:i:s"); 
+    public function set_emailque($action, $emailque_id, $data) {
+        $data['updated_date'] = date("Y-m-d H:i:s");
         switch ($action) {
             case "add":
                 $this->db->trans_start();
@@ -135,7 +134,7 @@ class Emailque_model extends MY_model {
         $this->db->insert('emailques');
         $edition_id = $this->db->insert_id();
         $this->db->trans_complete();
-        
+
         if ($this->db->trans_status()) {
             return $edition_id;
         } else {
