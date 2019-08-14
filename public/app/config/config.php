@@ -396,7 +396,7 @@ $config['cookie_prefix']	= 'roadrun';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= TRUE;
-$config['cookie_httponly'] 	= z;
+$config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------

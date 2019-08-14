@@ -100,7 +100,7 @@ class Dashboard extends Admin_Controller {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id=>$edition) {
                             $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";                            
-                            $entry_data[$edition_id]['merge_url'] = '<a href="https://roadrunning/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
+                            $entry_data[$edition_id]['merge_url'] = '<a href="/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
                             $entry_data[$edition_id]['entry_close'] = strtotime($edition['edition_entries_date_close']);
                         }
                     }
