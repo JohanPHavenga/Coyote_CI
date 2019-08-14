@@ -567,7 +567,7 @@ class Frontend_Controller extends MY_Controller {
     public function get_bullet_color($params) {
 
         $return['color'] = "c-font-yellow";
-        $return['text'] = "Gathering event inforamtion";
+        $return['text'] = "Gathering event information";
         
         switch (@$params['results_status']) {
             case 10:

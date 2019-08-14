@@ -1,7 +1,7 @@
 <?php
 
 // public mailer class to get list from mailques table and send it out
-class Mailer extends MY_Controller {
+class Mailer extends Frontend_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -40,14 +40,18 @@ class Mailer extends MY_Controller {
         $config['useragent'] = $this->ini_array['email']['useragent'];
         $this->email->initialize($config);
 
+        $this->email->subject($data['emailque_subject']);
         $this->email->from($data['emailque_from_address'], $data['emailque_from_name']);
         $this->email->to($data['emailque_to_address'], $data['emailque_to_name']);
         if ($data['emailque_cc_address']) { $this->email->bcc($data['emailque_cc_address']); }
         if ($data['emailque_bcc_address']) { $this->email->bcc($data['emailque_bcc_address']); }
         // add default BCC address to ALL outgoing email
         $this->email->bcc($this->ini_array['email']['bcc_address']);
-        $this->email->subject($data['emailque_subject']);
-        $this->email->message($data['emailque_body']);
+        $this->email->message($data['emailque_body']);        
+        
+//        wts($data);
+//        wts($this->email);
+//        exit();
 
         $send = $this->email->send();
 
