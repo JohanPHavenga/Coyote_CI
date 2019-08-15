@@ -706,6 +706,7 @@ class Frontend_Controller extends MY_Controller {
                         foreach ($edition_list as $edition_id => $edition) {
 
                             $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
+                            $e_url = base_url("event/".$edition['edition_slug']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
@@ -754,7 +755,7 @@ class Frontend_Controller extends MY_Controller {
 //                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
                             $return_html_arr[] = '<b>Start Times: </b>' . $edition['start_time'] . "<br>";
                             $return_html_arr[] = '<b>Info Status: </b>' . $bullet_info['text'] . "</p>";
-                            $return_html_arr[] = '<p><a href="' . $edition['edition_url'] . '" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+                            $return_html_arr[] = '<p><a href="'.$e_url.'"  class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';
@@ -785,6 +786,7 @@ class Frontend_Controller extends MY_Controller {
                         foreach ($edition_list as $edition_id => $edition) {
 
                             $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
+                            $e_url = base_url("event/".$edition['edition_slug']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
@@ -828,7 +830,7 @@ class Frontend_Controller extends MY_Controller {
 //                                                $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
                             $return_html_arr[] = '<b>Start Times: </b>' . $edition['start_time'] . "<br>";
                             $return_html_arr[] = '<b>Info Status: </b>' . $bullet_info['text'] . "</p>";
-                            $return_html_arr[] = '<p><a href="' . $edition['edition_url'] . '" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+                            $return_html_arr[] = '<p><a href="' . $e_url . '" class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';

@@ -431,7 +431,7 @@ class Edition extends Admin_Controller {
         echo $n . " dates were updated<br>";
     }
     
-     // temp method - fix wehere results status
+    // temp method - fix wehere results status
     function results_status_fix() {
         // function to port old URLs from fields directly on Edition to URl table
         $this->load->model('edition_model');
@@ -451,6 +451,21 @@ class Edition extends Admin_Controller {
         echo "Done<br>";
         echo "<b>". $nl . "</b> statuse were updated to NOT LOADED<br>";
         echo "<b>". $l . "</b> statuse were updated to LOADED<br>";
+    }
+    
+     // create slugs for all the editions
+    function generate_slugs() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list();
+        $n = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            $this->edition_model->update_field($e_id, "edition_slug", url_title($edition['edition_name']));
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>". $n . "</b> slugs were updated<br>";
     }
 
 }

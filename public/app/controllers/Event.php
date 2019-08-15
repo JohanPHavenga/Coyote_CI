@@ -20,8 +20,224 @@ class Event extends Frontend_Controller {
             $this->detail($method, $params = array());
         }
     }
+    
+    public function detail($slug) {
+        // get race and edition models
+        $this->load->model('race_model');
+        $this->load->model('file_model');
+        $this->load->model('url_model');
 
-    public function detail($edition_name_encoded) {
+        // as daar nie 'n edition_name deurgestuur word nie
+        if ($slug == "index") { redirect("/event/calendar"); }
+        
+        // gebruik slug om ID te kry
+        $edition_data = $this->edition_model->get_edition_id_from_slug($slug);
+        
+        if ($edition_data) {
+            // AS DIE NAAM WAT INKOM, NIE DIELFDE AS DIE OFFICIAL NAAM IS NIE, DAN DOEN HY 'N 301 REDIRECT.
+            if ($edition_data['source'] == "past") {
+                $new_slug=$this->edition_model->get_edition_slug($edition_data['edition_id']);
+                $url = base_url("event/".$new_slug);
+                redirect($url, 'location', 301);
+            }
+        } else {
+            // old school
+            // decode die edition name uit die URL en kry ID
+            $edition_name = get_edition_name_from_url($slug);
+            $edition_data = $this->edition_model->get_edition_id_from_name($edition_name);
+
+            // AS DIE NAAM WAT INKOM, NIE DIELFDE AS DIE OFFICIAL NAAM IS NIE, DAN DOEN HY 'N 301 REDIRECT. (gebruik die nuwe slug)
+            if ($edition_data['edition_name'] != $edition_name) {
+//                $url = get_url_from_edition_name(encode_edition_name($edition_data['edition_name']));
+                $new_slug=$this->edition_model->get_edition_slug($edition_data['edition_id']);
+                $url = base_url("event/".$new_slug);
+                redirect($url, 'location', 301);
+            }
+        }
+
+        // SET THE BASICS
+        $edition_id = $edition_data['edition_id'];
+        $edition_status = $edition_data['edition_status'];
+        $edition_name = $edition_data['edition_name'];
+
+        $this->session->set_flashdata(["last_visited_event" => $edition_name]);    // edition in session vir contact form // this is old way, should read from full session data below
+        // get basic edition data and add it to session
+        $basic_edition_detail = $this->edition_model->get_edition_url_from_id($edition_id);
+        $this->session->set_userdata($basic_edition_detail);
+
+        // set edition names
+        $e_names = $this->get_edition_name_from_status($edition_name, $edition_status);
+        if ($edition_status == 2) {
+            $this->data_to_header['meta_robots'] = "noindex, nofollow";
+        }
+
+        if (!$edition_id) {
+            // if name cannot be matched to an edition
+            $this->session->set_flashdata([
+                'alert' => " We had trouble finding the event '<b>" . $edition_name . "</b>'. Please try selecting the correct event from the list below.",
+                'status' => "danger",
+            ]);
+            redirect("/event/calendar");
+            die();
+        }
+
+        $this->data_to_header['title'] = $e_names['edition_name'];
+
+        // set data to view
+        $this->data_to_header['css_to_load'] = array(
+            "plugins/cubeportfolio/css/cubeportfolio.min.css",
+            "plugins/owl-carousel/assets/owl.carousel.css",
+            "plugins/fancybox/jquery.fancybox.css",
+            "plugins/slider-for-bootstrap/css/slider.css",
+            "plugins/leaflet/leaflet.css",
+        );
+
+        $this->data_to_footer['js_to_load'] = array(
+            "plugins/cubeportfolio/js/jquery.cubeportfolio.min.js",
+            "plugins/owl-carousel/owl.carousel.min.js",
+            "plugins/fancybox/jquery.fancybox.pack.js",
+            "plugins/smooth-scroll/jquery.smooth-scroll.js",
+            "plugins/slider-for-bootstrap/js/bootstrap-slider.js",
+            "plugins/leaflet/leaflet.js",
+//            GOOGLE_MAP_URL,
+        );
+
+        $this->data_to_footer['scripts_to_load'] = array(
+//            "plugins/gmaps/gmaps.js",
+            "https://www.google.com/recaptcha/api.js"
+        );
+
+        // get event details
+        $this->data_to_view['event_detail'] = $this->edition_model->get_edition_detail_full($edition_id);
+        $this->data_to_view['event_detail']['edition_name'] = $e_names['edition_name'];
+        $this->data_to_view['event_detail']['edition_name_clean'] = $e_names['edition_name_clean'];
+        $this->data_to_view['event_detail']['edition_name_no_date'] = $e_names['edition_name_no_date'];
+        $this->data_to_view['event_detail']['race_list'] = $this->race_model->get_race_list($edition_id);
+        foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
+            if ($race['race_status'] == 2) {
+                unset($this->data_to_view['event_detail']['race_list'][$race_id]);
+                continue;
+            }
+            $this->data_to_view['event_detail']['race_list'][$race_id]['file_list'] = $this->file_model->get_file_list("race", $race_id, true);
+            $this->data_to_view['event_detail']['race_list'][$race_id]['url_list'] = $this->url_model->get_url_list("race", $race_id, true);
+            $this->data_to_view['event_detail']['race_list'][$race_id]['race_name'] = $this->get_race_name_from_status($race['race_name'], $race['race_distance'], $race['racetype_name'], $race['race_status']);
+        }
+        $this->data_to_view['event_detail']['file_list'] = $this->file_model->get_file_list("edition", $edition_id, true);
+        $this->data_to_view['event_detail']['summary'] = $this->event_model->get_event_list_summary("id", ["event_id" => $this->data_to_view['event_detail']['event_id']]);
+        $this->data_to_view['event_detail']['file_list'] = $this->file_model->get_file_list("edition", $edition_id, true);
+        $this->data_to_view['event_detail']['url_list'] = $this->url_model->get_url_list("edition", $edition_id, true);
+        $this->data_to_view['event_detail']['sponsor_url_list'] = $this->url_model->get_url_list("sponsor", $this->data_to_view['event_detail']['sponsor_id'], false);
+        $this->data_to_view['event_detail']['club_url_list'] = $this->url_model->get_url_list("club", $this->data_to_view['event_detail']['club_id'], false);
+        // get event history / furture
+        $this->data_to_view['event_history'] = $this->get_event_history($this->data_to_view['event_detail']['event_id'], $edition_id);
+        // get next an previous races
+//        if ($this->data_to_view['event_detail']['race_list']) {
+//            $this->data_to_view['next_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'next');
+//            $this->data_to_view['prev_race_list'] = $this->race_model->get_next_prev_race_list($this->data_to_view['event_detail']['race_list'], 'prev');
+//        }
+        // get url for Google Calendar
+        $this->data_to_view['event_detail']['google_cal_url'] = $this->google_cal(
+                [
+                    "edition_name" => $this->data_to_view['event_detail']['edition_name'],
+                    "edition_date" => $this->data_to_view['event_detail']['edition_date'],
+                    "race_list" => $this->data_to_view['event_detail']['race_list'],
+                    "url" => "http://www.roadrunning.co.za" . urlencode($this->data_to_view['event_detail']['summary']['edition_url']),
+                    "address" => $this->data_to_view['event_detail']['edition_address'] . ", " . $this->data_to_view['event_detail']['town_name'],
+                ]
+        );
+
+        // get other stuff
+//        $this->data_to_footer['scripts_to_display'][]=$this->formulate_gmap_script($this->data_to_view['event_detail']);
+        $this->data_to_footer['scripts_to_display'][] = $this->formulate_leaflet_script($this->data_to_view['event_detail']);
+        $this->data_to_view['notice'] = $this->formulate_detail_notice($this->data_to_view['event_detail']);
+        $this->data_to_header['meta_description'] = $this->formulate_meta_description($this->data_to_view['event_detail']['summary']);
+        $this->data_to_header['keywords'] = $this->formulate_keywords($this->data_to_view['event_detail']['summary']);
+//        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
+
+        $this->data_to_header['structured_data'] = $this->load->view('/event/structured_data', $this->data_to_view, TRUE);
+
+        // set buttons
+        $this->data_to_view['event_detail']['calc_edition_urls'] = $btn_data['calc_edition_urls'] = $this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'], $this->data_to_view['event_detail']['url_list']);
+
+        foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
+            $race_urls = $this->calc_urls_to_use($race['file_list'], $race['url_list']);
+            if ($race_urls) {
+                $this->data_to_view['event_detail']['calc_race_urls'][$race_id] = $race_urls;
+            }
+        }
+
+        // get cookie
+        $this->data_to_view['rr_cookie']['sub_email'] = get_cookie("sub_email");
+
+
+        // set title bar
+        // remove firt element in  crumbs_arr, and replace with generic text        
+        array_shift($this->crumbs_arr);
+        $this->crumbs_arr = ["Event Details" => ""] + $this->crumbs_arr;
+        $this->data_to_view["title_bar"] = $this->render_topbar_html(
+                [
+                    "crumbs" => $this->crumbs_arr,
+        ]);
+
+        // set box color - this is for the zebra lines
+        $box_color_arr[0] = '';
+        $box_color_arr[1] = 'c-bg-grey-1';
+        $bc = 0;
+        $this->data_to_view['box_color'] = $box_color_arr[$bc];
+
+        // -------------------------------------------------------------------------------------------------
+        // LOAD VIEWS         
+        // -------------------------------------------------------------------------------------------------
+        // HEADER
+        $this->load->view($this->header_url, $this->data_to_header);
+
+        // $this->load->view("/event/detail", $this->data_to_view);
+        $this->load->view("/event/detail_head", $this->data_to_view);
+        $this->load->view("/event/detail_event_heading", $this->data_to_view);
+
+        // Google Add
+        $this->load->view("/event/google_ad", $this->data_to_view);
+        $bc = !$bc;
+        $this->data_to_view['box_color'] = $box_color_arr[$bc];
+
+        // Entry Detail
+        if (strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 10) {
+            $this->load->view("/event/detail_event_info_entry", $this->data_to_view);
+            $bc = !$bc;
+            $this->data_to_view['box_color'] = $box_color_arr[$bc];
+        }
+
+        // Race detail
+        $this->load->view("/event/detail_event_info_races", $this->data_to_view);
+        // check race_list size. If uneven number, change box_color
+        $num_races = sizeof($this->data_to_view['event_detail']['race_list']);
+        if ($num_races % 2) {
+            $bc = !$bc;
+            $this->data_to_view['box_color'] = $box_color_arr[$bc];
+        }
+
+        // subscribe to event
+        $this->load->view("/event/detail_subscribe", $this->data_to_view);
+
+        // Event description
+        $this->load->view("/event/detail_event_info_description", $this->data_to_view);
+        $bc = !$bc;
+        $this->data_to_view['box_color'] = $box_color_arr[$bc];
+
+
+        // Google Add
+        $this->load->view("/event/google_ad_bottom", $this->data_to_view);
+        $bc = !$bc;
+        $this->data_to_view['box_color'] = $box_color_arr[$bc];
+
+        // Detail footer
+        $this->load->view("/event/detail_footer", $this->data_to_view);
+
+        //FOOTER
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
+    public function detail_old($edition_name_encoded) {
         // get race and edition models
         $this->load->model('race_model');
         $this->load->model('file_model');

@@ -260,7 +260,7 @@ class Event_model extends MY_model {
     // ======================================================================================
     public function get_event_list_summary($from, $params) {
         // set fields to be fetched
-        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_status", "edition_results_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
+        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_slug","edition_status", "edition_results_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
             "edition_logo", "edition_info_email_sent", "edition_entries_date_close",
             "racetype_abbr", "town_name", "race_distance", "race_time_start",
             "user_name", "user_surname", "user_email"];
@@ -395,7 +395,7 @@ class Event_model extends MY_model {
 
     public function get_event_list_sitemap($params) {
 
-        $field_arr = ['edition_name'];
+        $field_arr = ['edition_slug'];
         $this->db->select($field_arr);
         $this->db->from("editions");
         $this->db->where("edition_status", 1);
@@ -453,8 +453,9 @@ class Event_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $edition_url_name = urlencode(str_replace(" ", "-", (str_replace("'", "", str_replace("/", " ", $row["edition_name"])))));
-                $url_list[] = "event/" . $edition_url_name;
+//                $edition_url_name = urlencode(str_replace(" ", "-", (str_replace("'", "", str_replace("/", " ", $row["edition_name"])))));
+//                $url_list[] = "event/" . $edition_url_name/
+                $url_list[] = "event/" . $row['edition_slug'];
             }
             return $url_list;
         }

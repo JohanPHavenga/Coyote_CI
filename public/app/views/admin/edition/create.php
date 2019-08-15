@@ -12,17 +12,16 @@ echo form_open_multipart($form_url);
             </div>
             <div class="portlet-body">
                 <?php
-                //  EDITION NAME
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
+                //  EDITION NAME
                 echo "<div class='col-md-7'>";
                 echo form_label('Edition Name <span class="compulsary">*</span>', 'edition_name');
                 echo form_input([
                     'name' => 'edition_name',
                     'id' => 'edition_name',
-//                    'value' => utf8_encode(@$edition_detail['edition_name']),
                     'value' => set_value('edition_name', @$edition_detail['edition_name'], false),
-                    'class' => 'form-control input-xlarge',
+                    'class' => 'form-control',
                     'required' => '',
                 ]);
                 echo form_input([
@@ -31,47 +30,41 @@ echo form_open_multipart($form_url);
                     'value' => set_value('edition_name_past', @$edition_detail['edition_name']),
                     'type' => 'hidden',
                 ]);
+                echo "<p class='help-block' style='font-style: italic;'> Remember the <b>year</b> at the end of the edition name </p>";
 
-                echo "<p class='help-block' style='font-style: italic;'> Remember to always add the year at the end of the edition name </p>";
+                // EVENT INPUT ON ADD
+                if ($action == "add") {
+                    echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
+                    echo form_dropdown('event_id', $event_dropdown, set_value('event_id', @$edition_detail['event_id']), ["id" => "event_id", "class" => "form-control input-xlarge"]);
+                    echo form_input(['name' => 'edition_status','value' => set_value('edition_status', 1),'type' => 'hidden',]);
+                } else {
+                // EDITION STATUS    
+                    echo form_label('Edition Status <span class="compulsary">*</span>', 'edition_status');
+                    echo form_dropdown('edition_status', $status_dropdown, set_value('edition_status', @$edition_detail['edition_status']), ["id" => "edition_status", "class" => "form-control input-small"]);
+                }
                 echo "</div>";
 
-                //  
+                // EVENT INFO ON EDIT
                 echo "<div class='col-md-5'>";
-                echo form_label('Town Name', 'town_name');
-                echo "<p class='help-block'> " . @$edition_detail['town_name'] . "</p>";
-                echo form_label('Organising Club', 'town_name');
-                echo "<p class='help-block'> " . @$edition_detail['club_name'] . "</p>";
-                echo "</div>";
-
-                echo "</div>";
-                echo "</div>";
-
-                //  EVENT LINK
-                echo "<div class='form-group'>";
-                echo "<div class='row'>";
-                echo "<div class='col-md-7'>";
                 if ($action == "edit") {
-                    echo form_label('Event', 'event_id');
-                    echo "<p class='help-block'> " . @$edition_detail['event_name'] . " (<a href='" . $event_edit_url . "'>Edit</a>)</p>";
+                    echo form_label('', 'event_id');
+                    echo "<p class='help-block'><b>Event:</b>  " . @$edition_detail['event_name'] . " (<a href='" . $event_edit_url . "'>Edit</a>)</p>";
                     echo form_input([
                         'name' => 'event_id',
                         'id' => 'event_id',
                         'value' => set_value('event_id', @$edition_detail['event_id']),
                         'type' => 'hidden',
                     ]);
-                } else {
-                    echo form_label('Part of Event <span class="compulsary">*</span>', 'event_id');
-                    echo form_dropdown('event_id', $event_dropdown, set_value('event_id', @$edition_detail['event_id']), ["id" => "event_id", "class" => "form-control input-xlarge"]);
+                    echo "<p class='help-block'><b>Town:</b> " . @$edition_detail['town_name'] . "</p>";
+                    echo "<p class='help-block'> <b>Club:</b> " . @$edition_detail['club_name'] . "</p>";
+                    echo "<p class='help-block'><b>Slug:</b> <a href='" . base_url('/event/' . $edition_detail['edition_slug']) . "' title='Preview' target='_blank'>" . $edition_detail['edition_slug'] . "</a></p>";
                 }
                 echo "</div>";
 
-                //  EDITION STATUS
-                echo "<div class='col-md-5'>";
-                echo form_label('Edition Status <span class="compulsary">*</span>', 'edition_status');
-                echo form_dropdown('edition_status', $status_dropdown, set_value('edition_status', @$edition_detail['edition_status']), ["id" => "edition_status", "class" => "form-control input-small"]);
                 echo "</div>";
                 echo "</div>";
-                echo "</div>";
+
+
 
                 //  DATE
                 echo "<div class='form-group'>";

@@ -44,6 +44,46 @@ class Edition_model extends MY_model {
             return false;
         }
     }
+    
+    public function get_edition_id_from_slug($edition_slug) {
+        // CHECK Editions table vir die naame
+        $this->db->select("edition_id, edition_name, edition_status");
+        $this->db->from("editions");
+        $this->db->where("edition_slug", $edition_slug);
+        $editions_query = $this->db->get();
+
+        // CHECK Editions_Past vir as die naam van die edition verander
+        $this->db->select("edition_id, edition_name");
+        $this->db->from("editions_past");
+        $this->db->where("edition_slug", $edition_slug);
+        $editions_past_query = $this->db->get();
+
+        if ($editions_query->num_rows() > 0) {
+            $result = $editions_query->result_array();
+            $result[0]['source']="org";
+            return $result[0];
+        } elseif ($editions_past_query->num_rows() > 0) {
+            $result = $editions_past_query->result_array();
+            $result[0]['source']="past";
+            return $result[0];
+        } else {
+            return false;
+        }
+    }
+    
+    public function get_edition_slug($edition_id) {
+        // CHECK Editions table vir die naame
+        $this->db->select("edition_slug");
+        $this->db->from("editions");
+        $this->db->where("edition_id", $edition_id);
+        $editions_query = $this->db->get();
+        if ($editions_query->num_rows() > 0) {
+            $result = $editions_query->result_array();
+            return $result[0]['edition_slug'];
+        } else {
+            return false;
+        }
+    }
 
     public function get_edition_name_from_id($edition_id) {
         // CHECK Editions table vir die naame
@@ -261,6 +301,7 @@ class Edition_model extends MY_model {
                 'edition_description' => $this->input->post('edition_description'),
                 'edition_entries_date_open' => $entries_open,
                 'edition_entries_date_close' => $entries_close,
+                'edition_slug' => url_title($this->input->post('edition_name')),
             );
 
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => $this->input->post('sponsor_id')];
@@ -362,7 +403,11 @@ class Edition_model extends MY_model {
 
                     if ($this->input->post('edition_name_past') != $this->input->post('edition_name')) {
                         $this->db->trans_start();
-                        $this->db->insert('editions_past', ["edition_id" => $edition_id, "edition_name" => $this->input->post('edition_name_past')]);
+                        $this->db->insert('editions_past', [
+                            "edition_id" => $edition_id, 
+                            "edition_name" => $this->input->post('edition_name_past'),
+                            "edition_slug" => url_title($this->input->post('edition_name_past'))
+                                    ]);                                    
                         $this->db->trans_complete();
                     }
 
