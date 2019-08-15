@@ -92,6 +92,10 @@ $route['centralkaroo'] = 'landing/central+karoo';
 $route['CentralKaroo'] = 'landing/central+karoo';
 $route['griqualandwest'] = 'landing/griqualand+west';
 $route['GriqualandWest'] = 'landing/griqualand+west';
+$route['northerncape'] = 'landing/northern+cape';
+$route['NorthernCape'] = 'landing/northern+cape';
+$route['guateng'] = 'landing/guateng';
+$route['Guateng'] = 'landing/guateng';
 
 $route['content-overview'] = 'calendar';
 

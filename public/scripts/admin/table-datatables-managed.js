@@ -174,10 +174,10 @@ var TableDatatablesManaged = function () {
             responsive: true,
             columnDefs: [
                 {orderable: false, targets: [-1]},
-                {searchable: false, targets: [1,3,-1]},
+                {searchable: false, targets: [0,3,-1]},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: -1},
-                {responsivePriority: 3, targets: -2}
+                {responsivePriority: 3, targets: 3}
             ]
         });
     };

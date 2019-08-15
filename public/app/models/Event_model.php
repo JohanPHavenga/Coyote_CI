@@ -370,10 +370,14 @@ class Event_model extends MY_model {
                         $value = date("D d M Y", strtotime($row[$field]));
                         $data[$year][$month][$day][$id]["edition_timestamp"] = $row[$field];
                         break;
-                    case "edition_name":
+//                    case "edition_name":
+//                        $value = $row[$field];
+//                        $edition_url_name = encode_edition_name($row[$field]);
+//                        $data[$year][$month][$day][$id]["edition_url"] = "/event/" . $edition_url_name;
+//                        break;
+                    case "edition_slug":
                         $value = $row[$field];
-                        $edition_url_name = encode_edition_name($row[$field]);
-                        $data[$year][$month][$day][$id]["edition_url"] = "/event/" . $edition_url_name;
+                        $data[$year][$month][$day][$id]["edition_url"] = "/event/" . $row[$field];
                         break;
                     default:
                         $value = $row[$field];
