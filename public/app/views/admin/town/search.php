@@ -51,6 +51,7 @@
                         $row['id'] = $data_entry['town_id'];
                         $row['name'] = $data_entry['town_name'];
                         $row['province'] = $data_entry['province_name'];
+                        $row['region'] = $data_entry['region_name'];
                         $row['area'] = $data_entry['area_name'];
                         $row['actions'] = fbuttonActionGroup($action_array);
                         $this->table->add_row($row);

@@ -305,6 +305,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "map",
                     ],
                     [
+                        "text" => "Regions",
+                        "url" => 'admin/region',
+                        "icon" => "map",
+                    ],
+                    [
                         "text" => "Provinces",
                         "url" => 'admin/province',
                         "icon" => "globe-alt",

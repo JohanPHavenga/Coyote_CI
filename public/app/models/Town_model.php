@@ -17,6 +17,7 @@ class Town_model extends MY_model {
         $this->db->select("*");
         $this->db->from("towns");
         $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
+        $this->db->join('regions', 'region_id','left');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -29,31 +30,51 @@ class Town_model extends MY_model {
     }
 
     public function get_town_dropdown() {
-        $this->db->select("town_id, town_name");
+        $this->db->select("town_id, town_name, area_id, region_id");
         $this->db->from("towns");
-        $this->db->join('town_area', 'town_id');
+        $this->db->join('town_area', 'town_id', 'left');
+        $this->db->join('regions', 'region_id', 'left');
         $this->db->order_by('town_name');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
-                $data[$row['town_id']] = $row['town_name'];
+                if ($row['area_id']||$row['region_id']) {
+                    $data[$row['town_id']] = $row['town_name'];
+                }
             }
-//                return array_slice($data, 0, 500, true);
             return $data;
         }
         return false;
     }
+    
+    // AFTER AREA IS NO LONGER IN USE, USE THIS TO GET THE TOWN_DROPDOWN
+//    public function get_town_dropdown() {
+//        $this->db->select("town_id, town_name, region_id");
+//        $this->db->from("towns");
+//        $this->db->join('regions', 'region_id');
+//        $this->db->order_by('town_name');
+//        $query = $this->db->get();
+//
+//        if ($query->num_rows() > 0) {
+//            $data[] = "Please Select";
+//            foreach ($query->result_array() as $row) {
+//               $data[$row['town_id']] = $row['town_name'];
+//            }
+//            return $data;
+//        }
+//        return false;
+//    }
 
     public function get_town_detail($id) {
         if (!($id)) {
             return false;
         } else {
-            
-            $this->db->select("*");
+            $this->db->select("towns.*,area_id");
             $this->db->from("towns");
             $this->db->join('town_area', 'town_id','left');
+            $this->db->join('regions', 'region_id','left');
             $this->db->where("town_id",$id);
             $query = $this->db->get();
         
@@ -67,9 +88,10 @@ class Town_model extends MY_model {
     }
 
     public function town_search($ss) {
-        $this->db->select("town_id, town_name, province_name");
+        $this->db->select("town_id, town_name, province_name, region_name");
         $this->db->from("towns");
         $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
+        $this->db->join('regions', 'region_id', 'left');
         $this->db->where("town_name LIKE '$ss%'");
         $query = $this->db->get();
 
@@ -89,6 +111,7 @@ class Town_model extends MY_model {
         $this->db->select("*");
         $this->db->from("towns");
         $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
+        $this->db->join('regions', 'region_id', 'left');
         $this->db->join('town_area', 'town_id', 'left');
         $this->db->join('areas', 'area_id', 'left');
         $this->db->where("town_name LIKE '%$ss%'");
@@ -124,6 +147,7 @@ class Town_model extends MY_model {
             'latitude_num' => $this->input->post('latitude_num'),
             'longitude_num' => $this->input->post('longitude_num'),
             'province_id' => $this->input->post('province_id'),
+            'region_id' => $this->input->post('region_id'),
         );
         $town_area_data = ["town_id" => $town_id, "area_id" => $this->input->post('area_id')];
 

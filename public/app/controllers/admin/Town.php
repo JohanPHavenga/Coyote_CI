@@ -92,7 +92,7 @@ class Town extends Admin_Controller {
 //        wts($this->data_to_view['search_results']);
 //        die();
 
-        $this->data_to_view['heading'] = ["ID", "Town Name", "Province", "Area", "Actions"];
+        $this->data_to_view['heading'] = ["ID", "Town Name", "Province", "Region","Area", "Actions"];
 
         $this->data_to_header['css_to_load'] = array(
             "plugins/datatables/datatables.min.css",
@@ -120,6 +120,7 @@ class Town extends Admin_Controller {
         $this->load->model('town_model');
         $this->load->model('area_model');
         $this->load->model('province_model');
+        $this->load->model('region_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -132,6 +133,7 @@ class Town extends Admin_Controller {
 
         $this->data_to_view['province_dropdown'] = $this->province_model->get_province_dropdown();
         $this->data_to_view['area_dropdown'] = $this->area_model->get_area_dropdown();
+        $this->data_to_view['region_dropdown'] = $this->region_model->get_region_dropdown();
 
         if ($action == "edit") {
             $this->data_to_view['town_detail'] = $this->town_model->get_town_detail($id);

@@ -36,7 +36,7 @@ class Area extends Admin_Controller {
         $this->data_to_header['crumbs'] =
                    [
                    "Home"=>"/admin",
-                   "Users"=>"/admin/area",
+                   "Areas"=>"/admin/area",
                    "List"=>"",
                    ];
         
@@ -100,8 +100,8 @@ class Area extends Admin_Controller {
         }
 
         // set validation rules
-        $this->form_validation->set_rules('area_name', 'Sponsor Name', 'required');
-        $this->form_validation->set_rules('area_status', 'Sponsor Status', 'required');
+        $this->form_validation->set_rules('area_name', 'Area Name', 'required');
+        $this->form_validation->set_rules('area_status', 'Area Status', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE)
