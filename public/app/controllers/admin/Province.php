@@ -40,7 +40,7 @@ class Province extends Admin_Controller {
         $this->load->library('table');
         
         $this->data_to_view["province_data"] = $this->province_model->get_province_list();
-        $this->data_to_view['heading']=["ID","Province Name","Actions"];
+        $this->data_to_view['heading']=["ID","Province Name","Slug"];
         
         $this->data_to_header['title'] = "List of Provinces";
 
@@ -73,6 +73,21 @@ class Province extends Admin_Controller {
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/province/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+    
+    
+     // create slugs for all the provinces
+    function generate_slugs() {
+        $this->load->model('province_model');
+        $province_list = $this->province_model->get_province_list();
+        $n = 0;
+        foreach ($province_list as $id => $province) {
+            $this->province_model->update_field($id, "province_slug", url_title($province['province_name']));
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>". $n . "</b> slugs were updated<br>";
     }
 
 }

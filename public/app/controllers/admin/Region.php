@@ -23,7 +23,7 @@ class Region extends Admin_Controller {
         $this->load->library('table');
 
         $this->data_to_view["region_data"] = $this->region_model->get_region_list();
-        $this->data_to_view['heading'] = ["ID", "Region Name", "Province", "Status", "Actions"];
+        $this->data_to_view['heading'] = ["ID", "Region Name", "Slug", "Province", "Status", "Actions"];
 
         $this->data_to_header['title'] = "List of Regions";
         $this->data_to_view['create_link'] = $this->create_url;
@@ -67,7 +67,7 @@ class Region extends Admin_Controller {
     }
 
     public function create($action, $id = 0) {
-        
+
         // additional models
         $this->load->model('province_model');
 
@@ -91,8 +91,8 @@ class Region extends Admin_Controller {
             $this->data_to_view['region_detail'] = $this->region_model->get_region_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            $this->data_to_view['region_detail']['region_status']=1;
-            $this->data_to_view['region_detail']['province_id']=12;
+            $this->data_to_view['region_detail']['region_status'] = 1;
+            $this->data_to_view['region_detail']['province_id'] = 12;
         }
 
         // set validation rules
@@ -121,7 +121,7 @@ class Region extends Admin_Controller {
                 'alert' => $alert,
                 'status' => $status,
             ]);
-            
+
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
                 $this->return_url = base_url("admin/region/create/edit/" . $id);
@@ -153,6 +153,20 @@ class Region extends Admin_Controller {
             $this->session->set_flashdata('status', $status);
             redirect($this->return_url);
         }
+    }
+
+    // create slugs for all the regions
+    function generate_slugs() {
+        $this->load->model('region_model');
+        $region_list = $this->region_model->get_region_list();
+        $n = 0;
+        foreach ($region_list as $id => $region) {
+            $this->region_model->update_field($id, "region_slug", url_title($region['region_name']));
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $n . "</b> slugs were updated<br>";
     }
 
 }

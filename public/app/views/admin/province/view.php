@@ -17,10 +17,9 @@
 
                         $row['id'] = $data_entry['province_id'];
                         $row['province'] = $data_entry['province_name'];
+                        $row['slug'] = $data_entry['province_slug'];
 
-                        $this->table->add_row(
-                                $row['id'], $row['province'], ""
-                        );
+                        $this->table->add_row($row);
                         unset($row);
                     }
                     echo $this->table->generate();

@@ -32,6 +32,7 @@
 
                         $row['id'] = $data_entry['region_id'];
                         $row['region'] = $data_entry['region_name'];
+                        $row['slug'] = $data_entry['region_slug'];
                         $row['province'] = $data_entry['province_name'];
                         $row['status'] = flableStatus($data_entry['region_status']);
                         $row['actions'] = fbuttonActionGroup($action_array);

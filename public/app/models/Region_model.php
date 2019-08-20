@@ -69,8 +69,10 @@ class Region_model extends MY_model {
         
         switch ($action) {
             case "add":
+                $data['region_slug'] = url_title($data['region_name']);
                 return $this->db->insert('regions', $data);
             case "edit":
+                $data['region_slug'] = url_title($data['region_name']);
                 $data['updated_date'] = date("Y-m-d H:i:s");
                 return $this->db->update('regions', $data, array('region_id' => $id));
             default:
@@ -101,6 +103,19 @@ class Region_model extends MY_model {
             return $result[0]['region_id'];
         } else {
             return false;
+        }
+    }
+    
+    public function update_field($id, $field, $value) {
+        if (!($id)) {
+            return false;
+        } else {
+            $this->db->trans_start();
+            $data[$field]=$value;
+            $data['updated_date'] = date("Y-m-d H:i:s");
+            $this->db->update('regions', $data, array('region_id' => $id));
+            $this->db->trans_complete();
+            return $this->db->trans_status();
         }
     }
 
