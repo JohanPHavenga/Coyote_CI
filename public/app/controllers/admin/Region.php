@@ -92,6 +92,7 @@ class Region extends Admin_Controller {
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
             $this->data_to_view['region_detail']['region_status']=1;
+            $this->data_to_view['region_detail']['province_id']=12;
         }
 
         // set validation rules
@@ -130,35 +131,27 @@ class Region extends Admin_Controller {
         }
     }
 
-    public function delete($confirm = false) {
+    public function delete($id) {
 
-        $id = $this->encryption->decrypt($this->input->post('region_id'));
 
         if ($id == 0) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
             die();
-        }
-
-        if ($confirm == 'confirm') {
+        } else {
             $db_del = $this->region_model->remove_region($id);
             if ($db_del) {
                 $msg = "Region has been deleted";
                 $status = "success";
             } else {
-                $msg = "Error committing to the database ID:'.$id";
+                $msg = "Error deleting region - ID:'.$id";
                 $status = "danger";
             }
 
             $this->session->set_flashdata('alert', $msg);
             $this->session->set_flashdata('status', $status);
             redirect($this->return_url);
-        } else {
-            $this->session->set_flashdata('alert', 'Cannot delete record');
-            $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_url);
-            die();
         }
     }
 

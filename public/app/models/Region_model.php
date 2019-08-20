@@ -30,6 +30,7 @@ class Region_model extends MY_model {
     public function get_region_dropdown() {
         $this->db->select("region_id, region_name");
         $this->db->from("regions");
+        $this->db->order_by("region_name");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

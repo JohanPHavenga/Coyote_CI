@@ -11,13 +11,34 @@ class Town_model extends MY_model {
         return $this->db->count_all("towns");
     }
 
-    public function get_town_list($limit, $start) {
-        $this->db->limit($limit, $start);
-
+//    public function get_town_list($limit, $start) {
+//        $this->db->limit($limit, $start);
+//
+//        $this->db->select("*");
+//        $this->db->from("towns");
+//        $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
+//        $this->db->join('regions', 'region_id','left');
+//        $query = $this->db->get();
+//
+//        if ($query->num_rows() > 0) {
+//            foreach ($query->result_array() as $row) {
+//                $data[$row['town_id']] = $row;
+//            }
+//            return $data;
+//        }
+//        return false;
+//    }
+    
+    public function get_town_list($query_params=[]) {
         $this->db->select("*");
         $this->db->from("towns");
         $this->db->join('provinces', 'provinces.province_id = towns.province_id', 'left');
         $this->db->join('regions', 'region_id','left');
+        foreach ($query_params as $operator=>$clause_arr) {
+            foreach ($clause_arr as $field=>$value) {
+                $this->db->$operator($field, $value);
+            }
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

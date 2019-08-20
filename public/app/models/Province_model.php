@@ -20,10 +20,11 @@ class Province_model extends MY_model {
     public function get_province_dropdown() {
         $this->db->select("province_id, province_name");
         $this->db->from("provinces");
+        $this->db->order_by("province_name");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data[] = "Please Select";
+//            $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
                 $data[$row['province_id']] = $row['province_name'];
             }

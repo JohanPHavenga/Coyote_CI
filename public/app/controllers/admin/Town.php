@@ -18,39 +18,39 @@ class Town extends Admin_Controller {
         }
     }
 
-    public function view($id = FALSE) {
-        // load helpers / libraries
-        $this->load->library('table');
-
-        $url_disect = $this->url_disect();
-
-        // pagination
-        // pagination config
-        $per_page = 20;
-        $uri_segment = count($url_disect['url_string_arr']);
-        $total_rows = $this->town_model->record_count();
-        $config = fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
-
-        // pagination init
-        $this->load->library("pagination");
-        $this->pagination->initialize($config);
-        $this->data_to_view["pagination"] = $this->pagination->create_links();
-
-        // set data
-        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
-        $this->data_to_view["list"] = $this->town_model->get_town_list($per_page, $page);
-        $this->data_to_header['title'] = "List of Towns";
-
-        // as daar data is
-        if ($this->data_to_view["list"]) {
-            $this->data_to_view['heading'] = ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]));
-        }
-
-        // load view;
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view($this->view_url, $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-    }
+//    public function view($id = FALSE) {
+//        // load helpers / libraries
+//        $this->load->library('table');
+//
+//        $url_disect = $this->url_disect();
+//
+//        // pagination
+//        // pagination config
+//        $per_page = 20;
+//        $uri_segment = count($url_disect['url_string_arr']);
+//        $total_rows = $this->town_model->record_count();
+//        $config = fpaginationConfig($this->return_url, $per_page, $total_rows, $uri_segment);
+//
+//        // pagination init
+//        $this->load->library("pagination");
+//        $this->pagination->initialize($config);
+//        $this->data_to_view["pagination"] = $this->pagination->create_links();
+//
+//        // set data
+//        $page = ($this->uri->segment($uri_segment)) ? $this->uri->segment($uri_segment) : 0;
+//        $this->data_to_view["list"] = $this->town_model->get_town_list($per_page, $page);
+//        $this->data_to_header['title'] = "List of Towns";
+//
+//        // as daar data is
+//        if ($this->data_to_view["list"]) {
+//            $this->data_to_view['heading'] = ftableHeading(array_keys($this->data_to_view['list'][key($this->data_to_view['list'])]));
+//        }
+//
+//        // load view;
+//        $this->load->view($this->header_url, $this->data_to_header);
+//        $this->load->view($this->view_url, $this->data_to_view);
+//        $this->load->view($this->footer_url, $this->data_to_footer);
+//    }
 
     public function json($ss = '') {
         if (empty($ss)) {
@@ -140,7 +140,6 @@ class Town extends Admin_Controller {
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
             $this->data_to_view['town_detail']['province_id'] = 11;
-            
         }
 
         // set validation rules
@@ -240,5 +239,20 @@ class Town extends Admin_Controller {
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
     }
+    
+//    public function gen_update_script() {
+//        $params=[
+//            "where"=>[
+//                "region_id !=" => 61,
+//            ],
+//        ];
+//        $town_list=$this->town_model->get_town_list($params);
+//        
+//        foreach ($town_list as $town) {
+//            echo "UPDATE towns SET region_id = '$town[region_id]' WHERE town_id = '$town[town_id]';<br>";
+//        }
+//        
+//        wts($town_list);
+//    }
 
 }
