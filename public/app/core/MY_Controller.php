@@ -422,6 +422,8 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_footer["date_list"] = $this->get_date_list();
         
         $this->ini_array = parse_ini_file("server_config.ini", true);
+        // history
+        $this->check_history();
     }    
 
     public function show_my_404($msg, $status) {
@@ -1022,6 +1024,58 @@ class Frontend_Controller extends MY_Controller {
         } else {
             $this->form_validation->set_message('recaptcha', 'The <b>reCAPTCHA</b> field is telling me that you are a robot. Shall we give it another try?');
             return FALSE;
+        }
+    }
+    
+    // ==============================================================================================
+    // HISTORY
+    // ============================================================================================== 
+    private function check_history() {
+        // check current session history
+        if (!isset($_SESSION['history'])) {
+            $_SESSION['history'] = [];
+        } else {
+            $this->history_purge();
+        }
+        // check if cookie exists
+        if (is_null(get_cookie('session_token'))) {
+            set_cookie("session_token", session_id(), 604800);
+            $session_token = session_id();
+        } else {
+            $session_token = get_cookie('session_token');
+        }
+        
+        // check if the url not already in session
+        if (!in_array(current_url(), $_SESSION['history'])) {
+            // set session variable
+            $_SESSION['history'][time()] = current_url();
+
+            // chcek if uri not in exclusion list
+            // check if url has already been counted today for this session. If not add to DB
+            $this->load->model('history_model');
+            $history_exists = $this->history_model->check_history($session_token, current_url());
+            if (!$history_exists) {
+                $history_data = [
+                    "history_session_id" => $session_token,
+                    "history_url" => current_url(),
+                ];
+                if (isset($_SESSION['user']['user_id'])) {
+                    $history_data['user_id'] = $_SESSION['user']['user_id'];
+                }
+                // set DB
+                $this->history_model->set_history($history_data);
+            }
+            
+        }
+        return $_SESSION['history'];
+    }
+
+
+    private function history_purge() {
+        foreach ($_SESSION['history'] as $timestamp => $url) {
+            if ($timestamp < strtotime("-6 hours")) {
+                unset($_SESSION['history'][$timestamp]);
+            }
         }
     }
 
