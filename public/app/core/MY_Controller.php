@@ -385,12 +385,8 @@ class Admin_Controller extends MY_Controller {
     function get_asa_member_field_list() {
         return ['asa_member_id'];
     }
-    
-    
-    // newsletter functions had to be put here to work in dashboard and merge
-   
-    
 
+    // newsletter functions had to be put here to work in dashboard and merge
 }
 
 //=======================================
@@ -420,11 +416,11 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_header["menu_array"] = $this->set_top_menu_array();
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
         $this->data_to_footer["date_list"] = $this->get_date_list();
-        
+
         $this->ini_array = parse_ini_file("server_config.ini", true);
         // history
         $this->check_history();
-    }    
+    }
 
     public function show_my_404($msg, $status) {
         //Using 'location' not work well on some windows systems
@@ -575,7 +571,7 @@ class Frontend_Controller extends MY_Controller {
 
         $return['color'] = "c-font-yellow";
         $return['text'] = "Gathering event information";
-        
+
         switch (@$params['results_status']) {
             case 10:
                 if ($params['confirmed']) {
@@ -583,7 +579,7 @@ class Frontend_Controller extends MY_Controller {
                     $return['text'] = "Event information confirmed";
                     return $return;
                 }
-                switch($params['status']) {
+                switch ($params['status']) {
                     case 3:
                         $return['color'] = "c-font-yellow-2";
                         $return['text'] = "Event cancelled";
@@ -713,7 +709,7 @@ class Frontend_Controller extends MY_Controller {
                         foreach ($edition_list as $edition_id => $edition) {
 
                             $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
-                            $e_url = base_url("event/".$edition['edition_slug']);
+                            $e_url = base_url("event/" . $edition['edition_slug']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
@@ -762,7 +758,7 @@ class Frontend_Controller extends MY_Controller {
 //                                            $return_html_arr[]='<b>Time of day: </b>'.$edition['race_time_start']."<br>";
                             $return_html_arr[] = '<b>Start Times: </b>' . $edition['start_time'] . "<br>";
                             $return_html_arr[] = '<b>Info Status: </b>' . $bullet_info['text'] . "</p>";
-                            $return_html_arr[] = '<p><a href="'.$e_url.'"  class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
+                            $return_html_arr[] = '<p><a href="' . $e_url . '"  class="btn c-theme-btn c-btn-border-2x c-btn-square">DETAIL</a></p>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';
                             $return_html_arr[] = '</div>';
@@ -793,7 +789,7 @@ class Frontend_Controller extends MY_Controller {
                         foreach ($edition_list as $edition_id => $edition) {
 
                             $e_names = $this->get_edition_name_from_status($edition['edition_name'], $edition['edition_status']);
-                            $e_url = base_url("event/".$edition['edition_slug']);
+                            $e_url = base_url("event/" . $edition['edition_slug']);
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
@@ -918,37 +914,37 @@ class Frontend_Controller extends MY_Controller {
         $area_list = $this->area_model->get_area_list();
         return $area_list;
     }
-    
+
     private function set_subscribe_confirmation_email($usersub_data) {
         $this->load->model('user_model');
         $this->load->model('emailque_model');
         // get user data
-        $user_data=$this->user_model->get_user_detail($usersub_data['user_id']);
+        $user_data = $this->user_model->get_user_detail($usersub_data['user_id']);
         // get edition_data
-        if ($usersub_data['linked_to']=="edition") {
+        if ($usersub_data['linked_to'] == "edition") {
             $this->load->model('edition_model');
-            $edition_data=$this->edition_model->get_edition_url_from_id($usersub_data['linked_id']);
+            $edition_data = $this->edition_model->get_edition_url_from_id($usersub_data['linked_id']);
         }
         // set body
         switch ($usersub_data['linked_to']) {
             case "newsletter":
-                $switch=" our <strong>monthly newletter</strong>.";
+                $switch = " our <strong>monthly newletter</strong>.";
                 break;
             case "edition":
-                $switch=" updates regarding the <strong>".$edition_data['edition_name']."</strong> event.";
+                $switch = " updates regarding the <strong>" . $edition_data['edition_name'] . "</strong> event.";
                 break;
         }
-        $body_arr[] = "Hi ".$user_data['user_name']."<br>";
-        $body_arr[] = "This is a courtesy email to confirm you have been subscribed to receive ".$switch;
+        $body_arr[] = "Hi " . $user_data['user_name'] . "<br>";
+        $body_arr[] = "This is a courtesy email to confirm you have been subscribed to receive " . $switch;
         $body_arr[] = "If <u>this was not you</u> subscribing yourself to this awesome service, please reply to this email to be removed.<br>";
         $body_arr[] = "Kind Regards";
         $body_arr[] = "Johan from RoadRunning.co.za";
-        $body= implode("<br>", $body_arr);
-        
+        $body = implode("<br>", $body_arr);
+
         $data = array(
-            'emailque_subject' => ucfirst($usersub_data['linked_to'])." subscription successful",
+            'emailque_subject' => ucfirst($usersub_data['linked_to']) . " subscription successful",
             'emailque_to_address' => $user_data['user_email'],
-            'emailque_to_name' => $user_data['user_name']." ".$user_data['user_surname'],
+            'emailque_to_name' => $user_data['user_name'] . " " . $user_data['user_surname'],
             'emailque_body' => $body,
             'emailque_status' => 5,
             'emailque_from_address' => $this->ini_array['email']['from_address_server'],
@@ -988,11 +984,11 @@ class Frontend_Controller extends MY_Controller {
                 'user_id' => $user_id,
                 'linked_to' => $linked_to,
                 'linked_id' => $linked_id,
-            );            
-            
+            );
+
             $add = $this->usersubscription_model->set_usersubscription("add", $usersubscription_data);
             if ($add) {
-                $email=$this->set_subscribe_confirmation_email($usersubscription_data);
+                $email = $this->set_subscribe_confirmation_email($usersubscription_data);
                 $alert = "<b>Success!</b> Thank you. You have been added to the subscription";
                 $status = "success";
             } else {
@@ -1003,8 +999,7 @@ class Frontend_Controller extends MY_Controller {
         // set session flash data
         $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
     }
-    
-    
+
     public function recaptcha($str = "") {
         $google_url = "https://www.google.com/recaptcha/api/siteverify";
         $secret = '6LcxdoYUAAAAAFphXeYMlOL2w5ysa9ovdOdCLJyP';
@@ -1026,7 +1021,7 @@ class Frontend_Controller extends MY_Controller {
             return FALSE;
         }
     }
-    
+
     // ==============================================================================================
     // HISTORY
     // ============================================================================================== 
@@ -1044,36 +1039,45 @@ class Frontend_Controller extends MY_Controller {
         } else {
             $session_token = get_cookie('session_token');
         }
-        
+
         // check if the url not already in session
         if (!in_array(current_url(), $_SESSION['history'])) {
             // set session variable
             $_SESSION['history'][time()] = current_url();
 
             // chcek if uri not in exclusion list
-            // check if url has already been counted today for this session. If not add to DB
-            $this->load->model('history_model');
-            $history_exists = $this->history_model->check_history($session_token, current_url());
-            if (!$history_exists) {
-                $history_data = [
-                    "history_session_id" => $session_token,
-                    "history_url" => current_url(),
-                ];
-                if (isset($_SESSION['user']['user_id'])) {
-                    $history_data['user_id'] = $_SESSION['user']['user_id'];
+            if (!$this->segment_exclusion_list(uri_string())) {
+                // check if url has already been counted today for this session. If not add to DB
+                $this->load->model('history_model');
+                $history_exists = $this->history_model->check_history($session_token, current_url());
+                if (!$history_exists) {
+                    $history_data = [
+                        "history_session_id" => $session_token,
+                        "history_url" => current_url(),
+                    ];
+                    if (isset($_SESSION['user']['user_id'])) {
+                        $history_data['user_id'] = $_SESSION['user']['user_id'];
+                    }
+                    // set DB
+                    $this->history_model->set_history($history_data);
                 }
-                // set DB
-                $this->history_model->set_history($history_data);
             }
-            
         }
         return $_SESSION['history'];
     }
 
-
+    private function segment_exclusion_list($uri_string) {
+        $seg=explode("/", $uri_string);
+        if ((in_array($uri_string, $this->ini_array['history']['exclusion'])) || (in_array($seg[0]."/*",$this->ini_array['history']['exclusion']))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     private function history_purge() {
         foreach ($_SESSION['history'] as $timestamp => $url) {
-            if ($timestamp < strtotime("-6 hours")) {
+            if ($timestamp < strtotime($this->ini_array['history']['purge_period'])) {
                 unset($_SESSION['history'][$timestamp]);
             }
         }

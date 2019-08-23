@@ -8,7 +8,7 @@ app/logs/*
 !app/logs/index.html
 !app/logs/.htaccess
 
-uploads/admin
+uploads/*
 
 # IDE Files
 #-------------------------
