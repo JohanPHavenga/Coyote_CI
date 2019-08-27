@@ -33,35 +33,43 @@ class Dashboard extends Admin_Controller {
 
         if ($page == "dashboard") {
             $this->load->library('table');
+            $this->load->model('history_model');
             $this->load->model('event_model');
-            $event_count = $this->event_model->record_count();
-
             $this->load->model('edition_model');
-            $edition_count = $this->edition_model->record_count();
-
             $this->load->model('race_model');
+
+            $history_count = $this->history_model->record_count();
+            $event_count = $this->event_model->record_count();
+            $edition_count = $this->edition_model->record_count();
             $race_count = $this->race_model->record_count();
 
             $this->data_to_view['dashboard_stats_list'] = [
                 [
+                    "text" => "Most visited URLs",
+                    "number" => $history_count,
+                    "font-color" => "yellow-gold",
+                    "icon" => "icon-hourglass",
+                    "uri" => "/admin/dashboard/history/summary",
+                ],
+                [
                     "text" => "Number of Events",
                     "number" => $event_count,
                     "font-color" => "green-sharp",
-                    "icon" => "icon-pie-chart",
+                    "icon" => "icon-rocket",
                     "uri" => "/admin/event/view",
                 ],
                 [
                     "text" => "Number of Editions",
                     "number" => $edition_count,
                     "font-color" => "red-haze",
-                    "icon" => "icon-bar-chart",
+                    "icon" => "icon-calendar",
                     "uri" => "/admin/edition/view",
                 ],
                 [
                     "text" => "Number of Races",
                     "number" => $race_count,
                     "font-color" => "blue-sharp",
-                    "icon" => "icon-pie-chart",
+                    "icon" => "icon-speedometer",
                     "uri" => "/admin/race/view",
                 ],
                     //font-purple-soft
@@ -86,20 +94,20 @@ class Dashboard extends Admin_Controller {
                 'date_to' => date("Y-m-d"),
             ];
             $this->data_to_view['event_list_noresults'] = $this->event_model->get_event_list_summary("date_range", $params);
-            
+
             // get list of editions where the entry closing dates is near
             $params = [
                 'date_from' => date("Y-m-d"),
                 'entry_date' => date("Y-m-d", strtotime("1 month")),
                 'only_active' => 1,
             ];
-            $entry_date_close_data=$this->event_model->get_event_list_summary("date_range", $params);
-            $entry_data=[];
+            $entry_date_close_data = $this->event_model->get_event_list_summary("date_range", $params);
+            $entry_data = [];
             foreach ($entry_date_close_data as $year => $year_list) {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
-                        foreach ($edition_list as $edition_id=>$edition) {
-                            $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";                            
+                        foreach ($edition_list as $edition_id => $edition) {
+                            $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
                             $entry_data[$edition_id]['merge_url'] = '<a href="/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
                             $entry_data[$edition_id]['entry_close'] = strtotime($edition['edition_entries_date_close']);
                         }
@@ -107,7 +115,9 @@ class Dashboard extends Admin_Controller {
                 }
             }
             // sort array
-            uasort($entry_data, function ($item1, $item2) { return $item1['entry_close'] <=> $item2['entry_close']; });
+            uasort($entry_data, function ($item1, $item2) {
+                return $item1['entry_close'] <=> $item2['entry_close'];
+            });
             $this->data_to_view['event_list_entry_date'] = $entry_data;
 
             // actions on the toolbar
@@ -165,6 +175,47 @@ class Dashboard extends Admin_Controller {
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/dashboard/audit", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+
+    public function history($view_type) {
+
+        $this->load->library('table');
+        $this->load->model('history_model');
+
+        if ($view_type == "summary") {
+            $this->data_to_header['title'] = "History Summary";
+            $this->data_to_header['crumbs'] = [
+                "Home" => "/admin",
+                "Dashboard" => "/admin/dashboard",
+                "History Summary" => "",
+            ];
+
+            $query_params = [
+                "order_by" => ["historysum_countweek" => "DESC", "historysum_countmonth" => "DESC", "historysum_countyear" => "DESC"],
+            ];
+            $this->data_to_view['history_summary'] = $this->history_model->get_history_summary($query_params);
+
+            $this->data_to_header['css_to_load'] = array(
+                "plugins/datatables/datatables.min.css",
+                "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
+            );
+
+            $this->data_to_footer['js_to_load'] = array(
+                "scripts/admin/datatable.js",
+                "plugins/datatables/datatables.min.js",
+                "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            );
+
+            $this->data_to_footer['scripts_to_load'] = array(
+                "scripts/admin/table-datatables-managed.js",
+            );
+
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view("/admin/dashboard/history_summary", $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
+        } else {
+            show_404();
+        }
     }
 
     public function search() {

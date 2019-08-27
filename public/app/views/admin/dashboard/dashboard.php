@@ -18,15 +18,6 @@
                     </div>
                     <div class="progress-info">
                         <a href="<?= $stat['uri']; ?>" class="btn btn-default btn-xs <?= $stat['font-color']; ?>">View</a>
-                        <!--                            <div class="progress">
-                                                        <span style="width: 76%;" class="progress-bar progress-bar-success green-sharp">
-                                                            <span class="sr-only">76% progress</span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="status">
-                                                        <div class="status-title"> progress </div>
-                                                        <div class="status-number"> 76% </div>
-                                                    </div>-->
                     </div>
                 </div>
             </div>

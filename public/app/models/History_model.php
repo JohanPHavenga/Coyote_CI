@@ -89,6 +89,7 @@ class History_model extends MY_model {
     }
 
     public function get_most_visited_url_list($from_date = NULL) {
+        // ONLY PULLS EDITIONS
         if (is_null($from_date)) {
             $from_date = date("Y-m-d H:i:s", strtotime("-1 month"));
         }

@@ -181,6 +181,22 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
+    
+    // History Summary Table
+    var initHistorySummaryTable = function () {
+        var table = $('#history_summary_table');
+        table.dataTable({
+            order: [[3, "desc"]],
+            responsive: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            columnDefs: [
+                {responsivePriority: 1, targets: 1},
+                {responsivePriority: 2, targets: 3},
+                {responsivePriority: 3, targets: 4},
+                {responsivePriority: 4, targets: 5}
+            ]
+        });
+    };
 
     // GENERIC list table
     var initListTable = function () {
@@ -216,6 +232,7 @@ var TableDatatablesManaged = function () {
             initEmailQueTable();
             initEmailTemplateTable();
             initEmailMergesTable();
+            initHistorySummaryTable();
             initListTable();
         }
     };
