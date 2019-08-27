@@ -614,7 +614,7 @@ class Frontend_Controller extends MY_Controller {
         return array_keys($result);
     }
 
-    public function get_edition_name_from_status($edition_name, $edition_status) {
+    public function get_edition_name_from_status($edition_name, $edition_status, $edition_date=null) {
         // set edition names
         $e_names['edition_name'] = $edition_name;
         $e_names['edition_name_clean'] = $edition_name;
@@ -628,6 +628,13 @@ class Frontend_Controller extends MY_Controller {
                 break;
             case 9:
                 $e_names['edition_name'] = $e_names['edition_name_no_date'] = $edition_name . " - POSTPONED";
+                break;
+            default:
+                if ($edition_date) {
+                    $e_names['edition_name'] = $e_names['edition_name_no_date']." - ". fdateHumanFull($edition_date,true);
+                } else {                    
+                    $e_names['edition_name'] = $edition_name;
+                }
                 break;
         }
         return $e_names;

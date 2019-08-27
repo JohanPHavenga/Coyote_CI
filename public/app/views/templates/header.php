@@ -1,6 +1,6 @@
 <?php
 if (!isset($title)) {
-    $title = "Run without being chased";
+    $title = "RoadRunning.co.za - Run without being chased";
 }
 if (!isset($meta_description)) {
     $meta_description = "Listing road running events in and around the Cape Town area. We are committed to having accurate information loaded on the site as soon as it becomes available from the race organisers.";
@@ -22,7 +22,7 @@ if (!isset($meta_robots)) {
 
     <head>
         <meta charset="utf-8" />        
-        <title><?= $title; ?> - RoadRunning.co.za</title>
+        <title><?= $title; ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">

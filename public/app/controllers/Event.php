@@ -65,12 +65,6 @@ class Event extends Frontend_Controller {
         $basic_edition_detail = $this->edition_model->get_edition_url_from_id($edition_id);
         $this->session->set_userdata($basic_edition_detail);
 
-        // set edition names
-        $e_names = $this->get_edition_name_from_status($edition_name, $edition_status);
-        if ($edition_status == 2) {
-            $this->data_to_header['meta_robots'] = "noindex, nofollow";
-        }
-
         if (!$edition_id) {
             // if name cannot be matched to an edition
             $this->session->set_flashdata([
@@ -80,8 +74,6 @@ class Event extends Frontend_Controller {
             redirect("/event/calendar");
             die();
         }
-
-        $this->data_to_header['title'] = $e_names['edition_name'];
 
         // set data to view
         $this->data_to_header['css_to_load'] = array(
@@ -109,6 +101,13 @@ class Event extends Frontend_Controller {
 
         // get event details
         $this->data_to_view['event_detail'] = $this->edition_model->get_edition_detail_full($edition_id);
+        
+        // set edition names + title
+        $e_names = $this->get_edition_name_from_status($edition_name, $edition_status, $this->data_to_view['event_detail']['edition_date']);
+        if ($edition_status == 2) { $this->data_to_header['meta_robots'] = "noindex, nofollow"; }
+        $this->data_to_header['title'] = $e_names['edition_name'];
+        
+        // set rest of edition detials
         $this->data_to_view['event_detail']['edition_name'] = $e_names['edition_name'];
         $this->data_to_view['event_detail']['edition_name_clean'] = $e_names['edition_name_clean'];
         $this->data_to_view['event_detail']['edition_name_no_date'] = $e_names['edition_name_no_date'];
