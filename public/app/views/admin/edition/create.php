@@ -123,7 +123,7 @@ echo form_open_multipart($form_url);
                     <div class="row">
                         <div class='col-md-4'>
                             <?php
-                            echo form_label('Date Start <span class="compulsary">*</span>', 'edition_date');
+                            echo form_label('Edition Date <span class="compulsary">*</span>', 'edition_date');
                             echo '<div class="input-group date date-picker">';
                             echo form_input([
                                 'name' => 'edition_date',
@@ -136,7 +136,7 @@ echo form_open_multipart($form_url);
                         </div>
                         <div class='col-md-8'>
                             <?php
-                            echo form_label('GPS', 'edition_gps');
+                            echo form_label('GPS <span class="compulsary">*</span>', 'edition_gps');
                             echo form_input([
                                 'name' => 'edition_gps',
                                 'id' => 'edition_gps',
@@ -144,34 +144,7 @@ echo form_open_multipart($form_url);
                                 'class' => 'form-control',
                             ]);
                             ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <?= form_label('Latitude and Longitude <span class="compulsary">*</span>', 'latitude_num'); ?>
-                    <div class="row">
-                        <div class='col-md-4'>
-                            <?php
-                            echo form_input([
-                                'name' => 'latitude_num',
-                                'id' => 'latitude_num',
-                                'value' => set_value('latitude_num', $edition_detail['latitude_num']),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                            <p class='help-block' style='font-style: italic;'> Ex: -33.844204 </p>
-                        </div>
-                        <div class='col-md-4'>
-                            <?php
-                            echo form_input([
-                                'name' => 'longitude_num',
-                                'id' => 'longitude_num',
-                                'value' => set_value('longitude_num', $edition_detail['longitude_num']),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                            <p class='help-block' style='font-style: italic;'> Ex: 19.015049 </p>
+                            <p class='help-block' style='font-style: italic;'> Ex: -33.844204,19.015049 </p>
                         </div>
                     </div>
                 </div>
@@ -179,7 +152,7 @@ echo form_open_multipart($form_url);
                 <!-- ADDRESS -->
                 <div class="form-group">
                     <div class="row">
-                        <div class='col-md-12'>
+                        <div class='col-md-6'>
                             <?php
                             echo form_label('Street Address Start <span class="compulsary">*</span>', 'edition_address');
                             echo form_input([
@@ -190,11 +163,7 @@ echo form_open_multipart($form_url);
                             ]);
                             ?>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class='col-md-12'>
+                        <div class='col-md-6'>
                             <?php
                             echo form_label('Street Address End', 'edition_address_end');
                             echo form_input([

@@ -156,8 +156,9 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
         $this->form_validation->set_rules('edition_date', 'Start date', 'required');
         $this->form_validation->set_rules('edition_address', 'Address', 'required');
-        $this->form_validation->set_rules('latitude_num', 'Latitude', 'trim|required|numeric');
-        $this->form_validation->set_rules('longitude_num', 'Longitude', 'trim|required|numeric');
+        $this->form_validation->set_rules('edition_gps', 'GPS', 'trim|required');
+//        $this->form_validation->set_rules('latitude_num', 'Latitude', 'trim|required|numeric');
+//        $this->form_validation->set_rules('longitude_num', 'Longitude', 'trim|required|numeric');
         $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a sponsor"]);
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Contact Person"]);
 
@@ -370,8 +371,9 @@ class Edition extends Admin_Controller {
         ;
         $edition_data['edition_address'] = $edition_detail['edition_address'];
         $edition_data['event_id'] = $edition_detail['event_id'];
-        $edition_data['latitude_num'] = $edition_detail['latitude_num'];
-        $edition_data['longitude_num'] = $edition_detail['longitude_num'];
+        $edition_data['edition_gps'] = $edition_detail['edition_gps'];
+//        $edition_data['latitude_num'] = $edition_detail['latitude_num'];
+//        $edition_data['longitude_num'] = $edition_detail['longitude_num'];
         $edition_data['user_id'] = $edition_detail['user_id'];
         $edition_data['edition_asa_member'] = $edition_detail['edition_asa_member'];
 

@@ -451,47 +451,48 @@ class Event extends Frontend_Controller {
         return $return;
     }
 
-    function formulate_gmap_script($event_detail) {
-        $map_long = $event_detail['longitude_num'];
-
-        $return = "var PageContact = function() {
-            
-                var _init = function() {
-                    var mapbg = new GMaps({
-                            div: '#gmapbg',
-                            lat: " . $event_detail['latitude_num'] . ",
-                            lng: " . $map_long . ",
-                            scrollwheel: false
-                    });
-
-                    mapbg.addMarker({
-                            lat: " . $event_detail['latitude_num'] . ",
-                            lng: " . $event_detail['longitude_num'] . ",
-                            title: '" . html_escape($event_detail['edition_address']) . "',
-                            infoWindow: {
-                                    content: '<h3>" . html_escape($event_detail['edition_name']) . "</h3><p>" . html_escape($event_detail['edition_address']) . "</p>'
-                            }
-                    });
-                }
-
-                return {
-                    init: function() {
-                        _init();
-                    }
-
-                };
-            }();
-
-            $(document).ready(function() {
-                PageContact.init();
-            });";
-
-        return $return;
-    }
+//    function formulate_gmap_script($event_detail) {
+//        $map_long = $event_detail['longitude_num'];
+//
+//        $return = "var PageContact = function() {
+//            
+//                var _init = function() {
+//                    var mapbg = new GMaps({
+//                            div: '#gmapbg',
+//                            lat: " . $event_detail['latitude_num'] . ",
+//                            lng: " . $map_long . ",
+//                            scrollwheel: false
+//                    });
+//
+//                    mapbg.addMarker({
+//                            lat: " . $event_detail['latitude_num'] . ",
+//                            lng: " . $event_detail['longitude_num'] . ",
+//                            title: '" . html_escape($event_detail['edition_address']) . "',
+//                            infoWindow: {
+//                                    content: '<h3>" . html_escape($event_detail['edition_name']) . "</h3><p>" . html_escape($event_detail['edition_address']) . "</p>'
+//                            }
+//                    });
+//                }
+//
+//                return {
+//                    init: function() {
+//                        _init();
+//                    }
+//
+//                };
+//            }();
+//
+//            $(document).ready(function() {
+//                PageContact.init();
+//            });";
+//
+//        return $return;
+//    }
 
     function formulate_leaflet_script($event_detail) {
-        $lat = $event_detail['latitude_num'];
-        $long = $event_detail['longitude_num'];
+        $gps_parts= explode(",", $event_detail['edition_gps']);
+        $lat = $gps_parts[0];
+        $long = $gps_parts[1];
         $long_center = $long + 0.005;
         $return = "                
             var mymap = L.map('leaflet_map_bg', {
