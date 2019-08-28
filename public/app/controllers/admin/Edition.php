@@ -32,17 +32,17 @@ class Edition extends Admin_Controller {
         $this->data_to_view['create_link'] = $this->create_url;
         $this->data_to_header['title'] = "List of Editions";
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Editions" => "/admin/edition",
-                    "List" => "",
+            "Home" => "/admin",
+            "Editions" => "/admin/edition",
+            "List" => "",
         ];
 
         $this->data_to_header['page_action_list'] = [
-                    [
-                        "name" => "Add Edition",
-                        "icon" => "calendar",
-                        "uri" => "edition/create/add",
-                    ],
+            [
+                "name" => "Add Edition",
+                "icon" => "calendar",
+                "uri" => "edition/create/add",
+            ],
         ];
 
         $this->data_to_view['url'] = $this->url_disect();
@@ -70,7 +70,7 @@ class Edition extends Admin_Controller {
     }
 
     // THE BIG CREATE METHOD - ADD and EDIT
-    public function create($action, $id = 0) {
+    public function create($action, $edition_id = 0) {
         // additional models
         $this->load->model('sponsor_model');
         $this->load->model('user_model');
@@ -82,13 +82,13 @@ class Edition extends Admin_Controller {
 
         // load helpers / libraries
         $this->load->helper('form');
-        $this->load->helper('file');
         $this->load->library('form_validation');
-        $this->load->library('upload');
         $this->load->library('table');
 
         // set return url to session should it exists
-        if ($this->session->has_userdata('dashboard_return_url')) { $this->return_url = $this->session->dashboard_return_url; }
+        if ($this->session->has_userdata('dashboard_return_url')) {
+            $this->return_url = $this->session->dashboard_return_url;
+        }
 
         // set data
         $this->data_to_header['title'] = "Edition Input Page";
@@ -119,24 +119,25 @@ class Edition extends Admin_Controller {
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
 //        $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
-        $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("results");
+        $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
+        $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true);
 
         if ($action == "edit") {
-            $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($id);
-            $this->data_to_view['race_list'] = $this->race_model->get_race_list($id);
-            $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $id);
-            $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $id);
-            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $id, true);
-            $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
+            $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
+            $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
+            $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
+            $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
+            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
+            $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $edition_id;
             // set edition_return_url for races
             $this->session->set_userdata('edition_return_url', "/" . uri_string());
-            $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/".$this->data_to_view['edition_detail']['event_id'];
+            $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/" . $edition_id;
         } else {
             $this->data_to_view['edition_detail']['edition_status'] = 1;
             $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded
-            $this->data_to_view['edition_detail']['edition_info_isconfirmed']=0;
-            $this->data_to_view['edition_detail']['edition_isfeatured']=0;
+            $this->data_to_view['edition_detail']['edition_info_isconfirmed'] = 0;
+            $this->data_to_view['edition_detail']['edition_isfeatured'] = 0;
         }
 
         // set default contact
@@ -149,7 +150,8 @@ class Edition extends Admin_Controller {
         }
 
         // set validation rules
-        $this->form_validation->set_rules('edition_name', 'Edition Name', 'trim|required|min_length[5]|callback_name_check',array('name_check' => 'Enter a valid year at the end of the Edition Name'));
+        $this->form_validation->set_rules('edition_name', 'Edition Name', 'trim|required|min_length[5]|callback_name_check',
+                array('name_check' => 'Enter a valid year at the end of the Edition Name'));
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an event"]);
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
         $this->form_validation->set_rules('edition_date', 'Start date', 'required');
@@ -166,46 +168,39 @@ class Edition extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-//            wts($_FILES);
 //            wts($this->input->post());
 //            die();
-            $id = $this->edition_model->set_edition($action, $id, [], false);
+            $id = $this->edition_model->set_edition($action, $edition_id, [], false);
             if ($id) {
-                $alert = "<b>".$this->input->post('edition_name') . "</b> has been successfully saved";
+                $alert = "<b>" . $this->input->post('edition_name') . "</b> has been successfully saved";
                 $status = "success";
-                if ($action=="edit") {
-                    if ($this->input->post('edition_status')!==$this->data_to_view['edition_detail']['edition_status']) {
-                        $this->race_status_update(array_keys($this->data_to_view['race_list']),$this->input->post('edition_status'));
-                        $alert.="<br>Status change on races also actioned";
+                if ($action == "edit") {
+                    if ($this->input->post('edition_status') !== $this->data_to_view['edition_detail']['edition_status']) {
+                        $this->race_status_update(array_keys($this->data_to_view['race_list']), $this->input->post('edition_status'));
+                        $alert .= "<br>Status change on races also actioned";
                     }
-                }                
+                }
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
             }
 
-            $this->session->set_flashdata([
-                'alert' => $alert,
-                'status' => $status,
-            ]);
-
             // save_only takes you back to the edit page.
-            if (array_key_exists("save_only", $_POST)) {
+            if (array_key_exists("save_only", $this->input->post())) {
                 $this->return_url = base_url("admin/edition/create/edit/" . $id);
             }
-
+            $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
             redirect($this->return_url);
         }
     }
-    
-    public function race_status_update($race_id_arr, $status_id) {        
+
+    public function race_status_update($race_id_arr, $status_id) {
         $this->load->model('race_model');
-        return $this->race_model->update_race_status($race_id_arr,$status_id);
+        return $this->race_model->update_race_status($race_id_arr, $status_id);
     }
-    
-    public function name_check($str)
-    {
-        $year= substr($str, -4);
+
+    public function name_check($str) {
+        $year = substr($str, -4);
         $valid = true;
 
         if (strtotime($year) === false) {
@@ -411,6 +406,18 @@ class Edition extends Admin_Controller {
         redirect($return_url);
         die();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // ==========================================================================================
+    // TEMP FIX SCRIPTS
+    // ==========================================================================================
 
     // temp method - fix wehere end-date is empty
     function end_date_fix() {
@@ -430,7 +437,7 @@ class Edition extends Admin_Controller {
         echo "Done<br>";
         echo $n . " dates were updated<br>";
     }
-    
+
     // temp method - fix wehere results status
     function results_status_fix() {
         // function to port old URLs from fields directly on Edition to URl table
@@ -449,11 +456,45 @@ class Edition extends Admin_Controller {
         }
 
         echo "Done<br>";
-        echo "<b>". $nl . "</b> statuse were updated to NOT LOADED<br>";
-        echo "<b>". $l . "</b> statuse were updated to LOADED<br>";
+        echo "<b>" . $nl . "</b> statuse were updated to NOT LOADED<br>";
+        echo "<b>" . $l . "</b> statuse were updated to LOADED<br>";
     }
     
-     // create slugs for all the editions
+    // temp method - fix wehere results status
+    function info_status_fix() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list();
+        $future = 0;
+        $verified = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            // gee nuwe veld die resutls status value
+            $this->edition_model->update_field($e_id, "edition_info_status", $edition['edition_results_status']);
+            // as event nog in die toekoms is, gee dit 'n status van Preliminary
+            if ($edition['edition_date'] > date("Y-m-d H:i:s")) {
+                $future++;
+                $this->edition_model->update_field($e_id, "edition_info_status", 14);
+
+                // as info confirmed is, set status na Verified
+                if ($edition['edition_info_isconfirmed']) {
+                    $verified++;
+                    $this->edition_model->update_field($e_id, "edition_info_status", 16);
+                }
+            }
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $future . "</b> statuse were updated to Prelim<br>";
+        echo "<b>" . $verified . "</b> statuse were updated to Verified<br>";
+    }
+    
+    
+    
+    // ==========================================================================================
+    // TEMP DATA GENERATION SCRIPTS
+    // ==========================================================================================
+    
+    // create slugs for all the editions
     function generate_slugs() {
         // function to port old URLs from fields directly on Edition to URl table
         $this->load->model('edition_model');
@@ -465,7 +506,23 @@ class Edition extends Admin_Controller {
         }
 
         echo "Done<br>";
-        echo "<b>". $n . "</b> slugs were updated<br>";
+        echo "<b>" . $n . "</b> slugs were updated<br>";
+    }
+    
+    // create slugs for all the editions
+    function generate_gps() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list();
+        $n = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            $gps= str_replace(" ","",trim($edition['latitude_num']).",".trim($edition['longitude_num']));
+            $this->edition_model->update_field($e_id, "edition_gps", $gps);
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $n . "</b> gps vlues were updated<br>";
     }
 
 }

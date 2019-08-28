@@ -26,4 +26,8 @@ label {
 .hidden-input-newsletter
 {
     display: none;
-}z
+}
+
+.mt-checkbox-inline {
+    padding: 10px 0 0;
+}

@@ -11,8 +11,6 @@ echo form_open_multipart($form_url);
                 </div>
             </div>
             <div class="portlet-body">
-
-                <!-- EDITION NAME -->
                 <div class='form-group'>
                     <div class='row'>
                         <div class='col-md-7'>
@@ -79,137 +77,134 @@ echo form_open_multipart($form_url);
                         </div>
                     </div>
                 </div>
-
-                <!-- FLAGS -->
-                <div class="form-group">
-                    <div class="row">
-                        <div class='col-md-8'>
-                            <div class='mt-checkbox-inline'>
-                                <?php
-                                $is_featured_data = array(
-                                    'name' => 'edition_isfeatured',
-                                    'id' => 'edition_isfeatured',
-                                    'value' => '1',
-                                    'checked' => $edition_detail['edition_isfeatured'],
-                                );
-                                echo '<label class="mt-checkbox">' . form_checkbox($is_featured_data) . "Is Featured<span></span></label>";
-
-                                // TBR once new site is launched
-                                $is_confirmed_data = array(
-                                    'name' => 'edition_info_isconfirmed',
-                                    'id' => 'edition_info_isconfirmed',
-                                    'value' => '1',
-                                    'checked' => $edition_detail['edition_info_isconfirmed'],
-                                );
-                                echo '<label class="mt-checkbox">' . form_checkbox($is_confirmed_data) . "Information confirmed<span></span></label>";
-
-                                // TBR once new site is launched
-                                $results_loaded_data = array(
-                                    'name' => 'edition_results_isloaded',
-                                    'id' => 'edition_results_isloaded',
-                                    'value' => '1',
-                                    'checked' => $edition_detail['edition_results_isloaded'],
-                                    'disabled' => '',
-                                );
-                                echo '<label class="mt-checkbox">' . form_checkbox($results_loaded_data) . "Results Loaded<span></span></label>";
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DATE & GPS -->
                 <div class="form-group">
                     <div class="row">
                         <div class='col-md-4'>
                             <?php
                             echo form_label('Date Start <span class="compulsary">*</span>', 'edition_date');
-                            echo '<div class="input-group date date-picker">';
+                            echo '<div class="input-group input-medium date date-picker">';
                             echo form_input([
                                 'name' => 'edition_date',
                                 'id' => 'edition_date',
-                                'value' => set_value('edition_date', fdateShort($edition_detail['edition_date'])),
+                                'value' => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
                                 'class' => 'form-control',
+                            ]);
+                            echo form_input([
+                                'name' => 'edition_date_end',
+                                'type' => 'hidden',
+                                'value' => set_value('edition_date', @fdateShort($edition_detail['edition_date_end'])),
                             ]);
                             echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
                             ?>
                         </div>
-                        <div class='col-md-8'>
-                            <?php
-                            echo form_label('GPS', 'edition_gps');
-                            echo form_input([
-                                'name' => 'edition_gps',
-                                'id' => 'edition_gps',
-                                'value' => set_value('edition_gps', $edition_detail['edition_gps']),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                        </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <?= form_label('Latitude and Longitude <span class="compulsary">*</span>', 'latitude_num'); ?>
-                    <div class="row">
-                        <div class='col-md-4'>
-                            <?php
-                            echo form_input([
-                                'name' => 'latitude_num',
-                                'id' => 'latitude_num',
-                                'value' => set_value('latitude_num', $edition_detail['latitude_num']),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                            <p class='help-block' style='font-style: italic;'> Ex: -33.844204 </p>
-                        </div>
-                        <div class='col-md-4'>
-                            <?php
-                            echo form_input([
-                                'name' => 'longitude_num',
-                                'id' => 'longitude_num',
-                                'value' => set_value('longitude_num', $edition_detail['longitude_num']),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                            <p class='help-block' style='font-style: italic;'> Ex: 19.015049 </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ADDRESS -->
-                <div class="form-group">
-                    <div class="row">
-                        <div class='col-md-12'>
-                            <?php
-                            echo form_label('Street Address Start <span class="compulsary">*</span>', 'edition_address');
-                            echo form_input([
-                                'name' => 'edition_address',
-                                'id' => 'edition_address',
-                                'value' => set_value('edition_address', $edition_detail['edition_address'], false),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class='col-md-12'>
-                            <?php
-                            echo form_label('Street Address End', 'edition_address_end');
-                            echo form_input([
-                                'name' => 'edition_address_end',
-                                'id' => 'edition_address_end',
-                                'value' => set_value('edition_address_end', $edition_detail['edition_address_end'], false),
-                                'class' => 'form-control',
-                            ]);
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
                 <?php
-               
+                //  INFO STATUS
+                echo "<div class='row'>";
+                echo "<div class='col-md-3'>";
+                echo form_label('Information Status <span class="compulsary">*</span>', 'edition_info_status');
+                echo form_dropdown('edition_info_status', $info_status_dropdown, set_value('edition_info_status', @$edition_detail['edition_info_status']), ["id" => "edition_info_status", "class" => "form-control input-small"]);
+                echo "</div>";
+
+                echo "<div class='col-md-8' style='padding-top: 20px;'>";
+                echo" <div class='mt-checkbox-inline'>";
+
+                if ($edition_detail['edition_isfeatured']) {
+                    $c = "checked=''";
+                } else {
+                    $c = '';
+                }
+                echo '<label class="mt-checkbox">
+                                    <input type="checkbox" id="edition_isfeatured" name="edition_isfeatured" value="1" ' . $c . '> Is Featured
+                                    <span></span>
+                                </label>';
+
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
+
+
+                //  DATE
+                echo "<div class='form-group'>";
+                echo "<div class='row'>";
+                echo "<div class='col-md-4'>";
+                echo form_label('Date Start <span class="compulsary">*</span>', 'edition_date');
+                echo '<div class="input-group input-medium date date-picker">';
+                echo form_input([
+                    'name' => 'edition_date',
+                    'id' => 'edition_date',
+                    'value' => set_value('edition_date', @fdateShort($edition_detail['edition_date'])),
+                    'class' => 'form-control',
+                        //                        'readonly'      => '',
+                ]);
+                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                echo "</div>";
+
+                //  DATE END
+                echo "<div class='col-md-4'>";
+                echo form_label('Date End', 'edition_date_end');
+                echo '<div class="input-group input-medium date date-picker">';
+                echo form_input([
+                    'name' => 'edition_date_end',
+                    'id' => 'edition_date_end',
+                    'value' => set_value('edition_date_end', @fdateShort($edition_detail['edition_date_end'])),
+                    'class' => 'form-control',
+                        //                        'readonly'      => '',
+                ]);
+                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                echo "</div>"; // col
+                echo "</div>"; // row
+                echo "</div>"; // form-group
+                //  ADDRESS
+                echo "<div class='form-group'>";
+                echo form_label('Street Address <span class="compulsary">*</span>', 'edition_address');
+                echo form_input([
+                    'name' => 'edition_address',
+                    'id' => 'edition_address',
+                    'value' => set_value('edition_address', @$edition_detail['edition_address'], false),
+                    'class' => 'form-control',
+                ]);
+
+                echo "</div>";
+
+                //  ADDRESS
+//                echo "<div class='form-group'>";
+//                echo form_label('Street Address (Race End)', 'edition_address_end');
+//                echo form_input([
+//                        'name'          => 'edition_address_end',
+//                        'id'            => 'edition_address_end',
+//                        'value'         => utf8_encode(@$edition_detail['edition_address_end']),
+//                        'class'         => 'form-control',
+//                    ]);
+//                echo "<p class='help-block' style='font-style: italic;'> Only if it difers from the start address </p>";
+//
+//                echo "</div>";
+                //  GPS
+                echo "<div class='form-group'>";
+                echo form_label('Latitude and Longitude <span class="compulsary">*</span>', 'latitude_num');
+                echo "<div class='row'>";
+                echo "<div class='col-md-3 col-sm-6'>";
+                echo form_input([
+                    'name' => 'latitude_num',
+                    'id' => 'latitude_num',
+                    'value' => set_value('latitude_num', @$edition_detail['latitude_num']),
+                    'class' => 'form-control',
+                ]);
+                echo "<p class='help-block' style='font-style: italic;'> Ex: -33.844204 </p>";
+                echo "</div>";
+
+                echo "<div class='col-md-3 col-sm-6'>";
+                echo form_input([
+                    'name' => 'longitude_num',
+                    'id' => 'longitude_num',
+                    'value' => set_value('longitude_num', @$edition_detail['longitude_num']),
+                    'class' => 'form-control',
+                ]);
+                echo "<p class='help-block' style='font-style: italic;'> Ex: 19.015049 </p>";
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
 
                 //  ONLINE ENTRIES OPEN AND CLOSE
                 echo "<div class='form-group'>";

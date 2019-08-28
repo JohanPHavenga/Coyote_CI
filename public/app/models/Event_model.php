@@ -207,7 +207,7 @@ class Event_model extends MY_model {
                 $this->db->where("(edition_date BETWEEN '" . $params['date_from'] . "' AND '" . $params['date_to'] . "')");
             }
         } else {
-            $this->db->where("events.event_id", $params['event_id']);
+            $this->db->where("editions.edition_id", $params['edition_id']);
         }
 
         if (isset($params['confirmed'])) {
@@ -297,7 +297,7 @@ class Event_model extends MY_model {
             $query = $this->get_event_list_data(
                     [
                         "field_arr" => $field_arr,
-                        "event_id" => $params['event_id'],
+                        "edition_id" => $params['edition_id'],
                     ]
             );
         } else {
@@ -311,6 +311,7 @@ class Event_model extends MY_model {
 
         // formulate the return            
         foreach ($query->result_array() as $row) {
+//            wts($row);
             $year = date("Y", strtotime($row['edition_date']));
             $month = date("F", strtotime($row['edition_date']));
             $day = date("d", strtotime($row['edition_date']));
@@ -367,7 +368,7 @@ class Event_model extends MY_model {
                         }
                         break;
                     case "edition_date":
-                        $value = date("D d M Y", strtotime($row[$field]));
+                        $value = fdateHumanFull($row[$field],true);
                         $data[$year][$month][$day][$id]["edition_timestamp"] = $row[$field];
                         break;
 //                    case "edition_name":

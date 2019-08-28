@@ -30,6 +30,7 @@ class MY_model extends CI_Model {
         $this->db->select("*");
         $this->db->from("status");
         if ($use) { $this->db->like('status_use',$use); }
+        $this->db->order_by("status_order", "ASC");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -87,9 +88,14 @@ class MY_model extends CI_Model {
         
         // new results status field also needs to be set
         if ($flag) { $status=11; } else { $status=10; }
+        
         $field=$linked_to."_results_status";
         $this->db->trans_start();
         $this->db->update($table, [$field => $status], array($id_field => $linked_id));
+        // nuwe edition_info_status field
+        if ($linked_to=="edition") {
+            $this->db->update($table, ["edition_info_status" => $status], array($id_field => $linked_id));
+        }
         $this->db->trans_complete();
               
         // return ID if transaction successfull

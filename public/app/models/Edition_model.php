@@ -44,7 +44,7 @@ class Edition_model extends MY_model {
             return false;
         }
     }
-    
+
     public function get_edition_id_from_slug($edition_slug) {
         // CHECK Editions table vir die naame
         $this->db->select("edition_id, edition_name, edition_status");
@@ -60,17 +60,17 @@ class Edition_model extends MY_model {
 
         if ($editions_query->num_rows() > 0) {
             $result = $editions_query->result_array();
-            $result[0]['source']="org";
+            $result[0]['source'] = "org";
             return $result[0];
         } elseif ($editions_past_query->num_rows() > 0) {
             $result = $editions_past_query->result_array();
-            $result[0]['source']="past";
+            $result[0]['source'] = "past";
             return $result[0];
         } else {
             return false;
         }
     }
-    
+
     public function get_edition_slug($edition_id) {
         // CHECK Editions table vir die naame
         $this->db->select("edition_slug");
@@ -137,7 +137,7 @@ class Edition_model extends MY_model {
         }
         return false;
     }
-    
+
     public function get_edition_list_new($query_params = [], $field_arr = NULL) {
         if (is_null($field_arr)) {
             $field_arr = [
@@ -240,7 +240,7 @@ class Edition_model extends MY_model {
             return false;
         }
     }
-    
+
     public function get_edition_detail_lite($id) {
         if (!($id)) {
             return false;
@@ -294,12 +294,12 @@ class Edition_model extends MY_model {
         if (empty($edition_data)) {
 //                wts($_POST);
 //                exit();
-            if (empty($this->input->post('edition_date_end'))) {
-                $end_date = $this->input->post('edition_date');
-                ;
-            } else {
-                $end_date = $this->input->post('edition_date_end');
-            }
+            $end_date = $this->input->post('edition_date');
+            
+            
+            // TO ADD POSTS TO DATES TABLE
+            
+            
             if (empty($this->input->post('edition_info_isconfirmed'))) {
                 $edition_info_isconfirmed = false;
             } else {
@@ -324,6 +324,7 @@ class Edition_model extends MY_model {
             $edition_data = array(
                 'edition_name' => $this->input->post('edition_name'),
                 'edition_status' => $this->input->post('edition_status'),
+                'edition_info_status' => $this->input->post('edition_info_status'),
                 'edition_results_status' => $this->input->post('edition_results_status'),
                 'edition_date' => $this->input->post('edition_date'),
                 'edition_date_end' => $end_date,
@@ -443,10 +444,10 @@ class Edition_model extends MY_model {
                     if ($this->input->post('edition_name_past') != $this->input->post('edition_name')) {
                         $this->db->trans_start();
                         $this->db->insert('editions_past', [
-                            "edition_id" => $edition_id, 
+                            "edition_id" => $edition_id,
                             "edition_name" => $this->input->post('edition_name_past'),
                             "edition_slug" => url_title($this->input->post('edition_name_past'))
-                                    ]);                                    
+                        ]);
                         $this->db->trans_complete();
                     }
 
