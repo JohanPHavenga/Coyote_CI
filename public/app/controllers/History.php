@@ -16,12 +16,21 @@ class History extends Frontend_Controller {
 
         // most visited events of a year
         $history_list_year = $this->history_model->get_most_visited_url_list(date("Y-m-d H:i:s", strtotime("-1 year")));
+//        wts($history_list_year);
         foreach ($history_list_year as $url) {
             $url_sections = explode("/", $url['history_url']);
             $edition_info = $this->edition_model->get_edition_id_from_slug($url_sections[4]);
-            $count_list_year[$edition_info['edition_id']]['count'] = $url['url_count'];
-            $count_list_year[$edition_info['edition_id']]['url'] = $url['history_url'];
-            $edition_id_list[$edition_info['edition_id']] = $edition_info['edition_id'];
+
+            // tel al die edition sub-pages by mekaar om die count vir die edition te kry
+            if (isset($count_list_year[$edition_info['edition_id']])) {
+                $count = $url['url_count'] + $count_list_year[$edition_info['edition_id']]['count'];
+                $count_list_year[$edition_info['edition_id']]['count'] = $count;
+            } else {
+                $count_list_year[$edition_info['edition_id']]['count'] = $url['url_count'];
+                $count_list_year[$edition_info['edition_id']]['url'] = $url['history_url'];
+                $count_list_year[$edition_info['edition_id']]['lastvisited'] = $url['lastvisited'];
+                $edition_id_list[$edition_info['edition_id']] = $edition_info['edition_id'];
+            }
         }
         $query_params = [
             "where_in" => ["editions.edition_id" => $edition_id_list],
@@ -35,19 +44,34 @@ class History extends Frontend_Controller {
         foreach ($history_list_month as $url) {
             $url_sections = explode("/", $url['history_url']);
             $edition_info = $this->edition_model->get_edition_id_from_slug($url_sections[4]);
-            $count_list_month[$edition_info['edition_id']] = $url['url_count'];
+
+            // tel al die edition sub-pages by mekaar om die count vir die edition te kry
+            if (isset($count_list_month[$edition_info['edition_id']])) {
+                $count = $url['url_count'] + $count_list_month[$edition_info['edition_id']];
+            } else {
+                $count = $url['url_count'];
+            }
+            $count_list_month[$edition_info['edition_id']] = $count;
         }
         $this->history_model->update_history_counts($count_list_month, "historysum_countmonth");
 
-        
+
         // get counts for the last week
         $history_list_week = $this->history_model->get_most_visited_url_list(date("Y-m-d H:i:s", strtotime("-1 week")));
         foreach ($history_list_week as $url) {
             $url_sections = explode("/", $url['history_url']);
             $edition_info = $this->edition_model->get_edition_id_from_slug($url_sections[4]);
-            $count_list_week[$edition_info['edition_id']] = $url['url_count'];
+            // tel al die edition sub-pages by mekaar om die count vir die edition te kry
+            if (isset($count_list_week[$edition_info['edition_id']])) {
+                $count = $url['url_count'] + $count_list_week[$edition_info['edition_id']];
+            } else {
+                $count = $url['url_count'];
+            }
+            $count_list_week[$edition_info['edition_id']] = $count;
         }
         $this->history_model->update_history_counts($count_list_week, "historysum_countweek");
+
+        echo "History summary set: <b>" . date("Y-m-d H:i:s") . "</b>";
     }
 
 }

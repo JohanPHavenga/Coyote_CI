@@ -490,7 +490,7 @@ class Event extends Frontend_Controller {
 //    }
 
     function formulate_leaflet_script($event_detail) {
-        $gps_parts= explode(",", $event_detail['edition_gps']);
+        $gps_parts = explode(",", $event_detail['edition_gps']);
         $lat = $gps_parts[0];
         $long = $gps_parts[1];
         $long_center = $long + 0.005;

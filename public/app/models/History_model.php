@@ -93,12 +93,13 @@ class History_model extends MY_model {
         if (is_null($from_date)) {
             $from_date = date("Y-m-d H:i:s", strtotime("-1 month"));
         }
-        $this->db->select("count(history_url) AS url_count, history_url");
+        $this->db->select("count(history_url) AS url_count, history_url, MAX(history_datevisited) as lastvisited");
         $this->db->from("history");
         $this->db->like('history_url', '/event/');
         $this->db->where('history_datevisited > ', $from_date);
         $this->db->group_by("history_url");
         $this->db->order_by("url_count", "DESC");
+        $this->db->order_by("history_datevisited", "DESC");
 
 //        die($this->db->get_compiled_select());
         $query = $this->db->get();
@@ -113,8 +114,8 @@ class History_model extends MY_model {
     }
 
     public function set_history_summary($edition_data, $url_count_data) {
-        $this->db->empty_table('historysum');
         $this->db->trans_start();
+        
         $this->db->empty_table('historysum');
         foreach ($edition_data as $edition_id => $edition) {
             $historysum_data = [
@@ -122,6 +123,7 @@ class History_model extends MY_model {
                 "edition_name" => $edition['edition_name'],
                 "edition_url" => $url_count_data[$edition_id]['url'],
                 "edition_date" => $edition['edition_date'],
+                "history_lastvisited" => $url_count_data[$edition_id]['lastvisited'],
                 "historysum_countyear" => $url_count_data[$edition_id]['count'],
                 "region_id" => $edition['region_id'],
                 "province_id" => $edition['province_id'],
@@ -178,5 +180,6 @@ class History_model extends MY_model {
         }
         return false;
     }
+    
 
 }

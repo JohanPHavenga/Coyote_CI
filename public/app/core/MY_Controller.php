@@ -1006,6 +1006,36 @@ class Frontend_Controller extends MY_Controller {
         // set session flash data
         $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
     }
+    
+    // central MAILER function
+    public function send_mail($data = "") {
+        $this->load->library('email');
+
+        $config['mailtype'] = 'html';
+        $config['smtp_host'] = $this->ini_array['email']['smtp_server'];
+        $config['smtp_port'] = $this->ini_array['email']['smtp_port'];
+        $config['smtp_crypto'] = $this->ini_array['email']['smtp_crypto'];
+        $config['charset'] = $this->ini_array['email']['email_charset'];
+        $config['useragent'] = $this->ini_array['email']['useragent'];
+        $this->email->initialize($config);
+
+        $this->email->subject($data['emailque_subject']);
+        $this->email->from($data['emailque_from_address'], $data['emailque_from_name']);
+        $this->email->to($data['emailque_to_address'], $data['emailque_to_name']);
+        if ($data['emailque_cc_address']) { $this->email->bcc($data['emailque_cc_address']); }
+        if ($data['emailque_bcc_address']) { $this->email->bcc($data['emailque_bcc_address']); }
+        // add default BCC address to ALL outgoing email
+        $this->email->bcc($this->ini_array['email']['bcc_address']);
+        $this->email->message($data['emailque_body']);        
+        
+//        wts($data);
+//        wts($this->email);
+//        exit();
+
+        $send = $this->email->send();
+
+        return $send;
+    }
 
     public function recaptcha($str = "") {
         $google_url = "https://www.google.com/recaptcha/api/siteverify";
