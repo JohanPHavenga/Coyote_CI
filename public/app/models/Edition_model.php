@@ -294,7 +294,7 @@ class Edition_model extends MY_model {
         if (empty($edition_data)) {
 //                wts($_POST);
 //                exit();
-            $end_date = $this->input->post('edition_date');
+//            $end_date = $this->input->post('edition_date');
             
             
             // TO ADD POSTS TO DATES TABLE
@@ -311,23 +311,23 @@ class Edition_model extends MY_model {
                 $edition_isfeatured = $this->input->post('edition_isfeatured');
             }
 
-            if (empty($this->input->post('edition_entries_date_open'))) {
-                $entries_open = NULL;
-            } else {
-                $entries_open = $this->input->post('edition_entries_date_open');
-            }
-            if (empty($this->input->post('edition_entries_date_close'))) {
-                $entries_close = NULL;
-            } else {
-                $entries_close = $this->input->post('edition_entries_date_close');
-            }
+//            if (empty($this->input->post('edition_entries_date_open'))) {
+//                $entries_open = NULL;
+//            } else {
+//                $entries_open = $this->input->post('edition_entries_date_open');
+//            }
+//            if (empty($this->input->post('edition_entries_date_close'))) {
+//                $entries_close = NULL;
+//            } else {
+//                $entries_close = $this->input->post('edition_entries_date_close');
+//            }
             $edition_data = array(
                 'edition_name' => $this->input->post('edition_name'),
                 'edition_status' => $this->input->post('edition_status'),
                 'edition_info_status' => $this->input->post('edition_info_status'),
                 'edition_results_status' => $this->input->post('edition_results_status'),
                 'edition_date' => $this->input->post('edition_date'),
-                'edition_date_end' => $end_date,
+//                'edition_date_end' => $end_date,
                 'event_id' => $this->input->post('event_id'),
                 'edition_address' => $this->input->post('edition_address'),
                 'edition_address_end' => $this->input->post('edition_address_end'),
@@ -339,9 +339,9 @@ class Edition_model extends MY_model {
                 'edition_isfeatured' => $edition_isfeatured,
                 'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                 'edition_entry_detail' => $this->input->post('edition_entry_detail'),
-                'edition_description' => $this->input->post('edition_description'),
-                'edition_entries_date_open' => $entries_open,
-                'edition_entries_date_close' => $entries_close,
+                'edition_general_detail' => $this->input->post('edition_general_detail'),
+//                'edition_entries_date_open' => $entries_open,
+//                'edition_entries_date_close' => $entries_close,
                 'edition_slug' => url_title($this->input->post('edition_name')),
             );
 

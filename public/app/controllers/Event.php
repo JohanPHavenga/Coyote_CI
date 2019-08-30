@@ -26,6 +26,7 @@ class Event extends Frontend_Controller {
         $this->load->model('race_model');
         $this->load->model('file_model');
         $this->load->model('url_model');
+        $this->load->model('date_model');
 
         // as daar nie 'n edition_name deurgestuur word nie
         if ($slug == "index") {
@@ -129,6 +130,7 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['summary'] = $this->event_model->get_event_list_summary("id", ["edition_id" => $this->data_to_view['event_detail']['edition_id']]);
         $this->data_to_view['event_detail']['file_list'] = $this->file_model->get_file_list("edition", $edition_id, true);
         $this->data_to_view['event_detail']['url_list'] = $this->url_model->get_url_list("edition", $edition_id, true);
+        $this->data_to_view['event_detail']['date_list'] = $this->date_model->get_date_list("edition", $edition_id, true);
         $this->data_to_view['event_detail']['sponsor_url_list'] = $this->url_model->get_url_list("sponsor", $this->data_to_view['event_detail']['sponsor_id'], false);
         $this->data_to_view['event_detail']['club_url_list'] = $this->url_model->get_url_list("club", $this->data_to_view['event_detail']['club_id'], false);
         // get event history / furture

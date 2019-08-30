@@ -3,8 +3,8 @@ if ($calc_edition_urls) {
     $button_class = "btn btn-md c-btn-border-2x c-theme-btn c-btn-uppercase c-btn-bold c-margin-t-20";
     echo '<div class="btn-group">';
     // ENTRY
-    if (isset($calc_edition_urls[5])) {
-        if (($edition_entries_date_close)&&(strtotime($edition_entries_date_close)< strtotime("now"))) {
+    if (isset($date_list[3])) {
+        if ((isset($date_list[4]))&&(strtotime($date_list[4][$edition_id]["date_date"])) < strtotime("now")) {
             echo '<a href="" target="_blank" class="' . $button_class . '" title="Online Entries Closed" disabled>Entries Closed</a>';
         } else {
             echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Online</a>';
@@ -40,4 +40,6 @@ if ($calc_edition_urls) {
     }
     echo "</div>";
 }
+//echo $date_list[4][$edition_id]["date_date"];
+//wts($date_list);
 

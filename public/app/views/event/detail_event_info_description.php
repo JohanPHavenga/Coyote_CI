@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <?php            
-                if (strlen($event_detail['edition_description'])>10) {
+                if (strlen($event_detail['edition_general_detail'])>10) {
             ?>
             <div class="col-md-7">
                 <div class="c-content-title-1 ">
@@ -11,7 +11,7 @@
                     </h3>
                 </div>
                 <?php
-                echo $event_detail['edition_description'];
+                echo $event_detail['edition_general_detail'];
                 ?>
             </div>
             <?php

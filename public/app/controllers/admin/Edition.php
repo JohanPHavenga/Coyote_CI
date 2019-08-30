@@ -408,19 +408,10 @@ class Edition extends Admin_Controller {
         redirect($return_url);
         die();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     // ==========================================================================================
     // TEMP FIX SCRIPTS
     // ==========================================================================================
-
     // temp method - fix wehere end-date is empty
     function end_date_fix() {
         // function to port old URLs from fields directly on Edition to URl table
@@ -461,7 +452,7 @@ class Edition extends Admin_Controller {
         echo "<b>" . $nl . "</b> statuse were updated to NOT LOADED<br>";
         echo "<b>" . $l . "</b> statuse were updated to LOADED<br>";
     }
-    
+
     // temp method - fix wehere results status
     function info_status_fix() {
         // function to port old URLs from fields directly on Edition to URl table
@@ -489,13 +480,10 @@ class Edition extends Admin_Controller {
         echo "<b>" . $future . "</b> statuse were updated to Prelim<br>";
         echo "<b>" . $verified . "</b> statuse were updated to Verified<br>";
     }
-    
-    
-    
+
     // ==========================================================================================
     // TEMP DATA GENERATION SCRIPTS
     // ==========================================================================================
-    
     // create slugs for all the editions
     function generate_slugs() {
         // function to port old URLs from fields directly on Edition to URl table
@@ -510,7 +498,7 @@ class Edition extends Admin_Controller {
         echo "Done<br>";
         echo "<b>" . $n . "</b> slugs were updated<br>";
     }
-    
+
     // create slugs for all the editions
     function generate_gps() {
         // function to port old URLs from fields directly on Edition to URl table
@@ -518,13 +506,77 @@ class Edition extends Admin_Controller {
         $edition_list = $this->edition_model->get_edition_list();
         $n = 0;
         foreach ($edition_list as $e_id => $edition) {
-            $gps= str_replace(" ","",trim($edition['latitude_num']).",".trim($edition['longitude_num']));
+            $gps = str_replace(" ", "", trim($edition['latitude_num']) . "," . trim($edition['longitude_num']));
             $this->edition_model->update_field($e_id, "edition_gps", $gps);
             $n++;
         }
 
         echo "Done<br>";
-        echo "<b>" . $n . "</b> gps vlues were updated<br>";
+        echo "<b>" . $n . "</b> gps values were updated<br>";
     }
+
+    // move edition dates to dates table
+    function move_edition_dates() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $this->load->model('date_model');
+        $this->load->model('datetype_model');
+        $field_list = ["edition_id", "edition_name", "edition_date", "edition_date_end", "edition_entries_date_open", "edition_entries_date_close"];
+        $query_params = [
+            "order_by" => ["edition_date" => "DESC"],
+        ];
+        $edition_list = $this->edition_model->get_edition_list_new($query_params, $field_list);
+        $date_list = $this->date_model->get_date_list("edition", 0, true);
+        
+        $counter=[];
+        $date_fields_to_move = [
+            "edition_date" => "1",
+            "edition_date_end" => "2",
+            "edition_entries_date_open" => "3",
+            "edition_entries_date_close" => "4",
+        ];
+
+        // run deur edition list
+        foreach ($edition_list as $e_id => $edition) {
+            foreach ($date_fields_to_move as $edition_field => $datetype_id) {
+                if ((!isset($date_list[$datetype_id][$e_id])) && ($edition[$edition_field])) {
+                    $date_data = array(
+                        'date_date' => $edition[$edition_field],
+                        'datetype_id' => $datetype_id,
+                        'date_linked_to' => "edition",
+                        'linked_id' => $e_id,
+                    );
+                    $this->date_model->set_date("add", NULL, $date_data);
+                    if (!isset($counter[$edition_field])) {
+                        $counter[$edition_field] = 0;
+                    }
+                    $counter[$edition_field] ++;
+                }
+            }
+        }
+
+        echo "<b>Done</b><br>";
+        if (empty($counter)) { echo "No dates to move"; }
+        foreach ($counter as $field => $count) {
+            echo "<b>$count</b> $field dates moved<br>";
+        }
+
+    }
+    
+    // move data from old edition_description field to new edition_general_detail 
+    function port_description() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list();
+        $n = 0;
+        foreach ($edition_list as $e_id => $edition) {;
+            $this->edition_model->update_field($e_id, "edition_general_detail", $edition['edition_description']);
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $n . "</b> description fields were updated<br>";
+    }
+
 
 }

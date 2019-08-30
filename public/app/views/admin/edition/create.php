@@ -341,11 +341,11 @@ echo form_open_multipart($form_url);
 
                 //  Decription
                 echo "<div class='form-group'>";
-                echo form_label('General Information', 'edition_description');
+                echo form_label('General edition_general_detail', 'edition_general_detail');
                 echo form_textarea([
-                    'name' => 'edition_description',
+                    'name' => 'edition_general_detail',
                     'id' => 'edition_description',
-                    'value' => set_value('edition_description', @$edition_detail['edition_description'], false),
+                    'value' => set_value('edition_general_detail', @$edition_detail['edition_general_detail'], false),
                 ]);
 
                 echo "</div>";
