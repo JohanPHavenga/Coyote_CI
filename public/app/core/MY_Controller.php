@@ -222,6 +222,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "link",
                     ],
                     [
+                        "text" => "Dates",
+                        "url" => 'admin/date',
+                        "icon" => "calendar",
+                    ],
+                    [
                         "text" => "Quotes",
                         "url" => 'admin/quote',
                         "icon" => "speech",
@@ -643,7 +648,7 @@ class Frontend_Controller extends MY_Controller {
                 break;
             default:
                 if ($edition_date) {
-                    $e_names['edition_name'] = $e_names['edition_name_no_date'] . " - " . fdateHumanFull($edition_date, true);
+                    $e_names['edition_name'] = $e_names['edition_name'] . " - " . fdateTitle($edition_date, true);
                 } else {
                     $e_names['edition_name'] = $edition_name;
                 }

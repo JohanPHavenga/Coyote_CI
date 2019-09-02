@@ -183,6 +183,19 @@ if ( ! function_exists('fdateStructured'))
     }
 }
 
+if ( ! function_exists('fdateTitle'))
+{
+    function fdateTitle($date) 
+    {
+        if ($date>0)
+        {
+            return date("D, d M",strtotime($date));
+        } else {
+            return false;
+        }
+    }
+}
+
 
 //                    $sEvent[]='"startDate": "'.$race_start_date.'T'.$race['race_time_start'].'+02:00",';
 

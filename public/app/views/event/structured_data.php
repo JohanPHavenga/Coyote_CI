@@ -1,15 +1,16 @@
 <?php
+$id=$event_detail['edition_id'];
 $start_date=fdateShort($event_detail['edition_date']);
-$end_date=fdateShort($event_detail['edition_date_end']);
+$end_date=fdateShort($event_detail['date_list'][2][$id]['date_date']);
 $today_date=date("Y-m-d").'T'."00:00:00+02:00";
 
-if ($event_detail['edition_entries_date_open']) {
-    $valid_from_date= fdateStructured($event_detail['edition_entries_date_open']);  
+if (isset($event_detail['date_list'][3])) {
+    $valid_from_date= fdateStructured($event_detail['date_list'][3][$id]['date_date']);  
 } else {
     $valid_from_date=fdateStructured(date("Y-m-d")); 
 }
-if ($event_detail['edition_entries_date_close']) {
-    $valid_to_date= fdateStructured($event_detail['edition_entries_date_close']); 
+if (isset($event_detail['date_list'][4])) {
+    $valid_to_date= fdateStructured($event_detail['date_list'][3][$id]['date_date']); 
 } else {
     $valid_to_date=$end_date.'T'."23:59:59+02:00";
 }
