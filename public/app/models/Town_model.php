@@ -53,7 +53,7 @@ class Town_model extends MY_model {
     public function get_town_dropdown() {
         $this->db->select("town_id, town_name, area_id, region_id");
         $this->db->from("towns");
-        $this->db->join('town_area', 'town_id', 'left');
+        $this->db->join('town_area', 'town_id');
         $this->db->join('regions', 'region_id', 'left');
         $this->db->order_by('town_name');
         $query = $this->db->get();

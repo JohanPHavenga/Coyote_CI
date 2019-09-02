@@ -56,7 +56,7 @@ class Event_model extends MY_model {
         } else {
             $this->db->select("events.*, club_id, town_name");
             $this->db->from("events");
-            $this->db->join('towns', 'events.town_id=towns.town_id', 'left');
+            $this->db->join('towns', 'town_id', 'left');
             $this->db->join('organising_club', 'event_id', 'left');
             $this->db->where('event_id', $id);
             $query = $this->db->get();
