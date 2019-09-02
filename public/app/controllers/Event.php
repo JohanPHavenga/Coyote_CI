@@ -147,7 +147,7 @@ class Event extends Frontend_Controller {
                     "edition_date" => $this->data_to_view['event_detail']['edition_date'],
                     "race_list" => $this->data_to_view['event_detail']['race_list'],
                     "url" => "http://www.roadrunning.co.za" . urlencode($this->data_to_view['event_detail']['summary']['edition_url']),
-                    "address" => $this->data_to_view['event_detail']['edition_address'] . ", " . $this->data_to_view['event_detail']['town_name'],
+                    "address" => $this->data_to_view['event_detail']['edition_address_end'] . ", " . $this->data_to_view['event_detail']['town_name'],
                 ]
         );
 
@@ -578,7 +578,7 @@ class Event extends Frontend_Controller {
         }
         $this->data_to_view['datestart'] = strtotime(str_replace("00:00:00", $time, $date));
         $this->data_to_view['dateend'] = $this->data_to_view['datestart'] + (5 * 60 * 60);
-        $this->data_to_view['address'] = $edition_info['event_detail']['edition_address'];
+        $this->data_to_view['address'] = $edition_info['event_detail']['edition_address_end'];
         $this->data_to_view['uri'] = get_url_from_edition_name(encode_edition_name($edition_info['event_detail']['edition_name']));
         $this->data_to_view['description'] = '';
         $this->data_to_view['filename'] = 'RoadRunning_Event_' . $edition_id . ".ics";

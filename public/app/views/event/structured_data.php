@@ -25,10 +25,10 @@ if (isset($event_detail['date_list'][4])) {
     "endDate": "<?=$end_date;?>",
     "location": { 
         "@type": "Place",
-        "name": "<?=$event_detail['edition_address'];?>",
+        "name": "<?=$event_detail['edition_address_end'];?>",
         "address": { 
             "@type": "PostalAddress",
-            "streetAddress": "<?=$event_detail['edition_address'];?>",
+            "streetAddress": "<?=$event_detail['edition_address_end'];?>",
             "addressLocality": "<?=$event_detail['town_name'];?>",
             "addressRegion": "WC",
             "addressCountry": "ZA"

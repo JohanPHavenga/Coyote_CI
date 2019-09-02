@@ -139,10 +139,10 @@ class Calendar extends Frontend_Controller {
         $h[] = '"startDate": "' . $start_date . '",';
         $h[] = '"location": { ';
         $h[] = '"@type": "Place",';
-        $h[] = '"name": "' . $event_detail['edition_address'] . '",';
+        $h[] = '"name": "' . $event_detail['edition_address_end'] . '",';
         $h[] = '"address": { ';
         $h[] = '"@type": "PostalAddress",';
-        $h[] = '"streetAddress": "' . $event_detail['edition_address'] . '",';
+        $h[] = '"streetAddress": "' . $event_detail['edition_address_end'] . '",';
         $h[] = '"addressLocality": "' . $event_detail['town_name'] . '",';
         $h[] = '"addressRegion": "WC",';
         $h[] = '"addressCountry": "ZA"';
@@ -186,10 +186,10 @@ class Calendar extends Frontend_Controller {
             }
             $h[] = '"location": { ';
             $h[] = '"@type": "Place",';
-            $h[] = '"name": "' . $event_detail['edition_address'] . '",';
+            $h[] = '"name": "' . $event_detail['edition_address_end'] . '",';
             $h[] = '"address": { ';
             $h[] = '"@type": "PostalAddress",';
-            $h[] = '"streetAddress": "' . $event_detail['edition_address'] . '",';
+            $h[] = '"streetAddress": "' . $event_detail['edition_address_end'] . '",';
             $h[] = '"addressLocality": "' . $event_detail['town_name'] . '",';
             $h[] = '"addressRegion": "WC",';
             $h[] = '"addressCountry": "ZA"';

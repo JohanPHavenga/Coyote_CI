@@ -75,8 +75,8 @@
                                 // =================================
                                 // #toberemoved                      
                                 // =================================
-                                } elseif (strlen($event['edition_logo']) > 3) {
-                                    $img_url = base_url("uploads/admin/edition/" . $event['edition_id'] . "/" . $event['edition_logo']);
+//                                } elseif (strlen($event['edition_logo']) > 3) {
+//                                    $img_url = base_url("uploads/admin/edition/" . $event['edition_id'] . "/" . $event['edition_logo']);
                                 } else {
                                     $rand = rand(1, 8);
                                     $img_url = "img/events/generic/" . $rand . ".jpg";

@@ -159,7 +159,7 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an event"]);
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
         $this->form_validation->set_rules('edition_date', 'Start date', 'required');
-        $this->form_validation->set_rules('edition_address', 'Address', 'required');
+        $this->form_validation->set_rules('edition_address', 'Start Address', 'required');
         $this->form_validation->set_rules('edition_gps', 'GPS', 'trim|required');
 //        $this->form_validation->set_rules('latitude_num', 'Latitude', 'trim|required|numeric');
 //        $this->form_validation->set_rules('longitude_num', 'Longitude', 'trim|required|numeric');
@@ -372,8 +372,9 @@ class Edition extends Admin_Controller {
         $edition_data['edition_name'] = $name . " " . $year;
         $edition_data['edition_status'] = 2;
         $edition_data['edition_date'] = date("Y-m-d H:i:s", strtotime("+1 years", strtotime($edition_detail['edition_date'])));
-        ;
+        
         $edition_data['edition_address'] = $edition_detail['edition_address'];
+        $edition_data['edition_address_end'] = $edition_detail['edition_address_end'];
         $edition_data['event_id'] = $edition_detail['event_id'];
         $edition_data['edition_gps'] = $edition_detail['edition_gps'];
 //        $edition_data['latitude_num'] = $edition_detail['latitude_num'];
@@ -580,6 +581,20 @@ class Edition extends Admin_Controller {
 
         echo "Done<br>";
         echo "<b>" . $n . "</b> description fields were updated<br>";
+    }
+    
+    // copy address data from start to end
+    function port_address() {
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list();
+        $n = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            $this->edition_model->update_field($e_id, "edition_address_end", $edition['edition_address']);
+            $n++;
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $n . "</b> address fields were updated<br>";
     }
 
 

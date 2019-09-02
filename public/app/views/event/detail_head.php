@@ -30,7 +30,7 @@
                                 <div class="c-content-label c-font-uppercase c-font-bold c-theme-bg">General</div>
                                 <p>
                                     <b><?= date("d F Y", strtotime($event_detail['edition_date'])); ?></b><br>
-                                    <?= $event_detail['edition_address']; ?><br>
+                                    <?= $event_detail['edition_address_end']; ?><br>
                                     <?= $event_detail['town_name']; ?><br>
                                     <?= $event_detail['summary']['race_time_start']; ?> Race<br>
                                 </p>

@@ -63,9 +63,9 @@
                         // =================================
                         // #toberemoved                      
                         // =================================
-                    } elseif (strlen($event_detail['edition_logo']) > 3) {
-                        $img_url = base_url("uploads/admin/edition/" . $event_detail['edition_id'] . "/" . $event_detail['edition_logo']);
-                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
+//                    } elseif (strlen($event_detail['edition_logo']) > 3) {
+//                        $img_url = base_url("uploads/admin/edition/" . $event_detail['edition_id'] . "/" . $event_detail['edition_logo']);
+//                        echo "<img src='$img_url' style='max-height: 250px; max-width: 400px;'>";
                     }
                     ?>
                 </div>

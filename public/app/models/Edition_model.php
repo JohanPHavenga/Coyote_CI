@@ -311,11 +311,11 @@ class Edition_model extends MY_model {
                 $edition_isfeatured = $this->input->post('edition_isfeatured');
             }
 
-//            if (empty($this->input->post('edition_entries_date_open'))) {
-//                $entries_open = NULL;
-//            } else {
-//                $entries_open = $this->input->post('edition_entries_date_open');
-//            }
+            if (empty($this->input->post('edition_address_end'))) {
+                $address_end = $this->input->post('edition_address');
+            } else {
+                $address_end = $this->input->post('edition_address_end');
+            }
 //            if (empty($this->input->post('edition_entries_date_close'))) {
 //                $entries_close = NULL;
 //            } else {
@@ -330,7 +330,7 @@ class Edition_model extends MY_model {
 //                'edition_date_end' => $end_date,
                 'event_id' => $this->input->post('event_id'),
                 'edition_address' => $this->input->post('edition_address'),
-                'edition_address_end' => $this->input->post('edition_address_end'),
+                'edition_address_end' => $address_end,
                 'edition_gps' => $this->input->post('edition_gps'),
 //                'latitude_num' => $this->input->post('latitude_num'),
 //                'longitude_num' => $this->input->post('longitude_num'),
