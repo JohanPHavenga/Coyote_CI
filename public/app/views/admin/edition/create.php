@@ -16,7 +16,7 @@ echo form_open_multipart($form_url);
                 <!-- EDITION NAME -->
                 <div class='form-group'>
                     <div class='row'>
-                        <div class='col-md-7'>
+                        <div class='col-sm-7'>
                             <?php
                             echo form_label('Edition Name <span class="compulsary">*</span>', 'edition_name');
                             echo form_input([
@@ -44,14 +44,14 @@ echo form_open_multipart($form_url);
                             } else {
                                 ?>
                                 <div class='row'>
-                                    <div class='col-md-6'>
+                                    <div class='col-sm-6'>
                                         <?php
                                         // EDITION STATUS    
                                         echo form_label('Edition Status <span class="compulsary">*</span>', 'edition_status');
                                         echo form_dropdown('edition_status', $status_dropdown, set_value('edition_status', $edition_detail['edition_status']), ["id" => "edition_status", "class" => "form-control input-small"]);
                                         ?>
                                     </div>
-                                    <div class='col-md-6'>
+                                    <div class='col-sm-6'>
                                         <?php
                                         echo form_label('Information Status <span class="compulsary">*</span>', 'edition_info_status');
                                         echo form_dropdown('edition_info_status', $info_status_dropdown, set_value('edition_info_status', @$edition_detail['edition_info_status']), ["id" => "edition_info_status", "class" => "form-control input-small"]);
@@ -62,7 +62,7 @@ echo form_open_multipart($form_url);
                             }
                             ?>
                         </div>
-                        <div class='col-md-5'>
+                        <div class='col-sm-5'>
                             <?php
                             echo form_label('', 'event_id');
                             echo "<p class='help-block'><b>Event:</b>" . $edition_detail['event_name'] . " (<a href='" . $event_edit_url . "'>Edit</a>)</p>";
@@ -120,7 +120,7 @@ echo form_open_multipart($form_url);
 
                     <!-- DATE & GPS -->
                     <div class="row">
-                        <div class='col-md-4'>
+                        <div class='col-sm-4'>
                             <?php
                             echo form_label('Edition Date <span class="compulsary">*</span>', 'edition_date');
                             echo '<div class="input-group date date-picker">';
@@ -133,7 +133,7 @@ echo form_open_multipart($form_url);
                             echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
                             ?>
                         </div>
-                        <div class='col-md-8'>
+                        <div class='col-sm-8'>
                             <?php
                             echo form_label('GPS <span class="compulsary">*</span>', 'edition_gps');
                             echo form_input([
@@ -151,19 +151,19 @@ echo form_open_multipart($form_url);
                 <!-- CONTACT / SPONSOR / ASA -->
                 <div class="form-group">
                     <div class="row">
-                        <div class='col-md-4'>
+                        <div class='col-sm-4'>
                             <?php
                             echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
                             echo form_dropdown('user_id', $contact_dropdown, set_value('user_id', $edition_detail['user_id']), ["id" => "user_id", "class" => "form-control"]);
                             ?>
                         </div>
-                        <div class='col-md-5'>
+                        <div class='col-sm-5'>
                             <?php
                             echo form_label('Sponsor <span class="compulsary">*</span>', 'sponsor_id');
                             echo form_dropdown('sponsor_id', $sponsor_dropdown, set_value('sponsor_id', $edition_detail['sponsor_id']), ["id" => "sponsor_id", "class" => "form-control"]);
                             ?>
                         </div>
-                        <div class='col-md-3'>
+                        <div class='col-sm-3'>
                             <?php
                             echo form_label('ASA Affiliation <span class="compulsary">*</span>', 'edition_asa_member');
                             echo form_dropdown('edition_asa_member', $asamember_dropdown, set_value('edition_asa_member', $edition_detail['edition_asa_member']), ["id" => "edition_asa_member", "class" => "form-control"]);
@@ -176,7 +176,7 @@ echo form_open_multipart($form_url);
                 <!-- ADDRESS -->
                 <div class="form-group">
                     <div class="row">
-                        <div class='col-md-6'>
+                        <div class='col-sm-6'>
                             <?php
                             echo form_label('Street Address Start <span class="compulsary">*</span>', 'edition_address');
                             echo form_input([
@@ -187,7 +187,7 @@ echo form_open_multipart($form_url);
                             ]);
                             ?>
                         </div>
-                        <div class='col-md-6'>
+                        <div class='col-sm-6'>
                             <?php
                             echo form_label('Street Address End', 'edition_address_end');
                             echo form_input([
