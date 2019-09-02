@@ -2,6 +2,7 @@
 echo form_open_multipart($form_url);
 ?>
 <div class="row">
+
     <div class="col-md-6">
         <div class="portlet light">
             <div class="portlet-title">
@@ -95,31 +96,29 @@ echo form_open_multipart($form_url);
                                 echo '<label class="mt-checkbox">' . form_checkbox($is_featured_data) . "Is Featured<span></span></label>";
 
                                 // TBR once new site is launched
-                                $is_confirmed_data = array(
-                                    'name' => 'edition_info_isconfirmed',
-                                    'id' => 'edition_info_isconfirmed',
-                                    'value' => '1',
-                                    'checked' => $edition_detail['edition_info_isconfirmed'],
-                                );
-                                echo '<label class="mt-checkbox">' . form_checkbox($is_confirmed_data) . "Information confirmed<span></span></label>";
+//                                $is_confirmed_data = array(
+//                                    'name' => 'edition_info_isconfirmed',
+//                                    'id' => 'edition_info_isconfirmed',
+//                                    'value' => '1',
+//                                    'checked' => $edition_detail['edition_info_isconfirmed'],
+//                                );
+//                                echo '<label class="mt-checkbox">' . form_checkbox($is_confirmed_data) . "Information confirmed<span></span></label>";
 
                                 // TBR once new site is launched
-                                $results_loaded_data = array(
-                                    'name' => 'edition_results_isloaded',
-                                    'id' => 'edition_results_isloaded',
-                                    'value' => '1',
-                                    'checked' => $edition_detail['edition_results_isloaded'],
-                                    'disabled' => '',
-                                );
-                                echo '<label class="mt-checkbox">' . form_checkbox($results_loaded_data) . "Results Loaded<span></span></label>";
+//                                $results_loaded_data = array(
+//                                    'name' => 'edition_results_isloaded',
+//                                    'id' => 'edition_results_isloaded',
+//                                    'value' => '1',
+//                                    'checked' => $edition_detail['edition_results_isloaded'],
+//                                    'disabled' => '',
+//                                );
+//                                echo '<label class="mt-checkbox">' . form_checkbox($results_loaded_data) . "Results Loaded<span></span></label>";
                                 ?>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- DATE & GPS -->
-                <div class="form-group">
+                    <!-- DATE & GPS -->
                     <div class="row">
                         <div class='col-md-4'>
                             <?php
@@ -144,10 +143,35 @@ echo form_open_multipart($form_url);
                                 'class' => 'form-control',
                             ]);
                             ?>
-                            <p class='help-block' style='font-style: italic;'> Ex: -33.844204,19.015049 </p>
+                            <!--<p class='help-block' style='font-style: italic;'> Ex: -33.844204,19.015049 </p>-->
                         </div>
                     </div>
                 </div>
+
+                <!-- CONTACT / SPONSOR / ASA -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class='col-md-4'>
+                            <?php
+                            echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
+                            echo form_dropdown('user_id', $contact_dropdown, set_value('user_id', $edition_detail['user_id']), ["id" => "user_id", "class" => "form-control"]);
+                            ?>
+                        </div>
+                        <div class='col-md-5'>
+                            <?php
+                            echo form_label('Sponsor <span class="compulsary">*</span>', 'sponsor_id');
+                            echo form_dropdown('sponsor_id', $sponsor_dropdown, set_value('sponsor_id', $edition_detail['sponsor_id']), ["id" => "sponsor_id", "class" => "form-control"]);
+                            ?>
+                        </div>
+                        <div class='col-md-3'>
+                            <?php
+                            echo form_label('ASA Affiliation <span class="compulsary">*</span>', 'edition_asa_member');
+                            echo form_dropdown('edition_asa_member', $asamember_dropdown, set_value('edition_asa_member', $edition_detail['edition_asa_member']), ["id" => "edition_asa_member", "class" => "form-control"]);
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- ADDRESS -->
                 <div class="form-group">
@@ -176,137 +200,138 @@ echo form_open_multipart($form_url);
                         </div>
                     </div>
                 </div>
-
-                <?php
-               
-
-                //  ONLINE ENTRIES OPEN AND CLOSE
-                echo "<div class='form-group'>";
-                echo "<div class='row'>";
-                echo "<div class='col-md-4'>";
-                echo form_label('Online Entries Open', 'edition_entries_date_open');
-                echo '<div class="input-group input-medium">';
-                echo form_input([
-                    'name' => 'edition_entries_date_open',
-                    'id' => 'edition_entries_date_open',
-                    'value' => set_value('edition_entries_date_open', @fdateLong($edition_detail['edition_entries_date_open'])),
-                    'class' => 'form-control form_datetime'
-                ]);
-                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-                echo "</div>";
-
-                //  ENTRIES CLOSE
-                echo "<div class='col-md-4'>";
-                echo form_label('Online Entries Close', 'edition_entries_date_close');
-                echo '<div class="input-group input-medium">';
-                echo form_input([
-                    'name' => 'edition_entries_date_close',
-                    'id' => 'edition_entries_date_close',
-                    'value' => set_value('edition_entries_date_close', @fdateLong($edition_detail['edition_entries_date_close'])),
-                    'class' => 'form-control form_datetime',
-                        //                        'readonly'      => '',
-                ]);
-                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-                echo "</div>"; // col
-                echo "</div>"; // row
-                echo "</div>"; // form-group
-                //  ASA Membership
-                echo "<div class='form-group'>";
-                echo form_label('ASA Affiliation', 'edition_asa_member');
-                echo "<div class='row'>";
-                echo "<div class='col-md-9'><div class='mt-radio-inline'>";
-                foreach ($asamember_list as $asamember) {
-                    $id = $asamember['asa_member_id'];
-                    $abbr = $asamember['asa_member_abbr'];
-                    if (@$edition_detail['edition_asa_member'] == $id) {
-                        $c = "checked=''";
-                    } else {
-                        $c = '';
-                    }
-                    echo '<label class="mt-radio">
-                                <input type="radio" name="edition_asa_member" id="edition_asa_member" value="' . $id . '" ' . $c . '> ' . $abbr . '
-                                <span></span>
-                            </label>';
-                }
-                if (!@$edition_detail['edition_asa_member']) {
-                    $c = "checked=''";
-                } else {
-                    $c = '';
-                }
-                echo '<label class="mt-radio">
-                                <input type="radio" name="edition_asa_member" id="edition_asa_member" value="0" ' . $c . '> None
-                                <span></span>
-                            </label>';
-                echo "</div></div>";
-                echo "</div>";
-
-                //  CONTACT
-                echo "<div class='row'>";
-                echo "<div class='col-md-6'>";
-                echo form_label('Contact Person <span class="compulsary">*</span>', 'user_id');
-                echo form_dropdown('user_id', $contact_dropdown, set_value('user_id', @$edition_detail['user_id']), ["id" => "user_id", "class" => "form-control"]);
-                echo "</div>";
-
-                //  SPONSOR
-                echo "<div class='col-md-6'>";
-                echo form_label('Sponsor <span class="compulsary">*</span>', 'sponsor_id');
-                echo form_dropdown('sponsor_id', $sponsor_dropdown, set_value('sponsor_id', @$edition_detail['sponsor_id']), ["id" => "sponsor_id", "class" => "form-control"]);
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-
-
-
-                //  RESULTS STATUS
-                echo "<div class='form-group'>";
-                echo "<div class='row'>";
-                echo "<div class='col-md-3'>";
-                echo form_label('Results Status <span class="compulsary">*</span>', 'edition_results_status');
-                echo form_dropdown('edition_results_status', $results_status_dropdown, set_value('edition_results_status', @$edition_detail['edition_results_status']), ["id" => "edition_results_status", "class" => "form-control input-small"]);
-                echo "</div>";
-                echo "<div class='col-md-8' style='padding-top: 20px;'>";
-                echo" <div class='mt-checkbox-inline'>";
-                if ($edition_detail['edition_info_isconfirmed']) {
-                    $c = "checked=''";
-                } else {
-                    $c = '';
-                }
-                echo '<label class="mt-checkbox">
-                                    <input type="checkbox" id="edition_info_isconfirmed" name="edition_info_isconfirmed" value="1" ' . $c . '> Information confirmed
-                                    <span></span>
-                                </label>';
-
-                if (@$edition_detail['edition_results_isloaded']) {
-                    $c = "checked=''";
-                } else {
-                    $c = '';
-                }
-                echo '<label class="mt-checkbox">
-                                    <input type="checkbox" id="edition_results_isloaded" name="edition_results_isloaded" disabled="disabled" value="1" ' . $c . '> Results Loaded
-                                    <span></span>
-                                </label>';
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                ?>
             </div>
+
             <div class="portlet-footer">
-                <?php
-                //  BUTTONS
-                echo "<div class='btn-group pull-right'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo "</div>";
-                ?>
+                <div class='btn-group pull-right'>
+                    <?= fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only"); ?>
+                </div>
             </div>
 
-        </div>
+        </div> <!-- close portlet -->
+    </div> <!-- close col -->
+
+    <!-- RACES + DATES-->
+    <?php
+    if ($action == "edit") {
+        ?>    
+        <div class="col-md-6">
+            <!-- RACES -->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-edit font-dark"></i>
+                        <span class="caption-subject font-dark bold uppercase">Races</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <?php
+                    if (!(empty($race_list))) {
+                        // create table
+                        $this->table->set_template(ftable('races_table'));
+                        $this->table->set_heading(["ID", "Race Distance", "Race Type", "Race Time", "Status", "Actions"]);
+                        foreach ($race_list as $id => $data_entry) {
+
+                            $action_array = [
+                                [
+                                    "url" => "/admin/race/create/edit/" . $data_entry['race_id'],
+                                    "text" => "Edit",
+                                    "icon" => "icon-pencil",
+                                ],
+                                [
+                                    "url" => "/admin/race/delete/" . $data_entry['race_id'],
+                                    "text" => "Delete",
+                                    "icon" => "icon-dislike",
+                                    "confirmation_text" => "<b>Are you sure?</b>",
+                                ],
+                            ];
+
+
+                            $row['id'] = $data_entry['race_id'];
+                            $row['distance'] = fraceDistance($data_entry['race_distance']);
+                            $row['racetype'] = $data_entry['racetype_name'];
+                            $row['time'] = ftimeSort($data_entry['race_time_start']);
+                            $row['status'] = flableStatus($data_entry['race_status']);
+                            $row['actions'] = fbuttonActionGroup($action_array);
+
+                            $this->table->add_row(
+                                    $row['id'], array('data' => $row['distance'], 'align' => 'right'), $row['racetype'], $row['time'], $row['status'], $row['actions']
+                            );
+//                        $this->table->add_row($row);
+                            unset($row);
+                        }
+                        echo $this->table->generate();
+                    } else {
+                        echo "<p>No races loaded for the edition</p>";
+                    }
+
+                    // add button
+                    echo "<div class='btn-group'>";
+                    echo fbuttonLink("/admin/race/create/add/" . $edition_detail['edition_id'], "Add Race", "default");
+                    echo "</div>";
+                    ?>
+                </div>
+            </div>
+            
+            <!-- DATES -->
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-edit font-dark"></i>
+                        <span class="caption-subject font-dark bold">DATES</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <?php
+                    if (!(empty($date_list))) {
+                        // create table
+                        $this->table->set_template(ftable('list_table'));
+                        $this->table->set_heading(["ID", "Date", "Date Type", "Actions"]);
+                        foreach ($date_list as $id => $data_entry) {
+
+                            $action_array = [
+                                [
+                                    "url" => "/admin/date/create/edit/" . $data_entry['date_id'],
+                                    "text" => "Edit",
+                                    "icon" => "icon-pencil",
+                                ],
+                                [
+                                    "url" => "/admin/date/delete/" . $data_entry['date_id'],
+                                    "text" => "Delete",
+                                    "icon" => "icon-dislike",
+                                    "confirmation_text" => "<b>Are you sure?</b>",
+                                ],
+                            ];
+
+
+                            $row['id'] = $data_entry['date_id'];
+                            $row['date_date'] = $data_entry['date_date'];
+                            $row['datetype'] = $data_entry['datetype_name'];
+                            $row['actions'] = fbuttonActionGroup($action_array);
+
+                            $this->table->add_row($row);
+                            unset($row);
+                        }
+                        echo $this->table->generate();
+                    } else {
+                        echo "<p>No URLs loaded for the edition</p>";
+                    }
+
+                    // add button
+                    echo "<div class='btn-group'>";
+                    echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "default");
+                    echo "</div>";
+                    ?>
+                </div>
+            </div>
+        </div> <!-- col -->  
     </div>
+    <?php
+}
+?>
 
-
-
-
-    <!-- MORE INFO -->
+<div class="row">
+    <!-- INTRO / ENTRIES / GENERAL INFO -->
     <div class="col-md-6">
         <div class="portlet light">
             <div class="portlet-title">
@@ -341,7 +366,7 @@ echo form_open_multipart($form_url);
 
                 //  Decription
                 echo "<div class='form-group'>";
-                echo form_label('General edition_general_detail', 'edition_general_detail');
+                echo form_label('General Information', 'edition_general_detail');
                 echo form_textarea([
                     'name' => 'edition_general_detail',
                     'id' => 'edition_description',
@@ -354,21 +379,17 @@ echo form_open_multipart($form_url);
             </div> <!-- portlet-body -->    
             <div class="portlet-footer">
                 <?php
-//  BUTTONS
+                //  BUTTONS
                 echo "<div class='btn-group pull-right'>";
                 echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
                 echo "</div>";
                 ?>
             </div>
         </div> <!-- portlet -->  
-    </div> <!-- col -->  
-</div>
-
-<?php
-if ($action == "edit") {
-    ?>
-    <div class="row">
-
+    </div>
+    <?php
+    if ($action == "edit") {
+        ?>
         <!-- ADD URLs -->
         <div class="col-md-6">    
             <div class="portlet light">
@@ -421,10 +442,7 @@ if ($action == "edit") {
                     ?>
                 </div>
             </div>
-        </div> <!-- col -->
 
-        <!-- ADD FILES -->
-        <div class="col-md-6">    
             <div class="portlet light">
                 <div class="portlet-title">
                     <div class="caption">
@@ -472,104 +490,8 @@ if ($action == "edit") {
                     ?>
                 </div>
             </div>
-        </div> <!-- col -->
 
-    </div> <!-- row --->
-
-
-
-    <div class="row">
-        <div class="col-md-6">
             <div class="portlet light">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-edit font-dark"></i>
-                        <span class="caption-subject font-dark bold uppercase">Races</span>
-                    </div>
-                </div>
-                <div class="portlet-body">
-                    <?php
-                    // RACES
-                    if (!(empty($race_list))) {
-                        // create table
-                        $this->table->set_template(ftable('races_table'));
-                        $this->table->set_heading(["ID", "Race Distance", "Race Type", "Race Time", "Status", "Actions"]);
-                        foreach ($race_list as $id => $data_entry) {
-
-                            $action_array = [
-                                [
-                                    "url" => "/admin/race/create/edit/" . $data_entry['race_id'],
-                                    "text" => "Edit",
-                                    "icon" => "icon-pencil",
-                                ],
-                                [
-                                    "url" => "/admin/race/delete/" . $data_entry['race_id'],
-                                    "text" => "Delete",
-                                    "icon" => "icon-dislike",
-                                    "confirmation_text" => "<b>Are you sure?</b>",
-                                ],
-                            ];
-
-
-                            $row['id'] = $data_entry['race_id'];
-                            $row['distance'] = fraceDistance($data_entry['race_distance']);
-                            $row['racetype'] = $data_entry['racetype_name'];
-                            $row['time'] = ftimeSort($data_entry['race_time_start']);
-                            $row['status'] = flableStatus($data_entry['race_status']);
-                            $row['actions'] = fbuttonActionGroup($action_array);
-
-                            $this->table->add_row(
-                                    $row['id'], array('data' => $row['distance'], 'align' => 'right'), $row['racetype'], $row['time'], $row['status'], $row['actions']
-                            );
-//                        $this->table->add_row($row);
-                            unset($row);
-                        }
-                        echo $this->table->generate();
-                    } else {
-                        echo "<p>No races loaded for the edition</p>";
-                    }
-
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/race/create/add/" . $edition_detail['edition_id'], "Add Race", "default");
-                    echo "</div>";
-                    ?>
-                </div>
-            </div>
-        </div>
-
-        <!-- LOGO -->
-        <div class="col-md-6">
-            <div class="portlet light">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="icon-edit font-dark"></i>
-                        <span class="caption-subject font-dark bold uppercase">Logo Upload</span>
-                    </div>
-                </div>
-                <div class="portlet-body">  
-                    <?php
-                    echo "<div class='form-group'>";
-                    echo "<div class='row'>";
-                    echo "<div class='col-md-12'>";
-                    // LOGO
-                    if (($action == "edit") && (@$file_list_by_type[1])) {
-                        $img_url = base_url("uploads/edition/" . $edition_detail['edition_id'] . "/" . $file_list_by_type[1][0]['file_name']);
-                        echo "<div class='col-md-6'>";
-                        echo "<p><img src='$img_url' style='width: 300px;'></p>";
-                        echo "</div>";
-                    } else {
-                        echo "<p>No logo to display</p>";
-                    }
-                    echo "</div>";
-
-                    echo "</div>";
-                    echo "</div>";
-                    ?>
-                </div> <!-- portlet-body -->   
-            </div> <!-- portlet -->  
-            <div class="portlet light">
-
                 <div class="portlet-body">  
                     <?php
                     if ($action == "edit") {
@@ -598,19 +520,18 @@ if ($action == "edit") {
                     ?>
                 </div>
             </div>
+        </div> <!-- col -->
 
-        </div> <!-- col -->  
-    </div> <!-- row -->  
-
+    </div> <!-- row -->
     <?php
-}
+} // IF EDIT
 ?>
 <div class="row">
     <div class="col-md-6">  
         <div class="row">
             <div class="col-md-6">   
                 <?php
-                //  BUTTONS
+//  BUTTONS
                 echo "<div class='btn-group' style='padding-bottom: 20px;'>";
                 echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
                 echo fbutton($text = "Save & Close", $type = "submit", $status = "success");

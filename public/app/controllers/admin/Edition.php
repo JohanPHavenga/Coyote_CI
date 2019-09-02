@@ -76,6 +76,7 @@ class Edition extends Admin_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
+        $this->load->model('date_model');
         $this->load->model('url_model');
         $this->load->model('file_model');
         $this->load->model('asamember_model');
@@ -121,11 +122,13 @@ class Edition extends Admin_Controller {
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
-        $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true);
+        $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
+        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown(); 
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
+            $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
             $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
@@ -135,8 +138,9 @@ class Edition extends Admin_Controller {
             $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/" . $edition_id;
         } else {
             $this->data_to_view['edition_detail']['edition_status'] = 1;
-            $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded
-            $this->data_to_view['edition_detail']['edition_info_isconfirmed'] = 0;
+            $this->data_to_view['edition_detail']['edition_info_status'] = 14;
+//            $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded
+//            $this->data_to_view['edition_detail']['edition_info_isconfirmed'] = 0;
             $this->data_to_view['edition_detail']['edition_isfeatured'] = 0;
         }
 

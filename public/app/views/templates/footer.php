@@ -134,16 +134,16 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <ul class="c-socials">
-                        <li>
+<!--                        <li>
                             <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#FFFFFF !important;background-color:#FF813F !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 22px !important;letter-spacing: 0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#FFFFFF !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/roadrunning"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
-                        </li>
+                        </li>-->
 <!--                        <li>
                             <script src="https://liberapay.com/RoadRunningZA/widgets/button.js"></script>
 <noscript><a href="https://liberapay.com/RoadRunningZA/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
                         </li>-->
-<!--                        <li><a href="https://www.patreon.com/roadrunningza" target="_blank" title="Support us on Patreon">
+                        <li><a href="https://www.patreon.com/roadrunningza" target="_blank" title="Support us on Patreon">
                                 <img src="/img/become_a_patron.png" alt="Support us on Patreon" style="height: 36px; margin-top: 1px;"></a>
-                        </li>-->
+                        </li>
 <!--                                                        <li><a href="https://twitter.com/roadrunningcoza" target="_blank" title="Follow us on Twitter"><i class="icon-social-twitter"></i></a></li>
                         <li><a href="https://www.facebook.com/roadrunningcoza" target="_blank" title="Like us on Facebook"><i class="icon-social-facebook"></i></a></li>-->
                       <!--<li><a href="#"><i class="icon-social-youtube"></i></a></li>-->

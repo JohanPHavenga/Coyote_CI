@@ -30,14 +30,15 @@ class Asamember_model extends MY_model {
         }
         
         public function get_asamember_dropdown() {
-            $this->db->select("asa_member_id, asa_member_name");
+            $this->db->select("asa_member_id, asa_member_name, asa_member_abbr");
             $this->db->from("asa_members");
+            $this->db->order_by("asa_member_name");
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['asa_member_id']] = $row['asa_member_name'];
+                    $data[$row['asa_member_id']] = $row['asa_member_abbr'];
                 }
 //                return array_slice($data, 0, 500, true);
                 return $data;

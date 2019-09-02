@@ -300,11 +300,11 @@ class Edition_model extends MY_model {
             // TO ADD POSTS TO DATES TABLE
             
             
-            if (empty($this->input->post('edition_info_isconfirmed'))) {
-                $edition_info_isconfirmed = false;
-            } else {
-                $edition_info_isconfirmed = $this->input->post('edition_info_isconfirmed');
-            }
+//            if (empty($this->input->post('edition_info_isconfirmed'))) {
+//                $edition_info_isconfirmed = false;
+//            } else {
+//                $edition_info_isconfirmed = $this->input->post('edition_info_isconfirmed');
+//            }
             if (empty($this->input->post('edition_isfeatured'))) {
                 $edition_isfeatured = false;
             } else {
@@ -325,7 +325,7 @@ class Edition_model extends MY_model {
                 'edition_name' => $this->input->post('edition_name'),
                 'edition_status' => $this->input->post('edition_status'),
                 'edition_info_status' => $this->input->post('edition_info_status'),
-                'edition_results_status' => $this->input->post('edition_results_status'),
+//                'edition_results_status' => $this->input->post('edition_results_status'),
                 'edition_date' => $this->input->post('edition_date'),
 //                'edition_date_end' => $end_date,
                 'event_id' => $this->input->post('event_id'),
@@ -335,7 +335,7 @@ class Edition_model extends MY_model {
 //                'latitude_num' => $this->input->post('latitude_num'),
 //                'longitude_num' => $this->input->post('longitude_num'),
 //                'edition_logo' => $this->input->post('edition_logo'),
-                'edition_info_isconfirmed' => $edition_info_isconfirmed,
+//                'edition_info_isconfirmed' => $edition_info_isconfirmed,
                 'edition_isfeatured' => $edition_isfeatured,
                 'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                 'edition_entry_detail' => $this->input->post('edition_entry_detail'),

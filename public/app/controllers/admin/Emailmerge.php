@@ -315,6 +315,8 @@ class Emailmerge extends Admin_Controller {
     
     public function formulate_newsletter_table($newsletter_data, $period, $is_newsletter=false) {
         $this->load->library('table');
+        $this->load->model('date_model');
+        $date_list=$this->date_model->get_date_list("edition",0,true);
         $this->table->set_template(ftable('newsletter_'.$period,$is_newsletter));
         switch ($period) {
             case "past":
@@ -334,16 +336,23 @@ class Emailmerge extends Admin_Controller {
                 $headers=array_merge($headers,$headers_end);
                 $this->table->add_row($headers);
                 foreach ($month_list as $day => $edition_list) {
-                    foreach ($edition_list as $edition) {
+                    foreach ($edition_list as $edition_id=>$edition) {
                         $row['date'] = fdateDay($edition['edition_date']);
                         $row['name'] = "<a href='" . $edition['edition_url'] . "' target='_blank'>" . $edition['edition_name'] . "</a>";
                         switch ($period) {
                             case "past":
-                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
+                                if ($edition['edition_info_status']==11) { $row['results']="Yes"; } else {  $row['results']="No"; } 
+//                                $row['results'] = fyesNo($edition['edition_results_isloaded']);
                                 break;
                             case "future":
-                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
-                                $row['entries'] = fyesNo($edition['edition_online_entry']);
+                                if ($edition['edition_info_status']==16) { $row['info']="Yes"; } else {  $row['info']="No"; } 
+                                if (isset($date_list[4][$edition_id])) { 
+                                    $row['entries']="Yes";
+                                } else {
+                                    $row['entries']="No";
+                                }
+//                                $row['info'] = fyesNo($edition['edition_info_isconfirmed']);
+//                                $row['entries'] = fyesNo($edition['edition_online_entry']);
                                 break;
                         }
                         
@@ -390,7 +399,11 @@ class Emailmerge extends Admin_Controller {
 //        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
         
         $url=$merge_data['unsubscribe_url'];
-        $end = "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 0.9em;'>This email was sent to ".$merge_data['email']."<br>"
+        $end = '<p style="text-align:center;font-family: Calibri, Arial, Sans-Serif;">Support the site by '
+                . '<a href="https://www.patreon.com/bePatron?u=15691607" data-patreon-widget-type="become-patron-button">becoming a Patron!</a><br>';
+        $end .= '<a href="https://www.patreon.com/bePatron?u=15691607" target="_blank" title="Support us on Patreon">
+                                <img src="https://www.roadrunning.co.za/img/patron_40.png" alt="Support us on Patreon"></a></p>';
+        $end .= "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 0.9em;'>This email was sent to ".$merge_data['email']."<br>"
                . "<a href='$url'>Unsubscribe</a> from this list<br>"
                . "RoadRunning.co.za</p>";
         
@@ -457,6 +470,8 @@ class Emailmerge extends Admin_Controller {
                 'emailque_from_address' => $this->ini_array['email']['from_address'],
                 'emailque_from_name' => $this->ini_array['email']['from_name'],
             );
+//            wts($emailque_data);
+//            die();
 //            $email_list[$user_id]=$emailque_data;
             $emailque_id = $this->emailque_model->set_emailque("add", 0, $emailque_data);
         }

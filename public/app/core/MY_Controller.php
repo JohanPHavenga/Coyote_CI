@@ -569,38 +569,50 @@ class Frontend_Controller extends MY_Controller {
 
     public function get_bullet_color($params) {
 
-        $return['color'] = "c-font-yellow";
-        $return['text'] = "Gathering event information";
+        $return = [];
 
-        switch (@$params['results_status']) {
+        switch ($params['edition_status']) {
+            case 3:
+                $return['color'] = "c-font-grey-2";
+                $return['text'] = "Event cancelled";
+                break;
+            case 9:
+                $return['color'] = "c-font-yellow-2";
+                $return['text'] = "Event Postponed";
+                break;
+        }
+        if (!empty($return)) {
+            return $return;
+        }
+
+        switch ($params['info_status']) {
+            case 14:
+                $return['color'] = "c-font-red-1";
+                $return['text'] = "Basic information confirmed. Waiting for more info to be released";
+                break;
+            case 15:
+                $return['color'] = "c-font-green";
+                $return['text'] = "Information loaded. Awaiting final verification";
+                break;
+            case 16:
+                $return['color'] = "c-font-green-3";
+                $return['text'] = "Information verified as correct";
+                break;
             case 10:
-                if ($params['confirmed']) {
-                    $return['color'] = "c-font-green-2";
-                    $return['text'] = "Event information confirmed";
-                    return $return;
-                }
-                switch ($params['status']) {
-                    case 3:
-                        $return['color'] = "c-font-yellow-2";
-                        $return['text'] = "Event cancelled";
-                        return $return;
-                        break;
-                    case 9:
-                        $return['color'] = "c-font-yellow-2";
-                        $return['text'] = "Event Postponed";
-                        return $return;
-                        break;
-                }
+                $return['color'] = "c-font-red-1";
+                $return['text'] = "Pending loading of results";
                 break;
             case 11:
-                $return['color'] = "c-font-yellow-1";
+                $return['color'] = "c-font-green-3";
                 $return['text'] = "Results Loaded";
-                return $return;
                 break;
             case 12:
-                $return['color'] = "c-font-yellow-4";
+                $return['color'] = "c-font-grey-2";
                 $return['text'] = "No results expected";
-                return $return;
+                break;
+            default:
+                $return['color'] = "c-font-yellow";
+                $return['text'] = "Unconfirmed dates and race times";
                 break;
         }
         return $return;
@@ -614,7 +626,7 @@ class Frontend_Controller extends MY_Controller {
         return array_keys($result);
     }
 
-    public function get_edition_name_from_status($edition_name, $edition_status, $edition_date=null) {
+    public function get_edition_name_from_status($edition_name, $edition_status, $edition_date = null) {
         // set edition names
         $e_names['edition_name'] = $edition_name;
         $e_names['edition_name_clean'] = $edition_name;
@@ -631,8 +643,8 @@ class Frontend_Controller extends MY_Controller {
                 break;
             default:
                 if ($edition_date) {
-                    $e_names['edition_name'] = $e_names['edition_name_no_date']." - ". fdateHumanFull($edition_date,true);
-                } else {                    
+                    $e_names['edition_name'] = $e_names['edition_name_no_date'] . " - " . fdateHumanFull($edition_date, true);
+                } else {
                     $e_names['edition_name'] = $edition_name;
                 }
                 break;
@@ -720,10 +732,11 @@ class Frontend_Controller extends MY_Controller {
 
                             // set bullet color
                             $bullet_info = $this->get_bullet_color([
-                                "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $edition['edition_results_isloaded'],
-                                "results_status" => $edition['edition_results_status'],
-                                "status" => $edition['edition_status'],
+//                                "confirmed" => $edition['edition_info_isconfirmed'],
+//                                "results" => $edition['edition_results_isloaded'],
+//                                "results_status" => $edition['edition_results_status'],
+                                "edition_status" => $edition['edition_status'],
+                                "info_status" => $edition['edition_info_status'],
                             ]);
 
                             // set distance circles
@@ -799,10 +812,17 @@ class Frontend_Controller extends MY_Controller {
                             $e_url = base_url("event/" . $edition['edition_slug']);
 
                             // set bullet color
+//                            $bullet_info = $this->get_bullet_color([
+//                                "confirmed" => $edition['edition_info_isconfirmed'],
+//                                "results" => $edition['edition_results_isloaded'],
+//                                "status" => $edition['edition_status'],
+//                            ]);
                             $bullet_info = $this->get_bullet_color([
-                                "confirmed" => $edition['edition_info_isconfirmed'],
-                                "results" => $edition['edition_results_isloaded'],
-                                "status" => $edition['edition_status'],
+//                                "confirmed" => $edition['edition_info_isconfirmed'],
+//                                "results" => $edition['edition_results_isloaded'],
+//                                "results_status" => $edition['edition_results_status'],
+                                "edition_status" => $edition['edition_status'],
+                                "info_status" => $edition['edition_info_status'],
                             ]);
 
                             // set distance circles
@@ -1006,7 +1026,7 @@ class Frontend_Controller extends MY_Controller {
         // set session flash data
         $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
     }
-    
+
     // central MAILER function
     public function send_mail($data = "") {
         $this->load->library('email');
@@ -1022,12 +1042,16 @@ class Frontend_Controller extends MY_Controller {
         $this->email->subject($data['emailque_subject']);
         $this->email->from($data['emailque_from_address'], $data['emailque_from_name']);
         $this->email->to($data['emailque_to_address'], $data['emailque_to_name']);
-        if ($data['emailque_cc_address']) { $this->email->bcc($data['emailque_cc_address']); }
-        if ($data['emailque_bcc_address']) { $this->email->bcc($data['emailque_bcc_address']); }
+        if ($data['emailque_cc_address']) {
+            $this->email->bcc($data['emailque_cc_address']);
+        }
+        if ($data['emailque_bcc_address']) {
+            $this->email->bcc($data['emailque_bcc_address']);
+        }
         // add default BCC address to ALL outgoing email
         $this->email->bcc($this->ini_array['email']['bcc_address']);
-        $this->email->message($data['emailque_body']);        
-        
+        $this->email->message($data['emailque_body']);
+
 //        wts($data);
 //        wts($this->email);
 //        exit();
@@ -1104,14 +1128,14 @@ class Frontend_Controller extends MY_Controller {
     }
 
     private function segment_exclusion_list($uri_string) {
-        $seg=explode("/", $uri_string);
-        if ((in_array($uri_string, $this->ini_array['history']['exclusion'])) || (in_array($seg[0]."/*",$this->ini_array['history']['exclusion']))) {
+        $seg = explode("/", $uri_string);
+        if ((in_array($uri_string, $this->ini_array['history']['exclusion'])) || (in_array($seg[0] . "/*", $this->ini_array['history']['exclusion']))) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     private function history_purge() {
         foreach ($_SESSION['history'] as $timestamp => $url) {
             if ($timestamp < strtotime($this->ini_array['history']['purge_period'])) {

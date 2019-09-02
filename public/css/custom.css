@@ -222,6 +222,12 @@ td.badges {
     height: 37px
 }
 
+.alert a {
+    color: inherit;
+    text-decoration: underline;
+}
+.alert a:hover { text-decoration: none; }
+
 @media (min-width: 992px) {
     .c-layout-header .c-brand {
         margin-top: 32px;

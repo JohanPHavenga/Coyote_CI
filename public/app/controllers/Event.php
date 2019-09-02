@@ -177,7 +177,7 @@ class Event extends Frontend_Controller {
 
 
         // set title bar
-        // remove firt element in  crumbs_arr, and replace with generic text        
+        // remove firt element in  crumbs_arr, and replace with generic text
         array_shift($this->crumbs_arr);
         $this->crumbs_arr = ["Event Details" => ""] + $this->crumbs_arr;
         $this->data_to_view["title_bar"] = $this->render_topbar_html(
@@ -252,22 +252,24 @@ class Event extends Frontend_Controller {
         $current_year = date("Y", strtotime($edition_list[$edition_id]['edition_date']));
         unset($edition_list[$edition_id]);
 
-        foreach ($edition_list as $edition) {
-            if ($edition['edition_year'] < $current_year) {
-                if (isset($return['past'])) {
-                    if ($edition['edition_year'] > $return['past']['edition_year']) {
+        if ($edition_list) {
+            foreach ($edition_list as $edition) {
+                if ($edition['edition_year'] < $current_year) {
+                    if (isset($return['past'])) {
+                        if ($edition['edition_year'] > $return['past']['edition_year']) {
+                            $return['past'] = $edition;
+                        }
+                    } else {
                         $return['past'] = $edition;
                     }
-                } else {
-                    $return['past'] = $edition;
-                }
-            } elseif ($edition['edition_year'] > $current_year) {
-                if (isset($return['future'])) {
-                    if ($edition['edition_year'] < $return['future']['edition_year']) {
+                } elseif ($edition['edition_year'] > $current_year) {
+                    if (isset($return['future'])) {
+                        if ($edition['edition_year'] < $return['future']['edition_year']) {
+                            $return['future'] = $edition;
+                        }
+                    } else {
                         $return['future'] = $edition;
                     }
-                } else {
-                    $return['future'] = $edition;
                 }
             }
         }
@@ -424,6 +426,8 @@ class Event extends Frontend_Controller {
     function formulate_detail_notice($event_detail) {
         // check if events is in the past
         $return = '';
+//        echo $event_detail['edition_status'];
+//        die();
         switch ($event_detail['edition_status']) {
             case 2:
                 $msg = "<strong>This event is set to DRAFT mode.</strong> All detail has not yet been confirmed";
@@ -434,18 +438,46 @@ class Event extends Frontend_Controller {
                 $msg = "<strong>This event has been CANCELLED.</strong> Please contact the event organisers for more detail on: <a href='mailto:$email' class='link' title='Email organisers'>$email</a>";
                 $return = "<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
                 break;
+            case 9:
+                $email = $event_detail['user_email'];
+                $msg = "<strong>This event has been POSTPONED until further notice.</strong> Please contact the event organisers for more detail on: <a href='mailto:$email' class='link' title='Email organisers'>$email</a><br>"
+                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once a new date is set";
+                $return = "<div class='alert alert-warning' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                break;
             default:
-                if ($event_detail['edition_date'] < date("Y-m-d")) {
-                    $msg = "<strong>Please note:</strong> You are viewing an event that has already taken place. <a href='../' style='color: #e73d4a; text-decoration: underline;'>Click here</a> to view a list of upcoming events.";
-                    $return = "<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-                } elseif ($event_detail['edition_info_isconfirmed']) {
-                    $msg = "The information for this event has been <strong>confirmed</strong>. ";
-                    if ($event_detail['edition_url_flyer']) {
-                        $msg .= "Please see the <a target='_blank' href='" . $event_detail['edition_url_flyer'] . "' style='color: #27a4b0; text-decoration: underline;'>Race Flyer</a> for the full information set as supplied by the event organisers.";
-                    } elseif ($event_detail['edition_url']) {
-                        $msg .= "Please see the <a target='_blank' href='" . $event_detail['edition_url'] . "' style='color: #27a4b0; text-decoration: underline;'>Race Website</a> for more information set as supplied by the event organisers.";
-                    }
-                    $return = "<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                switch ($event_detail['edition_info_status']) {
+                    case 13:
+                        $msg = "<strong>PLEASE NOTE</strong> - The information below, including the date and race times has <u>not yet been confirmed</u> by the race organisers<br>"
+                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
+                        $return = "<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;
+                    case 14:
+                        $msg = "<b>INFORMATION UNCONFIRMED</b> - Awaiting more information from organisers<br>"
+                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
+                        $return = "<div class='alert alert-warning' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;                    
+                    case 15:
+                        $msg = "<b>INFORMATION CONFIRMED</b> - All information loaded has been confirmed as correct, but listing remains incomplete<br>"
+                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once all information is loaded and verified";
+                        $return = "<div class='alert alert-info' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;
+                    case 16:
+                        $msg = "<b>LISTING VERIFIED</b> - All information below has been confirmed";
+                        $return = "<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;
+                    case 10:
+                        $msg = "<b>RESULTS PENDING</b> - Waiting for results to be released by organisers. Note this can take up to a week<br>"
+                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once results are loaded on the site";
+                        $return = "<div class='alert alert-info' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;                    
+                    case 11:
+                        $msg = "<b>RESULTS LOADED</b> - Please see links below to results";
+                        $return = "<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;
+                    case 12:
+                        $msg = "<b>NO RESULTS EXPECTED</b> - No official results will be released for this event";
+                        $return = "<div class='alert alert-warning' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
+                        break;
                 }
                 break;
         }

@@ -210,24 +210,14 @@ class Event_model extends MY_model {
             $this->db->where("editions.edition_id", $params['edition_id']);
         }
 
-        if (isset($params['confirmed'])) {
-            $this->db->where("edition_info_isconfirmed", $params['confirmed']);
-            $this->db->where("edition_status", 1);
-        }
-
-        if (isset($params['results'])) {
-            $this->db->where("edition_results_isloaded", $params['results']);
-            $this->db->where("edition_status", 1);
-        }
-        
-        if (isset($params['results_status'])) {
-            $this->db->where("edition_results_status", $params['results_status']);
-            $this->db->where("edition_status", 1);
+        if (isset($params['info_status'])) {
+            $this->db->where_in("edition_info_status",$params['info_status']);
         }
         
         if (isset($params['entry_date'])) {
-            $this->db->where("(edition_entries_date_close BETWEEN '" . $params['date_from'] . "' AND '" . $params['entry_date'] . "')");
-        }
+            $this->db->join('dates', "editions.edition_id = dates.linked_id AND dates.date_linked_to='edition' AND datetype_id = 4", 'left');
+            $this->db->where("(date_date BETWEEN '" . $params['date_from'] . "' AND '" . $params['entry_date'] . "')");
+        } 
 
         // ONLY ACTIVE 
         if (@$params['only_active']) {
@@ -239,6 +229,22 @@ class Event_model extends MY_model {
             $this->db->where("editions.edition_status !=", 2);
             $this->db->where("races.race_status !=", 2);
         }
+
+        // TBR
+//        if (isset($params['confirmed'])) {
+//            $this->db->where("edition_info_isconfirmed", $params['confirmed']);
+//            $this->db->where("edition_status", 1);
+//        }
+//        if (isset($params['results'])) {
+//            $this->db->where("edition_results_isloaded", $params['results']);
+//            $this->db->where("edition_status", 1);
+//        }
+//        if (isset($params['results_status'])) {
+//            $this->db->where("edition_results_status", $params['results_status']);
+//            $this->db->where("edition_status", 1);
+//        }
+        
+        // TBR END
 
         $this->db->order_by("edition_date", $sort);
         $this->db->order_by('race_distance', 'DESC');
@@ -260,8 +266,8 @@ class Event_model extends MY_model {
     // ======================================================================================
     public function get_event_list_summary($from, $params) {
         // set fields to be fetched
-        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_slug","edition_status", "edition_results_status", "edition_date", "edition_info_isconfirmed", "edition_results_isloaded", "edition_isfeatured",
-            "edition_logo", "edition_info_email_sent", "edition_entries_date_close",
+        $field_arr = ["event_name", "editions.edition_id", "edition_name", "edition_slug", "edition_status", "edition_info_status", "edition_date", "edition_isfeatured", "edition_info_email_sent",
+//            "edition_results_status", "edition_info_isconfirmed", "edition_results_isloaded", "edition_logo", "edition_entries_date_close", // TBR this line            
             "racetype_abbr", "town_name", "race_distance", "race_time_start",
             "user_name", "user_surname", "user_email"];
 
@@ -284,11 +290,13 @@ class Event_model extends MY_model {
                         "date_to" => @$params['date_to'],
                         "area" => @$params['area'],
                         "sort" => @$params['sort'],
-                        "confirmed" => @$params['confirmed'],
-                        "results" => @$params['results'],
-                        "results_status" => @$params['results_status'],
+                        "info_status" => @$params['info_status'],
                         "only_active" => @$params['only_active'],
-                        "entry_date" => @$params['entry_date']
+                        "entry_date" => @$params['entry_date'],
+                        // below to be removed
+//                        "confirmed" => @$params['confirmed'],
+//                        "results" => @$params['results'],
+//                        "results_status" => @$params['results_status'],
                     ]
             );
         } elseif ($from == "search") {
@@ -326,7 +334,9 @@ class Event_model extends MY_model {
                 }
 
                 switch ($field) {
-
+                    case "datetype_id":
+                        $data[$year][$month][$day][$id]['date_arr'][$row[$field]] = $row['date_date'];
+                        break;
                     case "race_distance":
                         $value = floatval($row[$field]) . "km";
                         $value_arr = intval($row[$field]);
@@ -368,7 +378,7 @@ class Event_model extends MY_model {
                         }
                         break;
                     case "edition_date":
-                        $value = fdateHumanFull($row[$field],true);
+                        $value = fdateHumanFull($row[$field], true);
                         $data[$year][$month][$day][$id]["edition_timestamp"] = $row[$field];
                         break;
 //                    case "edition_name":
@@ -412,19 +422,21 @@ class Event_model extends MY_model {
 
         //c onfirmed races
         if (isset($params['confirmed'])) {
-            $this->db->where("edition_info_isconfirmed", $params['confirmed']);
+            $this->db->where("edition_info_status", 16);
             $this->db->where("edition_date >=", $today);
         }
 
         // next 3 months races
         if (isset($params['upcoming_close'])) {
-            $this->db->where("edition_info_isconfirmed !=", 1);
+            $this->db->where_in("edition_info_status", [14,15]);
+//            $this->db->where("edition_info_isconfirmed !=", 1);
             $this->db->where("(edition_date BETWEEN '" . $today . "' AND '" . $date_to . "')");
         }
 
         // rest of upcoming races
         if (isset($params['upcoming_further'])) {
-            $this->db->where("edition_info_isconfirmed !=", 1);
+//            $this->db->where("edition_info_isconfirmed !=", 1);
+            $this->db->where_in("edition_info_status", [13,14,15]);
             $this->db->where("edition_date >= ", $date_to);
         }
 
@@ -530,7 +542,8 @@ class Event_model extends MY_model {
 
     public function get_event_data_newsletter() {
 
-        $field_list = "events.event_id, event_name, edition_id, edition_name, edition_date, edition_info_isconfirmed, edition_results_isloaded";
+//        $field_list = "events.event_id, event_name, edition_id, edition_name, edition_date, edition_info_isconfirmed, edition_results_isloaded";
+        $field_list = "events.event_id, event_name, edition_id, edition_name, edition_date, edition_info_status";
 
         // last month
         $from = date("Y-m-1 00:00:00", strtotime("10 days ago"));
@@ -576,22 +589,21 @@ class Event_model extends MY_model {
 
         return $data;
     }
-    
+
     public function get_edition_list($event_id) {
         $this->db->select("edition_id, edition_name, edition_date, edition_status, edition_slug");
         $this->db->from("editions");
-        $this->db->where("event_id",$event_id);
-        $this->db->where("edition_status",1);
+        $this->db->where("event_id", $event_id);
+        $this->db->where("edition_status", 1);
 
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
                 $data[$row['edition_id']] = $row;
-                $data[$row['edition_id']]['edition_year'] = date("Y",strtotime($row['edition_date']));
+                $data[$row['edition_id']]['edition_year'] = date("Y", strtotime($row['edition_date']));
                 $edition_url_name = encode_edition_name($data[$row['edition_id']]['edition_name']);
                 $data[$row['edition_id']]['edition_url'] = "/event/" . $row['edition_slug'];
-
             }
             return $data;
         }

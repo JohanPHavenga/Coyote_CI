@@ -37,6 +37,7 @@ class Dashboard extends Admin_Controller {
             $this->load->model('event_model');
             $this->load->model('edition_model');
             $this->load->model('race_model');
+            $this->load->model('date_model');
 
             $history_count = $this->history_model->record_count();
             $event_count = $this->event_model->record_count();
@@ -77,7 +78,7 @@ class Dashboard extends Admin_Controller {
 
             // get list of editions that need attention
             $params = [
-                'confirmed' => 0,
+                'info_status' => [13,14,15],
                 'date_from' => date("Y-m-d"),
                 'date_to' => date("Y-m-d", strtotime("+3 months")),
             ];
@@ -88,8 +89,7 @@ class Dashboard extends Admin_Controller {
 
             // get list of editions that has no results
             $params = [
-                'results_status' => 10,
-//                'results' => 0,
+                'info_status' => [10],
                 'date_from' => date("Y-m-d", strtotime("-1 month")),
                 'date_to' => date("Y-m-d"),
             ];
@@ -102,14 +102,18 @@ class Dashboard extends Admin_Controller {
                 'only_active' => 1,
             ];
             $entry_date_close_data = $this->event_model->get_event_list_summary("date_range", $params);
+            $date_list = $this->date_model->get_date_list("edition",0,true);
             $entry_data = [];
+//            wts($date_list);
+//            wts($entry_date_close_data);
+//            die();
             foreach ($entry_date_close_data as $year => $year_list) {
                 foreach ($year_list as $month => $month_list) {
                     foreach ($month_list as $day => $edition_list) {
                         foreach ($edition_list as $edition_id => $edition) {
                             $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
                             $entry_data[$edition_id]['merge_url'] = '<a href="/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
-                            $entry_data[$edition_id]['entry_close'] = strtotime($edition['edition_entries_date_close']);
+                            $entry_data[$edition_id]['entry_close'] = strtotime($date_list[4][$edition_id]['date_date']);
                         }
                     }
                 }

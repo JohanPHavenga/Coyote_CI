@@ -27,6 +27,8 @@ class Date_model extends MY_model {
     }
 
     public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false) {
+        
+        if (is_null($linked_to)) { die("You need to pass the linked_to level you nob"); }
 
         $this->db->select("dates.*, datetype_name");
         $this->db->join("datetypes", "datetype_id");

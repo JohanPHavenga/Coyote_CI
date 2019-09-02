@@ -8,7 +8,7 @@
                     <div class="display">
                         <div class="number">
                             <h3 class="font-<?= $stat['font-color']; ?>">
-                                <span data-counter="counterup" data-value="" class="counter"><?= $stat['number']; ?></span>
+                                <span data-counter="counterup" data-value="" class="counter"><?= number_format($stat['number'],0,"."," "); ?></span>
                             </h3>
                             <small><?= strtoupper($stat['text']); ?></small>
                         </div>

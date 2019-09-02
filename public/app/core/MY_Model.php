@@ -78,11 +78,11 @@ class MY_model extends CI_Model {
     public function set_results_flag($linked_to, $linked_id, $flag) {
         $id_field = $linked_to . "_id";
         $table = $linked_to . "s";
-        $field = $linked_to . "_results_isloaded";
+//        $field = $linked_to . "_results_isloaded";
 
-        $this->db->trans_start();
-        $this->db->update($table, [$field => $flag], array($id_field => $linked_id));
-        $this->db->trans_complete();
+//        $this->db->trans_start();
+//        $this->db->update($table, [$field => $flag], array($id_field => $linked_id));
+//        $this->db->trans_complete();
 
         // new results status field also needs to be set
         if ($flag) {
@@ -91,9 +91,9 @@ class MY_model extends CI_Model {
             $status = 10;
         }
 
-        $field = $linked_to . "_results_status";
+//        $field = $linked_to . "_results_status";
         $this->db->trans_start();
-        $this->db->update($table, [$field => $status], array($id_field => $linked_id));
+//        $this->db->update($table, [$field => $status], array($id_field => $linked_id));
         // nuwe edition_info_status field
         if ($linked_to == "edition") {
             $this->db->update($table, ["edition_info_status" => $status], array($id_field => $linked_id));
