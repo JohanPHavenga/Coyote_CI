@@ -10,6 +10,19 @@ class Race_model extends MY_model {
     public function record_count() {
         return $this->db->count_all("races");
     }
+    
+    public function get_race_field_array() {
+        $data=[];
+        $this->db->select("*");
+        $this->db->from("races");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        foreach ($query->result_array()[0] as $field=>$row) {
+            $data[$field]="";
+        }
+//        die(wts($data));
+        return $data;
+    }
 
     public function get_race_list($edition_id = 0) {
 
@@ -99,7 +112,7 @@ class Race_model extends MY_model {
                 'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
                 'race_minimum_age' => $this->input->post('race_minimum_age'),
                 'race_isover70free' => $over70,
-                'race_notes' => $this->input->post('race_notes'),
+                'race_address' => $this->input->post('race_address'),
             );
         } else {
             if (!isset($race_data['race_status'])) {

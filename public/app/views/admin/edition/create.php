@@ -91,7 +91,7 @@ echo form_open_multipart($form_url);
                                     'name' => 'edition_isfeatured',
                                     'id' => 'edition_isfeatured',
                                     'value' => '1',
-                                    'checked' => $edition_detail['edition_isfeatured'],
+                                    'checked' => set_value('edition_isfeatured', $edition_detail['edition_isfeatured']),
                                 );
                                 echo '<label class="mt-checkbox">' . form_checkbox($is_featured_data) . "Is Featured<span></span></label>";
 
@@ -103,7 +103,6 @@ echo form_open_multipart($form_url);
 //                                    'checked' => $edition_detail['edition_info_isconfirmed'],
 //                                );
 //                                echo '<label class="mt-checkbox">' . form_checkbox($is_confirmed_data) . "Information confirmed<span></span></label>";
-
                                 // TBR once new site is launched
 //                                $results_loaded_data = array(
 //                                    'name' => 'edition_results_isloaded',
@@ -229,9 +228,9 @@ echo form_open_multipart($form_url);
                     if (!(empty($race_list))) {
                         // create table
                         $this->table->set_template(ftable('races_table'));
-                        $this->table->set_heading(["ID", "Race Distance", "Race Type", "Race Time", "Status", "Actions"]);
+                        $this->table->set_heading(["ID", "Distance", "Type", "Time", "Actions"]);
                         foreach ($race_list as $id => $data_entry) {
-
+                            $row_class='';
                             $action_array = [
                                 [
                                     "url" => "/admin/race/create/edit/" . $data_entry['race_id'],
@@ -245,20 +244,31 @@ echo form_open_multipart($form_url);
                                     "confirmation_text" => "<b>Are you sure?</b>",
                                 ],
                             ];
-
-
-                            $row['id'] = $data_entry['race_id'];
-                            $row['distance'] = fraceDistance($data_entry['race_distance']);
-                            $row['racetype'] = $data_entry['racetype_name'];
-                            $row['time'] = ftimeSort($data_entry['race_time_start']);
-                            $row['status'] = flableStatus($data_entry['race_status']);
-                            $row['actions'] = fbuttonActionGroup($action_array);
-
-                            $this->table->add_row(
-                                    $row['id'], array('data' => $row['distance'], 'align' => 'right'), $row['racetype'], $row['time'], $row['status'], $row['actions']
-                            );
-//                        $this->table->add_row($row);
-                            unset($row);
+                            if ($data_entry['race_status']!=1) { $row_class='danger'; } 
+                            $data_array = [
+                                [
+                                    'data' => $data_entry['race_id'],
+                                    'class' => $row_class,
+                                ],
+                                [
+                                    'data' => fraceDistance($data_entry['race_distance']),
+                                    'class' => $row_class,
+                                    'align' => 'right',
+                                ],
+                                [
+                                    'data' => $data_entry['racetype_name'],
+                                    'class' => $row_class,
+                                ],
+                                [
+                                    'data' => ftimeSort($data_entry['race_time_start']),
+                                    'class' => $row_class,
+                                ],
+                                [
+                                    'data' => fbuttonActionGroup($action_array),
+                                    'class' => $row_class,
+                                ],
+                            ];
+                            $this->table->add_row($data_array);
                         }
                         echo $this->table->generate();
                     } else {
@@ -272,7 +282,7 @@ echo form_open_multipart($form_url);
                     ?>
                 </div>
             </div>
-            
+
             <!-- DATES -->
             <div class="portlet light">
                 <div class="portlet-title">
@@ -282,46 +292,46 @@ echo form_open_multipart($form_url);
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <?php
-                    if (!(empty($date_list))) {
-                        // create table
-                        $this->table->set_template(ftable('list_table'));
-                        $this->table->set_heading(["ID", "Date", "Date Type", "Actions"]);
-                        foreach ($date_list as $id => $data_entry) {
+    <?php
+    if (!(empty($date_list))) {
+        // create table
+        $this->table->set_template(ftable('list_table'));
+        $this->table->set_heading(["ID", "Date", "Date Type", "Actions"]);
+        foreach ($date_list as $id => $data_entry) {
 
-                            $action_array = [
-                                [
-                                    "url" => "/admin/date/create/edit/" . $data_entry['date_id'],
-                                    "text" => "Edit",
-                                    "icon" => "icon-pencil",
-                                ],
-                                [
-                                    "url" => "/admin/date/delete/" . $data_entry['date_id'],
-                                    "text" => "Delete",
-                                    "icon" => "icon-dislike",
-                                    "confirmation_text" => "<b>Are you sure?</b>",
-                                ],
-                            ];
+            $action_array = [
+                [
+                    "url" => "/admin/date/create/edit/" . $data_entry['date_id'],
+                    "text" => "Edit",
+                    "icon" => "icon-pencil",
+                ],
+                [
+                    "url" => "/admin/date/delete/" . $data_entry['date_id'],
+                    "text" => "Delete",
+                    "icon" => "icon-dislike",
+                    "confirmation_text" => "<b>Are you sure?</b>",
+                ],
+            ];
 
 
-                            $row['id'] = $data_entry['date_id'];
-                            $row['date_date'] = $data_entry['date_date'];
-                            $row['datetype'] = $data_entry['datetype_name'];
-                            $row['actions'] = fbuttonActionGroup($action_array);
+            $row['id'] = $data_entry['date_id'];
+            $row['date_date'] = $data_entry['date_date'];
+            $row['datetype'] = $data_entry['datetype_name'];
+            $row['actions'] = fbuttonActionGroup($action_array);
 
-                            $this->table->add_row($row);
-                            unset($row);
-                        }
-                        echo $this->table->generate();
-                    } else {
-                        echo "<p>No URLs loaded for the edition</p>";
-                    }
+            $this->table->add_row($row);
+            unset($row);
+        }
+        echo $this->table->generate();
+    } else {
+        echo "<p>No URLs loaded for the edition</p>";
+    }
 
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "default");
-                    echo "</div>";
-                    ?>
+    // add button
+    echo "<div class='btn-group'>";
+    echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "default");
+    echo "</div>";
+    ?>
                 </div>
             </div>
         </div> <!-- col -->  
@@ -341,55 +351,55 @@ echo form_open_multipart($form_url);
                 </div>
             </div>
             <div class="portlet-body">
-                <?php
-                //  Event Intro
-                echo "<div class='form-group'>";
-                echo form_label('Event Intro', 'edition_intro_detail');
-                echo form_textarea([
-                    'name' => 'edition_intro_detail',
-                    'id' => 'edition_intro_detail',
-                    'value' => set_value('edition_intro_detail', @$edition_detail['edition_intro_detail'], false),
-                ]);
+<?php
+//  Event Intro
+echo "<div class='form-group'>";
+echo form_label('Event Intro', 'edition_intro_detail');
+echo form_textarea([
+    'name' => 'edition_intro_detail',
+    'id' => 'edition_intro_detail',
+    'value' => set_value('edition_intro_detail', @$edition_detail['edition_intro_detail'], false),
+]);
 
-                echo "</div>";
+echo "</div>";
 
-                //  Entry Details
-                echo "<div class='form-group'>";
-                echo form_label('Entry Details', 'edition_entry_detail');
-                echo form_textarea([
-                    'name' => 'edition_entry_detail',
-                    'id' => 'edition_entry_detail',
-                    'value' => set_value('edition_entry_detail', @$edition_detail['edition_entry_detail'], false),
-                ]);
+//  Entry Details
+echo "<div class='form-group'>";
+echo form_label('Entry Details', 'edition_entry_detail');
+echo form_textarea([
+    'name' => 'edition_entry_detail',
+    'id' => 'edition_entry_detail',
+    'value' => set_value('edition_entry_detail', @$edition_detail['edition_entry_detail'], false),
+]);
 
-                echo "</div>";
+echo "</div>";
 
-                //  Decription
-                echo "<div class='form-group'>";
-                echo form_label('General Information', 'edition_general_detail');
-                echo form_textarea([
-                    'name' => 'edition_general_detail',
-                    'id' => 'edition_description',
-                    'value' => set_value('edition_general_detail', @$edition_detail['edition_general_detail'], false),
-                ]);
+//  Decription
+echo "<div class='form-group'>";
+echo form_label('General Information', 'edition_general_detail');
+echo form_textarea([
+    'name' => 'edition_general_detail',
+    'id' => 'edition_description',
+    'value' => set_value('edition_general_detail', @$edition_detail['edition_general_detail'], false),
+]);
 
-                echo "</div>";
-                ?>
+echo "</div>";
+?>
 
             </div> <!-- portlet-body -->    
             <div class="portlet-footer">
-                <?php
-                //  BUTTONS
-                echo "<div class='btn-group pull-right'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo "</div>";
-                ?>
+<?php
+//  BUTTONS
+echo "<div class='btn-group pull-right'>";
+echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
+echo "</div>";
+?>
             </div>
         </div> <!-- portlet -->  
     </div>
-    <?php
-    if ($action == "edit") {
-        ?>
+<?php
+if ($action == "edit") {
+    ?>
         <!-- ADD URLs -->
         <div class="col-md-6">    
             <div class="portlet light">
@@ -400,46 +410,46 @@ echo form_open_multipart($form_url);
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <?php
-                    if (!(empty($url_list))) {
-                        // create table
-                        $this->table->set_template(ftable('list_table'));
-                        $this->table->set_heading(["ID", "URL", "URL Type", "Actions"]);
-                        foreach ($url_list as $id => $data_entry) {
+    <?php
+    if (!(empty($url_list))) {
+        // create table
+        $this->table->set_template(ftable('list_table'));
+        $this->table->set_heading(["ID", "URL", "URL Type", "Actions"]);
+        foreach ($url_list as $id => $data_entry) {
 
-                            $action_array = [
-                                [
-                                    "url" => "/admin/url/create/edit/" . $data_entry['url_id'],
-                                    "text" => "Edit",
-                                    "icon" => "icon-pencil",
-                                ],
-                                [
-                                    "url" => "/admin/url/delete/" . $data_entry['url_id'],
-                                    "text" => "Delete",
-                                    "icon" => "icon-dislike",
-                                    "confirmation_text" => "<b>Are you sure?</b>",
-                                ],
-                            ];
+            $action_array = [
+                [
+                    "url" => "/admin/url/create/edit/" . $data_entry['url_id'],
+                    "text" => "Edit",
+                    "icon" => "icon-pencil",
+                ],
+                [
+                    "url" => "/admin/url/delete/" . $data_entry['url_id'],
+                    "text" => "Delete",
+                    "icon" => "icon-dislike",
+                    "confirmation_text" => "<b>Are you sure?</b>",
+                ],
+            ];
 
 
-                            $row['id'] = $data_entry['url_id'];
-                            $row['url_name'] = $data_entry['url_name'];
-                            $row['urltype'] = $data_entry['urltype_name'];
-                            $row['actions'] = fbuttonActionGroup($action_array);
+            $row['id'] = $data_entry['url_id'];
+            $row['url_name'] = $data_entry['url_name'];
+            $row['urltype'] = $data_entry['urltype_name'];
+            $row['actions'] = fbuttonActionGroup($action_array);
 
-                            $this->table->add_row($row);
-                            unset($row);
-                        }
-                        echo $this->table->generate();
-                    } else {
-                        echo "<p>No URLs loaded for the edition</p>";
-                    }
+            $this->table->add_row($row);
+            unset($row);
+        }
+        echo $this->table->generate();
+    } else {
+        echo "<p>No URLs loaded for the edition</p>";
+    }
 
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/url/create/add/" . $edition_detail['edition_id'] . "/edition", "Add URL", "default");
-                    echo "</div>";
-                    ?>
+    // add button
+    echo "<div class='btn-group'>";
+    echo fbuttonLink("/admin/url/create/add/" . $edition_detail['edition_id'] . "/edition", "Add URL", "default");
+    echo "</div>";
+    ?>
                 </div>
             </div>
 
@@ -451,73 +461,73 @@ echo form_open_multipart($form_url);
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <?php
-                    if (!(empty($file_list))) {
-                        // create table
-                        $this->table->set_template(ftable('file_table'));
-                        $this->table->set_heading(["ID", "File Name", "File Type", "Actions"]);
-                        foreach ($file_list as $id => $data_entry) {
+    <?php
+    if (!(empty($file_list))) {
+        // create table
+        $this->table->set_template(ftable('file_table'));
+        $this->table->set_heading(["ID", "File Name", "File Type", "Actions"]);
+        foreach ($file_list as $id => $data_entry) {
 
-                            $action_array = [
-                                [
-                                    "url" => "/admin/file/delete/" . $data_entry['file_id'],
-                                    "text" => "Delete",
-                                    "icon" => "icon-dislike",
-                                    "confirmation_text" => "<b>Are you sure?</b>",
-                                ],
-                            ];
+            $action_array = [
+                [
+                    "url" => "/admin/file/delete/" . $data_entry['file_id'],
+                    "text" => "Delete",
+                    "icon" => "icon-dislike",
+                    "confirmation_text" => "<b>Are you sure?</b>",
+                ],
+            ];
 
-                            $file_id = my_encrypt($data_entry['file_id']);
-                            $file_url = base_url("file/handler/" . $file_id);
+            $file_id = my_encrypt($data_entry['file_id']);
+            $file_url = base_url("file/handler/" . $file_id);
 
-                            $row['id'] = $data_entry['file_id'];
-                            $row['file_name'] = "<a href='$file_url' target='_blank'>" . $data_entry['file_name'] . "</a>";
-                            $row['filetype'] = $data_entry['filetype_name'];
-                            $row['actions'] = fbuttonActionGroup($action_array);
+            $row['id'] = $data_entry['file_id'];
+            $row['file_name'] = "<a href='$file_url' target='_blank'>" . $data_entry['file_name'] . "</a>";
+            $row['filetype'] = $data_entry['filetype_name'];
+            $row['actions'] = fbuttonActionGroup($action_array);
 
-                            $this->table->add_row($row);
-                            unset($row);
-                        }
-                        echo $this->table->generate();
-                    } else {
-                        echo "<p>No Files loaded for the edition</p>";
-                    }
+            $this->table->add_row($row);
+            unset($row);
+        }
+        echo $this->table->generate();
+    } else {
+        echo "<p>No Files loaded for the edition</p>";
+    }
 
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/file/create/add/" . $edition_detail['edition_id'] . "/edition", "Add File", "default");
-                    echo "</div>";
-                    ?>
+    // add button
+    echo "<div class='btn-group'>";
+    echo fbuttonLink("/admin/file/create/add/" . $edition_detail['edition_id'] . "/edition", "Add File", "default");
+    echo "</div>";
+    ?>
                 </div>
             </div>
 
             <div class="portlet light">
                 <div class="portlet-body">  
-                    <?php
-                    if ($action == "edit") {
-                        echo "<div class='form-group'>";
-                        echo "<div class='row'>";
-                        echo "<div class='col-md-6'>";
-                        echo form_label('Date Created', 'created_date');
-                        echo form_input([
-                            'value' => set_value('created_date', @$edition_detail['created_date']),
-                            'class' => 'form-control input-medium',
-                            'disabled' => ''
-                        ]);
-                        echo "</div>";
-                        echo "<div class='col-md-6'>";
-                        echo form_label('Date Updated', 'updated_date');
-                        echo form_input([
-                            'value' => set_value('updated_date', @$edition_detail['updated_date']),
-                            'class' => 'form-control input-medium',
-                            'disabled' => ''
-                        ]);
+    <?php
+    if ($action == "edit") {
+        echo "<div class='form-group'>";
+        echo "<div class='row'>";
+        echo "<div class='col-md-6'>";
+        echo form_label('Date Created', 'created_date');
+        echo form_input([
+            'value' => set_value('created_date', @$edition_detail['created_date']),
+            'class' => 'form-control input-medium',
+            'disabled' => ''
+        ]);
+        echo "</div>";
+        echo "<div class='col-md-6'>";
+        echo form_label('Date Updated', 'updated_date');
+        echo form_input([
+            'value' => set_value('updated_date', @$edition_detail['updated_date']),
+            'class' => 'form-control input-medium',
+            'disabled' => ''
+        ]);
 
-                        echo "</div>";
-                        echo "</div>";
-                        echo "</div>";
-                    }
-                    ?>
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    }
+    ?>
                 </div>
             </div>
         </div> <!-- col -->
@@ -530,14 +540,14 @@ echo form_open_multipart($form_url);
     <div class="col-md-6">  
         <div class="row">
             <div class="col-md-6">   
-                <?php
+<?php
 //  BUTTONS
-                echo "<div class='btn-group' style='padding-bottom: 20px;'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
-                echo fbuttonLink($return_url, "Cancel", $status = "danger");
-                echo "</div>";
-                ?>
+echo "<div class='btn-group' style='padding-bottom: 20px;'>";
+echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
+echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
+echo fbuttonLink($return_url, "Cancel", $status = "danger");
+echo "</div>";
+?>
             </div>
         </div>
     </div> <!-- col -->

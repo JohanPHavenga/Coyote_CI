@@ -115,20 +115,25 @@ class Race extends Admin_Controller {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($this->data_to_view['race_detail']['edition_id']);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            $this->data_to_view['race_detail'] = [];
+            $this->data_to_view['race_detail'] = $this->race_model->get_race_field_array();
             $this->data_to_view['race_detail']['race_status'] = 1;
             $this->data_to_view['race_detail']['racetype_id'] = 4;
             $this->data_to_view['race_detail']["race_time_end"] = "";
             if ($id > 0) {
                 $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($id);
                 $this->data_to_view['race_detail']['edition_id'] = $id;
+            } else {
+                $this->data_to_view['edition_detail']['edition_date']='';
+                $this->data_to_view['edition_detail']['edition_address']='';
             }
         }
+//        if (!isset($race_detail['race_isover70free'])) { $race_detail['race_isover70free']=false; }
 
         // set validation rules
-        $this->form_validation->set_rules('race_distance', 'Race distance', 'required|numeric');
-        $this->form_validation->set_rules('race_time_start', 'Race time', 'required');
-        $this->form_validation->set_rules('race_status', 'Race status', 'required');
+        $this->form_validation->set_rules('race_distance', 'race distance', 'required|numeric');
+        $this->form_validation->set_rules('race_time_start', 'race start time', 'required');
+        $this->form_validation->set_rules('race_status', 'race status', 'required|greater_than[0]', ["greater_than" => "Please select an status for the race"]);
+        $this->form_validation->set_rules('racetype_id', 'race type', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a race type"]);
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an edition"]);
         $this->form_validation->set_rules('race_fee_flat', "Race Flat Fee", 'numeric');
         $this->form_validation->set_rules('race_fee_senior_licenced', "Senior Race Fee Licenced", 'numeric');
