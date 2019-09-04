@@ -10,17 +10,12 @@ class Race_model extends MY_model {
     public function record_count() {
         return $this->db->count_all("races");
     }
-    
-    public function get_race_field_array() {
-        $data=[];
-        $this->db->select("*");
-        $this->db->from("races");
-        $this->db->limit(1);
-        $query = $this->db->get();
-        foreach ($query->result_array()[0] as $field=>$row) {
-            $data[$field]="";
+
+    public function get_asareg_field_array() {
+        $fields = $this->db->list_fields('races');
+        foreach ($fields as $field) {
+            $data[$field] = "";
         }
-//        die(wts($data));
         return $data;
     }
 
@@ -89,35 +84,9 @@ class Race_model extends MY_model {
 
     public function set_race($action, $race_id, $race_data = [], $debug = false) {
 
-        // POSTED DATA
-        if (empty($race_data)) {
-            if (empty($this->input->post('race_isover70free'))) {
-                $over70 = false;
-            } else {
-                $over70 = $this->input->post('race_isover70free');
-            }
-            $race_data = array(
-                'race_name' => $this->input->post('race_name'),
-                'race_distance' => $this->input->post('race_distance'),
-                'race_time_start' => $this->input->post('race_time_start'),
-                'race_time_end' => $this->input->post('race_time_end'),
-                'race_date' => $this->input->post('race_date'),
-                'race_status' => $this->input->post('race_status'),
-                'edition_id' => $this->input->post('edition_id'),
-                'racetype_id' => $this->input->post('racetype_id'),
-                'race_fee_flat' => $this->input->post('race_fee_flat'),
-                'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced'),
-                'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
-                'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
-                'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
-                'race_minimum_age' => $this->input->post('race_minimum_age'),
-                'race_isover70free' => $over70,
-                'race_address' => $this->input->post('race_address'),
-            );
-        } else {
-            if (!isset($race_data['race_status'])) {
-                $race_data['race_status'] = 1;
-            }
+        
+        if (!isset($race_data['race_status'])) {
+            $race_data['race_status'] = 1;
         }
 
         if ($debug) {
@@ -296,7 +265,7 @@ class Race_model extends MY_model {
 
     public function update_race_status($race_id_arr, $status_id) {
         if (!empty($race_id_arr)) {
-            foreach ($race_id_arr as $race_id) {                
+            foreach ($race_id_arr as $race_id) {
                 $race_data = array(
                     'race_status' => $status_id,
                     'updated_date' => date("Y-m-d H:i:s"),
@@ -305,7 +274,7 @@ class Race_model extends MY_model {
                 $this->db->trans_start();
                 $this->db->update('races', $race_data, array('race_id' => $race_id));
                 $this->db->trans_complete();
-            }            
+            }
             return $this->db->trans_status();
         } else {
             return false;

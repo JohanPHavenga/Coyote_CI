@@ -30,17 +30,17 @@ class Race extends Admin_Controller {
         $this->data_to_view['create_link'] = $this->create_url;
         $this->data_to_header['title'] = "List of Races";
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Races" => "/admin/race",
-                    "List" => "",
+            "Home" => "/admin",
+            "Races" => "/admin/race",
+            "List" => "",
         ];
 
         $this->data_to_header['page_action_list'] = [
-                    [
-                        "name" => "Add Race",
-                        "icon" => "speedometer",
-                        "uri" => "race/create/add",
-                    ],
+            [
+                "name" => "Add Race",
+                "icon" => "speedometer",
+                "uri" => "race/create/add",
+            ],
         ];
 
         $this->data_to_view['url'] = $this->url_disect();
@@ -123,12 +123,11 @@ class Race extends Admin_Controller {
                 $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($id);
                 $this->data_to_view['race_detail']['edition_id'] = $id;
             } else {
-                $this->data_to_view['edition_detail']['edition_date']='';
-                $this->data_to_view['edition_detail']['edition_address']='';
+                $this->data_to_view['edition_detail']['edition_date'] = '';
+                $this->data_to_view['edition_detail']['edition_address'] = '';
             }
         }
 //        if (!isset($race_detail['race_isover70free'])) { $race_detail['race_isover70free']=false; }
-
         // set validation rules
         $this->form_validation->set_rules('race_distance', 'race distance', 'required|numeric');
         $this->form_validation->set_rules('race_time_start', 'race start time', 'required');
@@ -147,7 +146,52 @@ class Race extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-            $id = $this->race_model->set_race($action, $id, [], false);
+             if (empty($this->input->post('race_isover70free'))) {
+                $over70 = false;
+            } else {
+                $over70 = $this->input->post('race_isover70free');
+            }
+            $race_data = array(
+                'race_name' => $this->input->post('race_name'),
+                'race_distance' => $this->input->post('race_distance'),
+                'race_time_start' => $this->input->post('race_time_start'),
+                'race_time_end' => $this->input->post('race_time_end'),
+                'race_date' => $this->input->post('race_date'),
+                'race_status' => $this->input->post('race_status'),
+                'edition_id' => $this->input->post('edition_id'),
+                'racetype_id' => $this->input->post('racetype_id'),
+                'race_fee_flat' => $this->input->post('race_fee_flat'),
+                'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced'),
+                'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
+                'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
+                'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
+                'race_minimum_age' => $this->input->post('race_minimum_age'),
+                'race_isover70free' => $over70,
+                'race_address' => $this->input->post('race_address'),
+            );
+            
+            // get edition info
+            $edition_info = $this->edition_model->get_edition_detail($this->input->post('edition_id'));
+
+            // as dit 'n ASA regulated race is
+            if ($edition_info['edition_asa_member'] > 0) {
+                $this->load->model('asareg_model');
+                // get asa_reg_id
+                $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
+                // get asa_reg list
+                $asareg_list = $this->asareg_model->get_asareg_list();
+                if (empty($race_data['race_minimum_age'])) {
+                    $race_data['race_minimum_age']=$asareg_list[$asareg_id]['asa_reg_minimum_age'];
+                }
+            }
+//            wts($asareg_list);
+
+            // set auto values
+
+           
+            
+
+            $id = $this->race_model->set_race($action, $id, $race_data, false);
             if ($id) {
                 $alert = "Race has been updated";
                 $status = "success";

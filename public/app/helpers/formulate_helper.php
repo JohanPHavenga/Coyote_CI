@@ -51,6 +51,17 @@ if ( ! function_exists('fdisplayCurrency'))
     }
 }
 
+// ================================================================
+// Formulate Number with 2 dessimals
+// ================================================================
+if ( ! function_exists('fnumber'))
+{
+    function fnumber($num, $des=0) 
+    {
+        return rtrim(rtrim(number_format($num, $des, ".", ""), '0'), '.');
+    }
+}
+
 
 
 // ================================================================

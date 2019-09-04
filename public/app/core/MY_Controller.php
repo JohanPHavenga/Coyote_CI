@@ -272,7 +272,7 @@ class Admin_Controller extends MY_Controller {
                     ],
                 ],
             ],
-            // Types
+            // STATIS INFO
             [
                 "text" => "Static",
                 "url" => '',
@@ -283,6 +283,11 @@ class Admin_Controller extends MY_Controller {
                         "text" => "ASA Members",
                         "url" => 'admin/asamember',
                         "icon" => "umbrella",
+                    ],
+                    [
+                        "text" => "ASA Regulations",
+                        "url" => 'admin/asareg',
+                        "icon" => "notebook",
                     ],
                     [
                         "text" => "Roles",
