@@ -29,7 +29,7 @@ class Asamember_model extends MY_model {
             return false;
         }
         
-        public function get_asamember_dropdown() {
+        public function get_asamember_dropdown($type="abbr") {
             $this->db->select("asa_member_id, asa_member_name, asa_member_abbr");
             $this->db->from("asa_members");
             $this->db->order_by("asa_member_name");
@@ -38,7 +38,7 @@ class Asamember_model extends MY_model {
             if ($query->num_rows() > 0) {
                 $data[] = "Please Select";
                 foreach ($query->result_array() as $row) {
-                    $data[$row['asa_member_id']] = $row['asa_member_abbr'];
+                    $data[$row['asa_member_id']] = $row['asa_member_'.$type];
                 }
 //                return array_slice($data, 0, 500, true);
                 return $data;

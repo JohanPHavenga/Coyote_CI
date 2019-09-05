@@ -1,9 +1,9 @@
 <?php
 
-class asareg_model extends MY_model {
+class Asareg_model extends MY_model {
 
     public $table = "asa_regs";
-        
+
     public function __construct() {
         parent::__construct();
         $this->load->database();
@@ -68,14 +68,14 @@ class asareg_model extends MY_model {
             return $this->db->trans_status();
         }
     }
-    
+
     public function get_asareg_id_from_distance($distance) {
         $this->db->select("asa_reg_id");
         $this->db->from("asa_regs");
         $this->db->where("asa_reg_distance_to >= ", $distance);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            $data=$query->result_array();
+            $data = $query->result_array();
             return $data[0]['asa_reg_id'];
         }
         return false;

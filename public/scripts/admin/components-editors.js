@@ -1,5 +1,5 @@
 var ComponentsEditors = function () {
-    
+
     var handleWysihtml5 = function () {
         if (!jQuery().wysihtml5) {
             return;
@@ -16,7 +16,14 @@ var ComponentsEditors = function () {
         $('#edition_description').summernote({height: 200});
         $('#edition_entry_detail').summernote({height: 200});
         $('#edition_intro_detail').summernote({height: 100});
-        $('#race_notes').summernote({height: 200});
+        $('#race_notes').summernote({
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'codeview']],
+            ],
+            height: 100});
         $('#parkrun_comment').summernote({height: 200});
         $('#quote_quote').summernote({height: 200});
         $('#emailque_body').summernote({height: 400});
@@ -37,6 +44,6 @@ var ComponentsEditors = function () {
 
 }();
 
-jQuery(document).ready(function() {    
-   ComponentsEditors.init(); 
+jQuery(document).ready(function () {
+    ComponentsEditors.init();
 });

@@ -290,6 +290,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "notebook",
                     ],
                     [
+                        "text" => "ASA Licence Fees",
+                        "url" => 'admin/asafee',
+                        "icon" => "credit-card",
+                    ],
+                    [
                         "text" => "Roles",
                         "url" => 'admin/role',
                         "icon" => "user",

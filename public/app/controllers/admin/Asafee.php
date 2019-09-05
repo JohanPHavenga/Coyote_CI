@@ -1,13 +1,13 @@
 <?php
 
-class Asareg extends Admin_Controller {
+class Asafee extends Admin_Controller {
 
-    private $return_url = "/admin/asareg";
-    private $create_url = "/admin/asareg/create";
+    private $return_url = "/admin/asafee";
+    private $create_url = "/admin/asafee/create";
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('asareg_model');
+        $this->load->model('asafee_model');
     }
 
     public function _remap($method, $params = array()) {
@@ -22,24 +22,24 @@ class Asareg extends Admin_Controller {
         // load helpers / libraries
         $this->load->library('table');
 
-        $this->data_to_view["asareg_data"] = $this->asareg_model->get_asareg_list();
-        $this->data_to_view['heading'] = ["ID", "IAAF Distance", "Name", "Distance From", "Distance To", "Minimum Age", "Actions"];
+        $this->data_to_view["asafee_data"] = $this->asafee_model->get_asafee_list();
+        $this->data_to_view['heading'] = ["ID", "ASA Memeber", "Year", "Distance From", "Distance To", "Senior Fee", "Junior Fee", "Actions"];
 
-//        $this->data_to_view['delete_arr']=["controller"=>"asareg","id_field"=>"asa_reg_id"];
-        $this->data_to_header['title'] = "List of ASA Regulations";
+//        $this->data_to_view['delete_arr']=["controller"=>"asafee","id_field"=>"asa_fee_id"];
+        $this->data_to_header['title'] = "List of ASA Licence Fees";
         $this->data_to_view['create_link'] = $this->create_url;
 
         $this->data_to_header['crumbs'] = [
             "Home" => "/admin",
-            "ASA Regulations" => "/admin/asareg",
+            "ASA Licence Fees" => "/admin/asafee",
             "List" => "",
         ];
 
         $this->data_to_header['page_action_list'] = [
             [
-                "name" => "Add ASA Regulation",
-                "icon" => "notebook",
-                "uri" => "asareg/create/add",
+                "name" => "Add ASA Licence Fee",
+                "icon" => "credit-card",
+                "uri" => "asafee/create/add",
             ],
         ];
 
@@ -61,10 +61,9 @@ class Asareg extends Admin_Controller {
             "scripts/admin/table-datatables-managed.js",
         );
 
-
         // load view
         $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/asareg/view", $this->data_to_view);
+        $this->load->view("/admin/asafee/view", $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
@@ -73,15 +72,16 @@ class Asareg extends Admin_Controller {
         // load helpers / libraries
         $this->load->helper('form');
         $this->load->library('form_validation');
+        $this->load->model('asamember_model');
 
         // set data
-        $this->data_to_header['title'] = "ASA Regulations Input Page";
+        $this->data_to_header['title'] = "ASA Licence Fees Input Page";
         $this->data_to_view['action'] = $action;
         $this->data_to_view['form_url'] = $this->create_url . "/" . $action;
 
         $this->data_to_header['crumbs'] = [
             "Home" => "/admin",
-            "ASA Regulations" => "/admin/asareg",
+            "ASA Licence Fees" => "/admin/asafee",
             ucfirst($action) => "",
         ];
 
@@ -89,21 +89,23 @@ class Asareg extends Admin_Controller {
         $this->data_to_view['js_script_to_load'] = '$(".autocomplete").select2({minimumInputLength: 2});';
         $this->data_to_view['css_to_load'] = array("select2.css", "select2-bootstrap.css");
 
-        $this->data_to_view['status_dropdown'] = $this->asareg_model->get_status_dropdown();
+        $this->data_to_view['status_dropdown'] = $this->asafee_model->get_status_dropdown();
+        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
 
         if ($action == "edit") {
-            $this->data_to_view['asareg_detail'] = $this->asareg_model->get_asareg_detail($id);
+            $this->data_to_view['asafee_detail'] = $this->asafee_model->get_asafee_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            $this->data_to_view['asareg_detail'] = $this->asareg_model->get_asareg_field_array();
+            $this->data_to_view['asafee_detail'] = $this->asafee_model->get_asafee_field_array();
+            $this->data_to_view['asafee_detail']['asa_fee_status'] = 1;
         }
 
         // set validation rules
-        $this->form_validation->set_rules('asa_reg_distance_name', 'Regulation name', 'required');
-        $this->form_validation->set_rules('asa_reg_iaaf', 'IAAF distance', 'required');
-        $this->form_validation->set_rules('asa_reg_distance_from', 'Distance from', 'required');
-        $this->form_validation->set_rules('asa_reg_distance_to', 'Distance to', 'required');
-        $this->form_validation->set_rules('asa_reg_minimum_age', 'Minimum age', 'required|greater_than[1]|less_than[100]');
+        $this->form_validation->set_rules('asa_member_id', 'ASA Member', 'required|greater_than[0]');
+        $this->form_validation->set_rules('asa_fee_year', 'Year', 'required|numeric');
+        $this->form_validation->set_rules('asa_fee_distance_from', 'Distance from', 'required');
+        $this->form_validation->set_rules('asa_fee_distance_to', 'Distance to', 'required');
+        $this->form_validation->set_rules('asa_fee_snr', 'Senior Fee', 'required');
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {
@@ -116,9 +118,9 @@ class Asareg extends Admin_Controller {
             if (isset($data['save_only'])) {
                 unset($data['save_only']);
             }
-            $db_write = $this->asareg_model->set_asareg($action, $id, $data);
+            $db_write = $this->asafee_model->set_asafee($action, $id, $data);
             if ($db_write) {
-                $alert = "ASA Regulation has been updated";
+                $alert = "ASA Licence Fee has been updated";
                 $status = "success";
             } else {
                 $alert = "Error committing to the database";
@@ -132,7 +134,7 @@ class Asareg extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $this->input->post())) {
-                $this->return_url = base_url("admin/asareg/create/edit/" . $id);
+                $this->return_url = base_url("admin/asafee/create/edit/" . $id);
             }
 
             redirect($this->return_url);
@@ -141,7 +143,7 @@ class Asareg extends Admin_Controller {
 
     public function delete($confirm = false) {
 
-        $id = $this->encryption->decrypt($this->input->post('asa_reg_id'));
+        $id = $this->encryption->decrypt($this->input->post('asa_fee_id'));
 
         if ($id == 0) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $id);
@@ -151,7 +153,7 @@ class Asareg extends Admin_Controller {
         }
 
         if ($confirm == 'confirm') {
-            $db_del = $this->asareg_model->remove_asareg($id);
+            $db_del = $this->asafee_model->remove_asafee($id);
             if ($db_del) {
                 $msg = "ASA Regulation has been deleted";
                 $status = "success";

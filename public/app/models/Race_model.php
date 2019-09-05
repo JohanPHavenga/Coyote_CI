@@ -11,7 +11,7 @@ class Race_model extends MY_model {
         return $this->db->count_all("races");
     }
 
-    public function get_asareg_field_array() {
+    public function get_race_field_array() {
         $fields = $this->db->list_fields('races');
         foreach ($fields as $field) {
             $data[$field] = "";

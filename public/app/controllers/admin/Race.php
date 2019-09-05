@@ -110,6 +110,7 @@ class Race extends Admin_Controller {
         $this->data_to_view['status_dropdown'] = $this->race_model->get_status_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
 
+        $num_fields = ['race_fee_flat', 'race_fee_senior_licenced', 'race_fee_senior_unlicenced', 'race_fee_junior_licenced', 'race_fee_junior_unlicenced'];
         if ($action == "edit") {
             $this->data_to_view['race_detail'] = $this->race_model->get_race_detail($id);
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($this->data_to_view['race_detail']['edition_id']);
@@ -127,6 +128,14 @@ class Race extends Admin_Controller {
                 $this->data_to_view['edition_detail']['edition_address'] = '';
             }
         }
+
+        // make all the numeric fields 0, not empty
+        foreach ($num_fields as $field) {
+            if (empty($this->data_to_view['race_detail'][$field])) {
+                $this->data_to_view['race_detail'][$field] = 0;
+            }
+        }
+
 //        if (!isset($race_detail['race_isover70free'])) { $race_detail['race_isover70free']=false; }
         // set validation rules
         $this->form_validation->set_rules('race_distance', 'race distance', 'required|numeric');
@@ -135,10 +144,11 @@ class Race extends Admin_Controller {
         $this->form_validation->set_rules('racetype_id', 'race type', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a race type"]);
         $this->form_validation->set_rules('edition_id', 'Edition', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an edition"]);
         $this->form_validation->set_rules('race_fee_flat', "Race Flat Fee", 'numeric');
-        $this->form_validation->set_rules('race_fee_senior_licenced', "Senior Race Fee Licenced", 'numeric');
+        $this->form_validation->set_rules('race_fee_senior_licenced', "Senior Race Fee Licenced", 'numeric|less_than[1000]|greater_than[-1]');
         $this->form_validation->set_rules('race_fee_senior_unlicenced', "Senior Race Fee Unlicenced", 'numeric');
         $this->form_validation->set_rules('race_fee_junior_licenced', "Junior Race Fee Licenced", 'numeric');
         $this->form_validation->set_rules('race_fee_junior_unlicenced', "Junior Race Fee Unlicenced", 'numeric');
+        $this->form_validation->set_rules('race_minimum_age', "minimum age", 'numeric|less_than[100]|greater_than[-1]');
         // load correct view
         if ($this->form_validation->run() === FALSE) {
             $this->data_to_view['return_url'] = $this->return_url;
@@ -146,11 +156,13 @@ class Race extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-             if (empty($this->input->post('race_isover70free'))) {
+            // check for empty flag
+            if (empty($this->input->post('race_isover70free'))) {
                 $over70 = false;
             } else {
                 $over70 = $this->input->post('race_isover70free');
             }
+            // Set Race Data from POST
             $race_data = array(
                 'race_name' => $this->input->post('race_name'),
                 'race_distance' => $this->input->post('race_distance'),
@@ -161,35 +173,54 @@ class Race extends Admin_Controller {
                 'edition_id' => $this->input->post('edition_id'),
                 'racetype_id' => $this->input->post('racetype_id'),
                 'race_fee_flat' => $this->input->post('race_fee_flat'),
-                'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced'),
-                'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced'),
-                'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced'),
-                'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced'),
+                'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced') + 0,
+                'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced') + 0,
+                'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced') + 0,
+                'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced') + 0,
                 'race_minimum_age' => $this->input->post('race_minimum_age'),
                 'race_isover70free' => $over70,
                 'race_address' => $this->input->post('race_address'),
+                'race_notes' => $this->input->post('race_notes'),
             );
-            
+
             // get edition info
             $edition_info = $this->edition_model->get_edition_detail($this->input->post('edition_id'));
 
             // as dit 'n ASA regulated race is
             if ($edition_info['edition_asa_member'] > 0) {
                 $this->load->model('asareg_model');
-                // get asa_reg_id
-                $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
-                // get asa_reg list
-                $asareg_list = $this->asareg_model->get_asareg_list();
+                $this->load->model('asafee_model');
+
+                // check for empty minimum age
                 if (empty($race_data['race_minimum_age'])) {
-                    $race_data['race_minimum_age']=$asareg_list[$asareg_id]['asa_reg_minimum_age'];
+                    // get asa_reg_id
+                    $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
+                    // get asa_reg list
+                    $asareg_list = $this->asareg_model->get_asareg_list();
+                    $race_data['race_minimum_age'] = $asareg_list[$asareg_id]['asa_reg_minimum_age'];
+                }
+
+                // check senior fees
+                if (($race_data['race_fee_senior_licenced'] > 0) && ($race_data['race_fee_senior_unlicenced'] == 0)) {
+                    $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance']);
+                    if ($licence_fee > 0) {
+                        $race_data['race_fee_senior_unlicenced'] = $race_data['race_fee_senior_licenced'] + $licence_fee;
+                    }
+                }
+
+                // check junior fees
+                if (($race_data['race_fee_junior_licenced'] > 0) && ($race_data['race_fee_junior_unlicenced'] == 0)) {
+                    $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance'], "asa_fee_jnr");
+                    if ($licence_fee > 0) {
+                        $race_data['race_fee_junior_unlicenced'] = $race_data['race_fee_junior_licenced'] + $licence_fee;
+                    }
                 }
             }
-//            wts($asareg_list);
 
+//            wts($race_data);
+//            wts($edition_info);
+//            die();
             // set auto values
-
-           
-            
 
             $id = $this->race_model->set_race($action, $id, $race_data, false);
             if ($id) {

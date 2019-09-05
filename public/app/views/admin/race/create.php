@@ -116,7 +116,10 @@
                                 'name' => 'race_fee_flat',
                                 'id' => 'race_fee_flat',
                                 'value' => set_value('race_fee_flat', $race_detail['race_fee_flat']),
-                                'class' => 'form-control input-xsmall',
+                                'class' => 'form-control input-small',
+                                'type' => 'number',
+                                'step' => ".01",
+                                'min' => '0',
                             ]);
                             echo "</div>";
                             echo "<p class='help-block' style='font-style: italic;'>If set it will be the only value shown</p>";
@@ -130,7 +133,10 @@
                                 'name' => 'race_fee_senior_licenced',
                                 'id' => 'race_fee_senior_licenced',
                                 'value' => set_value('race_fee_senior_licenced', $race_detail['race_fee_senior_licenced']),
-                                'class' => 'form-control input-xsmall',
+                                'class' => 'form-control input-small',
+                                'type' => 'number',
+                                'step' => ".01",
+                                'min' => '0',
                             ]);
                             echo "</div>";
                             ?>
@@ -145,7 +151,10 @@
                                 'name' => 'race_fee_senior_unlicenced',
                                 'id' => 'race_fee_senior_unlicenced',
                                 'value' => set_value('race_fee_senior_unlicenced', $race_detail['race_fee_senior_unlicenced']),
-                                'class' => 'form-control input-xsmall',
+                                'class' => 'form-control input-small',
+                                'type' => 'number',
+                                'step' => ".01",
+                                'min' => '0',
                             ]);
                             echo "</div>";
                             echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
@@ -153,52 +162,7 @@
                         </div>
                     </div>
                     <div class='row'>
-                        <div class='col-sm-4'></div>
                         <div class='col-sm-4'>
-                            <?php
-                            echo form_label('Junior Race Fee Licenced', 'race_fee_junior_licenced');
-                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                            echo form_input([
-                                'name' => 'race_fee_junior_licenced',
-                                'id' => 'race_fee_junior_licenced',
-                                'value' => set_value('race_fee_junior_licenced', $race_detail['race_fee_junior_licenced']),
-                                'class' => 'form-control input-xsmall',
-                            ]);
-                            echo "</div>";
-                            ?>
-                        </div>
-                        <div class='col-sm-4'>
-                            <?php
-                            echo form_label('Junior Race Fee Unlicenced', 'race_fee_junior_unlicenced');
-                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
-                            echo form_input([
-                                'name' => 'race_fee_senior_unlicenced',
-                                'id' => 'race_fee_senior_unlicenced',
-                                'value' => set_value('race_fee_senior_unlicenced', $race_detail['race_fee_senior_unlicenced']),
-                                'class' => 'form-control input-xsmall',
-                            ]);
-                            echo "</div>";
-                            echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
-                            ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class='form-group'>
-                    <div class='row'>
-                        <div class='col-sm-4'>
-                            <?php
-                            echo form_label('Minimum age', 'race_minimum_age');
-                            echo form_input([
-                                'name' => 'race_minimum_age',
-                                'id' => 'race_minimum_age',
-                                'value' => set_value('race_minimum_age', $race_detail['race_minimum_age']),
-                                'class' => 'form-control input-xsmall',
-                            ]);
-                            echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
-                            ?>
-                        </div>
-                        <div class='col-sm-8'>
                             <div class='mt-checkbox-inline' style='margin-top:20px'>
                                 <?php
                                 $over_70_data = array(
@@ -211,21 +175,76 @@
                                 ?>
                             </div>
                         </div>
+                        <div class='col-sm-4'>
+                            <?php
+                            echo form_label('Junior Race Fee Licenced', 'race_fee_junior_licenced');
+                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                            echo form_input([
+                                'name' => 'race_fee_junior_licenced',
+                                'id' => 'race_fee_junior_licenced',
+                                'value' => set_value('race_fee_junior_licenced', $race_detail['race_fee_junior_licenced']),
+                                'class' => 'form-control input-small',
+                                'type' => 'number',
+                                'step' => ".01",
+                                'min' => '0',
+                            ]);
+                            echo "</div>";
+                            ?>
+                        </div>
+                        <div class='col-sm-4'>
+                            <?php
+                            echo form_label('Junior Race Fee Unlicenced', 'race_fee_junior_unlicenced');
+                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                            echo form_input([
+                                'name' => 'race_fee_junior_unlicenced',
+                                'id' => 'race_fee_junior_unlicenced',
+                                'value' => set_value('race_fee_junior_unlicenced', $race_detail['race_fee_junior_unlicenced']),
+                                'class' => 'form-control input-small',
+                                'type' => 'number',
+                                'step' => ".01",
+                                'min' => '0',
+                            ]);
+                            echo "</div>";
+                            echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
+                            ?>
+                        </div>
                     </div>
                 </div>
 
                 <div class='form-group'>
                     <div class='row'>
-                        <div class='col-sm-8'>
+                        <div class='col-sm-6'>
+                            <?php
+                            echo form_label('Minimum age', 'race_minimum_age');
+                            echo form_input([
+                                'name' => 'race_minimum_age',
+                                'id' => 'race_minimum_age',
+                                'value' => set_value('race_minimum_age', $race_detail['race_minimum_age']),
+                                'class' => 'form-control input-xsmall',
+                                'type' => 'number',
+                                'min' => '0',
+                            ]);
+                            echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
+                            ?>
                             <?php
                             echo form_label('Start address for race', 'race_address');
                             echo form_input([
                                 'name' => 'race_address',
                                 'id' => 'race_address',
-                                'value' => set_value('race_address', $race_detail['race_address'],true),
+                                'value' => set_value('race_address', $race_detail['race_address'], true),
                                 'class' => 'form-control',
                             ]);
                             echo "<p class='help-block' style='font-style: italic;'>Only applicable if different than edition address<br> [" . $edition_detail['edition_address'] . "]</p>";
+                            ?>
+                        </div>
+                        <div class='col-sm-6'>
+                            <?php
+                            echo form_label('Race Notes', 'race_notes');
+                            echo form_textarea([
+                                'name' => 'race_notes',
+                                'id' => 'race_notes',
+                                'value' => utf8_encode($race_detail['race_notes']),
+                            ]);
                             ?>
                         </div>
                     </div>
