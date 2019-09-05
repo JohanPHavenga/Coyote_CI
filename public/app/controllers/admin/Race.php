@@ -149,6 +149,7 @@ class Race extends Admin_Controller {
         $this->form_validation->set_rules('race_fee_junior_licenced', "Junior Race Fee Licenced", 'numeric');
         $this->form_validation->set_rules('race_fee_junior_unlicenced', "Junior Race Fee Unlicenced", 'numeric');
         $this->form_validation->set_rules('race_minimum_age', "minimum age", 'numeric|less_than[100]|greater_than[-1]');
+        $this->form_validation->set_rules('race_entry_limit', "minimum age", 'numeric');
         // load correct view
         if ($this->form_validation->run() === FALSE) {
             $this->data_to_view['return_url'] = $this->return_url;
@@ -181,6 +182,7 @@ class Race extends Admin_Controller {
                 'race_isover70free' => $over70,
                 'race_address' => $this->input->post('race_address'),
                 'race_notes' => $this->input->post('race_notes'),
+                'race_entry_limit' => $this->input->post('race_entry_limit'),
             );
 
             // get edition info

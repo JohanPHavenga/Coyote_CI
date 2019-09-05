@@ -300,6 +300,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "user",
                     ],
                     [
+                        "text" => "Entry Types",
+                        "url" => 'admin/entrytype',
+                        "icon" => "flag",
+                    ],
+                    [
                         "text" => "Race Types",
                         "url" => 'admin/racetype',
                         "icon" => "compass",

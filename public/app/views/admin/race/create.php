@@ -214,28 +214,47 @@
                 <div class='form-group'>
                     <div class='row'>
                         <div class='col-sm-6'>
-                            <?php
-                            echo form_label('Minimum age', 'race_minimum_age');
-                            echo form_input([
-                                'name' => 'race_minimum_age',
-                                'id' => 'race_minimum_age',
-                                'value' => set_value('race_minimum_age', $race_detail['race_minimum_age']),
-                                'class' => 'form-control input-xsmall',
-                                'type' => 'number',
-                                'min' => '0',
-                            ]);
-                            echo "<p class='help-block' style='font-style: italic;'>Will get auto populated if left blank</p>";
-                            ?>
-                            <?php
-                            echo form_label('Start address for race', 'race_address');
-                            echo form_input([
-                                'name' => 'race_address',
-                                'id' => 'race_address',
-                                'value' => set_value('race_address', $race_detail['race_address'], true),
-                                'class' => 'form-control',
-                            ]);
-                            echo "<p class='help-block' style='font-style: italic;'>Only applicable if different than edition address<br> [" . $edition_detail['edition_address'] . "]</p>";
-                            ?>
+                            <div class="row">                                
+                                <div class='col-sm-5'>
+                                    <?php
+                                    echo form_label('Entry Limit', 'race_entry_limit');
+                                    echo form_input([
+                                        'name' => 'race_entry_limit',
+                                        'id' => 'race_entry_limit',
+                                        'value' => set_value('race_entry_limit', $race_detail['race_entry_limit']),
+                                        'class' => 'form-control input-small',
+                                    ]);
+                                    ?>
+                                </div>
+                                <div class='col-sm-7'>
+                                    <?php
+                                    echo form_label('Minimum age', 'race_minimum_age');
+                                    echo form_input([
+                                        'name' => 'race_minimum_age',
+                                        'id' => 'race_minimum_age',
+                                        'value' => set_value('race_minimum_age', $race_detail['race_minimum_age']),
+                                        'class' => 'form-control input-xsmall',
+                                        'type' => 'number',
+                                        'min' => '0',
+                                    ]);
+                                    echo "<p class='help-block' style='font-style: italic;'>Will auto populate if left blank</p>";
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class='col-sm-12'>
+                                    <?php
+                                    echo form_label('Start address for race', 'race_address');
+                                    echo form_input([
+                                        'name' => 'race_address',
+                                        'id' => 'race_address',
+                                        'value' => set_value('race_address', $race_detail['race_address'], true),
+                                        'class' => 'form-control',
+                                    ]);
+                                    echo "<p class='help-block' style='font-style: italic;'>Only applicable if different than edition address<br> [" . $edition_detail['edition_address'] . "]</p>";
+                                    ?>
+                                </div>
+                            </div>
                         </div>
                         <div class='col-sm-6'>
                             <?php

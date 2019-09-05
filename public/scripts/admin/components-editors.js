@@ -16,6 +16,22 @@ var ComponentsEditors = function () {
         $('#edition_description').summernote({height: 200});
         $('#edition_entry_detail').summernote({height: 200});
         $('#edition_intro_detail').summernote({height: 100});
+//        $('#edition_address').summernote({
+//            toolbar: [
+//                // [groupName, [list of button]]
+//                ['style', ['bold', 'italic', 'underline', 'color']],
+//                ['para', ['ul', 'ol', 'paragraph']],
+//                ['insert', ['link', 'codeview']],
+//            ],
+//            height: 100});
+//        $('#edition_address_end').summernote({
+//            toolbar: [
+//                // [groupName, [list of button]]
+//                ['style', ['bold', 'italic', 'underline', 'color']],
+//                ['para', ['ul', 'ol', 'paragraph']],
+//                ['insert', ['link', 'codeview']],
+//            ],
+//            height: 100});
         $('#race_notes').summernote({
             toolbar: [
                 // [groupName, [list of button]]
