@@ -127,6 +127,7 @@ class Edition extends Admin_Controller {
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
+            $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
@@ -137,12 +138,15 @@ class Edition extends Admin_Controller {
             $this->session->set_userdata('edition_return_url', "/" . uri_string());
             $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/" . $this->data_to_view['edition_detail']['event_id'];
         } else {
+            $this->data_to_view['edition_detail']=$this->edition_model->get_edition_field_array();
             $this->data_to_view['edition_detail']['edition_status'] = 1;
             $this->data_to_view['edition_detail']['edition_info_status'] = 14;
-//            $this->data_to_view['edition_detail']['edition_results_status'] = 10; // not loaded
-//            $this->data_to_view['edition_detail']['edition_info_isconfirmed'] = 0;
             $this->data_to_view['edition_detail']['edition_isfeatured'] = 0;
+            $this->data_to_view['edition_detail']['sponsor_id'][] = 4;
+            $this->data_to_view['edition_detail']['edition_asa_member'] = '';
         }
+        
+        
 
         // set default contact
         if (empty($this->data_to_view['edition_detail']['user_id'])) {
@@ -150,7 +154,7 @@ class Edition extends Admin_Controller {
         }
         // set default sponsor
         if (empty($this->data_to_view['edition_detail']['sponsor_id'])) {
-            $this->data_to_view['edition_detail']['sponsor_id'] = 4;
+            $this->data_to_view['edition_detail']['sponsor_id'][] = 4;
         }
 
         // set validation rules
@@ -158,12 +162,10 @@ class Edition extends Admin_Controller {
                 array('name_check' => 'Enter a valid year at the end of the Edition Name'));
         $this->form_validation->set_rules('event_id', 'Event', 'required|numeric|greater_than[0]', ["greater_than" => "Please select an event"]);
         $this->form_validation->set_rules('edition_status', 'Edition status', 'required');
-        $this->form_validation->set_rules('edition_date', 'Start date', 'required');
-        $this->form_validation->set_rules('edition_address', 'Start Address', 'required');
+        $this->form_validation->set_rules('edition_date', 'Edition date', 'required');
+        $this->form_validation->set_rules('edition_address', 'Edition Address', 'required');
         $this->form_validation->set_rules('edition_gps', 'GPS', 'trim|required');
-//        $this->form_validation->set_rules('latitude_num', 'Latitude', 'trim|required|numeric');
-//        $this->form_validation->set_rules('longitude_num', 'Longitude', 'trim|required|numeric');
-        $this->form_validation->set_rules('sponsor_id', 'Sponsor', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a sponsor"]);
+        $this->form_validation->set_rules('sponsor_id[]', 'Sponsor', 'required');
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Contact Person"]);
 
         // load correct view

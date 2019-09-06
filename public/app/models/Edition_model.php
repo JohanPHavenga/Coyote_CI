@@ -11,6 +11,14 @@ class Edition_model extends MY_model {
         return $this->db->count_all("editions");
     }
 
+    public function get_edition_field_array() {
+        $fields = $this->db->list_fields("editions");
+        foreach ($fields as $field) {
+            $data[$field] = "";
+        }
+        return $data;
+    }
+
     public function get_edition_id_from_name($edition_name) {
         // CHECK Editions table vir die naame
         $this->db->select("edition_id, edition_name, edition_status");
@@ -294,17 +302,6 @@ class Edition_model extends MY_model {
         if (empty($edition_data)) {
 //                wts($_POST);
 //                exit();
-//            $end_date = $this->input->post('edition_date');
-            
-            
-            // TO ADD POSTS TO DATES TABLE
-            
-            
-//            if (empty($this->input->post('edition_info_isconfirmed'))) {
-//                $edition_info_isconfirmed = false;
-//            } else {
-//                $edition_info_isconfirmed = $this->input->post('edition_info_isconfirmed');
-//            }
             if (empty($this->input->post('edition_isfeatured'))) {
                 $edition_isfeatured = false;
             } else {
@@ -316,32 +313,19 @@ class Edition_model extends MY_model {
             } else {
                 $address_end = $this->input->post('edition_address_end');
             }
-//            if (empty($this->input->post('edition_entries_date_close'))) {
-//                $entries_close = NULL;
-//            } else {
-//                $entries_close = $this->input->post('edition_entries_date_close');
-//            }
             $edition_data = array(
                 'edition_name' => $this->input->post('edition_name'),
                 'edition_status' => $this->input->post('edition_status'),
                 'edition_info_status' => $this->input->post('edition_info_status'),
-//                'edition_results_status' => $this->input->post('edition_results_status'),
                 'edition_date' => $this->input->post('edition_date'),
-//                'edition_date_end' => $end_date,
                 'event_id' => $this->input->post('event_id'),
                 'edition_address' => $this->input->post('edition_address'),
                 'edition_address_end' => $address_end,
                 'edition_gps' => $this->input->post('edition_gps'),
-//                'latitude_num' => $this->input->post('latitude_num'),
-//                'longitude_num' => $this->input->post('longitude_num'),
-//                'edition_logo' => $this->input->post('edition_logo'),
-//                'edition_info_isconfirmed' => $edition_info_isconfirmed,
                 'edition_isfeatured' => $edition_isfeatured,
                 'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                 'edition_entry_detail' => $this->input->post('edition_entry_detail'),
                 'edition_general_detail' => $this->input->post('edition_general_detail'),
-//                'edition_entries_date_open' => $entries_open,
-//                'edition_entries_date_close' => $entries_close,
                 'edition_slug' => url_title($this->input->post('edition_name')),
             );
 
@@ -352,7 +336,7 @@ class Edition_model extends MY_model {
             }
         } else {
 
-            $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => 4];
+            $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => [4]];
             // check if user_id is sent;
             if (@$edition_data['user_id']) {
                 $user_id = $edition_data['user_id'];
@@ -380,7 +364,7 @@ class Edition_model extends MY_model {
             wts($action);
             wts($edition_id);
             wts($edition_data);
-            wts(@$edition_asamember_data);
+            wts($edition_sponsor_data);
             die();
         } else {
 
@@ -391,8 +375,13 @@ class Edition_model extends MY_model {
                     // get edition ID from Insert
                     $edition_id = $this->db->insert_id();
                     // update sponser array
-                    $edition_sponsor_data["edition_id"] = $edition_id;
-                    $this->db->insert('edition_sponsor', $edition_sponsor_data);
+                    foreach ($edition_sponsor_data['sponsor_id'] as $sponsor_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "sponsor_id" => $sponsor_id,
+                        ];
+                        $this->db->insert('edition_sponsor', $insert_array);
+                    }
                     // update user array
                     $edition_user_data["edition_id"] = $edition_id;
                     $this->db->insert('edition_user', $edition_user_data);
@@ -409,13 +398,14 @@ class Edition_model extends MY_model {
 
                     // start SQL transaction
                     $this->db->trans_start();
-                    // EDITION SPONSOR CHECK
-                    // check if record already exists
-                    $item_exists = $this->db->get_where('edition_sponsor', array('edition_id' => $edition_id, 'sponsor_id' => $this->input->post('sponsor_id')));
-                    if ($item_exists->num_rows() == 0) {
-                        $edition_sponsor_data['updated_date'] = date("Y-m-d H:i:s");
-                        $this->db->delete('edition_sponsor', array('edition_id' => $edition_id));
-                        $this->db->insert('edition_sponsor', $edition_sponsor_data);
+                    // EDITION SPONSOR UPDATE
+                    $this->db->delete('edition_sponsor', array('edition_id' => $edition_id));
+                    foreach ($edition_sponsor_data['sponsor_id'] as $sponsor_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "sponsor_id" => $sponsor_id,
+                        ];
+                        $this->db->insert('edition_sponsor', $insert_array);
                     }
                     // EDITION USER CHECK
                     // check if record already exists

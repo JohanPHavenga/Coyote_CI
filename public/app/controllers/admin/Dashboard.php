@@ -78,6 +78,7 @@ class Dashboard extends Admin_Controller {
 
             // get list of editions that need attention
             $params = [
+                'only_active' => 1,
                 'info_status' => [13,14,15],
                 'date_from' => date("Y-m-d"),
                 'date_to' => date("Y-m-d", strtotime("+3 months")),
