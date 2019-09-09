@@ -107,13 +107,14 @@ class Event extends Admin_Controller {
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
             $this->data_to_view['event_detail']['club_id'] = 8;
+            $this->data_to_view['event_detail']['event_status'] = 1;
         }
 
 
         // set validation rules
         $this->form_validation->set_rules('event_name', 'Event Name', 'required');
-        $this->form_validation->set_rules('event_status', 'Event Status', 'required');
-        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a town"]);
+        $this->form_validation->set_rules('event_status', 'Event Status', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Status for the event"]);
+        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]', ["greater_than" => "Please select the Town in which the event will take place"]);
 
 
         $this->data_to_header['crumbs'] = [

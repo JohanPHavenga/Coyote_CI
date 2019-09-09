@@ -68,10 +68,11 @@ class User_model extends MY_model {
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data[] = "Please Select";
+//            $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
                 $data[$row['user_id']] = $row['user_name'] . " " . $row['user_surname'];
             }
+            move_to_top($data,60);
             return $data;
         }
         return false;

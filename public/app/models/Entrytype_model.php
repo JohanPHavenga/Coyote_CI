@@ -21,9 +21,7 @@ class Entrytype_model extends MY_model {
         return $data;
     }
 
-    public function get_entrytype_list($limit = 100, $start = 0) {
-        $this->db->limit($limit, $start);
-
+    public function get_entrytype_list() {
         $this->db->select("entrytypes.*");
         $this->db->from($this->table);
         $query = $this->db->get();
@@ -40,13 +38,15 @@ class Entrytype_model extends MY_model {
     public function get_entrytype_dropdown() {
         $this->db->select("entrytype_id, entrytype_name");
         $this->db->from($this->table);
+        $this->db->order_by("entrytype_id", "ASC");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data[] = "Please Select";
+//            $data[] = "No Information";
             foreach ($query->result_array() as $row) {
                 $data[$row['entrytype_id']] = $row['entrytype_name'];
             }
+            move_to_top($data,5);
             return $data;
         }
         return false;
@@ -93,6 +93,19 @@ class Entrytype_model extends MY_model {
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
+    }
+    
+    
+    public function get_edition_entrytype_list($edition_id = null) {
+        if (!$edition_id) { return false; }
+        $query = $this->db->get_where('edition_entrytype', array('edition_id' => $edition_id));
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $data[] = $row['entrytype_id'];
+            }
+            return $data;
+        }
+        return false;
     }
 
 }

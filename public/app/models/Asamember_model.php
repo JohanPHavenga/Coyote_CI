@@ -36,7 +36,7 @@ class Asamember_model extends MY_model {
             $query = $this->db->get();
 
             if ($query->num_rows() > 0) {
-                $data[] = "Please Select";
+                $data[] = "None";
                 foreach ($query->result_array() as $row) {
                     $data[$row['asa_member_id']] = $row['asa_member_'.$type];
                 }

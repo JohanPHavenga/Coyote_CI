@@ -159,8 +159,9 @@ class Cron extends Frontend_Controller {
         echo "<p><b>UPDATE EVENT INFO STATUS</b></p>";
 
         $query_params = [
-            "where" => ["edition_info_status" => 16, "edition_date < " => date("Y-m-d H:i:s")],
+            "where" => ["edition_info_status" => 16, "edition_date <= " => date("Y-m-d H:i:s", strtotime("yesterday"))],
         ];
+//        wts($query_params);
         $edition_list_to_update = $this->edition_model->get_edition_list_new($query_params);
         if ($edition_list_to_update) {
             foreach ($edition_list_to_update as $edition_id => $edition) {

@@ -42,4 +42,5 @@ if ($calc_edition_urls) {
 }
 //echo $date_list[4][$edition_id]["date_date"];
 //wts($date_list);
+//wts($calc_edition_urls);
 

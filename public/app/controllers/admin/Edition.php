@@ -3,7 +3,7 @@
 class Edition extends Admin_Controller {
 
     private $return_url = "/admin/edition/view";
-    private $create_url = "/admin/edition/create";
+    private $create_url = "/admin/edition/create";    
 
     public function __construct() {
         parent::__construct();
@@ -71,8 +71,10 @@ class Edition extends Admin_Controller {
 
     // THE BIG CREATE METHOD - ADD and EDIT
     public function create($action, $edition_id = 0) {
+        if ($edition_id) { $this->data_to_view['delete_url']= "/admin/edition/delete/" . $edition_id; }
         // additional models
         $this->load->model('sponsor_model');
+        $this->load->model('entrytype_model');
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
@@ -117,17 +119,21 @@ class Edition extends Admin_Controller {
         // GET DATA TO SEND TO VIEW
         $this->data_to_view['contact_dropdown'] = $this->user_model->get_user_dropdown(3);
         $this->data_to_view['sponsor_dropdown'] = $this->sponsor_model->get_sponsor_dropdown();
+        $this->data_to_view['entrytype_dropdown'] = $this->entrytype_model->get_entrytype_dropdown();
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
 //        $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
-        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown(); 
+        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();  
+        
+        $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
+        $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
-            $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
+           
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
@@ -143,18 +149,9 @@ class Edition extends Admin_Controller {
             $this->data_to_view['edition_detail']['edition_info_status'] = 14;
             $this->data_to_view['edition_detail']['edition_isfeatured'] = 0;
             $this->data_to_view['edition_detail']['sponsor_id'][] = 4;
-            $this->data_to_view['edition_detail']['edition_asa_member'] = '';
-        }
-        
-        
-
-        // set default contact
-        if (empty($this->data_to_view['edition_detail']['user_id'])) {
+            $this->data_to_view['edition_detail']['entrytype_id'][] = 5;
             $this->data_to_view['edition_detail']['user_id'] = 60;
-        }
-        // set default sponsor
-        if (empty($this->data_to_view['edition_detail']['sponsor_id'])) {
-            $this->data_to_view['edition_detail']['sponsor_id'][] = 4;
+            $this->data_to_view['edition_detail']['edition_asa_member'] = '';
         }
 
         // set validation rules
@@ -166,6 +163,7 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_address', 'Edition Address', 'required');
         $this->form_validation->set_rules('edition_gps', 'GPS', 'trim|required');
         $this->form_validation->set_rules('sponsor_id[]', 'Sponsor', 'required');
+        $this->form_validation->set_rules('entrytype_id[]', 'Entry Type', 'required');
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Contact Person"]);
 
         // load correct view
@@ -469,14 +467,14 @@ class Edition extends Admin_Controller {
         $verified = 0;
         foreach ($edition_list as $e_id => $edition) {
             // gee nuwe veld die resutls status value
-            $this->edition_model->update_field($e_id, "edition_info_status", $edition['edition_results_status']);
+//            $this->edition_model->update_field($e_id, "edition_info_status", $edition['edition_results_status']);
             // as event nog in die toekoms is, gee dit 'n status van Preliminary
             if ($edition['edition_date'] > date("Y-m-d H:i:s")) {
                 $future++;
                 $this->edition_model->update_field($e_id, "edition_info_status", 14);
 
                 // as info confirmed is, set status na Verified
-                if ($edition['edition_info_isconfirmed']) {
+                if ($edition['tbr_edition_info_isconfirmed']) {
                     $verified++;
                     $this->edition_model->update_field($e_id, "edition_info_status", 16);
                 }

@@ -328,9 +328,13 @@ class Edition_model extends MY_model {
                 'edition_general_detail' => $this->input->post('edition_general_detail'),
                 'edition_slug' => url_title($this->input->post('edition_name')),
             );
-
+            // edition sponsor
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => $this->input->post('sponsor_id')];
+            // edition entrytype            
+            $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => $this->input->post('entrytype_id')];
+            // edition user
             $edition_user_data = ["edition_id" => $edition_id, "user_id" => $this->input->post('user_id')];
+            // ASA member
             if ($this->input->post('edition_asa_member') > 0) {
                 $edition_asamember_data = ["edition_id" => $edition_id, "asa_member_id" => $this->input->post('edition_asa_member')];
             }
@@ -382,6 +386,14 @@ class Edition_model extends MY_model {
                         ];
                         $this->db->insert('edition_sponsor', $insert_array);
                     }
+                    // update entrytype array
+                    foreach ($edition_entrytype_data['entrytype_id'] as $entrytype_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "entrytype_id" => $entrytype_id,
+                        ];
+                        $this->db->insert('edition_entrytype', $insert_array);
+                    }
                     // update user array
                     $edition_user_data["edition_id"] = $edition_id;
                     $this->db->insert('edition_user', $edition_user_data);
@@ -406,6 +418,15 @@ class Edition_model extends MY_model {
                             "sponsor_id" => $sponsor_id,
                         ];
                         $this->db->insert('edition_sponsor', $insert_array);
+                    }
+                    // EDITION ENTRYTYPE UPDATE
+                    $this->db->delete('edition_entrytype', array('edition_id' => $edition_id));
+                    foreach ($edition_entrytype_data['entrytype_id'] as $entrytype_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "entrytype_id" => $entrytype_id,
+                        ];
+                        $this->db->insert('edition_entrytype', $insert_array);
                     }
                     // EDITION USER CHECK
                     // check if record already exists

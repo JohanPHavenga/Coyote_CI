@@ -32,11 +32,11 @@ class Sponsor_model extends MY_model {
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data[] = "Please Select";
+//            $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
                 $data[$row['sponsor_id']] = $row['sponsor_name'];
             }
-//                return array_slice($data, 0, 500, true);
+            move_to_top($data,4);
             return $data;
         }
         return false;
@@ -101,13 +101,8 @@ class Sponsor_model extends MY_model {
     }
     
     public function get_edition_sponsor_list($edition_id = null) {
-        $this->db->select("*");
-        $this->db->from("edition_sponsor");
-        if ($edition_id) {
-            $this->db->where("edition_id", $edition_id);
-        }
-        $query = $this->db->get();
-
+        if (!$edition_id) { return false; }
+        $query = $this->db->get_where('edition_sponsor', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
                 $data[] = $row['sponsor_id'];

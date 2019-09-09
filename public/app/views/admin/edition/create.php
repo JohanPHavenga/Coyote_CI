@@ -64,7 +64,7 @@ echo form_open_multipart($form_url);
                                 <div class='col-sm-6'>
                                     <?php
                                     echo form_label('Information Status <span class="compulsary">*</span>', 'edition_info_status');
-                                    echo form_dropdown('edition_info_status', $info_status_dropdown, set_value('edition_info_status', @$edition_detail['edition_info_status']), ["id" => "edition_info_status", "class" => "form-control input-small"]);
+                                    echo form_dropdown('edition_info_status', $info_status_dropdown, set_value('edition_info_status', $edition_detail['edition_info_status']), ["id" => "edition_info_status", "class" => "form-control input-small"]);
                                     ?>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@ echo form_open_multipart($form_url);
                     </div>
                 </div>
 
-                <!-- CONTACT / SPONSOR / ASA -->
+                <!-- CONTACT / ASA -->
                 <div class="form-group">
                     <div class="row">
                         <div class='col-sm-4'>
@@ -171,7 +171,7 @@ echo form_open_multipart($form_url);
                         </div>
                         <div class='col-sm-3'>
                             <?php
-                            echo form_label('ASA Affiliation <span class="compulsary">*</span>', 'edition_asa_member');
+                            echo form_label('ASA Affiliation', 'edition_asa_member');
                             echo form_dropdown('edition_asa_member', $asamember_dropdown, set_value('edition_asa_member', $edition_detail['edition_asa_member']), ["id" => "edition_asa_member", "class" => "form-control"]);
                             ?>
                         </div>
@@ -188,13 +188,13 @@ echo form_open_multipart($form_url);
                                     ["id" => "sponsor_id", "class" => "form-control", "size" => 5]);
                             ?>
                         </div>
-                        <!--                        <div class='col-sm-5'>
-                        <?php
-                        echo form_label('Entry Types', 'entry_types');
-                        echo form_multiselect('entry_types', $entrytype_dropdown, set_value('sponsor_id', $edition_detail['sponsor_id']),
-                                ["id" => "sponsor_id", "class" => "form-control", "size" => 4]);
-                        ?>
-                                                </div>-->
+                        <div class='col-sm-5'>
+                            <?php
+                            echo form_label('Entry Types', 'entry_types');
+                            echo form_multiselect('entrytype_id[]', $entrytype_dropdown, set_value('entrytype_id', $entrytype_list),
+                                    ["id" => "entrytype_id", "class" => "form-control", "size" => 5]);
+                            ?>
+                        </div>
                     </div>
                 </div>
 
@@ -551,7 +551,7 @@ echo form_open_multipart($form_url);
                         echo "<div class='col-md-6'>";
                         echo form_label('Date Created', 'created_date');
                         echo form_input([
-                            'value' => set_value('created_date', @$edition_detail['created_date']),
+                            'value' => set_value('created_date', $edition_detail['created_date']),
                             'class' => 'form-control input-medium',
                             'disabled' => ''
                         ]);
@@ -559,7 +559,7 @@ echo form_open_multipart($form_url);
                         echo "<div class='col-md-6'>";
                         echo form_label('Date Updated', 'updated_date');
                         echo form_input([
-                            'value' => set_value('updated_date', @$edition_detail['updated_date']),
+                            'value' => set_value('updated_date', $edition_detail['updated_date']),
                             'class' => 'form-control input-medium',
                             'disabled' => ''
                         ]);
@@ -587,6 +587,8 @@ echo form_open_multipart($form_url);
                 echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
                 echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
                 echo fbuttonLink($return_url, "Cancel", $status = "danger");
+                if ($edition_detail['edition_status']==2) { fbuttonLink($delete_url, "Delete", $status = "danger"); } 
+                echo $edition_detail['edition_status'];
                 echo "</div>";
                 ?>
             </div>
@@ -596,4 +598,4 @@ echo form_open_multipart($form_url);
 
 <?php
 echo form_close();
-?>
+//wts($edition_detail);
