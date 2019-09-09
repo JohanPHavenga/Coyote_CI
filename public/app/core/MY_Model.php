@@ -79,27 +79,23 @@ class MY_model extends CI_Model {
         $id_field = $linked_to . "_id";
         $table = $linked_to . "s";
 //        $field = $linked_to . "_results_isloaded";
-
 //        $this->db->trans_start();
 //        $this->db->update($table, [$field => $flag], array($id_field => $linked_id));
 //        $this->db->trans_complete();
-
         // new results status field also needs to be set
         if ($flag) {
             $status = 11;
-        } else {
-            $status = 10;
-        }
 
 //        $field = $linked_to . "_results_status";
-        $this->db->trans_start();
+            $this->db->trans_start();
 //        $this->db->update($table, [$field => $status], array($id_field => $linked_id));
-        // nuwe edition_info_status field
-        if ($linked_to == "edition") {
-            $this->db->update($table, ["edition_info_status" => $status], array($id_field => $linked_id));
-        }
-        $this->db->trans_complete();
-
+            // nuwe edition_info_status field
+            if ($linked_to == "edition") {
+                $this->db->update($table, ["edition_info_status" => $status], array($id_field => $linked_id));
+            }
+            $this->db->trans_complete();
+        } 
+        
         // return ID if transaction successfull
         if ($this->db->trans_status()) {
             return true;

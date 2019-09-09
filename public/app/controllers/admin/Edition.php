@@ -3,7 +3,7 @@
 class Edition extends Admin_Controller {
 
     private $return_url = "/admin/edition/view";
-    private $create_url = "/admin/edition/create";    
+    private $create_url = "/admin/edition/create";
 
     public function __construct() {
         parent::__construct();
@@ -71,7 +71,9 @@ class Edition extends Admin_Controller {
 
     // THE BIG CREATE METHOD - ADD and EDIT
     public function create($action, $edition_id = 0) {
-        if ($edition_id) { $this->data_to_view['delete_url']= "/admin/edition/delete/" . $edition_id; }
+        if ($edition_id) {
+            $this->data_to_view['delete_url'] = "/admin/edition/delete/" . $edition_id;
+        }
         // additional models
         $this->load->model('sponsor_model');
         $this->load->model('entrytype_model');
@@ -126,14 +128,14 @@ class Edition extends Admin_Controller {
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
-        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();  
-        
+        $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
+
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
-           
+
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
@@ -144,7 +146,7 @@ class Edition extends Admin_Controller {
             $this->session->set_userdata('edition_return_url', "/" . uri_string());
             $this->data_to_view['event_edit_url'] = "/admin/event/create/edit/" . $this->data_to_view['edition_detail']['event_id'];
         } else {
-            $this->data_to_view['edition_detail']=$this->edition_model->get_edition_field_array();
+            $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_field_array();
             $this->data_to_view['edition_detail']['edition_status'] = 1;
             $this->data_to_view['edition_detail']['edition_info_status'] = 14;
             $this->data_to_view['edition_detail']['edition_isfeatured'] = 0;
@@ -359,6 +361,9 @@ class Edition extends Admin_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
+        $this->load->model('date_model');
+        $this->load->model('sponsor_model');
+        $this->load->model('entrytype_model');
         $this->load->model('asamember_model');
 
         // get data
@@ -369,22 +374,24 @@ class Edition extends Admin_Controller {
         $name = substr($edition_detail['edition_name'], 0, -5);
         $year = substr($edition_detail['edition_name'], -4);
         $year++;
+
         $edition_data['edition_name'] = $name . " " . $year;
+        $edition_data['edition_slug'] = url_title($edition_data['edition_name']);
         $edition_data['edition_status'] = 2;
-        $edition_data['edition_date'] = date("Y-m-d H:i:s", strtotime("+1 years", strtotime($edition_detail['edition_date'])));
-        
+        $edition_data['edition_info_status'] = 13;
+        $edition_data['edition_date'] = $this->get_new_date($edition_detail['edition_date']);
+
         $edition_data['edition_address'] = $edition_detail['edition_address'];
         $edition_data['edition_address_end'] = $edition_detail['edition_address_end'];
         $edition_data['event_id'] = $edition_detail['event_id'];
         $edition_data['edition_gps'] = $edition_detail['edition_gps'];
-//        $edition_data['latitude_num'] = $edition_detail['latitude_num'];
-//        $edition_data['longitude_num'] = $edition_detail['longitude_num'];
+        $edition_data['edition_isfeatured'] = $edition_detail['edition_isfeatured'];
         $edition_data['user_id'] = $edition_detail['user_id'];
         $edition_data['edition_asa_member'] = $edition_detail['edition_asa_member'];
 
         $e_id = $this->edition_model->set_edition("add", NULL, $edition_data, false);
 
-        // create new races
+        // create new RACES
         foreach ($race_list as $race) {
             $race_data['race_distance'] = $race['race_distance'];
             $race_data['race_time_start'] = $race['race_time_start'];
@@ -392,8 +399,25 @@ class Edition extends Admin_Controller {
             $race_data['racetype_id'] = $race['racetype_id'];
             $race_data['edition_id'] = $e_id;
 
-            $r_id = $this->race_model->set_race("add", NULL, $race_data, false);
+            $this->race_model->set_race("add", NULL, $race_data, false);
         }
+
+        // create start and end DATES
+        $date_data = [
+            'date_date' => $edition_data['edition_date'],
+            'datetype_id' => 1,
+            'date_linked_to' => "edition",
+            'linked_id' => $e_id,
+        ];
+        $this->date_model->set_date("add", NULL, $date_data, false);
+        $date_data = [
+            'date_date' => $edition_data['edition_date'],
+            'datetype_id' => 2,
+            'date_linked_to' => "edition",
+            'linked_id' => $e_id,
+        ];
+        $this->date_model->set_date("add", NULL, $date_data, false);
+        
 
         if ($e_id) {
             $alert = "Edition information has been successfully added";
@@ -412,6 +436,36 @@ class Edition extends Admin_Controller {
 
         redirect($return_url);
         die();
+    }
+
+    private function get_new_date($old_date) {
+        echo $old_date;
+        $timestamp = strtotime("+1 years", strtotime($old_date));
+        $year = date('Y', strtotime($old_date));
+        $month = date('m', strtotime($old_date));
+        $day = date('d', strtotime($old_date));
+        $year++;
+        // set exception list where dates should not move
+        $exception_list = ["0321", "0427", "0501", "0616", "0809", "0924", "1226", "1231"];
+        if (!in_array($month . $day, $exception_list)) {
+            // check for leap year
+            if (date('L', strtotime("$year-01-01"))) {
+                wts("LEAP");
+                if ($month > 2) {
+                    $timestamp = $timestamp - 172800; // 2 dae in sekondes
+                } else {
+                    $timestamp = $timestamp - 86400; // 1 dag in sekondes
+                }
+            } else {
+                $timestamp = $timestamp - 86400; // 1 dae\g in sekondes
+            }
+        }
+//        date("Y-m-d H:i:s", strtotime("+1 years", strtotime($old_date)));
+
+        wts($month);
+        wts($day);
+
+        return date("Y-m-d H:i:s", $timestamp);
     }
 
     // ==========================================================================================
@@ -532,8 +586,8 @@ class Edition extends Admin_Controller {
         ];
         $edition_list = $this->edition_model->get_edition_list_new($query_params, $field_list);
         $date_list = $this->date_model->get_date_list("edition", 0, true);
-        
-        $counter=[];
+
+        $counter = [];
         $date_fields_to_move = [
             "edition_date" => "1",
             "edition_date_end" => "2",
@@ -561,20 +615,22 @@ class Edition extends Admin_Controller {
         }
 
         echo "<b>Done</b><br>";
-        if (empty($counter)) { echo "No dates to move"; }
+        if (empty($counter)) {
+            echo "No dates to move";
+        }
         foreach ($counter as $field => $count) {
             echo "<b>$count</b> $field dates moved<br>";
         }
-
     }
-    
+
     // move data from old edition_description field to new edition_general_detail 
     function port_description() {
         // function to port old URLs from fields directly on Edition to URl table
         $this->load->model('edition_model');
         $edition_list = $this->edition_model->get_edition_list();
         $n = 0;
-        foreach ($edition_list as $e_id => $edition) {;
+        foreach ($edition_list as $e_id => $edition) {
+            ;
             $this->edition_model->update_field($e_id, "edition_general_detail", $edition['edition_description']);
             $n++;
         }
@@ -582,7 +638,7 @@ class Edition extends Admin_Controller {
         echo "Done<br>";
         echo "<b>" . $n . "</b> description fields were updated<br>";
     }
-    
+
     // copy address data from start to end
     function port_address() {
         $this->load->model('edition_model');
@@ -596,6 +652,5 @@ class Edition extends Admin_Controller {
         echo "Done<br>";
         echo "<b>" . $n . "</b> address fields were updated<br>";
     }
-
 
 }

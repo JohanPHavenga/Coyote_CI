@@ -108,4 +108,19 @@ class Entrytype_model extends MY_model {
         return false;
     }
 
+    public function set_edition_entrytype($edition_id, $entrytype_id) {
+        if (!$edition_id) {
+            return false;
+        }
+        $this->db->trans_start();
+        $this->db->delete('edition_entrytype', array('edition_id' => $edition_id));
+        $insert_array = [
+            "edition_id" => $edition_id,
+            "entrytype_id" => $entrytype_id,
+        ];
+        $id = $this->db->insert('edition_entrytype', $insert_array);
+        $this->db->trans_complete();
+
+        return $id;
+    }
 }

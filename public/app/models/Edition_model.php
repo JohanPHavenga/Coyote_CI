@@ -341,6 +341,7 @@ class Edition_model extends MY_model {
         } else {
 
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => [4]];
+            $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => [5]];
             // check if user_id is sent;
             if (@$edition_data['user_id']) {
                 $user_id = $edition_data['user_id'];

@@ -36,7 +36,7 @@ class Sponsor_model extends MY_model {
             foreach ($query->result_array() as $row) {
                 $data[$row['sponsor_id']] = $row['sponsor_name'];
             }
-            move_to_top($data,4);
+            move_to_top($data, 4);
             return $data;
         }
         return false;
@@ -99,9 +99,11 @@ class Sponsor_model extends MY_model {
             return $this->db->trans_status();
         }
     }
-    
+
     public function get_edition_sponsor_list($edition_id = null) {
-        if (!$edition_id) { return false; }
+        if (!$edition_id) {
+            return false;
+        }
         $query = $this->db->get_where('edition_sponsor', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
@@ -110,6 +112,22 @@ class Sponsor_model extends MY_model {
             return $data;
         }
         return false;
+    }
+
+    public function set_edition_sponsor($edition_id, $sponsor_id) {
+        if (!$edition_id) {
+            return false;
+        }
+        $this->db->trans_start();
+        $this->db->delete('edition_sponsor', array('edition_id' => $edition_id));
+        $insert_array = [
+            "edition_id" => $edition_id,
+            "sponsor_id" => $sponsor_id,
+        ];
+        $id = $this->db->insert('edition_sponsor', $insert_array);
+        $this->db->trans_complete();
+
+        return $id;
     }
 
 }
