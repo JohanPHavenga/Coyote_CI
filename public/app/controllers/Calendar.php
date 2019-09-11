@@ -78,8 +78,6 @@ class Calendar extends Frontend_Controller {
                 "Events Calendar" => base_url("calendar"),
             ];
         }
-
-
         // set crumbs;
         $this->crumbs_arr = array_reverse($crumbs, true);
 
@@ -116,6 +114,11 @@ class Calendar extends Frontend_Controller {
         $past_race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params = ["date_from" => $past_date, "date_to" => date("Y-m-d"), "sort" => "DESC", "only_active" => true]);
         // render html
         $this->data_to_view['past_race_list_html'] = $this->render_races_accordian_html($past_race_summary);
+
+        $this->crumbs_arr = [
+            "Results" => base_url("calendar/results"),
+            "Home" => "/",
+        ];
 
         // set title bar
         $this->data_to_view["title_bar"] = $this->render_topbar_html(
