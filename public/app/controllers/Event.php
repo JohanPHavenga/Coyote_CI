@@ -177,13 +177,22 @@ class Event extends Frontend_Controller {
 
 
         // set title bar
-        // remove firt element in  crumbs_arr, and replace with generic text
-        array_shift($this->crumbs_arr);
-        $this->crumbs_arr = ["Event Details" => ""] + $this->crumbs_arr;
-        $this->data_to_view["title_bar"] = $this->render_topbar_html(
-                [
-                    "crumbs" => $this->crumbs_arr,
-        ]);
+        $day = date("d", strtotime($this->data_to_view['event_detail']['edition_date']));
+        $month = date("m", strtotime($this->data_to_view['event_detail']['edition_date']));
+        $month_name = date("F", strtotime($this->data_to_view['event_detail']['edition_date']));
+        $year = date("Y", strtotime($this->data_to_view['event_detail']['edition_date']));
+        // set crumb array
+        $crumb_arr = [
+            "crumbs" => [
+                $this->data_to_view['event_detail']['event_name'] => base_url("event/" . $slug),
+                $day => base_url("calendar/$year/$month/$day"),
+                $month_name => base_url("calendar/$year/$month"),
+                $year => base_url("calendar/$year"),
+                "Events Calendar" => "/calendar", 
+                "Home" => "/"
+                ],
+        ];
+        $this->data_to_view["title_bar"] = $this->render_topbar_html($crumb_arr);
 
         // set box color - this is for the zebra lines
         $box_color_arr[0] = '';
@@ -448,17 +457,17 @@ class Event extends Frontend_Controller {
                 switch ($event_detail['edition_info_status']) {
                     case 13:
                         $msg = "<strong>PLEASE NOTE</strong> - The information below, including the date and race times has <u>not yet been confirmed</u> by the race organisers<br>"
-                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
+                                . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
                         $return = "<div class='alert alert-danger' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
                         break;
                     case 14:
                         $msg = "<b>INFORMATION UNCONFIRMED</b> - Awaiting more information from organisers<br>"
-                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
+                                . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once information is loaded and confirmed";
                         $return = "<div class='alert alert-warning' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-                        break;                    
+                        break;
                     case 15:
                         $msg = "<b>INFORMATION CONFIRMED</b> - All information loaded has been confirmed as correct, but listing remains incomplete<br>"
-                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once all information is loaded and verified";
+                                . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once all information is loaded and verified";
                         $return = "<div class='alert alert-info' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
                         break;
                     case 16:
@@ -467,9 +476,9 @@ class Event extends Frontend_Controller {
                         break;
                     case 10:
                         $msg = "<b>RESULTS PENDING</b> - Waiting for results to be released by organisers. Note this can take up to a week<br>"
-                        . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once results are loaded on the site";
+                                . "Please consider <b><a href='#subscribe'>subscribing</a></b> to the event below to receive an email once results are loaded on the site";
                         $return = "<div class='alert alert-info' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";
-                        break;                    
+                        break;
                     case 11:
                         $msg = "<b>RESULTS LOADED</b> - Please see links below to results";
                         $return = "<div class='alert alert-success' role='alert' style='margin-bottom:0'><div class='container'>$msg</div></div>";

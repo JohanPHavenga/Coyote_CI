@@ -38,7 +38,7 @@ class Calendar extends Frontend_Controller {
             $this->data_to_header['page_heading'] = "Running Events for <strong>" . $year . "</strong>";
             $crumbs = [
                 "Home" => "/",
-                "Calendar" => base_url("calendar"),
+                "Events Calendar" => base_url("calendar"),
                 "$year" => base_url("calendar/" . $year),
             ];
 
@@ -71,15 +71,19 @@ class Calendar extends Frontend_Controller {
             $from = date("Y-m-d", mktime(0, 0, 0, $month, $day, $year));
             $to = date($to_date_format, mktime(0, 0, 0, $t_month, $day, $year));
             $params = ["date_from" => $from, "date_to" => $to];
-
-            // set crumbs;
-            $this->crumbs_arr = array_reverse($crumbs, true);
         } else {
             $params = ["date_from" => date("Y-m-d")];
+            $crumbs = [
+                "Home" => "/",
+                "Events Calendar" => base_url("calendar"),
+            ];
         }
 
+
+        // set crumbs;
+        $this->crumbs_arr = array_reverse($crumbs, true);
+
 //        $params["only_active"]=true;
-        
         // get race info
         $race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params);
         // render html
@@ -109,7 +113,7 @@ class Calendar extends Frontend_Controller {
 
         // get race info
         $past_date = date("Y-m-d", strtotime("-11 months", time()));
-        $past_race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params = ["date_from" => $past_date, "date_to" => date("Y-m-d"), "sort" => "DESC", "only_active"=>true]);
+        $past_race_summary = $this->event_model->get_event_list_summary($from = "date_range", $params = ["date_from" => $past_date, "date_to" => date("Y-m-d"), "sort" => "DESC", "only_active" => true]);
         // render html
         $this->data_to_view['past_race_list_html'] = $this->render_races_accordian_html($past_race_summary);
 

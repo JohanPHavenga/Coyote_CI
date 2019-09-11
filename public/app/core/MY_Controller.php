@@ -479,7 +479,7 @@ class Frontend_Controller extends MY_Controller {
             ],
             // Events
             [
-                "text" => "Events",
+                "text" => "Events Calendar",
                 "url" => base_url('/calendar'),
                 "section" => 'events',
             ],

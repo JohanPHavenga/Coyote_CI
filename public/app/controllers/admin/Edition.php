@@ -439,7 +439,6 @@ class Edition extends Admin_Controller {
     }
 
     private function get_new_date($old_date) {
-        echo $old_date;
         $timestamp = strtotime("+1 years", strtotime($old_date));
         $year = date('Y', strtotime($old_date));
         $month = date('m', strtotime($old_date));
@@ -450,7 +449,6 @@ class Edition extends Admin_Controller {
         if (!in_array($month . $day, $exception_list)) {
             // check for leap year
             if (date('L', strtotime("$year-01-01"))) {
-                wts("LEAP");
                 if ($month > 2) {
                     $timestamp = $timestamp - 172800; // 2 dae in sekondes
                 } else {
@@ -460,11 +458,6 @@ class Edition extends Admin_Controller {
                 $timestamp = $timestamp - 86400; // 1 dae\g in sekondes
             }
         }
-//        date("Y-m-d H:i:s", strtotime("+1 years", strtotime($old_date)));
-
-        wts($month);
-        wts($day);
-
         return date("Y-m-d H:i:s", $timestamp);
     }
 
