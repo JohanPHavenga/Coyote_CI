@@ -497,11 +497,11 @@ class Event_model extends MY_model {
         $this->db->or_like("town_name", $ss);
         $this->db->group_end();
 
-//        if (!$incl_non_active) {
-//            $this->db->where("events.event_status", 1);
-//            $this->db->where("editions.edition_status", 1);
-//            $this->db->where("races.race_status", 1);
-//        }
+        if (!$incl_non_active) {
+            $this->db->where_in("events.event_status", [1,3,4]);
+            $this->db->where("editions.edition_status", 1);
+            $this->db->where("races.race_status", 1);
+        }
         if (!$show_all) {
             $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));
             $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));

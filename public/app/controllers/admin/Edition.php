@@ -365,10 +365,12 @@ class Edition extends Admin_Controller {
         $this->load->model('sponsor_model');
         $this->load->model('entrytype_model');
         $this->load->model('asamember_model');
+        $this->load->model('file_model');
 
         // get data
         $race_list = $this->race_model->get_race_list($id);
         $edition_detail = $this->edition_model->get_edition_detail($id);
+        $file_list = $this->file_model->get_file_list("edition", $id, true);
 
         // create new edition data
         $name = substr($edition_detail['edition_name'], 0, -5);
@@ -417,7 +419,26 @@ class Edition extends Admin_Controller {
             'linked_id' => $e_id,
         ];
         $this->date_model->set_date("add", NULL, $date_data, false);
-        
+
+        // copy LOGO over
+        if (isset($file_list[1])) {
+            $file_data = $file_list[1][0];
+            $file_data['linked_id'] = $e_id;
+            $to_remove = ['file_id', 'created_date', 'updated_date', 'filetype_name', 'filetype_helptext', 'filetype_buttontext'];
+            $date_to_set = array_diff_key($file_data, array_flip($to_remove));
+            $file_id = $this->file_model->set_file([], $date_to_set);
+
+            $src = "./uploads/edition/" . $id . "/" . $file_data['file_name'];
+            $dest = "./uploads/edition/" . $e_id . "/" . $file_data['file_name'];
+            // check new folder
+            $dest_folder = "./uploads/edition/" . $e_id;
+            if (!file_exists($dest_folder)) {
+                if (!mkdir($dest_folder, 0777, true)) {
+                    return false;
+                }
+            }
+            copy($src, $dest);
+        }
 
         if ($e_id) {
             $alert = "Edition information has been successfully added";

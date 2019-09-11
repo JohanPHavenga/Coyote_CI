@@ -22,7 +22,7 @@ class Newsletter extends Frontend_Controller {
 
         // set validation rules
         $this->form_validation->set_rules('dname', 'Name', 'required', 'Please enter your name');
-        $this->form_validation->set_rules('dsurname', 'Surame', 'required', 'Please enter your last name');
+        $this->form_validation->set_rules('dsurname', 'Surname', 'required', 'Please enter your last name');
         $this->form_validation->set_rules('demail', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'callback_recaptcha');
 

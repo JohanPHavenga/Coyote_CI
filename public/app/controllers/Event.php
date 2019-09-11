@@ -30,6 +30,7 @@ class Event extends Frontend_Controller {
 
         // as daar nie 'n edition_name deurgestuur word nie
         if ($slug == "index") {
+            die("index");
             redirect("/event/calendar");
         }
 
@@ -49,12 +50,14 @@ class Event extends Frontend_Controller {
             $edition_name = get_edition_name_from_url($slug);
             $edition_data = $this->edition_model->get_edition_id_from_name($edition_name);
 
-            // AS DIE NAAM WAT INKOM, NIE DIELFDE AS DIE OFFICIAL NAAM IS NIE, DAN DOEN HY 'N 301 REDIRECT. (gebruik die nuwe slug)
-            if ($edition_data['edition_name'] != $edition_name) {
+            if ($edition_data) {
+                // AS DIE NAAM WAT INKOM, NIE DIELFDE AS DIE OFFICIAL NAAM IS NIE, DAN DOEN HY 'N 301 REDIRECT. (gebruik die nuwe slug)
+                if ($edition_data['edition_name'] != $edition_name) {
 //                $url = get_url_from_edition_name(encode_edition_name($edition_data['edition_name']));
-                $new_slug = $this->edition_model->get_edition_slug($edition_data['edition_id']);
-                $url = base_url("event/" . $new_slug);
-                redirect($url, 'location', 301);
+                    $new_slug = $this->edition_model->get_edition_slug($edition_data['edition_id']);
+                    $url = base_url("event/" . $new_slug);
+                    redirect($url, 'location', 301);
+                }
             }
         }
 
@@ -63,20 +66,23 @@ class Event extends Frontend_Controller {
         $edition_status = $edition_data['edition_status'];
         $edition_name = $edition_data['edition_name'];
 
+        // as die edition nie gevind is nie, of die status is Not Active
+        if (!$edition_id || ($edition_status == 2)) {
+            // if name cannot be matched to an edition
+            $this->session->set_flashdata([
+                'alert' => " We had trouble finding the event. Please try selecting the correct event from the list below.",
+                'status' => "danger",
+            ]);
+            $this->session->keep_flashdata('alert');
+            $this->session->keep_flashdata('status');
+            redirect("calendar");
+            die();
+        }
+        
         $this->session->set_flashdata(["last_visited_event" => $edition_name]);    // edition in session vir contact form // this is old way, should read from full session data below
         // get basic edition data and add it to session
         $basic_edition_detail = $this->edition_model->get_edition_url_from_id($edition_id);
         $this->session->set_userdata($basic_edition_detail);
-
-        if (!$edition_id) {
-            // if name cannot be matched to an edition
-            $this->session->set_flashdata([
-                'alert' => " We had trouble finding the event '<b>" . $edition_name . "</b>'. Please try selecting the correct event from the list below.",
-                'status' => "danger",
-            ]);
-            redirect("/event/calendar");
-            die();
-        }
 
         // set data to view
         $this->data_to_header['css_to_load'] = array(
@@ -188,9 +194,9 @@ class Event extends Frontend_Controller {
                 $day => base_url("calendar/$year/$month/$day"),
                 $month_name => base_url("calendar/$year/$month"),
                 $year => base_url("calendar/$year"),
-                "Events Calendar" => "/calendar", 
+                "Events Calendar" => "/calendar",
                 "Home" => "/"
-                ],
+            ],
         ];
         $this->data_to_view["title_bar"] = $this->render_topbar_html($crumb_arr);
 

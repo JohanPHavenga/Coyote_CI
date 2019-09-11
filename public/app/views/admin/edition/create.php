@@ -587,8 +587,7 @@ echo form_open_multipart($form_url);
                 echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
                 echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
                 echo fbuttonLink($return_url, "Cancel", $status = "danger");
-                if ($edition_detail['edition_status']==2) { fbuttonLink($delete_url, "Delete", $status = "danger"); } 
-                echo $edition_detail['edition_status'];
+                if ($edition_detail['edition_status']==2) { echo fbuttonLink($delete_url, "Delete", $status = "danger"); } 
                 echo "</div>";
                 ?>
             </div>

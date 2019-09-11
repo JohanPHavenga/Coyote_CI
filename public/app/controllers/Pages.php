@@ -156,7 +156,7 @@ class Pages extends Frontend_Controller {
         $this->load->helper('form');
         
         if ($this->input->get('query')) {
-            $params=["ss"=>$this->input->get('query'),"inc_all"=>$this->input->get('inc')];
+            $params=["ss"=>$this->input->get('query'),"inc_all"=>$this->input->get('inc'),"inc_non_active"=>false];
             $this->data_to_view['search_results']=$this->event_model->get_event_list_summary($from="search",$params);       
             $this->data_to_view['msg']="We could <b>not find</b> any race matching your search.<br>Please try again.";
         } else {

@@ -7,28 +7,32 @@ class File_model extends MY_model {
         $this->load->database();
     }
 
-    public function set_file($params) {
-        // FIRST SEE IF FILE ALREADY EXISTS
-        $file_id=$this->get_file_id($params);
-        if ($file_id) {
-            $action = "edit";
+    public function set_file($params,$file_data=[]) {
+        if (empty($file_data)) {
+            // FIRST SEE IF FILE ALREADY EXISTS
+            $file_id=$this->get_file_id($params);
+            if ($file_id) {
+                $action = "edit";
+            } else {
+                $action = "add";
+            }
+            // set array to be written to DB        
+            $file_data = array(
+                'file_name' => $params['data']['file_name'],
+                'file_type' => $params['data']['file_type'],
+                'file_ext' => $params['data']['file_ext'],
+                'file_size' => $params['data']['file_size'],
+                'file_is_image' => $params['data']['is_image'],
+                'filetype_id' => $params['filetype_id'],
+                'file_linked_to' => $params['file_linked_to'],
+                'linked_id' => $params['id'],
+            );
+            if ($params['data']['is_image']) {
+                $file_data['file_height'] = $params['data']['image_height'];
+                $file_data['file_width'] = $params['data']['image_width'];
+            }
         } else {
-            $action = "add";
-        }
-        // set array to be written to DB        
-        $file_data = array(
-            'file_name' => $params['data']['file_name'],
-            'file_type' => $params['data']['file_type'],
-            'file_ext' => $params['data']['file_ext'],
-            'file_size' => $params['data']['file_size'],
-            'file_is_image' => $params['data']['is_image'],
-            'filetype_id' => $params['filetype_id'],
-            'file_linked_to' => $params['file_linked_to'],
-            'linked_id' => $params['id'],
-        );
-        if ($params['data']['is_image']) {
-            $file_data['file_height'] = $params['data']['image_height'];
-            $file_data['file_width'] = $params['data']['image_width'];
+            $action="add";
         }
 
 //        echo $action;        
