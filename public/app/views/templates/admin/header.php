@@ -1,6 +1,8 @@
 <?php
-    if (!isset($title)) { $title="Admin"; } 
-    ?>
+if (!isset($title)) {
+    $title = "Admin";
+}
+?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -11,7 +13,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title><?=$title;?> | RoadRunning.co.za</title>
+        <title><?= $title; ?> | RoadRunning.co.za</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -72,10 +74,10 @@
                             <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-<!--                            <li>
-                                <a href="<?= base_url('admin/entry'); ?>">
-                                    <i class="icon-docs"></i> Result Set </a>
-                            </li>-->
+                            <!--                            <li>
+                                                            <a href="<?= base_url('admin/entry'); ?>">
+                                                                <i class="icon-docs"></i> Result Set </a>
+                                                        </li>-->
                             <li>
                                 <a href="<?= base_url('admin/event/import'); ?>">
                                     <i class="icon-info"></i> Event Information </a>
@@ -91,7 +93,7 @@
                     <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
                     <form class="search-form search-form-expanded" action="<?= base_url('admin/dashboard/search/'); ?>" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..." name="query" autofocus onfocus="this.select();" value="<?=$this->input->get('query');?>">
+                            <input type="text" class="form-control" placeholder="Search..." name="query" autofocus onfocus="this.select();" value="<?= $this->input->get('query'); ?>">
                             <span class="input-group-btn">
                                 <a href="javascript:;" class="btn submit">
                                     <i class="icon-magnifier"></i>
@@ -144,7 +146,7 @@
                 <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                 <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 
-                <?php include("sidebar.php"); ?>
+<?php include("sidebar.php"); ?>
 
             </div>
             <!-- END SIDEBAR -->
@@ -185,17 +187,17 @@
                                     </button>
                                     <ul class="dropdown-menu pull-right" role="menu">
                                         <?php
-                                            foreach ($page_action_list as $action) {                                                
-                                                if ($action['name']=="divider") {
-                                                    echo '<li class="divider"> </li>';
-                                                } else {
-                                                    echo "<li>";                                                        
-                                                        echo "<a href='".base_url("admin/".$action['uri'])."'>";
-                                                        echo "<i class='icon-".$action['icon']."'></i> ";
-                                                        echo $action['name']."</a>";
-                                                    echo "</li>";
-                                                }
+                                        foreach ($page_action_list as $action) {
+                                            if ($action['name'] == "divider") {
+                                                echo '<li class="divider"> </li>';
+                                            } else {
+                                                echo "<li>";
+                                                echo "<a href='" . base_url("admin/" . $action['uri']) . "'>";
+                                                echo "<i class='icon-" . $action['icon'] . "'></i> ";
+                                                echo $action['name'] . "</a>";
+                                                echo "</li>";
                                             }
+                                        }
                                         ?>
                                     </ul>
                                 </div>
@@ -217,13 +219,12 @@
                         }
                         echo "<div class='note note-$status' role='alert'>$alert_msg</div>";
                     }
-                    
+
                     // if there was a post, check for validation errors
-                    if ($_POST)
-                    {
+                    if ($_POST) {
                         if (validation_errors()) {
-                            echo "<div class='note note-danger' role='alert'>";                        
-                            echo validation_errors(); 
+                            echo "<div class='note note-danger' role='alert'>";
+                            echo validation_errors();
                             echo "</div>";
                         }
                     }

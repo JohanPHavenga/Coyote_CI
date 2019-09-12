@@ -197,6 +197,41 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
+    
+    var initEditionRacesTable = function () {
+        var table = $('#edition_races_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            paging: false,
+            searching: false,
+            info: false,
+            columnDefs: [
+                {orderable: false, targets: [4, -1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
+            ]
+        });
+    };
+    
+    var initEditionDatesTable = function () {
+        var table = $('#edition_dates_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            paging: false,
+            searching: false,
+            info: false,
+            columnDefs: [
+                {orderable: false, targets: [3, -1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+            ]
+        });
+    };
 
     // GENERIC list table
     var initListTable = function () {
@@ -233,6 +268,8 @@ var TableDatatablesManaged = function () {
             initEmailTemplateTable();
             initEmailMergesTable();
             initHistorySummaryTable();
+            initEditionRacesTable();
+            initEditionDatesTable();
             initListTable();
         }
     };

@@ -330,7 +330,7 @@ class Edition_model extends MY_model {
             );
             // edition sponsor
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => $this->input->post('sponsor_id')];
-            // edition entrytype            
+            // edition entrytype
             $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => $this->input->post('entrytype_id')];
             // edition user
             $edition_user_data = ["edition_id" => $edition_id, "user_id" => $this->input->post('user_id')];

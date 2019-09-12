@@ -71,7 +71,7 @@ class Race extends Admin_Controller {
 
         // set return url to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url . "#races_table";
+            $this->return_url = $this->session->edition_return_url . "#races";
         }
 
         // additional models
@@ -173,11 +173,11 @@ class Race extends Admin_Controller {
                 'race_status' => $this->input->post('race_status'),
                 'edition_id' => $this->input->post('edition_id'),
                 'racetype_id' => $this->input->post('racetype_id'),
-                'race_fee_flat' => $this->input->post('race_fee_flat'),
-                'race_fee_senior_licenced' => $this->input->post('race_fee_senior_licenced') + 0,
-                'race_fee_senior_unlicenced' => $this->input->post('race_fee_senior_unlicenced') + 0,
-                'race_fee_junior_licenced' => $this->input->post('race_fee_junior_licenced') + 0,
-                'race_fee_junior_unlicenced' => $this->input->post('race_fee_junior_unlicenced') + 0,
+                'race_fee_flat' => intval($this->input->post('race_fee_flat')),
+                'race_fee_senior_licenced' => intval($this->input->post('race_fee_senior_licenced')),
+                'race_fee_senior_unlicenced' => intval($this->input->post('race_fee_senior_unlicenced')),
+                'race_fee_junior_licenced' => intval($this->input->post('race_fee_junior_licenced')),
+                'race_fee_junior_unlicenced' => intval($this->input->post('race_fee_junior_unlicenced')),
                 'race_minimum_age' => $this->input->post('race_minimum_age'),
                 'race_isover70free' => $over70,
                 'race_address' => $this->input->post('race_address'),
@@ -190,33 +190,7 @@ class Race extends Admin_Controller {
 
             // as dit 'n ASA regulated race is
             if ($edition_info['edition_asa_member'] > 0) {
-                $this->load->model('asareg_model');
-                $this->load->model('asafee_model');
-
-                // check for empty minimum age
-                if (empty($race_data['race_minimum_age'])) {
-                    // get asa_reg_id
-                    $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
-                    // get asa_reg list
-                    $asareg_list = $this->asareg_model->get_asareg_list();
-                    $race_data['race_minimum_age'] = $asareg_list[$asareg_id]['asa_reg_minimum_age'];
-                }
-
-                // check senior fees
-                if (($race_data['race_fee_senior_licenced'] > 0) && ($race_data['race_fee_senior_unlicenced'] == 0)) {
-                    $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance']);
-                    if ($licence_fee > 0) {
-                        $race_data['race_fee_senior_unlicenced'] = $race_data['race_fee_senior_licenced'] + $licence_fee;
-                    }
-                }
-
-                // check junior fees
-                if (($race_data['race_fee_junior_licenced'] > 0) && ($race_data['race_fee_junior_unlicenced'] == 0)) {
-                    $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance'], "asa_fee_jnr");
-                    if ($licence_fee > 0) {
-                        $race_data['race_fee_junior_unlicenced'] = $race_data['race_fee_junior_licenced'] + $licence_fee;
-                    }
-                }
+                $race_data=$this->race_fill_blanks($race_data, $edition_info);
             }
 
 //            wts($race_data);

@@ -406,7 +406,39 @@ class Admin_Controller extends MY_Controller {
         return ['asa_member_id'];
     }
 
-    // newsletter functions had to be put here to work in dashboard and merge
+    public function race_fill_blanks($race_data, $edition_info) {
+        $this->load->model('asareg_model');
+        $this->load->model('asafee_model');
+
+        // check for empty minimum age
+        if (empty($race_data['race_minimum_age'])) {
+            // get asa_reg_id
+            $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
+            // get asa_reg list
+            $asareg_list = $this->asareg_model->get_asareg_list();
+            $race_data['race_minimum_age'] = $asareg_list[$asareg_id]['asa_reg_minimum_age'];
+        }
+
+        // check senior fees
+        if (($race_data['race_fee_senior_licenced'] > 0) && ($race_data['race_fee_senior_unlicenced'] == 0)) {
+
+            $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance']);
+            if ($licence_fee > 0) {
+                $race_data['race_fee_senior_unlicenced'] = $race_data['race_fee_senior_licenced'] + $licence_fee;
+            }
+        }
+
+        // check junior fees
+        if (($race_data['race_fee_junior_licenced'] > 0) && ($race_data['race_fee_junior_unlicenced'] == 0)) {
+            $licence_fee = $this->asafee_model->get_asafee_from_distance($edition_info['edition_asa_member'], fdateYear($edition_info['edition_date']), $race_data['race_distance'], "asa_fee_jnr");
+            if ($licence_fee > 0) {
+                $race_data['race_fee_junior_unlicenced'] = $race_data['race_fee_junior_licenced'] + $licence_fee;
+            }
+        }
+        
+        return $race_data;
+    }
+
 }
 
 //=======================================

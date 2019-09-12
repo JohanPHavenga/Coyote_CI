@@ -10,6 +10,9 @@ echo form_open_multipart($form_url);
                     <i class="icon-edit font-dark"></i>
                     <span class="caption-subject font-dark bold uppercase"><?= ucfirst($action); ?> Edition</span>
                 </div>
+                <div class='btn-group pull-right'>
+                    <?= fbutton("Apply", "submit", "primary", NULL, "save_only"); ?>
+                </div>
             </div>
             <div class="portlet-body">
 
@@ -240,20 +243,14 @@ echo form_open_multipart($form_url);
                 </div>
             </div>
 
-            <div class="portlet-footer">
-                <div class='btn-group pull-right'>
-                    <?= fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only"); ?>
-                </div>
-            </div>
-
         </div> <!-- close portlet -->
     </div> <!-- close col -->
 
-    <!-- RACES + DATES-->
     <?php
     if ($action == "edit") {
         ?>    
-        <div class="col-md-6">
+        <div class="col-md-6" id="races">
+
             <!-- RACES -->
             <div class="portlet light">
                 <div class="portlet-title">
@@ -261,82 +258,192 @@ echo form_open_multipart($form_url);
                         <i class="icon-edit font-dark"></i>
                         <span class="caption-subject font-dark bold uppercase">Races</span>
                     </div>
+                    <div class='btn-group pull-right'>
+                        <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "races"); ?>
+                        <?= fbuttonLink("/admin/race/create/add/" . $edition_detail['edition_id'], "Add Race", "info"); ?>
+                    </div>
                 </div>
-                <div class="portlet-body">
-                    <?php
-                    if (!(empty($race_list))) {
-                        // create table
-                        $this->table->set_template(ftable('races_table'));
-                        $this->table->set_heading(["ID", "Distance", "Type", "Time", "Actions"]);
-                        foreach ($race_list as $id => $data_entry) {
-                            $row_class = '';
-                            $action_array = [
-                                [
-                                    "url" => "/admin/race/create/edit/" . $data_entry['race_id'],
-                                    "text" => "Edit",
-                                    "icon" => "icon-pencil",
-                                ],
-                                [
-                                    "url" => "/admin/race/delete/" . $data_entry['race_id'],
-                                    "text" => "Delete",
-                                    "icon" => "icon-dislike",
-                                    "confirmation_text" => "<b>Are you sure?</b>",
-                                ],
-                            ];
-                            if ($data_entry['race_status'] != 1) {
-                                $row_class = 'danger';
-                            }
-                            $data_array = [
-                                [
-                                    'data' => $data_entry['race_id'],
-                                    'class' => $row_class,
-                                ],
-                                [
-                                    'data' => fraceDistance($data_entry['race_distance']),
-                                    'class' => $row_class,
-                                    'align' => 'right',
-                                ],
-                                [
-                                    'data' => $data_entry['racetype_name'],
-                                    'class' => $row_class,
-                                ],
-                                [
-                                    'data' => ftimeSort($data_entry['race_time_start']),
-                                    'class' => $row_class,
-                                ],
-                                [
-                                    'data' => fbuttonActionGroup($action_array),
-                                    'class' => $row_class,
-                                ],
-                            ];
-                            $this->table->add_row($data_array);
+                <!-- RACES FLAT EDIT -->
+                <?php
+                if ($race_list) {
+                    foreach ($race_list as $race_id => $race) {
+                        // set race icon on wheather there is info loaded or not                        
+                        if ((($race['race_fee_flat'] > 0) || ($race['race_fee_senior_licenced'] > 0)) && ($race['race_time_end'] > 0)) {
+                            $icon_class = "green";
+                        } elseif (($race['race_fee_flat'] > 0) || ($race['race_fee_senior_licenced'] > 0)) {
+                            $icon_class = "amber";
+                        } else {
+                            $icon_class = "red";
                         }
-                        echo $this->table->generate();
-                    } else {
-                        echo "<p>No races loaded for the edition</p>";
-                    }
+                        // set badge color
+                        switch ($race['race_status']) {
+                            case "1":
+                                $badge_type = "success";
+                                break;
+                            case "2":
+                                $badge_type = "danger";
+                                break;
+                            default;
+                                $badge_type = "warning";
+                                break;
+                        }
+                        ?>
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <span class="caption-subject uppercase">
+                                    <i class="fa fa-check-square <?= $icon_class; ?>"></i>
+                                    <strong><?= fraceDistance($race['race_distance']) . "</strong> " . $race['racetype_name']; ?>
+                                </span>
+                                <span style='margin-top: -2px;' class="badge badge-<?= $badge_type; ?>"> <?= $status_list[$race['race_status']]; ?> </span>
+                            </div>
+                            <div class='btn-group pull-right' style="margin: 5px 0 0 10px;">
+                                <?php
+                                echo fbuttonLink("/admin/race/create/edit/" . $race_id, "Edit", "default", "sm");
+                                $confirm = "data-toggle='confirmation' data-original-title='Are you sure ?' data-placement='left'";
+                                echo fbuttonLink("/admin/race/delete/" . $race_id, "Delete", "danger", "sm", $confirm);
+                                ?>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="form-group">
 
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/race/create/add/" . $edition_detail['edition_id'], "Add Race", "default");
-                    echo "</div>";
-                    ?>
-                </div>
+                                <div class="row">
+                                    <div class='col-sm-2'>
+                                        <?php
+                                        echo form_label("Start", 'race_time_start');
+                                        ?>
+                                        <div class="input-group input-xsmall">
+                                            <?php
+                                            echo form_input([
+                                                'name' => 'races[' . $race_id . '][race_time_start]',
+                                                'id' => 'race_time_start',
+                                                'value' => set_value('race_time_start', $race['race_time_start'], false),
+                                                'class' => 'form-control timepicker timepicker-24 input-xsmall',
+                                                'required' => '',
+                                            ]);
+                                            ?>
+                                            <span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-2'>
+                                        <?php
+                                        echo form_label("Cut-off", 'race_time_end');
+                                        ?>
+                                        <div class="input-group input-xsmall">
+                                            <?php
+                                            echo form_input([
+                                                'name' => 'races[' . $race_id . '][race_time_end]',
+                                                'id' => 'race_time_end',
+                                                'value' => set_value('race_time_end', $race['race_time_end'], false),
+                                                'class' => 'form-control timepicker timepicker-24 input-xsmall',
+                                                'required' => '',
+                                            ]);
+                                            ?>
+                                            <span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    if ($race['race_distance'] >= 10) {
+                                        ?>
+                                        <div class='col-sm-2'>
+                                            <?php
+                                            echo form_label('Senior Lic', 'race_fee_senior_licenced');
+                                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                                            echo form_input([
+                                                'name' => 'races[' . $race_id . '][race_fee_senior_licenced]',
+                                                'id' => 'race_fee_senior_licenced',
+                                                'value' => set_value('race_fee_senior_licenced', $race['race_fee_senior_licenced']),
+                                                'class' => 'form-control input-xsmall',
+                                                'type' => 'number',
+                                                'step' => ".01",
+                                                'min' => '0',
+                                            ]);
+                                            echo "</div>";
+                                            ?>
+                                        </div>
+                                        <?php
+                                        if ($race['race_distance'] < 20) {
+                                            ?>
+                                            <div class='col-sm-2'>
+                                                <?php
+                                                echo form_label('Junior Lic', 'race_fee_junior_licenced');
+                                                echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                                                echo form_input([
+                                                    'name' => 'races[' . $race_id . '][race_fee_junior_licenced]',
+                                                    'id' => 'race_fee_junior_licenced',
+                                                    'value' => set_value('race_fee_junior_licenced', $race['race_fee_junior_licenced']),
+                                                    'class' => 'form-control input-xsmall',
+                                                    'type' => 'number',
+                                                    'step' => ".01",
+                                                    'min' => '0',
+                                                ]);
+                                                echo "</div>";
+                                                ?>
+
+                                            </div>
+                                            <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <div class='col-sm-2'>
+                                            <?php
+                                            echo form_label('Flat Fee', 'race_fee_flat');
+                                            echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                                            echo form_input([
+                                                'name' => 'races[' . $race_id . '][race_fee_flat]',
+                                                'id' => 'race_fee_flat',
+                                                'value' => set_value('race_fee_flat', $race['race_fee_flat']),
+                                                'class' => 'form-control input-xsmall',
+                                                'type' => 'number',
+                                                'step' => ".01",
+                                                'min' => '0',
+                                            ]);
+                                            echo "</div>";
+                                            ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div class='col-sm-3'>
+                                        <?php
+                                        echo form_label("Name", 'race_name');
+                                        echo form_input([
+                                            'name' => 'races[' . $race_id . '][race_name]',
+                                            'id' => 'race_name',
+                                            'value' => set_value('race_name', $race['race_name'], true),
+                                            'class' => 'form-control',
+                                        ]);
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    echo "<p>No races linked to this edition</p>";
+                }
+                ?>
             </div>
 
+
             <!-- DATES -->
-            <div class="portlet light">
+            <div class="portlet light" id="dates">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-edit font-dark"></i>
                         <span class="caption-subject font-dark bold">DATES</span>
+                    </div>
+                    <div class='btn-group pull-right'>
+                        <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "dates"); ?>
+                        <?= fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "info"); ?>
                     </div>
                 </div>
                 <div class="portlet-body">
                     <?php
                     if (!(empty($date_list))) {
                         // create table
-                        $this->table->set_template(ftable('list_table'));
+                        $this->table->set_template(ftable('edition_dates_table'));
                         $this->table->set_heading(["ID", "Date", "Date Type", "Actions"]);
                         foreach ($date_list as $id => $data_entry) {
 
@@ -367,28 +474,26 @@ echo form_open_multipart($form_url);
                     } else {
                         echo "<p>No URLs loaded for the edition</p>";
                     }
-
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "default");
-                    echo "</div>";
                     ?>
                 </div>
             </div>
         </div> <!-- col -->  
-            <?php
-        }
-        ?>
-    </div>
+        <?php
+    }
+    ?>
+</div>
 
 <div class="row">
     <!-- INTRO / ENTRIES / GENERAL INFO -->
     <div class="col-md-6">
-        <div class="portlet light">
+        <div class="portlet light" id="more_info">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-edit font-dark"></i>
                     <span class="caption-subject font-dark bold uppercase">More information</span>
+                </div>
+                <div class='btn-group pull-right'>
+                    <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "more_info"); ?>
                 </div>
             </div>
             <div class="portlet-body">
@@ -427,15 +532,7 @@ echo form_open_multipart($form_url);
                 echo "</div>";
                 ?>
 
-            </div> <!-- portlet-body -->    
-            <div class="portlet-footer">
-                <?php
-//  BUTTONS
-                echo "<div class='btn-group pull-right'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo "</div>";
-                ?>
-            </div>
+            </div> <!-- portlet-body -->  
         </div> <!-- portlet -->  
     </div>
     <?php
@@ -443,11 +540,15 @@ echo form_open_multipart($form_url);
         ?>
         <!-- ADD URLs -->
         <div class="col-md-6">    
-            <div class="portlet light">
+            <div class="portlet light" id="url_list">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-edit font-dark"></i>
                         <span class="caption-subject font-dark bold">URLs</span>
+                    </div>
+                    <div class='btn-group pull-right'>
+                        <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "url_list"); ?>
+                        <?= fbuttonLink("/admin/url/create/add/" . $edition_detail['edition_id'] . "/edition", "Add URL", "info"); ?>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -485,20 +586,19 @@ echo form_open_multipart($form_url);
                     } else {
                         echo "<p>No URLs loaded for the edition</p>";
                     }
-
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/url/create/add/" . $edition_detail['edition_id'] . "/edition", "Add URL", "default");
-                    echo "</div>";
                     ?>
                 </div>
             </div>
 
-            <div class="portlet light">
+            <div class="portlet light" id="file_list">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="icon-edit font-dark"></i>
                         <span class="caption-subject font-dark bold uppercase">Files</span>
+                    </div>
+                    <div class='btn-group pull-right'>
+                        <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "file_list"); ?>
+                        <?= fbuttonLink("/admin/file/create/add/" . $edition_detail['edition_id'] . "/edition", "Add File", "info"); ?>
                     </div>
                 </div>
                 <div class="portlet-body">
@@ -533,11 +633,6 @@ echo form_open_multipart($form_url);
                     } else {
                         echo "<p>No Files loaded for the edition</p>";
                     }
-
-                    // add button
-                    echo "<div class='btn-group'>";
-                    echo fbuttonLink("/admin/file/create/add/" . $edition_detail['edition_id'] . "/edition", "Add File", "default");
-                    echo "</div>";
                     ?>
                 </div>
             </div>
@@ -578,19 +673,20 @@ echo form_open_multipart($form_url);
 } // IF EDIT
 ?>
 <div class="row">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-6">
-                <?php
-//  BUTTONS
-                echo "<div class='btn-group' style='padding-bottom: 20px;'>";
-                echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
-                echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
-                echo fbuttonLink($return_url, "Cancel", $status = "danger");
-                if ($edition_detail['edition_status']==2) { echo fbuttonLink($delete_url, "Delete", $status = "danger"); } 
-                echo "</div>";
-                ?>
-            </div>
+    <div class="col-md-12">
+        <div class='btn-group' style='padding-bottom: 20px;'>
+            <?php
+            echo fbutton($text = "Apply", $type = "submit", $status = "primary", NULL, "save_only");
+            echo fbutton($text = "Save", $type = "submit", $status = "success");
+            ?>
+        </div>
+        <div class='btn-group pull-right' style='padding-bottom: 20px;'>
+            <?php
+            echo fbuttonLink($return_url, "Cancel", $status = "warning");
+            if ($edition_detail['edition_status'] == 2) {
+                echo fbuttonLink($delete_url, "Delete", $status = "danger");
+            }
+            ?>
         </div>
     </div> <!-- col -->
 </div> <!-- row -->
@@ -598,3 +694,4 @@ echo form_open_multipart($form_url);
 <?php
 echo form_close();
 //wts($edition_detail);
+//wts($status_list);

@@ -54,6 +54,17 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<?= base_url('scripts/admin/layout.min.js');?>" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
+        
+        
+        <script type="text/javascript">
+            if (window.location.hash) {
+                var hash = window.location.hash;
+
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 1500, 'swing');
+            }
+        </script>
     </body>
 
 </html>

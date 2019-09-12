@@ -67,20 +67,20 @@ if (!isset($meta_robots)) {
         <!-- auto ads -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
-             (adsbygoogle = window.adsbygoogle || []).push({
-                  google_ad_client: "ca-pub-8912238222537097",
-                  enable_page_level_ads: true
-             });
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-8912238222537097",
+                enable_page_level_ads: true
+            });
         </script>
         <!-- auto ads end -->
         <!-- reCaptcha -->
         <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
-<?php
+        <?php
 // load extra CSS files from controller
-if (isset($structured_data)) :
-    echo $structured_data;
-endif;
-?>
+        if (isset($structured_data)) :
+            echo $structured_data;
+        endif;
+        ?>
         <script src="<?= base_url('scripts/scg_smooth_scrolling.js'); ?>" type="text/javascript"></script>
     </head>
     <body class="c-layout-header-fixed c-layout-header-mobile-fixed">
@@ -103,29 +103,29 @@ endif;
 
         </script>
 
-<!--        <div class="c-cookies-bar c-cookies-bar-1 c-cookies-bar-top c-bg-dark wow animate fadeInDown" id="xNOsjtKgLQiH"
-             data-wow-delay="1s" style="visibility: visible; animation-delay: 1s; animation-name: fadeInDown; opacity: 1;">
-            <div class="c-cookies-bar-container">
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="c-cookies-bar-content c-font-white">
-                            Our website is made possible by displaying online advertisements to our visitors.
-                            Please consider supporting us by disabling your ad blocker.
+        <!--        <div class="c-cookies-bar c-cookies-bar-1 c-cookies-bar-top c-bg-dark wow animate fadeInDown" id="xNOsjtKgLQiH"
+                     data-wow-delay="1s" style="visibility: visible; animation-delay: 1s; animation-name: fadeInDown; opacity: 1;">
+                    <div class="c-cookies-bar-container">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="c-cookies-bar-content c-font-white">
+                                    Our website is made possible by displaying online advertisements to our visitors.
+                                    Please consider supporting us by disabling your ad blocker.
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="c-cookies-bar-btn">
+                                    <a class="c-cookies-bar-close btn c-theme-btn c-btn-square c-btn-bold" href="javascript:;">Got it!</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="c-cookies-bar-btn">
-                            <a class="c-cookies-bar-close btn c-theme-btn c-btn-square c-btn-bold" href="javascript:;">Got it!</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
+                </div>-->
 
-<!--        <div id="xNOsjtKgLQiH">
-            Our website is made possible by displaying online advertisements to our visitors.<br>
-            Please consider supporting us by disabling your ad blocker.
-        </div>-->
+        <!--        <div id="xNOsjtKgLQiH">
+                    Our website is made possible by displaying online advertisements to our visitors.<br>
+                    Please consider supporting us by disabling your ad blocker.
+                </div>-->
 
 <!--        <script src="/scripts/adblock.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -144,7 +144,7 @@ endif;
                     <div class="c-navbar-wrapper clearfix">
                         <div class="c-brand c-pull-left">
                             <a href="/" class="c-logo ">
-<?php $img_url = "img/logo_37.png"; ?>
+                                <?php $img_url = "img/logo_37.png"; ?>
                                 <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo">
                                 <img src="<?= base_url($img_url); ?>" alt="RoadRunning.co.za" class="c-desktop-logo-inverse">
                                 <img src="<?= base_url('img/logo_27.png'); ?>" alt="RoadRunning.co.za" class="c-mobile-logo">

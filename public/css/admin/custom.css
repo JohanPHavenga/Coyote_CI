@@ -31,3 +31,11 @@ label {
 .mt-checkbox-inline {
     padding: 10px 0 0;
 }
+
+h4.race_heading {
+    padding: 4px 0;
+}
+
+i.red { color: rgb(205, 98, 98); }
+i.green { color: rgb(132, 198, 143); }
+i.amber { color: rgb(200, 208, 70); }

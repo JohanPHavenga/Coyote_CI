@@ -102,20 +102,29 @@ class Edition extends Admin_Controller {
 
         $this->data_to_header['css_to_load'] = array(
             "plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+            "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
             "plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
             "plugins/bootstrap-summernote/summernote.css",
+            "plugins/datatables/datatables.min.css",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.css",
         );
 
         $this->data_to_footer['js_to_load'] = array(
             "plugins/moment.min.js",
             "plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+            "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
             "plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
             "plugins/bootstrap-summernote/summernote.min.js",
+            "scripts/admin/datatable.js",
+            "plugins/datatables/datatables.min.js",
+            "plugins/datatables/plugins/bootstrap/datatables.bootstrap.js",
+            "plugins/bootstrap-confirmation/bootstrap-confirmation.js",
         );
 
         $this->data_to_footer['scripts_to_load'] = array(
             "scripts/admin/components-date-time-pickers.js",
             "scripts/admin/components-editors.js",
+            "scripts/admin/table-datatables-managed.js",
         );
 
         // GET DATA TO SEND TO VIEW
@@ -125,6 +134,7 @@ class Edition extends Admin_Controller {
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
 //        $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
+        $this->data_to_view['status_list'] = $this->event_model->get_status_list();
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
@@ -175,8 +185,6 @@ class Edition extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-//            wts($this->input->post());
-//            die();
             $id = $this->edition_model->set_edition($action, $edition_id, [], false);
             if ($id) {
                 $alert = "<b>" . $this->input->post('edition_name') . "</b> has been successfully saved";
@@ -187,6 +195,10 @@ class Edition extends Admin_Controller {
                         $alert .= "<br>Status change on races also actioned";
                     }
                 }
+                if ($this->input->post('races')!==NULL) {
+                    wts($this->input->post('races'));
+                    die("races pappie");
+                }
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -194,7 +206,7 @@ class Edition extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $this->input->post())) {
-                $this->return_url = base_url("admin/edition/create/edit/" . $id);
+                $this->return_url = base_url("admin/edition/create/edit/" . $id . "#" . $this->input->post("save_only"));
             }
             $this->session->set_flashdata(['alert' => $alert, 'status' => $status,]);
             redirect($this->return_url);

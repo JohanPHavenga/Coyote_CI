@@ -107,7 +107,7 @@
                 </div>
 
                 <div class='form-group'>
-                    <div class='row'>                        
+                    <div class='row'>
                         <div class='col-sm-4'>
                             <?php
                             echo form_label('Flat Race Fee', 'race_fee_flat');
