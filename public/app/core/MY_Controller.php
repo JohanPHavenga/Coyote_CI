@@ -9,6 +9,55 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
     }
 
+    public function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
+        // set return as race_name
+        $return_name = $race_name;
+        // check for empty
+        if (empty($return_name)) {
+//            if ($race_distance > 42.2) {
+//                $return_name = "Ultra Marathon";
+//            } elseif ($race_distance == 42.2) {
+//                $return_name = "Marathon";
+//            } elseif () {
+//                $return_name = "Half-Marathon";
+//            } elseif () {
+//                $return_name = fraceDistance($race_distance) . " Fun Run";
+//            } else {
+//                $return_name = fraceDistance($race_distance) . " " . $racetype_name;
+//            }
+            switch (true) {
+                case $race_distance > 42.2:
+                    $return_name = "Ultra Marathon";
+                    break;
+                case $race_distance == 42.2:
+                    $return_name = "Marathon";
+                    break;
+                case $race_distance == 21.1:
+                    $return_name = "Half-Marathon";
+                    break;
+                case $race_distance < 10:
+                    if (strpos($racetype_name, 'Run') !== false) {
+                        $return_name = fraceDistance($race_distance) . " Fun Run";
+                    } else {
+                        $return_name = fraceDistance($race_distance) . " " . $racetype_name;
+                    }
+                    break;
+                default:
+                    $return_name = fraceDistance($race_distance) . " " . $racetype_name;
+                    break;
+            }
+        }
+        switch ($race_status) {
+            case 2:
+                $return_name = $return_name . " - DRAFT";
+                break;
+            case 3:
+                $return_name = $return_name . " - CANCELLED";
+                break;
+        }
+        return $return_name;
+    }
+
 }
 
 //=======================================
@@ -409,11 +458,22 @@ class Admin_Controller extends MY_Controller {
     public function race_fill_blanks($race_data, $edition_info) {
         $this->load->model('asareg_model');
         $this->load->model('asafee_model');
+        $this->load->model('racetype_model');
 
+        // check for emtpy race_name 
+        if (empty($race_data['race_name'])) {
+            if (!isset($race_data['racetype_name'])) {
+                $racetype_data = $this->racetype_model->get_racetype_detail($race_data['racetype_id']);
+                $racetype_name = $racetype_data['racetype_name'];
+            } else {
+                $racetype_name = $race_data['racetype_name'];
+            }
+            $race_data['race_name'] = $this->get_race_name_from_status($race_data['race_name'], $race_data['race_distance'], $racetype_name, $race_data['race_status']);
+        }
         // check for empty minimum age
         if (empty($race_data['race_minimum_age'])) {
             // get asa_reg_id
-            $asareg_id = $this->asareg_model->get_asareg_id_from_distance($this->input->post('race_distance'));
+            $asareg_id = $this->asareg_model->get_asareg_id_from_distance($race_data['race_distance']);
             // get asa_reg list
             $asareg_list = $this->asareg_model->get_asareg_list();
             $race_data['race_minimum_age'] = $asareg_list[$asareg_id]['asa_reg_minimum_age'];
@@ -435,7 +495,9 @@ class Admin_Controller extends MY_Controller {
                 $race_data['race_fee_junior_unlicenced'] = $race_data['race_fee_junior_licenced'] + $licence_fee;
             }
         }
-        
+
+
+
         return $race_data;
     }
 
@@ -702,24 +764,6 @@ class Frontend_Controller extends MY_Controller {
                 break;
         }
         return $e_names;
-    }
-
-    public function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
-
-        $return_name = $race_name;
-        if (empty($race_name)) {
-            $return_name = fraceDistance($race_distance) . " " . $racetype_name;
-        }
-
-        switch ($race_status) {
-            case 2:
-                $return_name = $return_name . " - DRAFT";
-                break;
-            case 3:
-                $return_name = $return_name . " - CANCELLED";
-                break;
-        }
-        return $return_name;
     }
 
     public function render_races_accordian_html($race_summary, $filter_title = "All") {

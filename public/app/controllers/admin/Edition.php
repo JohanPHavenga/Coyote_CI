@@ -80,6 +80,7 @@ class Edition extends Admin_Controller {
         $this->load->model('user_model');
         $this->load->model('event_model');
         $this->load->model('race_model');
+        $this->load->model('racetype_model');
         $this->load->model('date_model');
         $this->load->model('url_model');
         $this->load->model('file_model');
@@ -139,6 +140,7 @@ class Edition extends Admin_Controller {
         $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
         $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
         $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
+        $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
 
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
@@ -190,15 +192,16 @@ class Edition extends Admin_Controller {
                 $alert = "<b>" . $this->input->post('edition_name') . "</b> has been successfully saved";
                 $status = "success";
                 if ($action == "edit") {
+                    $new_edition_detail = $this->edition_model->get_edition_detail($id);
                     if ($this->input->post('edition_status') !== $this->data_to_view['edition_detail']['edition_status']) {
                         $this->race_status_update(array_keys($this->data_to_view['race_list']), $this->input->post('edition_status'));
                         $alert .= "<br>Status change on races also actioned";
                     }
+                    if ($this->input->post('races')!==NULL) {
+                        $this->set_races_from_edition($this->input->post('races'), $this->data_to_view['race_list'], $new_edition_detail);
+                    }
                 }
-                if ($this->input->post('races')!==NULL) {
-                    wts($this->input->post('races'));
-                    die("races pappie");
-                }
+                // RACES FLAT 
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -216,6 +219,16 @@ class Edition extends Admin_Controller {
     public function race_status_update($race_id_arr, $status_id) {
         $this->load->model('race_model');
         return $this->race_model->update_race_status($race_id_arr, $status_id);
+    }
+    
+    private function set_races_from_edition($race_list_post, $race_list_current, $edition_info) {
+        $this->load->model('race_model');
+        foreach ($race_list_post as $race_id=>$race) {
+            $combine = array_merge($race_list_current[$race_id],$race);
+            $remove = ['created_date', 'updated_date','edition_date','edition_name','racetype_name','racetype_abbr','race_color'];
+            $race_data=array_diff_key($this->race_fill_blanks($combine, $edition_info), array_flip($remove));
+            $this->race_model->set_race("edit", $race_id, $race_data);
+        }
     }
 
     public function name_check($str) {

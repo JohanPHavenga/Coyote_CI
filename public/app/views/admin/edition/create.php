@@ -259,7 +259,6 @@ echo form_open_multipart($form_url);
                         <span class="caption-subject font-dark bold uppercase">Races</span>
                     </div>
                     <div class='btn-group pull-right'>
-                        <?= fbutton("Apply", "submit", "primary", NULL, "save_only", "races"); ?>
                         <?= fbuttonLink("/admin/race/create/add/" . $edition_detail['edition_id'], "Add Race", "info"); ?>
                     </div>
                 </div>
@@ -298,7 +297,8 @@ echo form_open_multipart($form_url);
                             </div>
                             <div class='btn-group pull-right' style="margin: 5px 0 0 10px;">
                                 <?php
-                                echo fbuttonLink("/admin/race/create/edit/" . $race_id, "Edit", "default", "sm");
+                                echo fbutton("Apply", "submit", "primary", "sm", "save_only", "races");
+                                echo fbuttonLink("/admin/race/create/edit/" . $race_id, "Edit", "info", "sm");
                                 $confirm = "data-toggle='confirmation' data-original-title='Are you sure ?' data-placement='left'";
                                 echo fbuttonLink("/admin/race/delete/" . $race_id, "Delete", "danger", "sm", $confirm);
                                 ?>
@@ -308,6 +308,12 @@ echo form_open_multipart($form_url);
                             <div class="form-group">
 
                                 <div class="row">
+<!--                                    <div class='col-sm-2'>
+                                        <?php
+                                        echo form_label('Race Type', 'racetype_id');
+                                        echo form_dropdown('racetype_id', $racetype_dropdown, set_value('racetype_id', $race['racetype_id']), ["id" => "racetype_id", "class" => "form-control input-small"]);
+                                        ?>
+                                    </div>-->
                                     <div class='col-sm-2'>
                                         <?php
                                         echo form_label("Start", 'race_time_start');
@@ -404,7 +410,7 @@ echo form_open_multipart($form_url);
                                         <?php
                                     }
                                     ?>
-                                    <div class='col-sm-3'>
+                                    <div class='col-sm-4'>
                                         <?php
                                         echo form_label("Name", 'race_name');
                                         echo form_input([
