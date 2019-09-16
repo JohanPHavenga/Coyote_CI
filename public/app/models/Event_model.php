@@ -447,13 +447,13 @@ class Event_model extends MY_model {
 
         // has results, more than 3 months, less than a year
         if (isset($params['has_results_year'])) {
-            $this->db->where("edition_results_isloaded", 1);
+            $this->db->where_in("edition_info_status", [11]);
             $this->db->where("(edition_date BETWEEN '" . $year_ago . "' AND '" . $date_from . "')");
         }
 
         // no results, more than 3 months, less than a year
         if (isset($params['no_results_year'])) {
-            $this->db->where("edition_results_isloaded !=", 1);
+            $this->db->where_in("edition_info_status", [10,12]);
             $this->db->where("(edition_date BETWEEN '" . $year_ago . "' AND '" . $date_from . "')");
         }
 
