@@ -2,8 +2,8 @@
 
 class Date extends Admin_Controller {
 
-    private $return_date = "/admin/date";
-    private $create_date = "/admin/date/create";
+    private $return_url = "/admin/date";
+    private $create_url = "/admin/date/create";
 
     public function __construct() {
         parent::__construct();
@@ -28,7 +28,7 @@ class Date extends Admin_Controller {
         $this->data_to_view["date_data"] = $this->date_model->get_date_list();
         $this->data_to_view['heading'] = ["ID", "Date", "Datetype", "Linked To", "ID", "Actions"];
 
-        $this->data_to_view['create_link'] = $this->create_date;
+        $this->data_to_view['create_link'] = $this->create_url;
         $this->data_to_header['title'] = "List of Dates";
 
         $this->data_to_header['crumbs'] = [
@@ -73,7 +73,7 @@ class Date extends Admin_Controller {
 
         // set return date to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_date = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url;
         }
 
         // additional models
@@ -86,7 +86,7 @@ class Date extends Admin_Controller {
         // set data
         $this->data_to_header['title'] = "Date Input Page";
         $this->data_to_view['action'] = $action;
-        $this->data_to_view['form_date'] = $this->create_date . "/" . $action;
+        $this->data_to_view['form_url'] = $this->create_url . "/" . $action;
 
         $this->data_to_header['css_to_load'] = array(
             "plugins/typeahead/typeahead.css",
@@ -122,7 +122,7 @@ class Date extends Admin_Controller {
 
         if ($action == "edit") {
             $this->data_to_view['date_detail'] = $this->date_model->get_date_detail($id);
-            $this->data_to_view['form_date'] = $this->create_date . "/" . $action . "/" . $id;
+            $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
             if ($id > 0) {
                 $this->data_to_view['date_detail']['linked_id'] = $id;
@@ -138,9 +138,9 @@ class Date extends Admin_Controller {
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {
-            $this->data_to_view['return_date'] = $this->return_date;
+            $this->data_to_view['return_url'] = $this->return_url;
             $this->load->view($this->header_url, $this->data_to_header);
-            $this->load->view($this->create_date, $this->data_to_view);
+            $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
             // SET Date
@@ -168,10 +168,10 @@ class Date extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
-                $this->return_date = base_date("admin/date/create/edit/" . $id);
+                $this->return_url = base_url("admin/date/create/edit/" . $id);
             }
 
-            redirect($this->return_date);
+            redirect($this->return_url);
         }
     }
 
@@ -179,13 +179,13 @@ class Date extends Admin_Controller {
 
         // set return date to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_date = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url;
         }
 
         if (($date_id == 0) AND ( !is_int($date_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $date_id);
             $this->session->set_flashdata('status', 'danger');
-            redirect($this->return_date);
+            redirect($this->return_url);
             die();
         }
 
@@ -210,7 +210,7 @@ class Date extends Admin_Controller {
 
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
-        redirect($this->return_date);
+        redirect($this->return_url);
     }
 
     function exists($linked_type, $linked_id, $datetype_id) {

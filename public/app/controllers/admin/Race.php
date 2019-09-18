@@ -138,7 +138,7 @@ class Race extends Admin_Controller {
 
 //        if (!isset($race_detail['race_isover70free'])) { $race_detail['race_isover70free']=false; }
         // set validation rules
-        $this->form_validation->set_rules('race_distance', 'race distance', 'required|numeric');
+        $this->form_validation->set_rules('race_distance', 'race distance', 'required|numeric|less_than[1000]');
         $this->form_validation->set_rules('race_time_start', 'race start time', 'required');
         $this->form_validation->set_rules('race_status', 'race status', 'required|greater_than[0]', ["greater_than" => "Please select an status for the race"]);
         $this->form_validation->set_rules('racetype_id', 'race type', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a race type"]);

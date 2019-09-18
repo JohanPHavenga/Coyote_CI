@@ -133,23 +133,19 @@ class Edition extends Admin_Controller {
         $this->data_to_view['sponsor_dropdown'] = $this->sponsor_model->get_sponsor_dropdown();
         $this->data_to_view['entrytype_dropdown'] = $this->entrytype_model->get_entrytype_dropdown();
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
-//        $this->data_to_view['status_dropdown']=$this->event_model->get_status_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
         $this->data_to_view['status_list'] = $this->event_model->get_status_list();
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
-        $this->data_to_view['results_status_dropdown'] = $this->event_model->get_status_list("info"); // TBR once new site is launched
-        $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true); // TBR
         $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
-
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
-
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
+            $this->data_to_view['date_list_by_group'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
             $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
@@ -197,11 +193,17 @@ class Edition extends Admin_Controller {
                         $this->race_status_update(array_keys($this->data_to_view['race_list']), $this->input->post('edition_status'));
                         $alert .= "<br>Status change on races also actioned";
                     }
-                    if ($this->input->post('races')!==NULL) {
+                    // RACES FLAT 
+                    if ($this->input->post('races') !== NULL) {
                         $this->set_races_from_edition($this->input->post('races'), $this->data_to_view['race_list'], $new_edition_detail);
                     }
+                    // DATES FLAT 
+                    if ($this->input->post('dates') !== NULL) {
+                        $this->set_dates_from_edition($this->input->post('dates'), $this->data_to_view['date_list'], $new_edition_detail);
+                    }
                 }
-                // RACES FLAT 
+                // DATES checks
+                $this->check_start_end_dates($id, $new_edition_detail['edition_date'], $this->input->post('entrytype_id'));
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -220,14 +222,29 @@ class Edition extends Admin_Controller {
         $this->load->model('race_model');
         return $this->race_model->update_race_status($race_id_arr, $status_id);
     }
-    
+
     private function set_races_from_edition($race_list_post, $race_list_current, $edition_info) {
         $this->load->model('race_model');
-        foreach ($race_list_post as $race_id=>$race) {
-            $combine = array_merge($race_list_current[$race_id],$race);
-            $remove = ['created_date', 'updated_date','edition_date','edition_name','racetype_name','racetype_abbr','race_color'];
-            $race_data=array_diff_key($this->race_fill_blanks($combine, $edition_info), array_flip($remove));
+        foreach ($race_list_post as $race_id => $race) {
+            $combine = array_merge($race_list_current[$race_id], $race);
+            $remove = ['created_date', 'updated_date', 'edition_date', 'edition_name', 'racetype_name', 'racetype_abbr', 'race_color'];
+            $race_data = array_diff_key($this->race_fill_blanks($combine, $edition_info), array_flip($remove));
             $this->race_model->set_race("edit", $race_id, $race_data);
+        }
+    }
+
+    private function set_dates_from_edition($date_list_post, $date_list_current, $edition_info) {
+        $this->load->model('date_model');
+        foreach ($date_list_post as $date_id => $date) {
+            $field_to_unset = key($date);
+            if ($field_to_unset=="entries_otd_open") {
+                $date[$field_to_unset]=fdateShort($edition_info['edition_date'])." ".$date[$field_to_unset].":00";
+            }
+            $combine = array_merge($date_list_current[$date_id], ["date_date" => $date[$field_to_unset]]);
+            $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_group', $field_to_unset];
+            $date_data = array_diff_key($combine, array_flip($remove));
+//            wts($date_list_post); wts($date_list_current); wts($combine); wts($date_data); die();
+            $this->date_model->set_date("edit", $date_id, $date_data);
         }
     }
 
@@ -241,120 +258,39 @@ class Edition extends Admin_Controller {
         return $valid;
     }
 
-    private function upload_file($params) {
-        $file_data = $_FILES[$params['field']];
-        // set default return
-        $return['success'] = false;
-        $return['alert_status'] = "warning";
-        $return['alert_text'] = "Error uploading a file: " . $file_data['name'];
-
-        // check folder
-        $upload_path = $this->check_upload_folder($params['edition_id']);
-
-        // set upload config
-        $config['upload_path'] = $upload_path;
-        $config['allowed_types'] = $params['allowed_types'];
-        $config['max_size'] = $params['max_size'];
-        $this->upload->initialize($config);
-
-        if (!$this->upload->do_upload($params['field'])) {
-            $error = array('error' => $this->upload->display_errors());
-            $return['alert_text'] = "Issue uploading a file: " . strip_tags($error['error']);
-        } else {
-            $return['success'] = true;
-            $return['data'] = $this->upload->data();
-            $return['filename'] = $file_data['name'];
-            $return['alert_text'] = "File has been uploaded";
-            $return['alert_status'] = "success";
+    private function check_start_end_dates($e_id, $edition_date, $entrytype_list) {
+        $this->load->model('date_model');
+        
+        $id_list = [1, 2]; // edition start and end dat
+        
+         // check vir online entries
+        if (in_array(4,$entrytype_list)) {
+            $id_list[]=3;
+            $id_list[]=4;
         }
-        return $return;
-    }
-
-    // WRITE FILE DETAILS TO DB    
-    private function set_file($file_data, $filetype_id, $edition_id) {
-        $params = [
-            "id_type" => "edition_id",
-            "id" => $edition_id,
-            "filetype_id" => $filetype_id,
-            "data" => $file_data,
-            "debug" => true,
-        ];
-        $id = $this->file_model->set_file($params);
-    }
-
-    public function remove_file($edition_id, $file_id) {
-
-        // get file detail for nice delete message
-        $file_detail = $this->file_model->get_file_detail($file_id);
-        $file_path = "./uploads/edition/" . $edition_id . "/" . $file_detail['file_name'];
-        // delete record
-        $db_del = $this->file_model->remove_file($file_id, $file_path);
-
-        if ($db_del) {
-            $msg = "File has successfully been removed: " . $file_detail['file_name'];
-            $status = "success";
-        } else {
-            $msg = "Error in deleting the record:'.$file_id";
-            $status = "danger";
+        // OTD entries
+        if (in_array(1,$entrytype_list)) {
+            $id_list[]=13;
+            $id_list[]=14;
         }
-
-        $this->session->set_flashdata('alert', $msg);
-        $this->session->set_flashdata('status', $status);
-        redirect("/admin/edition/create/edit/" . $edition_id);
-    }
-
-    //CHECK AND CREATE UPLOAD FOLDER
-    private function check_upload_folder($id) {
-        $upload_path = "./uploads/edition/" . $id;
-        if (!file_exists($upload_path)) {
-            if (!mkdir($upload_path, 0777, true)) {
-                return false;
+        
+        // check if dates is loaded, else add
+        foreach ($id_list as $date_id) {
+            if (!$this->date_model->exists("edition", $e_id, $date_id)) {
+                $date_data = [
+                    'date_date' => $edition_date,
+                    'datetype_id' => $date_id,
+                    'date_linked_to' => "edition",
+                    'linked_id' => $e_id,
+                ];
+                $this->date_model->set_date("add", NULL, $date_data, false);
             }
         }
-        return $upload_path;
+       
     }
 
-    // OLD UPLOAD FILE
-//    private function upload_logo_file($id, $files, $post) {
-//                
-//        $return['alert_text']="Edition information has been updated";
-//        $return['alert_status']="success";
-//        
-//        if (empty($files['edition_logo_upload']['name'])) {
-//            return $return;
-//        }
-//        
-//        $config['upload_path']    = "./uploads/admin/edition/".$id;
-//        if (!file_exists($config['upload_path'])) {
-//            if (!mkdir($config['upload_path'], 0777, true)) {
-//                die('Failed to create folders...');
-//            }
-////            echo "The directory ".$config['upload_path']." was successfully created.";
-//        } else {
-////            echo "The directory ".$config['upload_path']." exists.";
-//        }
-//        
-//        $config['allowed_types']  = 'jpg|gif|png';
-//        $config['max_size']       = 2048;
-//        $this->upload->initialize($config);
-//
-//        if ( ! $this->upload->do_upload('edition_logo_upload'))
-//        {
-//            $error = array('error' => $this->upload->display_errors());            
-//            $return['alert_text']="Issue uploading the logo file: ".strip_tags($error['error']);
-//            $return['alert_status']="danger";
-//        }
-//        else
-//        {
-//            $data = $this->upload->data();
-//            $return['filename']=$data['file_name'];
-//        }
-//        
-//        return $return;
-//    }
     // DELETE EDITION
     public function delete($edition_id = 0) {
-
 
         if (($edition_id == 0) AND ( !is_int($edition_id))) {
             $this->session->set_flashdata('alert', 'Cannot delete record: ' . $edition_id);
@@ -381,6 +317,9 @@ class Edition extends Admin_Controller {
         redirect($this->return_url);
     }
 
+    // ==========================================================================================
+    // EDITION COPY FUCNTIONS
+    // ==========================================================================================
     // MAKE A COPY OF AN OLD EDITION
     public function copy($id) {
         $this->load->model('user_model');
@@ -425,7 +364,6 @@ class Edition extends Admin_Controller {
             $race_data['race_status'] = $race['race_status'];
             $race_data['racetype_id'] = $race['racetype_id'];
             $race_data['edition_id'] = $e_id;
-
             $this->race_model->set_race("add", NULL, $race_data, false);
         }
 

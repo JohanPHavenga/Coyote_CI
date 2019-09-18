@@ -188,9 +188,6 @@ class Edition_model extends MY_model {
     public function get_edition_dropdown($use_names = false) {
         $this->db->select("edition_id, edition_name");
         $this->db->from("editions");
-        // limit the list a little
-        $this->db->where("edition_date > ", date("Y-m-d", strtotime("4 months ago")));
-//            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
         $this->db->order_by("edition_name");
         $query = $this->db->get();
 
@@ -205,6 +202,23 @@ class Edition_model extends MY_model {
                 foreach ($query->result_array() as $row) {
                     $data[$row['edition_id']] = $row['edition_name'];
                 }
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    public function get_edition_dropdown_abbr() {
+        $this->db->select("edition_id, edition_name");
+        $this->db->from("editions");
+        $this->db->where("edition_date > ", date("Y-m-d", strtotime("4 months ago")));
+        $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
+        $this->db->order_by("edition_name");
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $data[] = "Please Select";
+            foreach ($query->result_array() as $row) {
+                $data[$row['edition_id']] = $row['edition_name'];
             }
             return $data;
         }
@@ -307,12 +321,12 @@ class Edition_model extends MY_model {
             } else {
                 $edition_isfeatured = $this->input->post('edition_isfeatured');
             }
-
             if (empty($this->input->post('edition_address_end'))) {
                 $address_end = $this->input->post('edition_address');
             } else {
                 $address_end = $this->input->post('edition_address_end');
             }
+
             $edition_data = array(
                 'edition_name' => $this->input->post('edition_name'),
                 'edition_status' => $this->input->post('edition_status'),
@@ -365,7 +379,7 @@ class Edition_model extends MY_model {
 
         if ($debug) {
             echo "<b>Edition Transaction</b>";
-            wts($_FILES);
+            wts($_POST);
             wts($action);
             wts($edition_id);
             wts($edition_data);

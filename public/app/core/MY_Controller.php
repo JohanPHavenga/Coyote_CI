@@ -14,17 +14,6 @@ class MY_Controller extends CI_Controller {
         $return_name = $race_name;
         // check for empty
         if (empty($return_name)) {
-//            if ($race_distance > 42.2) {
-//                $return_name = "Ultra Marathon";
-//            } elseif ($race_distance == 42.2) {
-//                $return_name = "Marathon";
-//            } elseif () {
-//                $return_name = "Half-Marathon";
-//            } elseif () {
-//                $return_name = fraceDistance($race_distance) . " Fun Run";
-//            } else {
-//                $return_name = fraceDistance($race_distance) . " " . $racetype_name;
-//            }
             switch (true) {
                 case $race_distance > 42.2:
                     $return_name = "Ultra Marathon";
@@ -56,6 +45,18 @@ class MY_Controller extends CI_Controller {
                 break;
         }
         return $return_name;
+    }
+    
+    public function chronologise_data($data_arr, $date_field) {
+        $return_data = [];
+        foreach ($data_arr as $id => $row) {
+            $year = date("Y", strtotime($row[$date_field]));
+            $month = date("F", strtotime($row[$date_field]));
+            $day = date("d", strtotime($row[$date_field]));
+
+            $return_data[$year][$month][$day][$id] = $row;
+        }
+        return $return_data;
     }
 
 }
@@ -495,8 +496,6 @@ class Admin_Controller extends MY_Controller {
                 $race_data['race_fee_junior_unlicenced'] = $race_data['race_fee_junior_licenced'] + $licence_fee;
             }
         }
-
-
 
         return $race_data;
     }

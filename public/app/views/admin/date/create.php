@@ -17,7 +17,7 @@ if (($action == "add") && (@$date_detail['linked_id'] > 1)) {
             </div>
             <div class="portlet-body">
                 <?php
-                echo form_open($form_date);
+                echo form_open($form_url);
                 //  NAME
                 echo "<div class='form-group'>";
                 echo "<div class='row'>";
@@ -103,7 +103,7 @@ if (($action == "add") && (@$date_detail['linked_id'] > 1)) {
                 echo "<div class='btn-group'>";
                 echo fbutton($text = "Save", $type = "submit", $status = "primary", NULL, "save_only");
                 echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
-                echo fbuttonLink($return_date, "Cancel", $status = "danger");
+                echo fbuttonLink($return_url, "Cancel", $status = "danger");
                 echo "</div>";
 
                 echo form_close();

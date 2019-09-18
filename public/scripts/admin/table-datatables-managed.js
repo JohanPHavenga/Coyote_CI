@@ -232,6 +232,40 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
+    
+    var initEditionUrlTable = function () {
+        var table = $('#edition_url_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            paging: false,
+            searching: false,
+            info: false,
+            columnDefs: [
+                {orderable: false, targets: [3, -1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+            ]
+        });
+    };
+    
+    var initEditionFileTable = function () {
+        var table = $('#edition_file_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            paging: false,
+            searching: false,
+            info: false,
+            columnDefs: [
+                {orderable: false, targets: [3, -1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+            ]
+        });
+    };
 
     // GENERIC list table
     var initListTable = function () {
@@ -270,6 +304,8 @@ var TableDatatablesManaged = function () {
             initHistorySummaryTable();
             initEditionRacesTable();
             initEditionDatesTable();
+            initEditionUrlTable();
+            initEditionFileTable();
             initListTable();
         }
     };

@@ -26,35 +26,29 @@ class Date_model extends MY_model {
         return false;
     }
 
-    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false) {
-
-//        if (is_null($linked_to)) { die("You need to pass the linked_to level you nob"); }
-
-        $this->db->select("dates.*, datetype_name");
+    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false, $by_date_group=false) {
+        $this->db->select("*");
         $this->db->join("datetypes", "datetype_id");
         $this->db->from("dates");
-
         if ($linked_to) {
             $this->db->where('date_linked_to', $linked_to);
         }
         if ($linked_id > 0) {
             $this->db->where('linked_id', $linked_id);
         }
-
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                if ($by_date_type) {
+                if ($by_date_group) {
+                    $date_list[$row['datetype_group']][$row['datetype_id']] = $row;
+                } elseif ($by_date_type) {
                     $date_list[$row['datetype_id']][$row["linked_id"]] = $row;
                 } else {
-                    $date_list[] = $row;
+                    $date_list[$row['date_id']] = $row;
                 }
-
-//                $data[$row['date_id']] = $row;
             }
             return $date_list;
-//            return $data;
         }
         return false;
     }
