@@ -167,7 +167,7 @@
             <?php
         }
     } else {
-        echo "<p>No races linked to this edition</p>";
+        echo "<div class='note note-danger' role='alert'><b>No races</b> linked to this edition</div>";
     }
     ?>
 </div>

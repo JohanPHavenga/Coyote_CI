@@ -237,7 +237,9 @@ class Edition extends Admin_Controller {
         $this->load->model('date_model');
         foreach ($date_list_post as $date_id => $date) {
             $field_to_unset = key($date);
-            if ($field_to_unset=="entries_otd_open") {
+            // check for time field, add edition date
+            $time_fields=["entries_otd_open","entries_otd_close"];
+            if (in_array($field_to_unset,$time_fields)) {
                 $date[$field_to_unset]=fdateShort($edition_info['edition_date'])." ".$date[$field_to_unset].":00";
             }
             $combine = array_merge($date_list_current[$date_id], ["date_date" => $date[$field_to_unset]]);

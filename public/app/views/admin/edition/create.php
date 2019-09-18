@@ -54,5 +54,6 @@ if ($action == "edit") {
 
 <?php
 echo form_close();
-wts($date_list_by_group);
+//wts($entrytype_list);
+//wts($date_list_by_group);
 //wts($status_list);
