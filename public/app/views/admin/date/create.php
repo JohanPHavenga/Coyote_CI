@@ -5,6 +5,7 @@ if (($action == "add") && (@$date_detail['linked_id'] > 1)) {
 } else {
     $disable_fields = false;
 }
+echo form_open($form_url);
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -16,25 +17,37 @@ if (($action == "add") && (@$date_detail['linked_id'] > 1)) {
                 </div>
             </div>
             <div class="portlet-body">
+                <div class='form-group'>
+                    <div class='row'>
+                        <div class='col-md-4'>
+                            <?php
+                            echo form_label('Start Date <span class="compulsary">*</span>', 'date_start');
+                            echo '<div class="input-group input-medium">';
+                            echo form_input([
+                                'name' => 'date_start',
+                                'id' => 'date_start',
+                                'value' => set_value('date_start', @$date_detail['date_start']),
+                                'class' => 'form-control form_datetime',
+                            ]);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                            ?>
+                        </div>
+                        <div class='col-md-4'>
+                            <?php
+                            echo form_label('End Date', 'date_end');
+                            echo '<div class="input-group input-medium">';
+                            echo form_input([
+                                'name' => 'date_end',
+                                'id' => 'date_end',
+                                'value' => set_value('date_end', @$date_detail['date_end']),
+                                'class' => 'form-control form_datetime',
+                            ]);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                            ?>
+                        </div>
+                    </div>
+                </div>
                 <?php
-                echo form_open($form_url);
-                //  NAME
-                echo "<div class='form-group'>";
-                echo "<div class='row'>";
-                echo "<div class='col-md-4'>";
-                echo form_label('Date', 'date_date');
-                echo '<div class="input-group input-medium">';
-                echo form_input([
-                    'name' => 'date_date',
-                    'id' => 'date_date',
-                    'value' => set_value('date_date', @$date_detail['date_date']),
-                    'class' => 'form-control form_datetime',
-                ]);
-                echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
 
                 //  Date type
                 echo "<div class='form-group'>";
@@ -105,16 +118,14 @@ if (($action == "add") && (@$date_detail['linked_id'] > 1)) {
                 echo fbutton($text = "Save & Close", $type = "submit", $status = "success");
                 echo fbuttonLink($return_url, "Cancel", $status = "danger");
                 echo "</div>";
-
-                echo form_close();
                 ?>
             </div>
         </div>
     </div>
 
-<?php
-if ($action == "edit") {
-    ?>
+    <?php
+    if ($action == "edit") {
+        ?>
         <div class="col-md-6">
             <div class="portlet light">
                 <div class="portlet-title">
@@ -148,10 +159,11 @@ if ($action == "edit") {
                 </div>
             </div>
         </div>
-    <?php
-}
-?>
+        <?php
+    }
+    ?>
 </div>
 <?php
+echo form_close();
 //wts(@$date_detail);
 ?>

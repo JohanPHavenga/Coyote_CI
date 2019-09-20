@@ -81,6 +81,7 @@ class Edition extends Admin_Controller {
         $this->load->model('event_model');
         $this->load->model('race_model');
         $this->load->model('racetype_model');
+        $this->load->model('venue_model');
         $this->load->model('date_model');
         $this->load->model('url_model');
         $this->load->model('file_model');
@@ -138,6 +139,7 @@ class Edition extends Admin_Controller {
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
+        $this->data_to_view['venue_dropdown'] = $this->venue_model->get_venue_dropdown();
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
 
@@ -145,7 +147,7 @@ class Edition extends Admin_Controller {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
-            $this->data_to_view['date_list_by_group'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
+            $this->data_to_view['date_list_by_type'] = $this->date_model->get_date_list("edition", $edition_id,true);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
             $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
@@ -193,11 +195,11 @@ class Edition extends Admin_Controller {
                         $this->race_status_update(array_keys($this->data_to_view['race_list']), $this->input->post('edition_status'));
                         $alert .= "<br>Status change on races also actioned";
                     }
-                    // RACES FLAT 
+                    // RACES FLAT
                     if ($this->input->post('races') !== NULL) {
                         $this->set_races_from_edition($this->input->post('races'), $this->data_to_view['race_list'], $new_edition_detail);
                     }
-                    // DATES FLAT 
+                    // DATES FLAT
                     if ($this->input->post('dates') !== NULL) {
                         $this->set_dates_from_edition($this->input->post('dates'), $this->data_to_view['date_list'], $new_edition_detail);
                     }
@@ -235,17 +237,38 @@ class Edition extends Admin_Controller {
 
     private function set_dates_from_edition($date_list_post, $date_list_current, $edition_info) {
         $this->load->model('date_model');
-        foreach ($date_list_post as $date_id => $date) {
-            $field_to_unset = key($date);
-            // check for time field, add edition date
-            $time_fields=["entries_otd_open","entries_otd_close"];
-            if (in_array($field_to_unset,$time_fields)) {
-                $date[$field_to_unset]=fdateShort($edition_info['edition_date'])." ".$date[$field_to_unset].":00";
+        foreach ($date_list_post as $date_id => $date_array) {
+            // hierdie hieronder is slegs om datum te verander soos nodig na die post
+            foreach ($date_array as $field => $value) {
+                switch ($datetype_id) {
+//                case "entries_otd_open":
+//                case "entries_otd_close":
+//                    $new_date_array = ["date_date" => fdateShort($edition_info['edition_date']) . " " . $date[$field_to_unset] . ":00"];
+//                    break;
+//                case "entries_pre_close":
+//                    $new_date_array = ["date_date" => fdateShort($edition_info['edition_date']) . " " . $date[$field_to_unset] . ":00"];
+//                    break;
+//                case "entries_pre_open":
+//                    $new_date_array = [
+//                        "date_date" => $date[$field_to_unset],
+//                        "venue_id" => $date["venue_id"],
+//                    ];
+//                    break;
+                    default:
+                        $new_date_array[$field] = $value;
+                        break;
+                }
             }
-            $combine = array_merge($date_list_current[$date_id], ["date_date" => $date[$field_to_unset]]);
-            $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_group', $field_to_unset];
+
+            $combine = array_merge($date_list_current[$date_id], $new_date_array);
+            $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_group', 'datetype_status'];
             $date_data = array_diff_key($combine, array_flip($remove));
-//            wts($date_list_post); wts($date_list_current); wts($combine); wts($date_data); die();
+//            wts($date_list_post);
+//            wts($date_list_current);
+//            wts($new_date_array);
+//            wts($combine);
+//            wts($date_data);
+//            die();
             $this->date_model->set_date("edit", $date_id, $date_data);
         }
     }
@@ -262,33 +285,33 @@ class Edition extends Admin_Controller {
 
     private function check_start_end_dates($e_id, $edition_date, $entrytype_list) {
         $this->load->model('date_model');
-        
-        $id_list = [1, 2]; // edition start and end dat
-        
-         // check vir online entries
-        if (in_array(4,$entrytype_list)) {
-            $id_list[]=3;
-            $id_list[]=4;
+
+        $datetype_id_list = [1]; // edition start and end dates
+        // check vir online entries
+        if (in_array(4, $entrytype_list)) {
+            $datetype_id_list[] = 3;
+        }
+        // PRE entries
+        if (in_array(3, $entrytype_list)) {
+            $datetype_id_list[] = 4;
         }
         // OTD entries
-        if (in_array(1,$entrytype_list)) {
-            $id_list[]=13;
-            $id_list[]=14;
+        if (in_array(1, $entrytype_list)) {
+            $datetype_id_list[] = 6;
         }
-        
         // check if dates is loaded, else add
-        foreach ($id_list as $date_id) {
-            if (!$this->date_model->exists("edition", $e_id, $date_id)) {
+        foreach ($datetype_id_list as $datetype_id) {
+            if (!$this->date_model->exists("edition", $e_id, $datetype_id)) {
                 $date_data = [
-                    'date_date' => $edition_date,
-                    'datetype_id' => $date_id,
+                    'date_start' => $edition_date,
+                    'date_end' => $edition_date,
+                    'datetype_id' => $datetype_id,
                     'date_linked_to' => "edition",
                     'linked_id' => $e_id,
                 ];
                 $this->date_model->set_date("add", NULL, $date_data, false);
             }
         }
-       
     }
 
     // DELETE EDITION
@@ -559,7 +582,7 @@ class Edition extends Admin_Controller {
         $this->load->model('edition_model');
         $this->load->model('date_model');
         $this->load->model('datetype_model');
-        $field_list = ["edition_id", "edition_name", "edition_date", "edition_date_end", "edition_entries_date_open", "edition_entries_date_close"];
+        $field_list = ["edition_id", "edition_name", "edition_date", "tbr_edition_date_end", "tbr_edition_entries_date_open", "tbr_edition_entries_date_close"];
         $query_params = [
             "order_by" => ["edition_date" => "DESC"],
         ];
@@ -568,28 +591,44 @@ class Edition extends Admin_Controller {
 
         $counter = [];
         $date_fields_to_move = [
-            "edition_date" => "1",
-            "edition_date_end" => "2",
-            "edition_entries_date_open" => "3",
-            "edition_entries_date_close" => "4",
+            1 => [
+                "date_start" => "edition_date",
+                "date_end" => "edition_date",
+            ],
+            3 => [
+                "date_start" => "tbr_edition_entries_date_open",
+                "date_end" => "tbr_edition_entries_date_close",
+            ],
         ];
-
+//        wts($date_fields_to_move);
+//        wts($edition_list);
+//        die();
         // run deur edition list
         foreach ($edition_list as $e_id => $edition) {
-            foreach ($date_fields_to_move as $edition_field => $datetype_id) {
-                if ((!isset($date_list[$datetype_id][$e_id])) && ($edition[$edition_field])) {
-                    $date_data = array(
-                        'date_date' => $edition[$edition_field],
-                        'datetype_id' => $datetype_id,
-                        'date_linked_to' => "edition",
-                        'linked_id' => $e_id,
-                    );
+            foreach ($date_fields_to_move as $datetype_id => $edition_field_array) {
+//                if ((!isset($date_list[$datetype_id][$e_id])) && ($edition[$edition_field])) 
+//                if ($edition[$edition_field]) {
+
+                $date_data = array(
+                    'datetype_id' => $datetype_id,
+                    'date_linked_to' => "edition",
+                    'linked_id' => $e_id,
+                );
+                foreach ($edition_field_array as $des_field => $edition_field) {
+                    if (isset($edition[$edition_field])) {
+                        $date_data[$des_field] = $edition[$edition_field];
+                    }
+                }
+//                wts($date_data);
+//                die();
+                if (isset($date_data['date_start'])) {
                     $this->date_model->set_date("add", NULL, $date_data);
                     if (!isset($counter[$edition_field])) {
                         $counter[$edition_field] = 0;
                     }
                     $counter[$edition_field] ++;
                 }
+//                }
             }
         }
 

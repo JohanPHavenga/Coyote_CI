@@ -1,8 +1,8 @@
 <?php
 
-class Datetype_model extends MY_model {
+class Venue_model extends MY_model {
 
-    public $table = "datetypes";
+    public $table = "venues";
 
     public function __construct() {
         parent::__construct();
@@ -10,10 +10,10 @@ class Datetype_model extends MY_model {
     }
 
     public function record_count() {
-        return $this->db->count_all("datetypes");
+        return $this->db->count_all("venues");
     }
 
-    public function get_datetype_field_array() {
+    public function get_venue_field_array() {
         $fields = $this->db->list_fields($this->table);
         foreach ($fields as $field) {
             $data[$field] = "";
@@ -21,41 +21,43 @@ class Datetype_model extends MY_model {
         return $data;
     }
 
-    public function get_datetype_list() {
-        $this->db->select("datetypes.*");
-        $this->db->from("datetypes");
+    public function get_venue_list() {
+        $this->db->select("venues.*,province_name");
+        $this->db->from("venues");
+        $this->db->join("provinces", "province_id");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[$row['datetype_id']] = $row;
+                $data[$row['venue_id']] = $row;
             }
             return $data;
         }
         return false;
     }
 
-    public function get_datetype_dropdown() {
-        $this->db->select("datetype_id, datetype_name");
-        $this->db->from("datetypes");
-        $this->db->order_by("datetype_name");
+    public function get_venue_dropdown() {
+        $this->db->select("venue_id, venue_name");
+        $this->db->from("venues");
+        $this->db->where("venue_status",true);
+        $this->db->order_by("venue_name");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
-                $data[$row['datetype_id']] = $row['datetype_name'];
+                $data[$row['venue_id']] = $row['venue_name'];
             }
             return $data;
         }
         return false;
     }
 
-    public function get_datetype_detail($id) {
+    public function get_venue_detail($id) {
         if (!($id)) {
             return false;
         } else {
-            $query = $this->db->get_where($this->table, array('datetype_id' => $id));
+            $query = $this->db->get_where($this->table, array('venue_id' => $id));
 
             if ($query->num_rows() > 0) {
                 return $query->row_array();
@@ -64,11 +66,11 @@ class Datetype_model extends MY_model {
         }
     }
 
-    public function set_datetype($action, $id) {
+    public function set_venue($action, $id) {
         $data = array(
-            'datetype_name' => $this->input->post('datetype_name'),
-            'datetype_status' => $this->input->post('datetype_status'),
-            'datetype_display' => $this->input->post('datetype_display'),
+            'venue_name' => $this->input->post('venue_name'),
+            'venue_status' => $this->input->post('venue_status'),
+            'province_id' => $this->input->post('province_id'),
         );
 
         switch ($action) {
@@ -76,7 +78,7 @@ class Datetype_model extends MY_model {
                 return $this->db->insert($this->table, $data);
             case "edit":
                 $data['updated_date'] = date("Y-m-d H:i:s");
-                return $this->db->update($this->table, $data, array('datetype_id' => $id));
+                return $this->db->update($this->table, $data, array('venue_id' => $id));
 
             default:
                 show_404();
@@ -84,12 +86,12 @@ class Datetype_model extends MY_model {
         }
     }
 
-    public function remove_datetype($id) {
+    public function remove_venue($id) {
         if (!($id)) {
             return false;
         } else {
             $this->db->trans_start();
-            $this->db->delete($this->table, array('datetype_id' => $id));
+            $this->db->delete($this->table, array('venue_id' => $id));
             $this->db->trans_complete();
             return $this->db->trans_status();
         }

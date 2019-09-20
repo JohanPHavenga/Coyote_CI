@@ -26,7 +26,7 @@ class Date_model extends MY_model {
         return false;
     }
 
-    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false, $by_date_group=false) {
+    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false) {
         $this->db->select("*");
         $this->db->join("datetypes", "datetype_id");
         $this->db->from("dates");
@@ -40,10 +40,9 @@ class Date_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                if ($by_date_group) {
-                    $date_list[$row['datetype_group']][$row['datetype_id']] = $row;
-                } elseif ($by_date_type) {
-                    $date_list[$row['datetype_id']][$row["linked_id"]] = $row;
+                if ($by_date_type) {
+//                    $date_list[$row['datetype_id']][$row["linked_id"]] = $row;
+                    $date_list[$row['datetype_id']][] = $row;
                 } else {
                     $date_list[$row['date_id']] = $row;
                 }
@@ -77,7 +76,8 @@ class Date_model extends MY_model {
             $id = $this->input->post($id_type);
 
             $date_data = array(
-                'date_date' => $this->input->post('date_date'),
+                'date_start' => $this->input->post('date_start'),
+                'date_end' => $this->input->post('date_end'),
                 'datetype_id' => $this->input->post('datetype_id'),
                 'date_linked_to' => $this->input->post('date_linked_to'),
                 'linked_id' => $id,

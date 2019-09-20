@@ -215,8 +215,8 @@ class Event_model extends MY_model {
         }
         
         if (isset($params['entry_date'])) {
-            $this->db->join('dates', "editions.edition_id = dates.linked_id AND dates.date_linked_to='edition' AND datetype_id = 4", 'left');
-            $this->db->where("(date_date BETWEEN '" . $params['date_from'] . "' AND '" . $params['entry_date'] . "')");
+            $this->db->join('dates', "editions.edition_id = dates.linked_id AND dates.date_linked_to='edition' AND datetype_id = 3", 'left');
+            $this->db->where("(date_end BETWEEN '" . $params['date_from'] . "' AND '" . $params['entry_date'] . "')");
         } 
 
         // ONLY ACTIVE 
@@ -335,7 +335,7 @@ class Event_model extends MY_model {
 
                 switch ($field) {
                     case "datetype_id":
-                        $data[$year][$month][$day][$id]['date_arr'][$row[$field]] = $row['date_date'];
+                        $data[$year][$month][$day][$id]['date_arr'][$row[$field]] = $row['date_start'];
                         break;
                     case "race_distance":
                         $value = floatval($row[$field]) . "km";

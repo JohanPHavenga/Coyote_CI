@@ -272,6 +272,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "link",
                     ],
                     [
+                        "text" => "Venues",
+                        "url" => 'admin/venue',
+                        "icon" => "pin",
+                    ],
+                    [
                         "text" => "Dates",
                         "url" => 'admin/date',
                         "icon" => "calendar",
@@ -353,6 +358,11 @@ class Admin_Controller extends MY_Controller {
                         "text" => "Entry Types",
                         "url" => 'admin/entrytype',
                         "icon" => "flag",
+                    ],                    
+                    [
+                        "text" => "Date Types",
+                        "url" => 'admin/datetype',
+                        "icon" => "calendar",
                     ],
                     [
                         "text" => "Race Types",

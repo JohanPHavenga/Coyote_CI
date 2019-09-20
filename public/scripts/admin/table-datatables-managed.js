@@ -174,14 +174,14 @@ var TableDatatablesManaged = function () {
             responsive: true,
             columnDefs: [
                 {orderable: false, targets: [-1]},
-                {searchable: false, targets: [0,3,-1]},
+                {searchable: false, targets: [0, 3, -1]},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: -1},
                 {responsivePriority: 3, targets: 3}
             ]
         });
     };
-    
+
     // History Summary Table
     var initHistorySummaryTable = function () {
         var table = $('#history_summary_table');
@@ -197,7 +197,7 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
-    
+
     var initEditionRacesTable = function () {
         var table = $('#edition_races_table');
         table.dataTable({
@@ -215,7 +215,7 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
-    
+
     var initEditionDatesTable = function () {
         var table = $('#edition_dates_table');
         table.dataTable({
@@ -232,7 +232,7 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
-    
+
     var initEditionUrlTable = function () {
         var table = $('#edition_url_table');
         table.dataTable({
@@ -249,7 +249,7 @@ var TableDatatablesManaged = function () {
             ]
         });
     };
-    
+
     var initEditionFileTable = function () {
         var table = $('#edition_file_table');
         table.dataTable({
@@ -283,6 +283,20 @@ var TableDatatablesManaged = function () {
         });
     };
 
+    // DateType Table
+    var initDateTypeTable = function () {
+        var table = $('#datetype_table');
+        table.dataTable({
+            order: [[0, "asc"]],
+            responsive: true,
+            lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            columnDefs: [
+                {responsivePriority: 1, targets: 1},
+                {responsivePriority: 2, targets: -1},
+            ]
+        });
+    };
+
 
     return {
         //main function to initiate the module
@@ -306,6 +320,7 @@ var TableDatatablesManaged = function () {
             initEditionDatesTable();
             initEditionUrlTable();
             initEditionFileTable();
+            initDateTypeTable();
             initListTable();
         }
     };

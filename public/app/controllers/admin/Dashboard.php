@@ -105,8 +105,8 @@ class Dashboard extends Admin_Controller {
             $entry_date_close_data = $this->event_model->get_event_list_summary("date_range", $params);
             $date_list = $this->date_model->get_date_list("edition",0,true);
             $entry_data = [];
-//            wts($date_list);
 //            wts($entry_date_close_data);
+//            wts($date_list);
 //            die();
             foreach ($entry_date_close_data as $year => $year_list) {
                 foreach ($year_list as $month => $month_list) {
@@ -114,7 +114,7 @@ class Dashboard extends Admin_Controller {
                         foreach ($edition_list as $edition_id => $edition) {
                             $entry_data[$edition_id]['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
                             $entry_data[$edition_id]['merge_url'] = '<a href="/admin/emailmerge/wizard" class="btn btn-xs blue">Mail Merge</a>';
-                            $entry_data[$edition_id]['entry_close'] = strtotime($date_list[4][$edition_id]['date_date']);
+                            $entry_data[$edition_id]['entry_close'] = strtotime($date_list[3][$edition_id]['date_end']);
                         }
                     }
                 }

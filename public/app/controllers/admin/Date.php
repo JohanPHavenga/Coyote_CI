@@ -26,7 +26,7 @@ class Date extends Admin_Controller {
 
 
         $this->data_to_view["date_data"] = $this->date_model->get_date_list();
-        $this->data_to_view['heading'] = ["ID", "Date", "Datetype", "Linked To", "ID", "Actions"];
+        $this->data_to_view['heading'] = ["ID", "Start Date", "End Date", "Datetype", "Linked To", "ID", "Actions"];
 
         $this->data_to_view['create_link'] = $this->create_url;
         $this->data_to_header['title'] = "List of Dates";
@@ -40,7 +40,7 @@ class Date extends Admin_Controller {
         $this->data_to_header['page_action_list'] = [
             [
                 "name" => "Add Date",
-                "icon" => "link",
+                "icon" => "calendar",
                 "uri" => "date/create/add",
             ],
         ];
@@ -132,7 +132,7 @@ class Date extends Admin_Controller {
 
 //        wts($this->data_to_view['date_detail']);
         // set validation rules
-        $this->form_validation->set_rules('date_date', 'Date', 'required|min_length[8]');
+        $this->form_validation->set_rules('date_start', 'Start Date', 'required|min_length[8]');
         $this->form_validation->set_rules('datetype_id', 'Date Type', 'required|greater_than[0]', ["greater_than" => "Please select a Date Type"]);
 
 
@@ -213,9 +213,15 @@ class Date extends Admin_Controller {
         redirect($this->return_url);
     }
 
+    public function delete_group($date_id = 0) {
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
+    }
+
     function exists($linked_type, $linked_id, $datetype_id) {
         return $this->date_model->exists($linked_type, $linked_id, $datetype_id);
     }
-
 
 }

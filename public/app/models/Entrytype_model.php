@@ -12,7 +12,7 @@ class Entrytype_model extends MY_model {
     public function record_count() {
         return $this->db->count_all($this->table);
     }
-    
+
     public function get_entrytype_field_array() {
         $fields = $this->db->list_fields($this->table);
         foreach ($fields as $field) {
@@ -46,7 +46,7 @@ class Entrytype_model extends MY_model {
             foreach ($query->result_array() as $row) {
                 $data[$row['entrytype_id']] = $row['entrytype_name'];
             }
-            move_to_top($data,5);
+            move_to_top($data, 5);
             return $data;
         }
         return false;
@@ -94,10 +94,11 @@ class Entrytype_model extends MY_model {
             return $this->db->trans_status();
         }
     }
-    
-    
+
     public function get_edition_entrytype_list($edition_id = null) {
-        if (!$edition_id) { return false; }
+        if (!$edition_id) {
+            return false;
+        }
         $query = $this->db->get_where('edition_entrytype', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
@@ -123,4 +124,5 @@ class Entrytype_model extends MY_model {
 
         return $id;
     }
+
 }
