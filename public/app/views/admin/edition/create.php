@@ -4,9 +4,6 @@ echo form_open_multipart($form_url);
 <div class="row">
     <div class="col-md-6">
         <?php $this->load->view('/admin/edition/general'); ?>
-        <?php
-        wts($date_list_by_type);
-        ?>
     </div>
     <div class="col-md-6" id="races">
         <?php
@@ -57,6 +54,6 @@ if ($action == "edit") {
 
 <?php
 echo form_close();
-wts($entrytype_list);
-wts($date_list_by_type);
+//wts($entrytype_list);
+//wts($date_list_by_type);
 //wts($status_list);

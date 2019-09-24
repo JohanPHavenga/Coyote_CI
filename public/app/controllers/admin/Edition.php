@@ -147,7 +147,7 @@ class Edition extends Admin_Controller {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
-            $this->data_to_view['date_list_by_type'] = $this->date_model->get_date_list("edition", $edition_id,true);
+            $this->data_to_view['date_list_by_type'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
             $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
@@ -240,36 +240,41 @@ class Edition extends Admin_Controller {
         foreach ($date_list_post as $date_id => $date_array) {
             // hierdie hieronder is slegs om datum te verander soos nodig na die post
             foreach ($date_array as $field => $value) {
+                $datetype_id = $date_list_current[$date_id]['datetype_id'];
                 switch ($datetype_id) {
-//                case "entries_otd_open":
-//                case "entries_otd_close":
-//                    $new_date_array = ["date_date" => fdateShort($edition_info['edition_date']) . " " . $date[$field_to_unset] . ":00"];
-//                    break;
-//                case "entries_pre_close":
-//                    $new_date_array = ["date_date" => fdateShort($edition_info['edition_date']) . " " . $date[$field_to_unset] . ":00"];
-//                    break;
-//                case "entries_pre_open":
-//                    $new_date_array = [
-//                        "date_date" => $date[$field_to_unset],
-//                        "venue_id" => $date["venue_id"],
-//                    ];
-//                    break;
+                    case 4:
+                        if ($field == "date_end") {
+                            $new_date_array["date_end"] = fdateShort($date_array['date_start']) . " " . $value . ":00";
+                        } else {
+                            $new_date_array[$field] = $value;
+                        }
+                        break;
+                    case 6:
+                        $new_date_array[$field] = fdateShort($edition_info['edition_date']) . " " . $value . ":00";
+                        break;
                     default:
                         $new_date_array[$field] = $value;
                         break;
                 }
             }
-
             $combine = array_merge($date_list_current[$date_id], $new_date_array);
             $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_group', 'datetype_status'];
             $date_data = array_diff_key($combine, array_flip($remove));
-//            wts($date_list_post);
-//            wts($date_list_current);
-//            wts($new_date_array);
-//            wts($combine);
-//            wts($date_data);
-//            die();
+
             $this->date_model->set_date("edit", $date_id, $date_data);
+            if ($date_id == 0) {
+                echo "POST";
+                wts($date_list_post);
+                echo "NEW DATE ARRAY";
+                wts($new_date_array);
+                echo "COMBINE";
+                wts($combine);
+                echo "WHAT WILL BE WRITTEN TO DB";
+                wts($date_data);
+                echo "CURRENT DATE LIST";
+                wts($date_list_current);
+                die();
+            }
         }
     }
 
@@ -298,6 +303,10 @@ class Edition extends Admin_Controller {
         // OTD entries
         if (in_array(1, $entrytype_list)) {
             $datetype_id_list[] = 6;
+        }
+        // Manual entries
+        if (in_array(2, $entrytype_list)) {
+            $datetype_id_list[] = 5;
         }
         // check if dates is loaded, else add
         foreach ($datetype_id_list as $datetype_id) {

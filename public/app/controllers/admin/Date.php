@@ -179,7 +179,7 @@ class Date extends Admin_Controller {
 
         // set return date to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url."#dates_flat";
         }
 
         if (($date_id == 0) AND ( !is_int($date_id))) {
@@ -194,12 +194,6 @@ class Date extends Admin_Controller {
         // delete record
         $db_del = $this->date_model->remove_date($date_id);
 
-        // check results flag
-        $results_link_arr = ['edition', 'race'];
-        if (in_array($date_detail['date_linked_to'], $results_link_arr)) {
-            $set = $this->set_results_flag($date_detail['date_linked_to'], $date_detail['linked_id']);
-        }
-
         if ($db_del) {
             $msg = "Date has successfully been deleted: " . $date_detail['date_name'];
             $status = "success";
@@ -211,6 +205,28 @@ class Date extends Admin_Controller {
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
+    }
+
+    public function copy($date_id) {
+
+        // set return date to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
+        
+        $new_date_id = $this->date_model->copy($date_id);
+
+        if ($new_date_id) {
+            $msg = "Date has successfully copied";
+            $status = "success";
+        } else {
+            $msg = "Error trying to copy date ID:'.$date_id";
+            $status = "danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url."#dates_flat");
     }
 
     public function delete_group($date_id = 0) {

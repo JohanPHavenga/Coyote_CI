@@ -26,7 +26,7 @@ class Date_model extends MY_model {
         return false;
     }
 
-    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type = false) {
+    public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type_linked_id = false, $by_date__only = false) {
         $this->db->select("*");
         $this->db->join("datetypes", "datetype_id");
         $this->db->from("dates");
@@ -40,8 +40,9 @@ class Date_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                if ($by_date_type) {
-//                    $date_list[$row['datetype_id']][$row["linked_id"]] = $row;
+                if ($by_date_type_linked_id) {
+                    $date_list[$row['datetype_id']][$row["linked_id"]] = $row;
+                } elseif ($by_date__only) {
                     $date_list[$row['datetype_id']][] = $row;
                 } else {
                     $date_list[$row['date_id']] = $row;
@@ -145,6 +146,33 @@ class Date_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             return $query->row_array();
+        } else {
+            return false;
+        }
+    }
+    
+    public function copy($id) {
+        /* generate the select query */
+        $this->db->where('date_id', $id);
+        $query = $this->db->get('dates');
+
+        foreach ($query->result() as $row) {
+            foreach ($row as $key => $val) {
+                if ($key != 'date_id') {
+                    /* $this->db->set can be used instead of passing a data array directly to the insert or update functions */
+                    $this->db->set($key, $val);
+                }//endif              
+            }//endforeach
+        }//endforeach
+
+        /* insert the new record into table */
+        $this->db->trans_start();
+        $this->db->insert('dates');
+        $date_id = $this->db->insert_id();
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status()) {
+            return $date_id;
         } else {
             return false;
         }
