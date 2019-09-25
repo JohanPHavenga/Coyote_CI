@@ -2,18 +2,22 @@
 
 class Sponsor_model extends MY_model {
 
+    public $table = "sponsors";
+    public $no_info_id = 4;
+
     public function __construct() {
         parent::__construct();
         $this->load->database();
     }
 
     public function record_count() {
-        return $this->db->count_all("sponsors");
+        return $this->db->count_all($this->table);
     }
 
     public function get_sponsor_list() {
         $this->db->select("sponsors.*");
-        $this->db->from("sponsors");
+        $this->db->from($this->table);
+        $this->db->where("sponsor_status",1);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -27,7 +31,7 @@ class Sponsor_model extends MY_model {
 
     public function get_sponsor_dropdown() {
         $this->db->select("sponsor_id, sponsor_name");
-        $this->db->from("sponsors");
+        $this->db->from($this->table);
         $this->db->order_by("sponsor_name");
         $query = $this->db->get();
 
@@ -36,7 +40,7 @@ class Sponsor_model extends MY_model {
             foreach ($query->result_array() as $row) {
                 $data[$row['sponsor_id']] = $row['sponsor_name'];
             }
-            move_to_top($data, 4);
+            move_to_top($data, $this->no_info_id);
             return $data;
         }
         return false;
@@ -46,7 +50,7 @@ class Sponsor_model extends MY_model {
         if (!($id)) {
             return false;
         } else {
-            $query = $this->db->get_where('sponsors', array('sponsor_id' => $id));
+            $query = $this->db->get_where($this->table, array('sponsor_id' => $id));
 
             if ($query->num_rows() > 0) {
                 return $query->row_array();
@@ -64,7 +68,7 @@ class Sponsor_model extends MY_model {
         switch ($action) {
             case "add":
                 $this->db->trans_start();
-                $this->db->insert('sponsors', $data);
+                $this->db->insert($this->table, $data);
                 $sponsor_id = $this->db->insert_id();
                 $this->db->trans_complete();
                 break;
@@ -73,7 +77,7 @@ class Sponsor_model extends MY_model {
 
                 // start SQL transaction
                 $this->db->trans_start();
-                $this->db->update('sponsors', $data, array('sponsor_id' => $sponsor_id));
+                $this->db->update($this->table, $data, array('sponsor_id' => $sponsor_id));
                 $this->db->trans_complete();
                 break;
             default:
@@ -94,7 +98,7 @@ class Sponsor_model extends MY_model {
             return false;
         } else {
             $this->db->trans_start();
-            $this->db->delete('sponsors', array('sponsor_id' => $id));
+            $this->db->delete($this->table, array('sponsor_id' => $id));
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
@@ -109,9 +113,10 @@ class Sponsor_model extends MY_model {
             foreach ($query->result_array() as $row) {
                 $data[] = $row['sponsor_id'];
             }
-            return $data;
+        } else {
+            $data = [$this->no_info_id];
         }
-        return false;
+        return $data;
     }
 
     public function set_edition_sponsor($edition_id, $sponsor_id) {

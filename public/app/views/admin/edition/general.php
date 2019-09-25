@@ -176,7 +176,7 @@
             </div>
         </div>
 
-        <!-- SPONSORS / ENTRY TYPES -->
+        <!-- SPONSORS / ENTRY TYPES / REG TYPES -->
         <div class="form-group">
             <div class="row">
                 <div class='col-sm-5'>
@@ -186,11 +186,18 @@
                             ["id" => "sponsor_id", "class" => "form-control", "size" => 5]);
                     ?>
                 </div>
-                <div class='col-sm-5'>
+                <div class='col-sm-3'>
                     <?php
                     echo form_label('Entry Types', 'entry_types');
                     echo form_multiselect('entrytype_id[]', $entrytype_dropdown, set_value('entrytype_id', $entrytype_list),
                             ["id" => "entrytype_id", "class" => "form-control", "size" => 5]);
+                    ?>
+                </div>
+                <div class='col-sm-3'>
+                    <?php
+                    echo form_label('Registration Types', 'reg_types');
+                    echo form_multiselect('regtype_id[]', $regtype_dropdown, set_value('regtype_id', $regtype_list),
+                            ["id" => "regtype_id", "class" => "form-control", "size" => 3]);
                     ?>
                 </div>
             </div>
@@ -236,6 +243,33 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class='form-group'>
+            <div class="row">
+                <div class='col-sm-12'>
+                    <?php
+                    //  Event Intro
+                    echo form_label('Event Intro', 'edition_intro_detail');
+                    echo form_textarea([
+                        'name' => 'edition_intro_detail',
+                        'id' => 'edition_intro_detail',
+                        'value' => set_value('edition_intro_detail', @$edition_detail['edition_intro_detail'], false),
+                    ]);
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-sm-12'>
+                    <?php
+                    echo form_label('General Information', 'edition_general_detail');
+                    echo form_textarea([
+                        'name' => 'edition_general_detail',
+                        'id' => 'edition_description',
+                        'value' => set_value('edition_general_detail', @$edition_detail['edition_general_detail'], false),
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
 
-</div> <!-- close portlet -->
+    </div> <!--close portlet body -->
+</div> <!--close portlet -->

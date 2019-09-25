@@ -3,15 +3,18 @@ echo form_open_multipart($form_url);
 ?>
 <div class="row">
     <div class="col-md-6">
-        <?php $this->load->view('/admin/edition/general'); ?>
+        <?php
+        $this->load->view('/admin/edition/general');
+        if ($action == "edit") {
+            
+        }
+        ?>
     </div>
     <div class="col-md-6" id="races">
         <?php
         if ($action == "edit") {
-            $this->load->view('/admin/edition/races');
-            $this->load->view('/admin/edition/dates');
-        } else {
-            $this->load->view('/admin/edition/more_information');
+            $this->load->view('/admin/edition/dates_entry');
+            $this->load->view('/admin/edition/dates_registration');
         }
         ?>
     </div> 
@@ -22,12 +25,16 @@ if ($action == "edit") {
     ?>
     <div class="row">
         <div class="col-md-6">
-            <?php $this->load->view('/admin/edition/more_information'); ?>
+            <?php
+            $this->load->view('/admin/edition/races');
+            ?>
         </div>
         <div class="col-md-6">    
-            <?php $this->load->view('/admin/edition/urls'); ?>
-            <?php $this->load->view('/admin/edition/files'); ?>
-            <?php $this->load->view('/admin/edition/created_updated'); ?>
+            <?php
+            $this->load->view('/admin/edition/urls');
+            $this->load->view('/admin/edition/files');
+            $this->load->view('/admin/edition/created_updated');
+            ?>
         </div> 
     </div> 
     <?php
@@ -54,6 +61,6 @@ if ($action == "edit") {
 
 <?php
 echo form_close();
-//wts($entrytype_list);
-//wts($date_list_by_type);
+wts($regtype_list);
+wts($date_list_by_type);
 //wts($status_list);

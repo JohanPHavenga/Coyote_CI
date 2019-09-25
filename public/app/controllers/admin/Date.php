@@ -175,11 +175,11 @@ class Date extends Admin_Controller {
         }
     }
 
-    public function delete($date_id = 0) {
+    public function delete($date_id = 0, $hash = null) {
 
         // set return date to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url."#dates_flat";
+            $this->return_url = $this->session->edition_return_url . "#".$hash;
         }
 
         if (($date_id == 0) AND ( !is_int($date_id))) {
@@ -207,13 +207,13 @@ class Date extends Admin_Controller {
         redirect($this->return_url);
     }
 
-    public function copy($date_id) {
+    public function copy($date_id, $hash = null) {
 
         // set return date to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url. "#" . $hash;
         }
-        
+
         $new_date_id = $this->date_model->copy($date_id);
 
         if ($new_date_id) {
@@ -226,7 +226,7 @@ class Date extends Admin_Controller {
 
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
-        redirect($this->return_url."#dates_flat");
+        redirect($this->return_url);
     }
 
     public function delete_group($date_id = 0) {

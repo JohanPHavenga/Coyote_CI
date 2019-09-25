@@ -346,6 +346,8 @@ class Edition_model extends MY_model {
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => $this->input->post('sponsor_id')];
             // edition entrytype
             $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => $this->input->post('entrytype_id')];
+            // edition regtype
+            $edition_regtype_data = ["edition_id" => $edition_id, "regtype_id" => $this->input->post('regtype_id')];
             // edition user
             $edition_user_data = ["edition_id" => $edition_id, "user_id" => $this->input->post('user_id')];
             // ASA member
@@ -356,6 +358,7 @@ class Edition_model extends MY_model {
 
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => [4]];
             $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => [5]];
+            $edition_regytype_data = ["edition_id" => $edition_id, "entrytype_id" => [3]];
             // check if user_id is sent;
             if (@$edition_data['user_id']) {
                 $user_id = $edition_data['user_id'];
@@ -409,6 +412,14 @@ class Edition_model extends MY_model {
                         ];
                         $this->db->insert('edition_entrytype', $insert_array);
                     }
+                    // update regtype array
+                    foreach ($edition_regtype_data['regtype_id'] as $regtype_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "regtype_id" => $regtype_id,
+                        ];
+                        $this->db->insert('edition_regtype', $insert_array);
+                    }
                     // update user array
                     $edition_user_data["edition_id"] = $edition_id;
                     $this->db->insert('edition_user', $edition_user_data);
@@ -442,6 +453,15 @@ class Edition_model extends MY_model {
                             "entrytype_id" => $entrytype_id,
                         ];
                         $this->db->insert('edition_entrytype', $insert_array);
+                    }
+                    // EDITION REGTYPE UPDATE
+                    $this->db->delete('edition_regtype', array('edition_id' => $edition_id));
+                    foreach ($edition_regtype_data['regtype_id'] as $regtype_id) {
+                        $insert_array = [
+                            "edition_id" => $edition_id,
+                            "regtype_id" => $regtype_id,
+                        ];
+                        $this->db->insert('edition_regtype', $insert_array);
                     }
                     // EDITION USER CHECK
                     // check if record already exists

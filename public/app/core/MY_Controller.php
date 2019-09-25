@@ -46,7 +46,7 @@ class MY_Controller extends CI_Controller {
         }
         return $return_name;
     }
-    
+
     public function chronologise_data($data_arr, $date_field) {
         $return_data = [];
         foreach ($data_arr as $id => $row) {
@@ -358,7 +358,12 @@ class Admin_Controller extends MY_Controller {
                         "text" => "Entry Types",
                         "url" => 'admin/entrytype',
                         "icon" => "flag",
-                    ],                    
+                    ],
+                    [
+                        "text" => "Registration Types",
+                        "url" => 'admin/regtype',
+                        "icon" => "bell",
+                    ],
                     [
                         "text" => "Date Types",
                         "url" => 'admin/datetype',

@@ -75,10 +75,8 @@ class Edition extends Admin_Controller {
             $this->data_to_view['delete_url'] = "/admin/edition/delete/" . $edition_id;
         }
         // additional models
-        $this->load->model('sponsor_model');
-        $this->load->model('entrytype_model');
-        $this->load->model('user_model');
         $this->load->model('event_model');
+        $this->load->model('user_model');
         $this->load->model('race_model');
         $this->load->model('racetype_model');
         $this->load->model('venue_model');
@@ -86,6 +84,9 @@ class Edition extends Admin_Controller {
         $this->load->model('url_model');
         $this->load->model('file_model');
         $this->load->model('asamember_model');
+        $this->load->model('sponsor_model');
+        $this->load->model('entrytype_model');
+        $this->load->model('regtype_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -131,17 +132,20 @@ class Edition extends Admin_Controller {
 
         // GET DATA TO SEND TO VIEW
         $this->data_to_view['contact_dropdown'] = $this->user_model->get_user_dropdown(3);
-        $this->data_to_view['sponsor_dropdown'] = $this->sponsor_model->get_sponsor_dropdown();
-        $this->data_to_view['entrytype_dropdown'] = $this->entrytype_model->get_entrytype_dropdown();
         $this->data_to_view['event_dropdown'] = $this->event_model->get_event_dropdown();
         $this->data_to_view['status_dropdown'] = $this->event_model->get_status_list("main");
         $this->data_to_view['status_list'] = $this->event_model->get_status_list();
         $this->data_to_view['info_status_dropdown'] = $this->event_model->get_status_list("info");
         $this->data_to_view['asamember_dropdown'] = $this->asamember_model->get_asamember_dropdown();
+        $this->data_to_view['sponsor_dropdown'] = $this->sponsor_model->get_sponsor_dropdown();
+        $this->data_to_view['entrytype_dropdown'] = $this->entrytype_model->get_entrytype_dropdown();
+        $this->data_to_view['regtype_dropdown'] = $this->regtype_model->get_regtype_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
         $this->data_to_view['venue_dropdown'] = $this->venue_model->get_venue_dropdown();
+        
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
+        $this->data_to_view['regtype_list'] = $this->regtype_model->get_edition_regtype_list($edition_id);
 
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
@@ -176,6 +180,7 @@ class Edition extends Admin_Controller {
         $this->form_validation->set_rules('edition_gps', 'GPS', 'trim|required');
         $this->form_validation->set_rules('sponsor_id[]', 'Sponsor', 'required');
         $this->form_validation->set_rules('entrytype_id[]', 'Entry Type', 'required');
+        $this->form_validation->set_rules('regtype_id[]', 'Registration Type', 'required');
         $this->form_validation->set_rules('user_id', 'Contact Person', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Contact Person"]);
 
         // load correct view
@@ -205,7 +210,7 @@ class Edition extends Admin_Controller {
                     }
                 }
                 // DATES checks
-                $this->check_start_end_dates($id, $new_edition_detail['edition_date'], $this->input->post('entrytype_id'));
+                $this->check_start_end_dates($id, $new_edition_detail['edition_date'], $this->input->post('entrytype_id'), $this->input->post('regtype_id'));
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -243,6 +248,7 @@ class Edition extends Admin_Controller {
                 $datetype_id = $date_list_current[$date_id]['datetype_id'];
                 switch ($datetype_id) {
                     case 4:
+                    case 10:
                         if ($field == "date_end") {
                             $new_date_array["date_end"] = fdateShort($date_array['date_start']) . " " . $value . ":00";
                         } else {
@@ -250,6 +256,7 @@ class Edition extends Admin_Controller {
                         }
                         break;
                     case 6:
+                    case 9:
                         $new_date_array[$field] = fdateShort($edition_info['edition_date']) . " " . $value . ":00";
                         break;
                     default:
@@ -288,7 +295,7 @@ class Edition extends Admin_Controller {
         return $valid;
     }
 
-    private function check_start_end_dates($e_id, $edition_date, $entrytype_list) {
+    private function check_start_end_dates($e_id, $edition_date, $entrytype_list, $regtype_list) {
         $this->load->model('date_model');
 
         $datetype_id_list = [1]; // edition start and end dates
@@ -307,6 +314,14 @@ class Edition extends Admin_Controller {
         // Manual entries
         if (in_array(2, $entrytype_list)) {
             $datetype_id_list[] = 5;
+        }
+        // OTD registration
+        if (in_array(1, $regtype_list)) {
+            $datetype_id_list[] = 9;
+        }
+        // PRE registration
+        if (in_array(2, $regtype_list)) {
+            $datetype_id_list[] = 10;
         }
         // check if dates is loaded, else add
         foreach ($datetype_id_list as $datetype_id) {
