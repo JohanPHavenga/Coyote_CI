@@ -13,8 +13,9 @@ var ComponentsEditors = function () {
     }
 
     var handleSummernote = function () {
-        $('#edition_description').summernote({height: 200});
-        $('#edition_entry_detail').summernote({height: 200});
+        $('#edition_description').summernote({height: 150});
+        $('#edition_entry_detail').summernote({height: 150});
+        $('#edition_reg_detail').summernote({height: 150});
         $('#edition_intro_detail').summernote({height: 100});
 //        $('#edition_address').summernote({
 //            toolbar: [

@@ -171,6 +171,21 @@
             }
         }
         ?>
+        <div class="form-group">
+            <div class="row">
+                <div class='col-sm-12'>
+                    <?php
+                    echo form_label('Registration Details', 'edition_reg_detail');
+                    echo form_textarea([
+                        'name' => 'edition_reg_detail',
+                        'id' => 'edition_reg_detail',
+                        'value' => set_value('edition_reg_detail', $edition_detail['edition_reg_detail'], false),
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>
 

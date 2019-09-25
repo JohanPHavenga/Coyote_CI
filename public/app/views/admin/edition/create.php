@@ -13,8 +13,8 @@ echo form_open_multipart($form_url);
     <div class="col-md-6" id="races">
         <?php
         if ($action == "edit") {
-            $this->load->view('/admin/edition/dates_entry');
-            $this->load->view('/admin/edition/dates_registration');
+            $this->load->view('/admin/edition/entry');
+            $this->load->view('/admin/edition/registration');
         }
         ?>
     </div> 
