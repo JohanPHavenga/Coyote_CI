@@ -78,7 +78,7 @@ class Event extends Frontend_Controller {
             redirect("calendar");
             die();
         }
-        
+
         $this->session->set_flashdata(["last_visited_event" => $edition_name]);    // edition in session vir contact form // this is old way, should read from full session data below
         // get basic edition data and add it to session
         $basic_edition_detail = $this->edition_model->get_edition_url_from_id($edition_id);
@@ -206,6 +206,8 @@ class Event extends Frontend_Controller {
         $bc = 0;
         $this->data_to_view['box_color'] = $box_color_arr[$bc];
 
+//        wts($this->data_to_view['event_detail']);
+//        die();
         // -------------------------------------------------------------------------------------------------
         // LOAD VIEWS         
         // -------------------------------------------------------------------------------------------------

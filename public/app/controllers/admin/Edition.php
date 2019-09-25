@@ -418,19 +418,20 @@ class Edition extends Admin_Controller {
 
         // create start and end DATES
         $date_data = [
-            'date_date' => $edition_data['edition_date'],
+            'date_start' => $edition_data['edition_date'],
+            'date_end' => $edition_data['edition_date'],
             'datetype_id' => 1,
             'date_linked_to' => "edition",
             'linked_id' => $e_id,
         ];
         $this->date_model->set_date("add", NULL, $date_data, false);
-        $date_data = [
-            'date_date' => $edition_data['edition_date'],
-            'datetype_id' => 2,
-            'date_linked_to' => "edition",
-            'linked_id' => $e_id,
-        ];
-        $this->date_model->set_date("add", NULL, $date_data, false);
+//        $date_data = [
+//            'date_date' => $edition_data['edition_date'],
+//            'datetype_id' => 2,
+//            'date_linked_to' => "edition",
+//            'linked_id' => $e_id,
+//        ];
+//        $this->date_model->set_date("add", NULL, $date_data, false);
 
         // copy LOGO over
         if (isset($file_list[1])) {

@@ -1,18 +1,17 @@
 <?php
 $id=$event_detail['edition_id'];
 $start_date=fdateShort($event_detail['edition_date']);
-$end_date=fdateShort($event_detail['date_list'][2][$id]['date_date']);
+//$start_date=fdateShort($event_detail['date_list'][1][$id]['date_start']); // top one TBR
+$end_date=fdateShort($event_detail['date_list'][1][$id]['date_end']);
 $today_date=date("Y-m-d").'T'."00:00:00+02:00";
 
+// Online entries
 if (isset($event_detail['date_list'][3])) {
-    $valid_from_date= fdateStructured($event_detail['date_list'][3][$id]['date_date']);  
+    $valid_from_date= fdateStructured($event_detail['date_list'][3][$id]['date_start']); 
+    $valid_to_date= fdateStructured($event_detail['date_list'][3][$id]['date_end']); 
 } else {
     $valid_from_date=fdateStructured(date("Y-m-d")); 
-}
-if (isset($event_detail['date_list'][4])) {
-    $valid_to_date= fdateStructured($event_detail['date_list'][3][$id]['date_date']); 
-} else {
-    $valid_to_date=$end_date.'T'."23:59:59+02:00";
+    $valid_to_date=$end_date.'T'."08:00:00+02:00";
 }
 ?>
         
