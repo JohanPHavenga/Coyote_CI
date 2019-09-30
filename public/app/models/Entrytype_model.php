@@ -104,7 +104,7 @@ class Entrytype_model extends MY_model {
         $query = $this->db->get_where('edition_entrytype', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[] = $row['entrytype_id'];
+                $data[$row['entrytype_id']] = $row['entrytype_id'];
             }
         } else {
             $data = [$this->no_info_id];

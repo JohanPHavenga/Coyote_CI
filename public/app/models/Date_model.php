@@ -27,9 +27,11 @@ class Date_model extends MY_model {
     }
 
     public function get_date_list($linked_to = NULL, $linked_id = 0, $by_date_type_linked_id = false, $by_date__only = false) {
-        $this->db->select("*");
+        $this->db->select("dates.*, datetypes.*, venue_name");
         $this->db->join("datetypes", "datetype_id");
+        $this->db->join("venues", "venue_id", "left");
         $this->db->from("dates");
+        $this->db->order_by("date_start");
         if ($linked_to) {
             $this->db->where('date_linked_to', $linked_to);
         }

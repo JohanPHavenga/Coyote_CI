@@ -142,7 +142,7 @@ class Edition extends Admin_Controller {
         $this->data_to_view['regtype_dropdown'] = $this->regtype_model->get_regtype_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
         $this->data_to_view['venue_dropdown'] = $this->venue_model->get_venue_dropdown();
-        
+
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
         $this->data_to_view['regtype_list'] = $this->regtype_model->get_edition_regtype_list($edition_id);
@@ -265,7 +265,7 @@ class Edition extends Admin_Controller {
                 }
             }
             $combine = array_merge($date_list_current[$date_id], $new_date_array);
-            $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_group', 'datetype_status'];
+            $remove = ['created_date', 'updated_date', 'datetype_name', 'datetype_display', 'datetype_status', 'venue_name'];
             $date_data = array_diff_key($combine, array_flip($remove));
 
             $this->date_model->set_date("edit", $date_id, $date_data);
@@ -432,7 +432,6 @@ class Edition extends Admin_Controller {
 //            'linked_id' => $e_id,
 //        ];
 //        $this->date_model->set_date("add", NULL, $date_data, false);
-
         // copy LOGO over
         if (isset($file_list[1])) {
             $file_data = $file_list[1][0];
@@ -694,6 +693,44 @@ class Edition extends Admin_Controller {
 
         echo "Done<br>";
         echo "<b>" . $n . "</b> address fields were updated<br>";
+    }
+
+    // set registration & entry type
+    function set_entrytype_regtype_sponsor() {
+        $this->load->model('regtype_model');
+        $this->load->model('entrytype_model');
+        $this->load->model('sponsor_model');
+        $this->load->model('edition_model');
+        $edition_list = $this->edition_model->get_edition_list_new();
+        $e = $s = $r = 0;
+        foreach ($edition_list as $e_id => $edition) {
+            // REG TYPE
+            $regtype_list = $this->regtype_model->get_edition_regtype_list($e_id);
+            // if no reg_type
+            if (key($regtype_list) == 0) {
+                $this->regtype_model->set_edition_regtype($e_id, 3);
+                $r++;
+            }
+            // ENTRY TYPE
+            $entrytype_list = $this->entrytype_model->get_edition_entrytype_list($e_id);
+            // if no entry_type
+            if (key($entrytype_list) == 0) {
+                $this->entrytype_model->set_edition_entrytype($e_id, 5);
+                $e++;
+            }
+            // SPONSOR
+            $sponsor_list = $this->sponsor_model->get_edition_sponsor_list($e_id);
+            // if no reg_type
+            if (key($sponsor_list) == 0) {
+                $this->sponsor_model->set_edition_sponsor($e_id, 4);
+                $s++;
+            }
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $r . "</b> regtypes fields were updated<br>";
+        echo "<b>" . $e . "</b> entrytypes fields were updated<br>";
+        echo "<b>" . $s . "</b> sponsors fields were updated<br>";
     }
 
 }

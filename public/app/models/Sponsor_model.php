@@ -111,7 +111,7 @@ class Sponsor_model extends MY_model {
         $query = $this->db->get_where('edition_sponsor', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[] = $row['sponsor_id'];
+                $data[$row['sponsor_id']] = $row['sponsor_id'];
             }
         } else {
             $data = [$this->no_info_id];

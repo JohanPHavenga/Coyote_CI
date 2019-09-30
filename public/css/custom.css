@@ -228,6 +228,9 @@ td.badges {
 }
 .alert a:hover { text-decoration: none; }
 
+li.red, li span.red { color: red; }
+li.em { font-weight: bold; }
+
 @media (min-width: 992px) {
     .c-layout-header .c-brand {
         margin-top: 32px;

@@ -3,8 +3,8 @@
         <div class="c-content-subscribe-form-1">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="c-title c-font-30 c-font-uppercase c-font-bold">Subscribe to this event</h3>
-                    <div class="c-body c-font-16 c-font-uppercase c-font-sbold">Get an email in your inbox when information is updated for this event, entry opens, results are published and more</div>
+                    <h3 class="c-title c-font-30 c-font-uppercase c-font-bold">Want an update or reminder?</h3>
+                    <div class="c-body c-font-16 c-font-uppercase c-font-sbold">Subscribe to the event and get an email in your inbox when information is updated, entries open or when results are published for this event</div>
                 </div>
                 <div class="col-sm-6">
                     <form action="<?=base_url("event/subscribe");?>" method="post">

@@ -339,6 +339,7 @@ class Edition_model extends MY_model {
                 'edition_isfeatured' => $edition_isfeatured,
                 'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                 'edition_entry_detail' => $this->input->post('edition_entry_detail'),
+                'edition_reg_detail' => $this->input->post('edition_reg_detail'),
                 'edition_general_detail' => $this->input->post('edition_general_detail'),
                 'edition_slug' => url_title($this->input->post('edition_name')),
             );

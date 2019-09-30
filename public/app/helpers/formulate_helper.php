@@ -104,10 +104,14 @@ if (!function_exists('fdateHuman')) {
 
 if (!function_exists('fdateHumanFull')) {
 
-    function fdateHumanFull($date, $show_dotw = FALSE) {
+    function fdateHumanFull($date, $show_dotw = false, $inc_time = false) {
         if ($date > 0) {
             if ($show_dotw) {
-                return date("l, j F Y", strtotime($date));
+                if ($inc_time) {
+                    return date("l, j F Y H\hi", strtotime($date));
+                } else {
+                    return date("l, j F Y", strtotime($date));
+                }
             } else {
                 return date("j F Y", strtotime($date));
             }
@@ -154,6 +158,18 @@ if (!function_exists('ftimeSort')) {
     function ftimeSort($time) {
         if ($time) {
             return date("H:i", strtotime($time));
+        } else {
+            return 0;
+        }
+    }
+
+}
+
+if (!function_exists('ftimeMil')) {
+
+    function ftimeMil($time) {
+        if ($time) {
+            return date("H\hi", strtotime($time));
         } else {
             return 0;
         }

@@ -104,7 +104,7 @@ class Regtype_model extends MY_model {
         $query = $this->db->get_where('edition_regtype', array('edition_id' => $edition_id));
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $data[] = $row['regtype_id'];
+                $data[$row['regtype_id']] = $row['regtype_id'];
             }
         } else {
             $data = [$this->no_info_id];

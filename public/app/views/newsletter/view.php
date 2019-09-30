@@ -121,7 +121,7 @@
                             <div class="btn-group">
                                 <a class="btn c-theme-btn c-btn-uppercase btn-sm c-btn-bold c-margin-t-20" href="/contact">
                                     <i class="icon-bubble"></i>
-                                    Given a piece of your mind</a>
+                                    Give us a piece of your mind</a>
                             </div>
                         </div>
                     </div>

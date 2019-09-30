@@ -27,6 +27,8 @@ class Event extends Frontend_Controller {
         $this->load->model('file_model');
         $this->load->model('url_model');
         $this->load->model('date_model');
+        $this->load->model('entrytype_model');
+        $this->load->model('regtype_model');
 
         // as daar nie 'n edition_name deurgestuur word nie
         if ($slug == "index") {
@@ -136,7 +138,9 @@ class Event extends Frontend_Controller {
         $this->data_to_view['event_detail']['summary'] = $this->event_model->get_event_list_summary("id", ["edition_id" => $this->data_to_view['event_detail']['edition_id']]);
         $this->data_to_view['event_detail']['file_list'] = $this->file_model->get_file_list("edition", $edition_id, true);
         $this->data_to_view['event_detail']['url_list'] = $this->url_model->get_url_list("edition", $edition_id, true);
-        $this->data_to_view['event_detail']['date_list'] = $this->date_model->get_date_list("edition", $edition_id, true);
+        $this->data_to_view['event_detail']['date_list'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
+        $this->data_to_view['event_detail']['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);
+        $this->data_to_view['event_detail']['regtype_list'] = $this->regtype_model->get_edition_regtype_list($edition_id);
         $this->data_to_view['event_detail']['sponsor_url_list'] = $this->url_model->get_url_list("sponsor", $this->data_to_view['event_detail']['sponsor_id'], false);
         $this->data_to_view['event_detail']['club_url_list'] = $this->url_model->get_url_list("club", $this->data_to_view['event_detail']['club_id'], false);
         // get event history / furture
@@ -224,7 +228,8 @@ class Event extends Frontend_Controller {
         $this->data_to_view['box_color'] = $box_color_arr[$bc];
 
         // Entry Detail
-        if (strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 10) {
+        if ((strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 10) || // top one TBR in time
+                (!in_array(5,$this->data_to_view['event_detail']['entrytype_list']))) {
             $this->load->view("/event/detail_event_info_entry", $this->data_to_view);
             $bc = !$bc;
             $this->data_to_view['box_color'] = $box_color_arr[$bc];

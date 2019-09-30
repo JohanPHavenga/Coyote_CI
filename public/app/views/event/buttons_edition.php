@@ -4,7 +4,7 @@ if ($calc_edition_urls) {
     echo '<div class="btn-group">';
     // ENTRY
     if (isset($date_list[3])) {
-        if (strtotime($date_list[4][$edition_id]["date_end"]) < strtotime("now")) {
+        if (strtotime($date_list[3][0]["date_end"]) < strtotime("now")) {
             echo '<a href="" target="_blank" class="' . $button_class . '" title="Online Entries Closed" disabled>Entries Closed</a>';
         } else {
             echo '<a href="' . $calc_edition_urls[5] . '" target="_blank" class="' . $button_class . '">Enter Online</a>';
