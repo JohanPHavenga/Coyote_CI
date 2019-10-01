@@ -26,7 +26,7 @@ class Venue extends Admin_Controller {
         $this->data_to_view['heading'] = ["ID", "Venue", "Province", "Status", "Actions"];
 
         $this->data_to_view['create_link'] = $this->create_url;
-        $this->data_to_header['title'] = "List of RaceTypes";
+        $this->data_to_header['title'] = "List of Venues";
         $this->data_to_header['crumbs'] = [
             "Home" => "/admin",
             "Venue" => "/admin/venue",

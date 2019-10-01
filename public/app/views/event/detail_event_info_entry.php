@@ -21,7 +21,7 @@
 
                         // OTD entries
                         if (isset($event_detail['entrytype_list'][1])) {
-                            echo "<li>Entries will be taken <span class='red'>on the day</span> from <b>" .
+                            echo "<li>Entries will be taken <span class='red'><b>on the day</b></span> from <b>" .
                             ftimeMil($event_detail['date_list'][6][0]['date_start']);
                             if (!time_is_midnight($event_detail['date_list'][6][0]['date_end'])) {
                                 echo " - " . ftimeMil($event_detail['date_list'][6][0]['date_end']);
@@ -29,6 +29,14 @@
                             echo "</b></li>";
                         } else {
                             echo "<li class='red em'>No entrires avaialble on race day</li>";
+                        }
+                        
+                        // Manual entries
+                        if (isset($event_detail['entrytype_list'][2])) {
+                            if (!empty($event_detail['date_list'][5][0]['venue_name'])) {
+                                echo "<li>Pre-Entries can also be completed at ".$event_detail['date_list'][5][0]['venue_name']."</li>";
+                            }
+                            echo "<li>Closing date for manual pre-entries is <u>".fdateHumanFull($event_detail['date_list'][5][0]['date_end'], true, true)."</u></li>";                            
                         }
 
                         // PRE entries

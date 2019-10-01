@@ -201,33 +201,33 @@
                 ?>
                 <div class="form-group">
                     <div class="row">
-                        <div class='col-sm-4'>
+                        <!--<div class='col-sm-4'>-->
                             <?php
-                            $field = "date_start";
-                            $display = "Open";
-                            $error_value = $edition_detail['edition_date'];
-                            $field_id = $field . "_" . $date_id;
-                            $field_name = 'dates[' . $date_id . '][' . $field . ']';
-                            echo form_label($date_detail['datetype_display'] . " " . $display, $field_id);
-                            $form_input_array = [
-                                'name' => 'dates[' . $date_id . '][' . $field . ']',
-                                'id' => $field_id,
-                                'class' => 'form-control form_datetime',
-                                'value' => set_value($field_name, fdateLong($date_detail[$field], false)),
-                            ];
-                            if ($date_detail[$field] == $error_value) {
-                                $form_input_array['class'] = $form_input_array['class'] . " danger";
-                            }
-                            echo '<div class="input-group">';
-                            echo form_input($form_input_array);
-                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+//                            $field = "date_start";
+//                            $display = "Open";
+//                            $error_value = $edition_detail['edition_date'];
+//                            $field_id = $field . "_" . $date_id;
+//                            $field_name = 'dates[' . $date_id . '][' . $field . ']';
+//                            echo form_label($date_detail['datetype_display'] . " " . $display, $field_id);
+//                            $form_input_array = [
+//                                'name' => 'dates[' . $date_id . '][' . $field . ']',
+//                                'id' => $field_id,
+//                                'class' => 'form-control form_datetime',
+//                                'value' => set_value($field_name, fdateLong($date_detail[$field], false)),
+//                            ];
+//                            if ($date_detail[$field] == $error_value) {
+//                                $form_input_array['class'] = $form_input_array['class'] . " danger";
+//                            }
+//                            echo '<div class="input-group">';
+//                            echo form_input($form_input_array);
+//                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
                             ?>
-                        </div>
+                        <!--</div>-->
                         <div class='col-sm-4'>
                             <?php
                             $field = "date_end";
                             $display = "Close";
-                            $error_value = strtotime($date_detail['date_start']);
+                            $error_value = $edition_detail['edition_date'];
                             $field_id = $field . "_" . $date_id;
                             $field_name = 'dates[' . $date_id . '][' . $field . ']';
                             echo form_label($date_detail['datetype_display'] . " " . $display, $field_id);
@@ -243,6 +243,21 @@
                             echo '<div class="input-group">';
                             echo form_input($form_input_array);
                             echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                            ?>
+                        </div>
+                        <div class='col-sm-5'>
+                            <?php
+                            // venue_id on open date
+                            $field = "venue_id";
+                            $field_id = $field . "_" . $date_id;
+                            $field_name = 'dates[' . $date_id . '][' . $field . ']';
+                            echo form_label("Venue", $field_id);
+                            echo form_dropdown(
+                                    'dates[' . $date_id . '][' . $field . ']',
+                                    $venue_dropdown,
+                                    set_value($field_name, $date_detail['venue_id']),
+                                    ["id" => $field_id, "class" => "form-control"]
+                            );
                             ?>
                         </div>
                     </div>
@@ -363,6 +378,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
