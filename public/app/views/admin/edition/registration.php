@@ -8,7 +8,7 @@
         <div class='btn-group pull-right'>
             <?php
             echo fbutton("Apply", "submit", "primary", null, "save_only", "dates_reg_flat");
-            echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "info");
+//            echo fbuttonLink("/admin/date/create/add/" . $edition_detail['edition_id'] . "/edition", "Add Date", "info");
             ?>
         </div>
     </div>
@@ -155,7 +155,8 @@
                             </div>
                             <div class='btn-group pull-right' style="position: relative; top:28px;">
                                 <?php
-                                echo fbuttonLink("/admin/date/copy/" . $date_id."/dates_reg_flat", "<i class='fa fa-copy white'></i>", "info", "sm");
+                                echo fbutton("<i class='fa fa-copy white'></i>", "submit", "primary", "sm", "copy_date", "/admin/date/copy/" . $date_id . "/dates_reg_flat");
+//                                echo fbuttonLink("/admin/date/copy/" . $date_id."/dates_reg_flat", "<i class='fa fa-copy white'></i>", "info", "sm");
                                 $confirm = "data-toggle='confirmation' data-original-title='Are you sure ?' data-placement='top'";
                                 echo fbuttonLink("/admin/date/delete/" . $date_id."/dates_reg_flat", "<i class='fa fa-times-circle white'></i>", "danger", "sm", $confirm);
                                 ?>

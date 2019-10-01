@@ -216,6 +216,10 @@ class Edition extends Admin_Controller {
                 $status = "danger";
             }
 
+            // if copy date
+            if (array_key_exists("copy_date", $this->input->post())) {
+                $this->return_url = base_url($this->input->post("copy_date"));
+            }
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $this->input->post())) {
                 $this->return_url = base_url("admin/edition/create/edit/" . $id . "#" . $this->input->post("save_only"));

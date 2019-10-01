@@ -10,7 +10,7 @@ echo form_open_multipart($form_url);
         }
         ?>
     </div>
-    <div class="col-md-6" id="races">
+    <div class="col-md-6">
         <?php
         if ($action == "edit") {
             $this->load->view('/admin/edition/entry');

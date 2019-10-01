@@ -1,4 +1,4 @@
-<div class="portlet light">
+<div class="portlet light" id="races">
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-edit font-dark"></i>

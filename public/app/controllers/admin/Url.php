@@ -73,7 +73,7 @@ class Url extends Admin_Controller {
 
         // set return url to session should it exists
         if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url;
+            $this->return_url = $this->session->edition_return_url . "#url_list";
         }
 
         // additional models
