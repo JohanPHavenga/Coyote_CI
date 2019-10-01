@@ -134,13 +134,13 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <ul class="c-socials">
-<!--                        <li>
-                            <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#FFFFFF !important;background-color:#FF813F !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 22px !important;letter-spacing: 0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#FFFFFF !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/roadrunning"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
-                        </li>-->
-<!--                        <li>
-                            <script src="https://liberapay.com/RoadRunningZA/widgets/button.js"></script>
-<noscript><a href="https://liberapay.com/RoadRunningZA/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
-                        </li>-->
+                        <!--                        <li>
+                                                    <style>.bmc-button img{width: 27px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{line-height: 36px !important;height:37px !important;text-decoration: none !important;display:inline-flex !important;color:#FFFFFF !important;background-color:#FF813F !important;border-radius: 3px !important;border: 1px solid transparent !important;padding: 1px 9px !important;font-size: 22px !important;letter-spacing: 0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;-o-transition: 0.3s all linear !important;-webkit-transition: 0.3s all linear !important;-moz-transition: 0.3s all linear !important;-ms-transition: 0.3s all linear !important;transition: 0.3s all linear !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#FFFFFF !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/roadrunning"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">Buy me a coffee</span></a>
+                                                </li>-->
+                        <!--                        <li>
+                                                    <script src="https://liberapay.com/RoadRunningZA/widgets/button.js"></script>
+                        <noscript><a href="https://liberapay.com/RoadRunningZA/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+                                                </li>-->
                         <li><a href="https://www.patreon.com/roadrunningza" target="_blank" title="Support us on Patreon">
                                 <img src="/img/become_a_patron.png" alt="Support us on Patreon" style="height: 36px; margin-top: 1px;"></a>
                         </li>
@@ -194,7 +194,6 @@
     font_awesome.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(font_awesome, godefer);
-
     /* Simple Line Icons */
     var simple_line_icons = document.createElement('link');
     simple_line_icons.rel = 'stylesheet';
@@ -202,7 +201,6 @@
     simple_line_icons.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(simple_line_icons, godefer);
-
     /* Animate */
     var animate = document.createElement('link');
     animate.rel = 'stylesheet';
@@ -210,7 +208,6 @@
     animate.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(animate, godefer);
-
     /* Plugins */
     var plugins = document.createElement('link');
     plugins.rel = 'stylesheet';
@@ -218,15 +215,13 @@
     plugins.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
     godefer.parentNode.insertBefore(plugins, godefer);
-
     /* Custom */
     var custom = document.createElement('link');
     custom.rel = 'stylesheet';
     custom.href = '<?= base_url('css/custom.css'); ?>';
     custom.type = 'text/css';
     var godefer = document.getElementsByTagName('link')[0];
-    godefer.parentNode.insertBefore(custom, godefer);
-</script>
+    godefer.parentNode.insertBefore(custom, godefer);</script>
 <!-- BEGIN: CORE PLUGINS -->
 
 
@@ -267,10 +262,10 @@ endif;
 <script>
     $(document).ready(function ()
     {
-        App.init(); // init core
+    App.init(); // init core
     });
-});
-</script>
+    }
+    );</script>
 <!-- END: THEME SCRIPTS -->
 <!-- BEGIN: PAGE SCRIPTS -->
 <?php
@@ -296,10 +291,32 @@ if (isset($scripts_to_display)) {
 ?>
 <!-- END: PAGE SCRIPTS -->
 <!-- END: LAYOUT/BASE/BOTTOM -->
+
+<!-- START: AD BLOCK CHECK -->
+<div class="c-cookies-bar c-cookies-bar-2 c-cookies-bar-top c-theme-bg c-rounded wow animate fadeInDown" data-wow-delay="1s" id="ad-block-notification">
+    <div class="c-cookies-bar-container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="c-cookies-bar-content c-font-white">
+                    <b>We get it!</b> Ads are annoying. But they help keep this website up and running. <br>
+                    Please help us make a few bucks by <u>disabling your ad block software</u>.
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="c-cookies-bar-btn">
+                    <a class="c-cookies-bar-close btn c-btn-white c-btn-square c-btn-bold" href="javascript:;">OK!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/ads.js" type="text/javascript"></script>
+<script type="text/javascript">
+    if (!document.getElementById('advertensieblok')) {
+        document.getElementById('ad-block-notification').style.display = 'block';
+    }
+</script>
+<!-- END: AD BLOCK CHECK -->
+
 </body>
-
 </html>
-
-<?php
-//    wts($date_list);
-?>
