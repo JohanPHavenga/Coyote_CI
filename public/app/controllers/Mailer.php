@@ -29,7 +29,7 @@ class Mailer extends Frontend_Controller {
         return $emailque;
     }
 
-    private function send_mail($data = "") {
+    public function send_mail($data = "") {
         $this->load->library('email');
 
         $config['mailtype'] = 'html';

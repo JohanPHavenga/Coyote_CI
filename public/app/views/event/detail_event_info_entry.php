@@ -9,8 +9,8 @@
                 </div>
                 <ul>
                     <?php
-                    // TBR once data is fixed
-                    if ($event_detail['edition_usenew']) {
+                    // if not NO INFO
+                    if (!in_array(5, $event_detail['entrytype_list'])) {
                         // Online entries
                         if (isset($event_detail['entrytype_list'][4])) {
                             echo "<li><a href='" . $calc_edition_urls[5] . "' class='link'>Enter Online</a></li>";
@@ -30,13 +30,13 @@
                         } else {
                             echo "<li class='red em'>No entrires avaialble on race day</li>";
                         }
-                        
+
                         // Manual entries
                         if (isset($event_detail['entrytype_list'][2])) {
                             if (!empty($event_detail['date_list'][5][0]['venue_name'])) {
-                                echo "<li>Pre-Entries can also be completed at ".$event_detail['date_list'][5][0]['venue_name']."</li>";
+                                echo "<li>Pre-Entries can also be completed at " . $event_detail['date_list'][5][0]['venue_name'] . "</li>";
                             }
-                            echo "<li>Closing date for manual pre-entries is <u>".fdateHumanFull($event_detail['date_list'][5][0]['date_end'], true, true)."</u></li>";                            
+                            echo "<li>Closing date for manual pre-entries is <u>" . fdateHumanFull($event_detail['date_list'][5][0]['date_end'], true, true) . "</u></li>";
                         }
 
                         // PRE entries
@@ -69,34 +69,33 @@
                     </div>
                     <ul>
                         <?php
-                        // TBR once data is fixed
-                        if ($event_detail['edition_usenew']) {
-                            // OTD Reg
-                            if (isset($event_detail['regtype_list'][1])) {
-                                echo "<li>Registration & number collection will take place <b>on the day</b> from <b>" .
-                                ftimeMil($event_detail['date_list'][9][0]['date_start']);
-                                if (!time_is_midnight($event_detail['date_list'][9][0]['date_end'])) {
-                                    echo " - " . ftimeMil($event_detail['date_list'][9][0]['date_end']);
-                                }
-                                echo "</b></li>";
-                            } else {
-                                echo "<li class='red em'>No number collection on race day</li>";
+                        // OTD Reg
+                        if (isset($event_detail['regtype_list'][1])) {
+                            echo "<li>Registration & number collection will take place <b>on the day</b> from <b>" .
+                            ftimeMil($event_detail['date_list'][9][0]['date_start']);
+                            if (!time_is_midnight($event_detail['date_list'][9][0]['date_end'])) {
+                                echo " - " . ftimeMil($event_detail['date_list'][9][0]['date_end']);
                             }
+                            echo "</b></li>";
+                        } else {
+                            echo "<li class='red em'>No number collection on race day</li>";
+                        }
 
-                            // PRE Reg
-                            if (isset($event_detail['regtype_list'][2])) {
-                                echo "<li><b>Registration / Number collection will take place on:</b><ul>";
-                                foreach ($event_detail['date_list'][10] as $date) {
-                                    echo "<li>" . fdateHumanFull($date['date_start'], true, true) . "-" . ftimeMil($date['date_end']) . " @ " . $date['venue_name'] . "</li>";
-                                }
-                                echo "</ul></li>";
+                        // PRE Reg
+                        if (isset($event_detail['regtype_list'][2])) {
+                            echo "<li><b>Registration / Number collection will take place on:</b><ul>";
+                            foreach ($event_detail['date_list'][10] as $date) {
+                                echo "<li>" . fdateHumanFull($date['date_start'], true, true) . "-" . ftimeMil($date['date_end']) . " @ " . $date['venue_name'] . "</li>";
                             }
+                            echo "</ul></li>";
                         }
                         ?>
                     </ul>
                     <?php
                     // always show what is in the box
-                    echo $event_detail['edition_reg_detail'];
+                    if (strlen($event_detail['edition_reg_detail']) > 15) {
+                        echo $event_detail['edition_reg_detail'];
+                    }
                     ?>
                 </div>
             </div>
