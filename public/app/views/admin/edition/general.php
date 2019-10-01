@@ -105,6 +105,14 @@
                             'checked' => set_value('edition_isfeatured', $edition_detail['edition_isfeatured']),
                         );
                         echo '<label class="mt-checkbox">' . form_checkbox($is_featured_data) . "Is Featured<span></span></label>";
+                        
+                        $usenew_data = array(
+                            'name' => 'edition_usenew',
+                            'id' => 'edition_usenew',
+                            'value' => '1',
+                            'checked' => set_value('edition_usenew', $edition_detail['edition_usenew']),
+                        );
+                        echo '<label class="mt-checkbox">' . form_checkbox($usenew_data) . "Use new date fields<span></span></label>";
 
                         // TBR once new site is launched
 //                                $is_confirmed_data = array(

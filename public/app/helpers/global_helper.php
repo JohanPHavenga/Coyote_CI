@@ -64,5 +64,14 @@ if (!function_exists('wts')) {
         unset($array[$key]);
         $array[$key] = $value;
     }
+    
+    function time_is_midnight($date) {
+        $time=date("H:i", strtotime($date));
+        if ($time=="00:00") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

@@ -316,6 +316,13 @@ class Edition_model extends MY_model {
         if (empty($edition_data)) {
 //                wts($_POST);
 //                exit();
+            // TBR
+            if (empty($this->input->post('edition_usenew'))) {
+                $edition_usenew = false;
+            } else {
+                $edition_usenew = $this->input->post('edition_usenew');
+            }
+            
             if (empty($this->input->post('edition_isfeatured'))) {
                 $edition_isfeatured = false;
             } else {
@@ -337,6 +344,7 @@ class Edition_model extends MY_model {
                 'edition_address_end' => $address_end,
                 'edition_gps' => $this->input->post('edition_gps'),
                 'edition_isfeatured' => $edition_isfeatured,
+                'edition_usenew' => $edition_usenew, // TBR
                 'edition_intro_detail' => $this->input->post('edition_intro_detail'),
                 'edition_entry_detail' => $this->input->post('edition_entry_detail'),
                 'edition_reg_detail' => $this->input->post('edition_reg_detail'),

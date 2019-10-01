@@ -228,7 +228,7 @@ class Event extends Frontend_Controller {
         $this->data_to_view['box_color'] = $box_color_arr[$bc];
 
         // Entry Detail
-        if ((strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 10) || // top one TBR in time
+        if ((strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 15) || // top one TBR in time
                 (!in_array(5,$this->data_to_view['event_detail']['entrytype_list']))) {
             $this->load->view("/event/detail_event_info_entry", $this->data_to_view);
             $bc = !$bc;
