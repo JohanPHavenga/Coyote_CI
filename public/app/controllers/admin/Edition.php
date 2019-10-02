@@ -142,6 +142,12 @@ class Edition extends Admin_Controller {
         $this->data_to_view['regtype_dropdown'] = $this->regtype_model->get_regtype_dropdown();
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
         $this->data_to_view['venue_dropdown'] = $this->venue_model->get_venue_dropdown();
+        $this->data_to_view['admin_fee_dropdown'] = [
+            ""=>"None",
+            "online"=>"online",
+            "late"=>"late",
+            "on the day"=>"on the day",
+        ];
 
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
         $this->data_to_view['entrytype_list'] = $this->entrytype_model->get_edition_entrytype_list($edition_id);

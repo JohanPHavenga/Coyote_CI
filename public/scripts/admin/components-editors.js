@@ -13,10 +13,34 @@ var ComponentsEditors = function () {
     }
 
     var handleSummernote = function () {
-        $('#edition_description').summernote({height: 150});
-        $('#edition_entry_detail').summernote({height: 150});
-        $('#edition_reg_detail').summernote({height: 150});
-        $('#edition_intro_detail').summernote({height: 100});
+        $('#edition_description').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'codeview']],
+            ],
+            height: 100});
+        $('#edition_entry_detail').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'codeview']],
+            ],
+            height: 100});
+        $('#edition_reg_detail').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'codeview']],
+            ],
+            height: 100});
+        $('#edition_intro_detail').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'codeview']],
+            ],
+            height: 80});
 //        $('#edition_address').summernote({
 //            toolbar: [
 //                // [groupName, [list of button]]

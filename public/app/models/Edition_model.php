@@ -312,45 +312,29 @@ class Edition_model extends MY_model {
 
     public function set_edition($action, $edition_id, $edition_data = [], $debug = false) {
 
-        // POSTED DATA
+        // POSTED DATA        
         if (empty($edition_data)) {
-//                wts($_POST);
-//                exit();
-            // TBR
-            if (empty($this->input->post('edition_usenew'))) {
-                $edition_usenew = false;
-            } else {
-                $edition_usenew = $this->input->post('edition_usenew');
+            // get field array from editions table and loop through the fields to see if post field is set
+            $field_array = $this->get_edition_field_array();
+            foreach ($field_array as $field => $dud) {
+                if ($this->input->post($field) !== NULL) {
+                    switch ($field) {
+                        case "edition_address_end":
+                            if (empty($this->input->post($field))) {
+                                $edition_data[$field] = $this->input->post('edition_address');
+                            } else {
+                                $edition_data[$field] = $this->input->post($field);
+                            }
+                            break;
+                        default:
+                            $edition_data[$field] = $this->input->post($field);
+                            break;
+                    }
+                }
             }
-            
-            if (empty($this->input->post('edition_isfeatured'))) {
-                $edition_isfeatured = false;
-            } else {
-                $edition_isfeatured = $this->input->post('edition_isfeatured');
-            }
-            if (empty($this->input->post('edition_address_end'))) {
-                $address_end = $this->input->post('edition_address');
-            } else {
-                $address_end = $this->input->post('edition_address_end');
-            }
+            // add slug
+            $edition_data['edition_slug'] = url_title($this->input->post('edition_name'));
 
-            $edition_data = array(
-                'edition_name' => $this->input->post('edition_name'),
-                'edition_status' => $this->input->post('edition_status'),
-                'edition_info_status' => $this->input->post('edition_info_status'),
-                'edition_date' => $this->input->post('edition_date'),
-                'event_id' => $this->input->post('event_id'),
-                'edition_address' => $this->input->post('edition_address'),
-                'edition_address_end' => $address_end,
-                'edition_gps' => $this->input->post('edition_gps'),
-                'edition_isfeatured' => $edition_isfeatured,
-                'edition_usenew' => $edition_usenew, // TBR
-                'edition_intro_detail' => $this->input->post('edition_intro_detail'),
-                'edition_entry_detail' => $this->input->post('edition_entry_detail'),
-                'edition_reg_detail' => $this->input->post('edition_reg_detail'),
-                'edition_general_detail' => $this->input->post('edition_general_detail'),
-                'edition_slug' => url_title($this->input->post('edition_name')),
-            );
             // edition sponsor
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => $this->input->post('sponsor_id')];
             // edition entrytype
@@ -367,7 +351,7 @@ class Edition_model extends MY_model {
 
             $edition_sponsor_data = ["edition_id" => $edition_id, "sponsor_id" => [4]];
             $edition_entrytype_data = ["edition_id" => $edition_id, "entrytype_id" => [5]];
-            $edition_regytype_data = ["edition_id" => $edition_id, "entrytype_id" => [3]];
+            $edition_regtype_data = ["edition_id" => $edition_id, "regtype_id" => [3]];
             // check if user_id is sent;
             if (@$edition_data['user_id']) {
                 $user_id = $edition_data['user_id'];

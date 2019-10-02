@@ -98,39 +98,26 @@
                 <div class='col-md-8'>
                     <div class='mt-checkbox-inline'>
                         <?php
-                        $is_featured_data = array(
-                            'name' => 'edition_isfeatured',
-                            'id' => 'edition_isfeatured',
-                            'value' => '1',
-                            'checked' => set_value('edition_isfeatured', $edition_detail['edition_isfeatured']),
-                        );
-                        echo '<label class="mt-checkbox">' . form_checkbox($is_featured_data) . "Is Featured<span></span></label>";
-                        
-                        $usenew_data = array(
-                            'name' => 'edition_usenew',
-                            'id' => 'edition_usenew',
-                            'value' => '1',
-                            'checked' => set_value('edition_usenew', $edition_detail['edition_usenew']),
-                        );
-                        echo '<label class="mt-checkbox">' . form_checkbox($usenew_data) . "Use new date fields<span></span></label>";
-
-                        // TBR once new site is launched
-//                                $is_confirmed_data = array(
-//                                    'name' => 'edition_info_isconfirmed',
-//                                    'id' => 'edition_info_isconfirmed',
-//                                    'value' => '1',
-//                                    'checked' => $edition_detail['edition_info_isconfirmed'],
-//                                );
-//                                echo '<label class="mt-checkbox">' . form_checkbox($is_confirmed_data) . "Information confirmed<span></span></label>";
-                        // TBR once new site is launched
-//                                $results_loaded_data = array(
-//                                    'name' => 'edition_results_isloaded',
-//                                    'id' => 'edition_results_isloaded',
-//                                    'value' => '1',
-//                                    'checked' => $edition_detail['edition_results_isloaded'],
-//                                    'disabled' => '',
-//                                );
-//                                echo '<label class="mt-checkbox">' . form_checkbox($results_loaded_data) . "Results Loaded<span></span></label>";
+                        $checkbox_array = [
+                            [
+                                "name" => "edition_isfeatured",
+                                "text" => "Is Featured",
+                            ],
+                            [
+                                "name" => "edition_usenew",
+                                "text" => "Use new date fields",
+                            ],
+                        ];
+                        foreach ($checkbox_array as $checkbox) {
+                            $data = array(
+                                'name' => $checkbox['name'],
+                                'id' => $checkbox['name'],
+                                'value' => '1',
+                                'checked' => set_value($checkbox['name'], $edition_detail[$checkbox['name']]),
+                            );
+                            echo form_hidden($checkbox['name'], 0);
+                            echo '<label class="mt-checkbox">' . form_checkbox($data) . $checkbox['text'] . "<span></span></label>";
+                        }
                         ?>
                     </div>
                 </div>
@@ -264,19 +251,7 @@
                     ]);
                     ?>
                 </div>
-            </div>
-            <div class="row">
-                <div class='col-sm-12'>
-                    <?php
-                    echo form_label('General Information', 'edition_general_detail');
-                    echo form_textarea([
-                        'name' => 'edition_general_detail',
-                        'id' => 'edition_description',
-                        'value' => set_value('edition_general_detail', @$edition_detail['edition_general_detail'], false),
-                    ]);
-                    ?>
-                </div>
-            </div>
+            </div>           
         </div>
 
     </div> <!--close portlet body -->

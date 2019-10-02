@@ -202,7 +202,7 @@
                 <div class="form-group">
                     <div class="row">
                         <!--<div class='col-sm-4'>-->
-                            <?php
+                        <?php
 //                            $field = "date_start";
 //                            $display = "Open";
 //                            $error_value = $edition_detail['edition_date'];
@@ -221,7 +221,7 @@
 //                            echo '<div class="input-group">';
 //                            echo form_input($form_input_array);
 //                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
-                            ?>
+                        ?>
                         <!--</div>-->
                         <div class='col-sm-4'>
                             <?php
@@ -331,7 +331,7 @@
                                 echo '<span class="input-group-btn"><button class="btn default date-set" type="button"><i class="fa fa-clock-o"></i></button></div>';
                                 ?>
                             </div>
-                            <div class='col-sm-5'>
+                            <div class='col-sm-4'>
                                 <?php
                                 // venue_id on open date
                                 $field = "venue_id";
@@ -346,13 +346,15 @@
                                 );
                                 ?>
                             </div>
-                            <div class='btn-group pull-right' style="position: relative; top:28px;">
-                                <?php
-                                echo fbutton("<i class='fa fa-copy white'></i>", "submit", "primary", "sm", "copy_date", "/admin/date/copy/" . $date_id . "/dates_entry_flat");
+                            <div class='col-sm-2'>
+                                <div class='btn-group' style="position: relative; top:28px;">
+                                    <?php
+                                    echo fbutton("<i class='fa fa-copy white'></i>", "submit", "primary", "sm", "copy_date", "/admin/date/copy/" . $date_id . "/dates_entry_flat");
 //                                echo fbuttonLink("/admin/date/copy/" . $date_id . "/dates_entry_flat", "<i class='fa fa-copy white'></i>", "info", "sm");
-                                $confirm = "data-toggle='confirmation' data-original-title='Are you sure ?' data-placement='top'";
-                                echo fbuttonLink("/admin/date/delete/" . $date_id . "/dates_entry_flat", "<i class='fa fa-times-circle white'></i>", "danger", "sm", $confirm);
-                                ?>
+                                    $confirm = "data-toggle='confirmation' data-original-title='Are you sure ?' data-placement='top'";
+                                    echo fbuttonLink("/admin/date/delete/" . $date_id . "/dates_entry_flat", "<i class='fa fa-times-circle white'></i>", "danger", "sm", $confirm);
+                                    ?>
+                                </div>
                             </div>
                         </div>
                         <?php
@@ -364,7 +366,109 @@
                 echo "<div class='note note-danger' role='alert'><b>PRE ENTRY DATES</b> NOT LOADED</div>";
             }
         }
+        // =====================================================================
+        // ENTRY FLAGS
+        // =====================================================================
         ?>
+        <div class="row">
+            <div class='col-md-12'>
+                <div class='mt-checkbox-inline'>
+                    <?php
+                    $checkbox_array = [
+                        [
+                            "name" => "edition_entry_funrun_otd",
+                            "text" => "FunRun Entry OTD",
+                        ],
+                        [
+                            "name" => "edition_entry_nonrefund",
+                            "text" => "Non-Refundable",
+                        ],
+                        [
+                            "name" => "edition_entry_nodowngrade",
+                            "text" => "No Downgrades",
+                        ],
+                        [
+                            "name" => "edition_entry_bulk",
+                            "text" => "Bulk entries",
+                        ],
+                    ];
+                    foreach ($checkbox_array as $checkbox) {
+                        $data = array(
+                            'name' => $checkbox['name'],
+                            'id' => $checkbox['name'],
+                            'value' => '1',
+                            'checked' => set_value($checkbox['name'], $edition_detail[$checkbox['name']]),
+                        );
+                        echo form_hidden($checkbox['name'], 0);
+                        echo '<label class="mt-checkbox">' . form_checkbox($data) . $checkbox['text'] . "<span></span></label>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-2'>
+                <?php
+                echo form_label('Admin Fee', 'edition_admin_fee');
+                echo form_input([
+                    'name' => 'edition_admin_fee',
+                    'id' => 'edition_admin_fee',
+                    'value' => set_value('edition_admin_fee', $edition_detail['edition_admin_fee'], false),
+                    'class' => 'form-control input-xsmall',
+                ]);
+                ?>
+                <p class='help-block' style='font-style: italic;'> R or %</p>
+            </div>
+            <div class='col-sm-4'>
+                <?php
+                echo form_label('Admin Fee Option', 'edition_admin_option');
+                echo form_dropdown('edition_admin_option', $admin_fee_dropdown, set_value('edition_admin_option', $edition_detail['edition_admin_option']),
+                        ["id" => "edition_admin_option", "class" => "form-control input-small"]);
+                ?>
+            </div>
+            <div class='col-sm-3'>
+                <?php
+                echo form_label('Entry Limit', 'edition_entry_limit');
+                echo form_input([
+                    'name' => 'edition_entry_limit',
+                    'id' => 'edition_entry_limit',
+                    'value' => set_value('edition_entry_limit', $edition_detail['edition_entry_limit'], false),
+                    'class' => 'form-control input-small',
+                ]);
+                ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class='col-sm-3'>
+                    <?php
+                    echo form_label('T-shirt Cost', 'edition_tshirt_amount');
+                    echo '<div class="input-group"><span class="input-group-addon"><i class="fa fa-money"></i></span>';
+                    echo form_input([
+                        'name' => 'edition_tshirt_amount',
+                        'id' => 'edition_tshirt_amount',
+                        'value' => set_value('edition_tshirt_amount', $edition_detail['edition_tshirt_amount']),
+                        'class' => 'form-control input-xsmall',
+                        'type' => 'number',
+                        'step' => ".01",
+                        'min' => '0',
+                    ]);
+                    echo "</div>";
+                    ?>
+                </div>
+                <div class='col-sm-9'>
+                    <?php
+                    echo form_label('T-shirt text', 'edition_tshirt_text');
+                    echo form_input([
+                        'name' => 'edition_tshirt_text',
+                        'id' => 'edition_tshirt_text',
+                        'value' => set_value('edition_tshirt_text', $edition_detail['edition_tshirt_text'], false),
+                        'class' => 'form-control',
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <div class="row">
                 <div class='col-sm-12'>
