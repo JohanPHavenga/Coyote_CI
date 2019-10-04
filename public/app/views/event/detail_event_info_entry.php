@@ -48,6 +48,64 @@
                             echo "</ul></li>";
                         }
                     }
+
+                    // OTD entries for Fun Run
+                    if ($event_detail['edition_entry_funrun_otd']) {
+                        foreach ($race_list as $race) {
+                            if ($race['race_distance'] < 10) {
+                                echo "<li>Entries for the " . $race['race_name'] . " will be taken on the day</li>";
+                            }
+                        }
+                    }
+                    
+                    // ENTRY LIMIT
+                    if (!empty($event_detail['edition_entry_limit'])) {
+                        echo "<li><strong>NOTE</strong> that the entry limit for this event is <u>".$event_detail['edition_entry_limit']." entrants</u></li>";
+                    }
+                    
+                    // ADMIN FEES
+                    if (!empty($event_detail['edition_admin_fee'])) {
+                        echo "<li>An admin fee of <strong>".$event_detail['edition_admin_fee']."</strong> will be levied for ".$event_detail['edition_admin_option']." entries</li>";
+                    }
+
+                    // Entries Non-refundable
+                    if ($event_detail['edition_entry_nonrefund']) {
+                        echo "<li>Entry fees are non-refundable</li>";
+                    }
+
+                    // BULK entries
+                    if ($event_detail['edition_entry_bulk']) {
+                        echo "<li>For bulk entries (5+) please contact the organisers: "
+                        . "<a href='mailto:" . $event_detail['user_email'] . "?subject=Bulk entries for " . $event_detail['edition_name'] . "' class='link'>"
+                        . $event_detail['user_email'] . "</a></li>";
+                    }
+
+                    // Subsitutions
+                    if ($event_detail['edition_entry_nosubstitution']) {
+                        echo "<li><strong>No substitutions</strong>";
+                        if (strtotime($event_detail['date_list'][7][0]['date_end']) < strtotime($event_detail['edition_date'])) {
+                            echo " after " . fdateHumanFull($event_detail['date_list'][7][0]['date_end'], true, true);
+                        }
+                        echo "</li>";
+                    }
+
+                    // Up/Downgrades
+                    if ($event_detail['edition_entry_nodowngrade']) {
+                        echo "<li><strong>No up- or downgrades will be entertained</strong>";
+                        if (strtotime($event_detail['date_list'][8][0]['date_end']) < strtotime($event_detail['edition_date'])) {
+                            echo " after " . fdateHumanFull($event_detail['date_list'][8][0]['date_end'], true, true);
+                        }
+                        echo "</li>";
+                    }
+                    
+                    // TSHIRT FEES
+                    if ($event_detail['edition_tshirt_amount']>0) {
+                        echo "<li>An event <strong>T-Shirt</strong> is available for purchase as part of the entry process for <strong>R".$event_detail['edition_tshirt_amount']."</strong></li>";
+                        if (!empty($event_detail['edition_tshirt_text'])) {
+                            echo "<li>".$event_detail['edition_tshirt_text']."</li>";
+                        }
+                        
+                    }
                     ?>
                 </ul>
                 <?php

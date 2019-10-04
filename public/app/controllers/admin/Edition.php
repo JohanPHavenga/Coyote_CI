@@ -216,7 +216,7 @@ class Edition extends Admin_Controller {
                     }
                 }
                 // DATES checks
-                $this->check_start_end_dates($id, $new_edition_detail['edition_date'], $this->input->post('entrytype_id'), $this->input->post('regtype_id'));
+                $this->check_start_end_dates($id, $new_edition_detail, $this->input->post('entrytype_id'), $this->input->post('regtype_id'));
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -305,7 +305,7 @@ class Edition extends Admin_Controller {
         return $valid;
     }
 
-    private function check_start_end_dates($e_id, $edition_date, $entrytype_list, $regtype_list) {
+    private function check_start_end_dates($e_id, $edition_details, $entrytype_list, $regtype_list) {
         $this->load->model('date_model');
 
         $datetype_id_list = [1]; // edition start and end dates
@@ -333,12 +333,20 @@ class Edition extends Admin_Controller {
         if (in_array(2, $regtype_list)) {
             $datetype_id_list[] = 10;
         }
+        // No-subs
+        if ($edition_details['edition_entry_nosubstitution']) {
+            $datetype_id_list[] = 7;
+        }
+        // No-downgrades
+        if ($edition_details['edition_entry_nodowngrade']) {
+            $datetype_id_list[] = 8;
+        }
         // check if dates is loaded, else add
         foreach ($datetype_id_list as $datetype_id) {
             if (!$this->date_model->exists("edition", $e_id, $datetype_id)) {
                 $date_data = [
-                    'date_start' => $edition_date,
-                    'date_end' => $edition_date,
+                    'date_start' => $edition_details['edition_date'],
+                    'date_end' => $edition_details['edition_date'],
                     'datetype_id' => $datetype_id,
                     'date_linked_to' => "edition",
                     'linked_id' => $e_id,

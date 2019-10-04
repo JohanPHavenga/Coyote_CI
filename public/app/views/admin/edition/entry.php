@@ -384,10 +384,6 @@
                             "text" => "Non-Refundable",
                         ],
                         [
-                            "name" => "edition_entry_nodowngrade",
-                            "text" => "No Downgrades",
-                        ],
-                        [
                             "name" => "edition_entry_bulk",
                             "text" => "Bulk entries",
                         ],
@@ -404,6 +400,111 @@
                     }
                     ?>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-md-12'>
+                <div class='mt-checkbox-inline'>
+                    <?php
+                    $checkbox_array = [
+                        [
+                            "name" => "edition_entry_nosubstitution",
+                            "text" => "No Substitutions",
+                        ],
+                        [
+                            "name" => "edition_entry_nodowngrade",
+                            "text" => "No Downgrades",
+                        ],
+                    ];
+                    foreach ($checkbox_array as $checkbox) {
+                        $data = array(
+                            'name' => $checkbox['name'],
+                            'id' => $checkbox['name'],
+                            'value' => '1',
+                            'checked' => set_value($checkbox['name'], $edition_detail[$checkbox['name']]),
+                        );
+                        echo form_hidden($checkbox['name'], 0);
+                        echo '<label class="mt-checkbox">' . form_checkbox($data) . $checkbox['text'] . "<span></span></label>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">         
+                <?php
+                // =====================================================================
+                // NO SUB / DOWNGRADE dates
+                // =====================================================================
+                if ($edition_detail['edition_entry_nosubstitution']) {
+                    ?>              
+                    <div class='col-sm-5'>
+                        <?php
+                        $dateype_id = 7;
+                        if (isset($date_list_by_type[$dateype_id])) {
+                            $date_detail = $date_list_by_type[$dateype_id][0];
+                            $date_id = $date_detail['date_id'];
+
+                            $field = "date_end";
+                            $display = "Close";
+                            $error_value = strtotime($edition_detail['edition_date']);
+                            $field_id = $field . "_" . $date_id;
+                            $field_name = 'dates[' . $date_id . '][' . $field . ']';
+                            echo form_label($date_detail['datetype_display'] . " " . $display, $field_id);
+                            $form_input_array = [
+                                'name' => 'dates[' . $date_id . '][' . $field . ']',
+                                'id' => $field_id,
+                                'class' => 'form-control form_datetime',
+                                'value' => set_value($field_name, fdateLong($date_detail[$field], false)),
+                            ];
+                            if (strtotime($date_detail[$field]) >= $error_value) {
+                                $form_input_array['class'] = $form_input_array['class'] . " danger";
+                            }
+                            echo '<div class="input-group">';
+                            echo form_input($form_input_array);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        } else {
+                            echo "<div class='note note-danger' role='alert'><b>SUBSTITUTION DATES</b> NOT LOADED</div>";
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+                if ($edition_detail['edition_entry_nodowngrade']) {
+                    ?>              
+                    <div class='col-sm-5'>
+                        <?php
+                        $dateype_id = 8;
+                        if (isset($date_list_by_type[$dateype_id])) {
+                            $date_detail = $date_list_by_type[$dateype_id][0];
+                            $date_id = $date_detail['date_id'];
+
+                            $field = "date_end";
+                            $display = "Close";
+                            $error_value = strtotime($edition_detail['edition_date']);
+                            $field_id = $field . "_" . $date_id;
+                            $field_name = 'dates[' . $date_id . '][' . $field . ']';
+                            echo form_label($date_detail['datetype_display'] . " " . $display, $field_id);
+                            $form_input_array = [
+                                'name' => 'dates[' . $date_id . '][' . $field . ']',
+                                'id' => $field_id,
+                                'class' => 'form-control form_datetime',
+                                'value' => set_value($field_name, fdateLong($date_detail[$field], false)),
+                            ];
+                            if (strtotime($date_detail[$field]) >= $error_value) {
+                                $form_input_array['class'] = $form_input_array['class'] . " danger";
+                            }
+                            echo '<div class="input-group">';
+                            echo form_input($form_input_array);
+                            echo '<span class="input-group-btn"><button class="btn default" type="button"><i class="fa fa-calendar"></i></button></span></div>';
+                        } else {
+                            echo "<div class='note note-danger' role='alert'><b>SUBSTITUTION DATES</b> NOT LOADED</div>";
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
         </div>
         <div class="row">

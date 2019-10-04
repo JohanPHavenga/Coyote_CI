@@ -61,6 +61,7 @@ if ($action == "edit") {
 
 <?php
 echo form_close();
+//wts($edition_detail);
 //wts($regtype_list);
 //wts($date_list_by_type);
 //wts($status_list);
