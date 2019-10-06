@@ -6,7 +6,7 @@ echo form_open_multipart($form_url);
         <?php
         $this->load->view('/admin/edition/general');
         if ($action == "edit") {            
-            $this->load->view('/admin/edition/more_info');
+            $this->load->view('/admin/edition/races');
         }
         ?>
     </div>
@@ -26,7 +26,7 @@ if ($action == "edit") {
     <div class="row">
         <div class="col-md-6">
             <?php
-            $this->load->view('/admin/edition/races');
+            $this->load->view('/admin/edition/more_info');
             ?>
         </div>
         <div class="col-md-6">    

@@ -211,7 +211,7 @@ foreach ($event_detail['race_list'] as $race_id => $race) {
                                     <?php
                                     // LIMIT
                                     if ($race['race_entry_limit']>0) {
-                                        echo "<li>NOTE the entry limit for this race <strong>".$race['race_entry_limit']."</strong> entrants</li>";
+                                        echo "<li>The entry limit for this race <strong>".$race['race_entry_limit']."</strong> entrants</li>";
                                     }
                                     // OVER 70
                                     if ($race['race_isover70free']) {
@@ -220,7 +220,7 @@ foreach ($event_detail['race_list'] as $race_id => $race) {
                                     }
                                     // LIMIT
                                     if (!empty($race['race_address'])) {
-                                        echo "<li>NOTE the <strong>starting address</strong> for this race differs from the end address:<br><strong>".$race['race_address']."</strong></li>";
+                                        echo "<li><span style='color:red'><strong>NOTE</strong></span> that the <strong>starting address</strong> for this race differs from the end address:<br><strong>".$race['race_address']."</strong></li>";
                                     }
                                     ?>
                                 </ul>

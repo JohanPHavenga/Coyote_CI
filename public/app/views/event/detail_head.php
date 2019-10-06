@@ -40,8 +40,8 @@
                                     <?php
                                     // show link in summary info
                                     if ($event_detail['calc_edition_urls']) {
-                                        $url_segments = parse_url($event_detail['calc_edition_urls'][0]);
-                                        echo "<a href='" . $event_detail['calc_edition_urls'][0] . "' target='_blank'>" . $url_segments['host'] . "</a><br>";
+                                        $url_segments = parse_url($event_detail['calc_edition_urls'][0]['url']);
+                                        echo "<a href='" . $event_detail['calc_edition_urls'][0]['url'] . "' target='_blank'>" . $url_segments['host'] . "</a><br>";
                                     }
 
                                     // show email

@@ -229,7 +229,7 @@ class Event extends Frontend_Controller {
 
         // Entry Detail
         if ((strlen($this->data_to_view['event_detail']['edition_entry_detail']) > 15) || // top one TBR in time
-                (!in_array(5,$this->data_to_view['event_detail']['entrytype_list']))) {
+                (!in_array(5, $this->data_to_view['event_detail']['entrytype_list']))) {
             $this->load->view("/event/detail_event_info_entry", $this->data_to_view);
             $bc = !$bc;
             $this->data_to_view['box_color'] = $box_color_arr[$bc];
@@ -384,35 +384,56 @@ class Event extends Frontend_Controller {
 
     function calc_urls_to_use($file_list, $url_list) {
         $calc_url_list = [];
+        $this->load->model('filetype_model');
         $this->load->model('urltype_model');
+        $filetype_list = $this->filetype_model->get_filetype_list();
         $urltype_list = $this->urltype_model->get_urltype_list();
 
+//        wts($file_list);
+//        wts($url_list);
         // check eers vir flyer
-        if (@$file_list[2]) {
+        if (isset($file_list[2])) {
             $file_id = my_encrypt($file_list[2][0]['file_id']);
-            $calc_url_list[0] = base_url("file/handler/" . $file_id);
-        } elseif (@$url_list[2]) {
-            $calc_url_list[0] = $url_list[2][0]['url_name'];
+            $calc_url_list[0]['url'] = base_url("file/handler/" . $file_id);
+            $calc_url_list[0]['buttontext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_buttontext'];
+            $calc_url_list[0]['helptext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_helptext'];
+            $calc_url_list[0]['type'] = "file";
+        } elseif (isset($url_list[2])) {
+            $calc_url_list[0]['url'] = $url_list[2][0]['url_name'];
+            $calc_url_list[0]['buttontext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_buttontext'];
+            $calc_url_list[0]['helptext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_helptext'];
+            $calc_url_list[0]['type'] = "url";
         }
 
-        if (@$url_list[1]) { // dan website
-            $calc_url_list[0] = $url_list[1][0]['url_name'];
-            $calc_url_list[1] = $url_list[1][0]['url_name'];
+        if (isset($url_list[1])) { // dan website
+            $calc_url_list[0]['url'] = $calc_url_list[1]['url'] = $url_list[1][0]['url_name'];
+            $calc_url_list[0]['buttontext'] = $calc_url_list[1]['buttontext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_buttontext'];
+            $calc_url_list[0]['helptext'] = $calc_url_list[1]['helptext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_helptext'];
+            $calc_url_list[0]['type'] =  $calc_url_list[1]['type'] = "url";
         }
-        if (@$url_list[5]) { // dan online entry 
-            $calc_url_list[0] = $url_list[5][0]['url_name'];
-            $calc_url_list[5] = $url_list[5][0]['url_name'];
+        if (isset($url_list[5])) { // dan online entry 
+            $calc_url_list[0]['url'] = $calc_url_list[5]['url'] = $url_list[5][0]['url_name'];
+            $calc_url_list[0]['buttontext'] = $calc_url_list[5]['buttontext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_buttontext'];
+            $calc_url_list[0]['helptext'] = $calc_url_list[5]['helptext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_helptext'];
+            $calc_url_list[0]['type'] = $calc_url_list[5]['type'] = "url";
         }
 
-        $url_check_list = [2, 3, 4, 6, 7];
+        $url_check_list = [2, 3, 4, 6, 7, 8];
         foreach ($url_check_list as $id) {
-            if (@$file_list[$id]) {
+            if (isset($file_list[$id])) {
                 $file_id = my_encrypt($file_list[$id][0]['file_id']);
-                $calc_url_list[$id] = base_url("file/handler/" . $file_id);
-            } elseif (@$url_list[$id]) {
-                $calc_url_list[$id] = $url_list[$id][0]['url_name'];
+                $calc_url_list[$id]['url'] = base_url("file/handler/" . $file_id);
+                $calc_url_list[$id]['buttontext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_buttontext'];
+                $calc_url_list[$id]['helptext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_helptext'];
+                $calc_url_list[$id]['type'] = "file";
+            } elseif (isset($url_list[$id])) {
+                $calc_url_list[$id]['url'] = $url_list[$id][0]['url_name'];
+                $calc_url_list[$id]['buttontext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_buttontext'];
+                $calc_url_list[$id]['helptext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_helptext'];
+                $calc_url_list[$id]['type'] = "url";
             }
         }
+//        wts($calc_url_list);
 
         return $calc_url_list;
     }

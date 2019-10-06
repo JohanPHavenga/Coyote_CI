@@ -146,20 +146,19 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="portlet light">
-            <div class="portlet-body">
-                <?php
-                //  BUTTONS
-                echo "<div class='btn-group'>";
-                echo fbutton($text = "Apply", $type = "submit", $status = "primary", NULL, "save_only");
-                echo fbutton($text = "Save", $type = "submit", $status = "success");
-                echo fbuttonLink($return_url, "Cancel", $status = "danger");
-                echo "</div>";
-                ?>
-            </div>
+        <div class='btn-group'>
+            <?php
+            echo fbutton($text = "Apply", $type = "submit", $status = "primary", NULL, "save_only");
+            echo fbutton($text = "Save", $type = "submit", $status = "success");
+            ?>
         </div>
-    </div>
-</div>
+        <div class='btn-group pull-right'>
+            <?php
+            echo fbuttonLink($return_url, "Cancel", $status = "warning");
+            ?>
+        </div>
+    </div> 
+</div> 
 
 <?php
 echo form_close();
