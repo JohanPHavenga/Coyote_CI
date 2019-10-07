@@ -13,7 +13,7 @@
                     if (!in_array(5, $event_detail['entrytype_list'])) {
                         // Online entries
                         if (isset($event_detail['entrytype_list'][4])) {
-                            echo "<li><a href='" . $calc_edition_urls[5] . "' class='link'>Enter Online</a></li>";
+                            echo "<li><a href='" . $calc_edition_urls[5]['url'] . "' class='link'>Enter Online</a></li>";
                             echo "<li>Online entries close on <b>" . fdateHumanFull($event_detail['date_list'][3][0]['date_end'], true) . "</b></li>";
                         } else {
                             echo "<li class='red'>No online entries available</li>";

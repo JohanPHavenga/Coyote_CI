@@ -6,11 +6,9 @@
                     <?php
                     // Edition BUTTONS
                     $this->load->view("/event/buttons_edition", $event_detail);
-                    echo "<br>";
                     // Race BUTTONS
                     $this->load->view("/event/buttons_race", $event_detail);
                     ?>
-                    <br>
                     <div class="btn-group">
                         <a class="btn c-theme-btn c-btn-uppercase btn-md c-btn-bold c-margin-t-20" href="/event">
                             <i class="icon-arrow-left"></i> Back to Events Calendar</a>
