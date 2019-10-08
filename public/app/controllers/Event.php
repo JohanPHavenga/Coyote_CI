@@ -170,10 +170,9 @@ class Event extends Frontend_Controller {
 //        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
 
         $this->data_to_header['structured_data'] = $this->load->view('/event/structured_data', $this->data_to_view, TRUE);
-
-
+        
         // set buttons
-        $this->data_to_view['event_detail']['calc_edition_urls'] = $btn_data['calc_edition_urls'] = $this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'], $this->data_to_view['event_detail']['url_list']);
+        $this->data_to_view['event_detail']['calc_edition_urls'] = $btn_data['calc_edition_urls'] = $this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'], $this->data_to_view['event_detail']['url_list'], $this->data_to_view['event_detail']['entrytype_list']);
 
         foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
             $race_urls = $this->calc_urls_to_use($race['file_list'], $race['url_list']);
@@ -382,7 +381,7 @@ class Event extends Frontend_Controller {
         redirect($return_url);
     }
 
-    function calc_urls_to_use($file_list, $url_list) {
+    function calc_urls_to_use($file_list, $url_list, $entrytype_list=[]) {
         $calc_url_list = [];
         $this->load->model('filetype_model');
         $this->load->model('urltype_model');
@@ -398,24 +397,28 @@ class Event extends Frontend_Controller {
             $calc_url_list[0]['buttontext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_buttontext'];
             $calc_url_list[0]['helptext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_helptext'];
             $calc_url_list[0]['type'] = "file";
+            $calc_url_list[0]['type_id'] = 2;
         } elseif (isset($url_list[2])) {
             $calc_url_list[0]['url'] = $url_list[2][0]['url_name'];
             $calc_url_list[0]['buttontext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_helptext'];
             $calc_url_list[0]['type'] = "url";
+            $calc_url_list[0]['type_id'] = 2;
         }
 
         if (isset($url_list[1])) { // dan website
             $calc_url_list[0]['url'] = $calc_url_list[1]['url'] = $url_list[1][0]['url_name'];
             $calc_url_list[0]['buttontext'] = $calc_url_list[1]['buttontext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $calc_url_list[1]['helptext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_helptext'];
-            $calc_url_list[0]['type'] =  $calc_url_list[1]['type'] = "url";
+            $calc_url_list[0]['type'] = $calc_url_list[1]['type'] = "url";
+            $calc_url_list[0]['type_id'] = 1;
         }
-        if (isset($url_list[5])) { // dan online entry 
+        if ((isset($url_list[5])) && (in_array(4,$entrytype_list))) { // dan online entry 
             $calc_url_list[0]['url'] = $calc_url_list[5]['url'] = $url_list[5][0]['url_name'];
             $calc_url_list[0]['buttontext'] = $calc_url_list[5]['buttontext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $calc_url_list[5]['helptext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_helptext'];
             $calc_url_list[0]['type'] = $calc_url_list[5]['type'] = "url";
+            $calc_url_list[0]['type_id'] = 5;
         }
 
         $url_check_list = [2, 3, 4, 6, 7, 8];
@@ -426,11 +429,13 @@ class Event extends Frontend_Controller {
                 $calc_url_list[$id]['buttontext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_buttontext'];
                 $calc_url_list[$id]['helptext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_helptext'];
                 $calc_url_list[$id]['type'] = "file";
+                $calc_url_list[$id]['type_id'] = $id;
             } elseif (isset($url_list[$id])) {
                 $calc_url_list[$id]['url'] = $url_list[$id][0]['url_name'];
                 $calc_url_list[$id]['buttontext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_buttontext'];
                 $calc_url_list[$id]['helptext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_helptext'];
                 $calc_url_list[$id]['type'] = "url";
+                $calc_url_list[$id]['type_id'] = $id;
             }
         }
 //        wts($calc_url_list);

@@ -10,15 +10,15 @@ if ($calc_edition_urls) {
                     $button_state = '';
                     switch ($link_id) {
                         case 0:
-                            if ((strtotime($date_list[3][0]["date_end"]) < strtotime("now")) && (isset($calc_edition_urls[5]))) {
-                                $link['url'] = '';
-                                $link['buttontext'] = "Entries Closed";
-                                $link['helptext'] = "Entries for this event has closed";
-                                $button_state = "disabled";
+                            if (isset($date_list[3])) {
+                                if ((strtotime($date_list[3][0]["date_end"]) < strtotime("now")) && (isset($calc_edition_urls[5]))) {
+                                    $link['url'] = '';
+                                    $link['buttontext'] = "Entries Closed";
+                                    $link['helptext'] = "Entries for this event has closed";
+                                    $button_state = "disabled";
+                                }
                             }
-                            break;
-                        case 5:
-                            continue 2;
+                            $skip=$link['type_id'];
                             break;
                         case 6:
                             $link['buttontext'] = '<i class="fa fa-facebook"></i> ' . $link['buttontext'];
@@ -26,9 +26,12 @@ if ($calc_edition_urls) {
                         default:
                             break;
                     }
+                    
+                    if ($skip!=$link_id) {
                     ?>
                     <a href="<?= $link['url']; ?>" class="<?= $button_class; ?>" title="<?= $link['helptext']; ?>" <?= $button_state; ?>><?= $link['buttontext']; ?></a>
                     <?php
+                    }
                 }
                 ?>
             </div>
@@ -39,4 +42,5 @@ if ($calc_edition_urls) {
 //echo $date_list[4][$edition_id]["date_date"];
 //wts($date_list);
 //wts($calc_edition_urls);
+//wts($event_detail);
 

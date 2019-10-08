@@ -24,8 +24,10 @@
                         }
 
                         // PRIZE-GIVING
-                        if ($event_detail['edition_info_prizegizing'] != "00:00:00") {
-                            echo "<li><strong>PRIZE-GIVING:</strong> Scheduled to start at " . ftimeMil($event_detail['edition_info_prizegizing']) . "</li>";
+                        if (!is_null($event_detail['edition_info_prizegizing'])) {
+                            if ($event_detail['edition_info_prizegizing'] != "00:00:00") {
+                                echo "<li><strong>PRIZE-GIVING:</strong> Scheduled to start at " . ftimeMil($event_detail['edition_info_prizegizing']) . "</li>";
+                            }
                         }
 
                         // LUCKY DRAWS

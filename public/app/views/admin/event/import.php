@@ -18,6 +18,8 @@
                 echo form_open_multipart($form_url);
 
                 echo "<div class='form-group'>";
+                echo "<div class='row'>";
+                echo "<div class='col-md-6'>";
                 echo form_label('File to upload', 'eventfile');
                 echo form_upload([
                     'name' => 'eventfile',
@@ -26,6 +28,8 @@
                     'required' => '',
                 ]);
 
+                echo "</div>";
+                echo "</div>";
                 echo "</div>";
 //                
 //                echo "<div class='form-group'>";
