@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <?php
-            if (strlen($event_detail['edition_general_detail']) > 10) {
+            if ((strlen($event_detail['edition_general_detail']) > 10) || ($event_detail['edition_info_medals'])) {
                 ?>
                 <div class="col-md-7">
                     <div class="c-content-title-1 ">

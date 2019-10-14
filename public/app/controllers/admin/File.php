@@ -242,17 +242,6 @@ class File extends Admin_Controller {
         return $return;
     }
 
-    //CHECK AND CREATE UPLOAD FOLDER
-    private function check_upload_folder($linked_to, $id) {
-        $upload_path = "./uploads/" . $linked_to . "/" . $id;
-        if (!file_exists($upload_path)) {
-            if (!mkdir($upload_path, 0777, true)) {
-                return false;
-            }
-        }
-        return $upload_path;
-    }
-
     public function delete($file_id = 0) {
         
         // set return url to session should it exists

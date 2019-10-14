@@ -87,6 +87,7 @@ class Edition extends Admin_Controller {
         $this->load->model('sponsor_model');
         $this->load->model('entrytype_model');
         $this->load->model('regtype_model');
+        $this->load->model('result_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -160,7 +161,11 @@ class Edition extends Admin_Controller {
             $this->data_to_view['date_list_by_type'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
-            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
+            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);          
+            foreach ($this->data_to_view['race_list'] as $race_id=>$race) {
+                $this->data_to_view['race_list'][$race_id]['has_results'] = $this->result_model->result_exist_for_race($race_id);
+                $this->data_to_view['race_list'][$race_id]['file_list'] = $this->file_model->get_file_list("race", $race_id, true);
+            }
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $edition_id;
             // set edition_return_url for races
             $this->session->set_userdata('edition_return_url', "/" . uri_string());
@@ -244,7 +249,7 @@ class Edition extends Admin_Controller {
         $this->load->model('race_model');
         foreach ($race_list_post as $race_id => $race) {
             $combine = array_merge($race_list_current[$race_id], $race);
-            $remove = ['created_date', 'updated_date', 'edition_date', 'edition_name', 'racetype_name', 'racetype_abbr', 'race_color'];
+            $remove = ['created_date', 'updated_date', 'edition_date', 'edition_name', 'racetype_name', 'racetype_abbr', 'race_color','has_results','file_list'];
             $race_data = array_diff_key($this->race_fill_blanks($combine, $edition_info), array_flip($remove));
             $this->race_model->set_race("edit", $race_id, $race_data);
         }

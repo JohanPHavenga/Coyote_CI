@@ -65,3 +65,4 @@ echo form_close();
 //wts($regtype_list);
 //wts($date_list_by_type);
 //wts($status_list);
+wts($race_list);

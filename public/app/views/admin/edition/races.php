@@ -32,6 +32,24 @@
                     $badge_type = "warning";
                     break;
             }
+            
+            // chcek results
+            if ($race['has_results']) {
+                $result_badge_type="success";
+                $result_badge_text="<a href='https://roadrunning/admin/result/delete_result_set/$race_id' data-toggle='confirmation' data-original-title='Delete results?' data-placement='top'>Results</a>";
+            } else {
+                $result_badge_type="warning";
+                $result_badge_text="<a href='https://roadrunning/admin/result/import/$race_id'>No Results</a>";
+            }
+            
+            if (isset($race['file_list'][4])) {
+                $result_file_badge_type="success";
+                $result_file_badge_text="Results File";
+            } else {
+                $result_file_badge_type="danger";
+                $result_file_badge_text="No Results File";
+            }
+            
             ?>
             <div class="portlet-title">
                 <div class="caption">
@@ -40,6 +58,8 @@
                         <strong><?= fraceDistance($race['race_distance']) . "</strong> " . $race['racetype_name']; ?>
                     </span>
                     <span style='margin-top: -2px;' class="badge badge-<?= $badge_type; ?>"> <?= $status_list[$race['race_status']]; ?> </span>
+                    <span style='margin-top: -2px;' class="badge badge-<?=$result_badge_type;?>"> <?=$result_badge_text;?> </span>
+                    <span style='margin-top: -2px;' class="badge badge-<?=$result_file_badge_type;?>"> <?=$result_file_badge_text;?> </span>
                 </div>
                 <div class='btn-group pull-right' style="margin: 5px 0 0 10px;">
                     <?php

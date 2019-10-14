@@ -34,6 +34,14 @@ var ComponentsDateTimePickers = function () {
                 showSeconds: false,
                 showMeridian: false
             });
+            
+            $('.timepicker-24-seconds').timepicker({
+                autoclose: true,
+                minuteStep: 1,
+                secondStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            });
 
             // handle input group button click
             $('.timepicker').parent('.input-group').on('click', '.input-group-btn', function(e){

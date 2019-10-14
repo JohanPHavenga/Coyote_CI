@@ -267,22 +267,6 @@ var TableDatatablesManaged = function () {
         });
     };
 
-    // GENERIC list table
-    var initListTable = function () {
-        var table = $('#list_table');
-        table.dataTable({
-            order: [[1, "asc"]],
-            responsive: true,
-            columnDefs: [
-                {orderable: false, targets: [-1]},
-                {searchable: false, targets: [-1]},
-                {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: -1},
-                {responsivePriority: 3, targets: 1}
-            ]
-        });
-    };
-
     // DateType Table
     var initDateTypeTable = function () {
         var table = $('#datetype_table');
@@ -293,6 +277,37 @@ var TableDatatablesManaged = function () {
             columnDefs: [
                 {responsivePriority: 1, targets: 1},
                 {responsivePriority: 2, targets: -1},
+            ]
+        });
+    };
+    
+    // Result Table
+    var initResultTable = function () {
+        var table = $('#result_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            lengthMenu: [[25, 50, -1], [25, 50, "All"]],
+            columnDefs: [
+                {orderable: false, targets: [-1]},
+                {searchable: false, targets: [-1]},
+                {responsivePriority: 1, targets: 1},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: -2},
+            ]
+        });
+    };
+
+    // GENERIC list table
+    var initListTable = function () {
+        var table = $('#list_table');
+        table.dataTable({
+            order: [[1, "asc"]],
+            responsive: true,
+            columnDefs: [
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: -1},
+                {responsivePriority: 3, targets: 1}
             ]
         });
     };
@@ -321,6 +336,7 @@ var TableDatatablesManaged = function () {
             initEditionUrlTable();
             initEditionFileTable();
             initDateTypeTable();
+            initResultTable();
             initListTable();
         }
     };

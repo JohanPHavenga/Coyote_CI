@@ -8,6 +8,9 @@ class Result extends Admin_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('result_model');
+        $this->load->model('Import_model_phpexcel', 'import');
+        $this->load->helper(array('form'));
+        $this->load->library('form_validation');
     }
 
     public function _remap($method, $params = array()) {
@@ -40,11 +43,11 @@ class Result extends Admin_Controller {
                 "icon" => "login",
                 "uri" => "result/import",
             ],
-            [
-                "name" => "Manually Add Result",
-                "icon" => "plus",
-                "uri" => "result/create/add",
-            ],
+//            [
+//                "name" => "Manually Add Result",
+//                "icon" => "plus",
+//                "uri" => "result/create/add",
+//            ],
         ];
 
         $this->data_to_view['url'] = $this->url_disect();
@@ -73,62 +76,52 @@ class Result extends Admin_Controller {
     }
 
     public function create($action, $id = 0) {
-        // set return url to session should it exists
-        if ($this->session->has_userdata('edition_return_url')) {
-            $this->return_url = $this->session->edition_return_url;
-        }
-        
         // additional models
-        $this->load->model('town_model');
-        $this->load->model('club_model');
-
-        // load helpers / libraries
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        $this->load->model('race_model');
 
         // set data
-        $this->data_to_header['title'] = "Event Input Page";
+        $this->data_to_header['title'] = "Result Input Page";
         $this->data_to_view['action'] = $action;
         $this->data_to_view['form_url'] = $this->create_url . "/" . $action;
 
         $this->data_to_header['css_to_load'] = array(
-            "plugins/typeahead/typeahead.css"
+            "plugins/typeahead/typeahead.css",
+            "plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
         );
 
         $this->data_to_footer['js_to_load'] = array(
             "plugins/typeahead/handlebars.min.js",
             "plugins/typeahead/typeahead.bundle.min.js",
+            "plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
         );
 
         $this->data_to_footer['scripts_to_load'] = array(
             "scripts/admin/autocomplete.js",
+            "scripts/admin/components-date-time-pickers.js",
         );
 
-        $this->data_to_view['status_dropdown'] = $this->event_model->get_status_dropdown();
-        $this->data_to_view['town_dropdown'] = $this->town_model->get_town_dropdown();
-        $this->data_to_view['club_dropdown'] = $this->club_model->get_club_dropdown();
+        $this->data_to_view['race_dropdown'] = $this->race_model->get_race_dropdown(true);
 
         if ($action == "edit") {
-            $this->data_to_view['event_detail'] = $this->event_model->get_event_detail($id);
+            $this->data_to_view['result_detail'] = $this->result_model->get_result_detail($id);
             $this->data_to_view['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         } else {
-            $this->data_to_view['event_detail']['club_id'] = 8;
-            $this->data_to_view['event_detail']['event_status'] = 1;
+            $this->data_to_view['result_detail'] = $this->result_model->get_result_field_array();
+            $this->data_to_view['result_detail']['race_id'] = 0;
+            $this->data_to_view['result_detail']['result_time'] = 0;
         }
 
-
         // set validation rules
-        $this->form_validation->set_rules('event_name', 'Event Name', 'required');
-        $this->form_validation->set_rules('event_status', 'Event Status', 'required|numeric|greater_than[0]', ["greater_than" => "Please select a Status for the event"]);
-        $this->form_validation->set_rules('town_id', 'Town', 'required|numeric|greater_than[0]', ["greater_than" => "Please select the Town in which the event will take place"]);
-
+        $this->form_validation->set_rules('result_pos', 'Position', 'required|numeric|greater_than[0]');
+        $this->form_validation->set_rules('result_surname', 'Surname', 'required|min_length[3]');
+        $this->form_validation->set_rules('result_time', 'Time', 'required');
+        $this->form_validation->set_rules('race_id', 'Race', 'required|numeric|greater_than[0]');
 
         $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Event" => "/admin/event",
-                    ucfirst($action) => "",
+            "Home" => "/admin",
+            "Results" => "/admin/result",
+            ucfirst($action) => "",
         ];
-
 
         // load correct view
         if ($this->form_validation->run() === FALSE) {
@@ -137,9 +130,10 @@ class Result extends Admin_Controller {
             $this->load->view($this->create_url, $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-            $id = $this->event_model->set_event($action, $id);
+            $data = $this->input->post();
+            $id = $this->result_model->set_result($action, $id, $data);
             if ($id) {
-                $alert = "Event has been updated";
+                $alert = "Result has been updated";
                 $status = "success";
             } else {
                 $alert = "Error committing to the database";
@@ -153,35 +147,54 @@ class Result extends Admin_Controller {
 
             // save_only takes you back to the edit page.
             if (array_key_exists("save_only", $_POST)) {
-                $this->return_url = base_url("admin/event/create/edit/" . $id);
+                $this->return_url = base_url("admin/result/create/edit/" . $id);
             }
 
             redirect($this->return_url);
         }
     }
 
-    public function delete($event_id = 0) {
+    public function delete($result_id = 0) {
 
-//        echo $event_id;
-//        exit();
-
-        if (($event_id == 0) AND ( !is_int($event_id))) {
-            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $event_id);
+        if (($result_id == 0) AND ( !is_int($result_id))) {
+            $this->session->set_flashdata('alert', 'Cannot delete record: ' . $result_id);
             $this->session->set_flashdata('status', 'danger');
             redirect($this->return_url);
             die();
         }
-
-        // get event detail for nice delete message
-        $event_detail = $this->event_model->get_event_detail($event_id);
         // delete record
-        $db_del = $this->event_model->remove_event($event_id);
+        $db_del = $this->result_model->remove_result($result_id);
 
         if ($db_del) {
-            $msg = "Event has successfully been deleted: " . $event_detail['event_name'];
+            $msg = "Result has successfully been deleted: " . $result_id;
             $status = "success";
         } else {
-            $msg = "Error in deleting the record:'.$event_id";
+            $msg = "Error in deleting the record: " . $result_id;
+            $status = "danger";
+        }
+
+        $this->session->set_flashdata('alert', $msg);
+        $this->session->set_flashdata('status', $status);
+        redirect($this->return_url);
+    }
+    
+    public function delete_result_set($race_id = 0) {
+        $this->load->model('race_model');
+        
+        // set return url to session should it exists
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->return_url = $this->session->edition_return_url;
+        }
+        // get race detail for nice delete message
+        $race_detail = $this->race_model->get_race_detail($race_id);
+        // delete record
+        $db_del = $this->result_model->remove_result_set($race_id);
+
+        if ($db_del) {
+            $msg = "Result ser has successfully been deleted for " . $race_detail['race_name'];
+            $status = "success";
+        } else {
+            $msg = "Error in deleting the result set for Race ID: '.$race_id";
             $status = "danger";
         }
 
@@ -190,492 +203,339 @@ class Result extends Admin_Controller {
         redirect($this->return_url);
     }
 
-    public function import($submit = NULL) {
+    public function import($race_id = NULL) {
 
-        $this->load->helper('form');
         $this->load->library('upload');
         $this->load->library('table');
-        $this->load->model('racetype_model');
-        $this->load->model('asamember_model');
+        $this->load->library('excel');
+        $this->load->model('race_model');
+        $this->load->model('file_model');
 
-        $this->data_to_header['title'] = "Import Events";
-        $this->data_to_view['form_url'] = "/admin/event/import/confirm";
-        $this->data_to_view['asamember_list'] = $this->asamember_model->get_asamember_list(true);
+        $this->data_to_header['title'] = "Import Result Set";
+        $this->data_to_view['form_url'] = "/admin/result/import/confirm";
+        $this->data_to_view['race_dropdown'] = $this->race_model->get_race_dropdown(true);
+        if ($race_id) { $this->data_to_view['race_id']=$race_id; }
 
+        // set config for upload
         $config['upload_path'] = $this->upload_path;
-        $config['allowed_types'] = 'csv';
+        $config['allowed_types'] = 'xlsx|xls|csv';
         $config['max_size'] = 8192;
+        $config['remove_spaces'] = TRUE;
+        $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('eventfile')) {
-            if (!empty($submit)) {
-                $this->data_to_view['error'] = $this->upload->display_errors();
-            }
+        // set validation rules
+        $this->form_validation->set_rules('race_id', 'Race', 'required|numeric|greater_than[0]',
+//        $this->form_validation->set_rules('race_id', 'Race', 'required|numeric|greater_than[0]|callback_check_result_file',
+                [
+//                    "check_result_file" => "This race already <b>has a result file loaded</b> against it",
+                    "greater_than" => "Select a <b>race</b> to upload the result set against",
+                ]
+        );
 
+        // first check form validation
+        if ($this->form_validation->run() === FALSE) {
             $this->load->view($this->header_url, $this->data_to_header);
-            $this->load->view("/admin/event/import", $this->data_to_view);
+            $this->load->view("/admin/result/import", $this->data_to_view);
+            $this->load->view($this->footer_url, $this->data_to_footer);
+        } elseif (!$this->upload->do_upload('result_file')) {
+            $this->data_to_view['error'] = $this->upload->display_errors();
+            $this->load->view($this->header_url, $this->data_to_header);
+            $this->load->view("/admin/result/import", $this->data_to_view);
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
-            if ($submit == "confirm") {
-                // get file data and meta data
-                // $this->data_to_view['file_meta_data'] = $this->upload->data();
-                $file_data = $this->csv_handler($this->upload->data('full_path'));
-                $_SESSION['import_event_data'] = $this->formulate_events_data($file_data);
-
-                // send to view
-                $this->data_to_view['import_event_data'] = $_SESSION['import_event_data'];
-                $this->data_to_view['racetype_arr'] = $this->racetype_model->get_racetype_list();
-
-                $this->data_to_header['crumbs'] = [
-                            "Home" => "/admin",
-                            "Event" => "/admin/event",
-                            "Import" => "/admin/event/import",
-                            "Confirm" => "",
-                ];
-
-                $this->load->view($this->header_url, $this->data_to_header);
-                $this->load->view("/admin/event/import", $this->data_to_view);
-                $this->load->view($this->footer_url, $this->data_to_footer);
+            $data = array('upload_data' => $this->upload->data());
+            if (!empty($data['upload_data']['file_name'])) {
+                $import_xls_file = $data['upload_data']['file_name'];
             } else {
-                die("Upload failure");
+                $import_xls_file = 0;
+            }
+            $inputFileName = $this->upload_path . $import_xls_file;
+            try {
+                $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+                $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objReader->load($inputFileName);
+            } catch (Exception $e) {
+                die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+                        . '": ' . $e->getMessage());
+            }
+
+            // SET SESSION
+            $_SESSION['import']['result_data'] = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+            // COPY FILE;            
+            $this->check_upload_folder("race", $this->input->post('race_id'));
+            rename($inputFileName, './uploads/race/' . $this->input->post('race_id') . "/" . $import_xls_file);
+            // write FILES table entry
+            $params = [
+                "id_type" => "race_id",
+                "id" => $this->input->post('race_id'),
+                "filetype_id" => 4,
+                "file_linked_to" => "race",
+                "data" => $data['upload_data'],
+                "debug" => false,
+            ];
+            // set file
+            $_SESSION['import']['file_id'] = $this->file_model->set_file($params);
+            // add race detail to session
+            $_SESSION['import']['race_id'] = $this->input->post('race_id');
+            $_SESSION['import']['race'] = $this->race_model->get_race_detail($this->input->post('race_id'));
+            // set results flag 
+            $set = $this->set_results_flag("race", $this->input->post('race_id'));
+
+//            wts($file_db_w);
+//            wts($set);
+//            wts($inputFileName);
+//            wts($this->input->post());
+//            wts($_SESSION['import']['race']);
+//            die();
+            redirect("/admin/result/import_confirm");
+        }
+    }
+
+    function import_confirm() {
+        $page = "import_confirm";
+        $this->load->library('table');
+        $skip_add = 1;
+
+        // get results table fields
+        $result_fields = $this->result_model->get_result_field_array();
+        $unset_arr = ["result_id", "race_id", "file_id", "created_date", "updated_date"];
+        foreach ($unset_arr as $unset_field) {
+            unset($result_fields[$unset_field]);
+        }
+
+        //set skip arr
+        for ($x = 1; $x <= 12; $x++) {
+            $skip_arr[$x] = $x;
+        }
+
+        // set stuff to go to view
+        $this->data_to_view['skip_arr'] = $skip_arr;
+        $this->data_to_view['result_fields'] = $this->add_exception_fields($this->result_model->get_result_field_dropdown());
+        $this->data_to_view['columns'] = array_keys($_SESSION['import']['result_data'][1]);
+        $this->data_to_view['import_data'] = array_slice($_SESSION['import']['result_data'], 0, 12);
+
+        $race = $_SESSION['import']['race'];
+        $distance = str_pad(round($race['race_distance'], 0), 2, '0', STR_PAD_LEFT);
+        $year = date('Y', strtotime($race['edition_date']));
+        $this->data_to_view['race_name'] = $race['event_name'] . " | " . $year . " | " . $distance . " km | " . $race['racetype_abbr'];
+
+        // set input_data from either the post, or preload templates
+        if ($this->input->post()) {
+            foreach ($this->input->post("columns") as $column => $field) {
+
+                if ($field) {
+                    // exceptions
+//                    if ($field == "result_name_surname") {
+//                        $input_data = $this->set_exception_fields($input_data, "result_name_surname", $_SESSION['import']['result_data'][$this->input->post('skip') + $skip_add][$column]);
+//                    } else {
+//                        $input_data[$field] = $_SESSION['import']['result_data'][$this->input->post('skip') + $skip_add][$column];
+//                    }
+                    $input_data = $this->set_exception_fields($input_data, $field, $_SESSION['import']['result_data'][$this->input->post('skip') + $skip_add][$column]);
+                }
+            }
+            $this->data_to_view['input_data'] = $input_data;
+
+//            // save_only takes you back to the edit page.
+            if (array_key_exists("upload", $this->input->post())) {
+                // set column_map and skip values
+                $_SESSION['import']['column_map'] = $this->input->post("columns");
+                $_SESSION['import']['skip'] = $this->input->post("skip");
+                redirect("/admin/result/run_import");
+                die();
+            }
+        } else {
+            // get skip from 
+            foreach ($_SESSION['import']['result_data'] as $key => $row) {
+                if (is_numeric($row['A'])) {
+                    $skip = $key;
+                    $skip_display = $skip - 1;
+                    break;
+                }
+            }
+            $pre_load = $this->pre_load_per_asa($_SESSION['import']['race']['asa_member_id'], $skip);
+
+            $this->data_to_view['input_data'] = $pre_load['input'];
+            $this->data_to_view['pre_load'] = $pre_load['pre'];
+            $this->data_to_view['skip'] = $skip_display;
+        }
+
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/result/" . $page, $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
+    }
+
+    private function add_exception_fields($field_arr) {
+        $field_arr["result_name_surname"] = "name_surname";
+        return $field_arr;
+    }
+
+    private function set_exception_fields($input_data=[], $field=null, $value=null) {
+        switch ($field) {
+            case "result_name_surname" :
+                $value_parts = explode(" ", $value);
+                $input_data["result_name"] = $value_parts[0];
+                unset($value_parts[0]);
+                $input_data["result_surname"] = implode(" ", $value_parts);
+                break;
+            case "result_sex" :
+                $input_data[$field] = strtoupper(substr($value, 0, 1));
+                break;
+            default:
+                $input_data[$field] = $value;
+                break;
+        }
+        return $input_data;
+    }
+
+    private function pre_load_per_asa($asa_member_id, $skip) {
+        switch ($asa_member_id) {
+            case 1: //WPA
+                $data['pre']["A"] = "result_pos";
+                $data['pre']["B"] = "result_surname";
+                $data['pre']["C"] = "result_name";
+                $data['pre']["D"] = "result_club";
+                $data['pre']["E"] = "result_age";
+                $data['pre']["F"] = "result_sex";
+                $data['pre']["G"] = "result_cat";
+                $data['pre']["H"] = "result_asanum";
+                $data['pre']["I"] = "result_time";
+                break;
+            case 2: // BOLA
+                $data['pre']["A"] = "result_pos";
+                $data['pre']["B"] = "result_name";
+                $data['pre']["C"] = "result_surname";
+                $data['pre']["D"] = "result_club";
+                $data['pre']["E"] = "result_asanum";
+                $data['pre']["F"] = "result_age";
+                $data['pre']["G"] = "result_cat";
+                $data['pre']["H"] = "result_sex";
+                $data['pre']["I"] = "result_time";
+                break;
+            case 3: // ASWD
+                $data['pre']["A"] = "result_pos";
+                $data['pre']["B"] = "result_name_surname";
+                $data['pre']["C"] = "result_time";
+                $data['pre']["D"] = "result_asanum";
+                $data['pre']["E"] = "result_cat";
+                $data['pre']["F"] = "result_sex";
+                break;
+            default:
+                $data['pre']["A"] = "result_pos";
+                $data['pre']["B"] = "result_surname";
+                $data['pre']["C"] = "result_name";
+                $data['pre']["D"] = "result_club";
+                $data['pre']["E"] = "result_age";
+                $data['pre']["F"] = "result_sex";
+                $data['pre']["G"] = "result_cat";
+                $data['pre']["H"] = "result_asanum";
+                $data['pre']["I"] = "result_time";
+                break;
+        }
+        foreach ($data['pre'] as $column => $field) {
+            if ($field) {
+                $data['input'] = $this->set_exception_fields($data['input'], $field, $_SESSION['import']['result_data'][$skip][$column]);
             }
         }
+        return $data;
     }
 
     function run_import() {
-        // debug not to write to DB
-        $debug = 0;
+//        wts($_SESSION['import']);
+//        die();
+        // IMPORT LOGIC
+        $this->load->model('result_model');
+        if ($_SESSION['import']) {
+            $import = $_SESSION['import'];
+            if (!$this->result_model->result_exist_for_race($import['race_id'])) {
 
-        $this->load->model('edition_model');
-        $this->load->model('race_model');
-        $this->load->model('user_model');
-        $this->load->model('asamember_model');
+                // get_race_name
+                $race = $_SESSION['import']['race'];
+                $distance = str_pad(round($race['race_distance'], 0), 2, '0', STR_PAD_LEFT);
+                $year = date('Y', strtotime($race['edition_date']));
+                $race_name = $race['event_name'] . " | " . $year . " | " . $distance . " km | " . $race['racetype_abbr'];
+                $import_counter = 0;
 
-        $event_data = $edition_data = $race_data = [];
-
-        // EVENTS
-        foreach ($_SESSION['import_event_data'] as $event_action => $event_list) {
-
-            foreach ($event_list as $event_id => $event) {
-
-                // set die event_data array
-                $event_field_list = $this->get_event_field_list();
-                foreach ($event_field_list as $event_field) {
-                    // as daar 'n value is
-                    if ($event[$event_field]) {
-                        $event_data[$event_field] = $event[$event_field];
+                foreach ($import['result_data'] as $key => $row) {
+                    if ($key <= $import['skip']) {
+                        continue;
                     }
-                }
-                // write to DB
-                if (!empty($event_data)) {
-                    $event_id = $this->event_model->set_event($event_action, $event_id, $event_data, $debug);
-                }
-
-                // EDITIONS
-                foreach ($event['edition_data'] as $edition_action => $edition_list) {
-
-                    foreach ($edition_list as $edition_id => $edition) {
-
-                        // CONTACTS
-                        foreach ($edition['contact_data'] as $contact_action => $contact) {
-                            // set die contact_data array
-                            $contact_field_list = $this->get_contact_field_list();
-                            foreach ($contact_field_list as $contact_field) {
-                                if ($contact_field == 'user_id') {
-                                    $contact_id = $contact[$contact_field];
-                                }
-                                // as daar 'n value is
-                                if ($contact[$contact_field]) {
-                                    $contact_data[$contact_field] = $contact[$contact_field];
-                                }
-                            }
-
-                            // write to DB
-                            if (!empty($contact_data)) {
-                                $user_id = $this->user_model->set_user($contact_action, $contact_id, $contact_data, $debug);
-                            }
-                            $edition_data['user_id'] = $user_id;
-                            unset($contact_data);
+                    foreach ($row as $col => $value) {
+                        if ($import['column_map'][$col]) {
+//                            if ($import['column_map'][$col] == "result_name_surname") {
+//                                $result_data = $this->set_exception_fields($result_data, "result_name_surname", $value);
+//                            } else {
+//                                $result_data[$import['column_map'][$col]] = $value;
+//                            }
+                            $result_data=$this->set_exception_fields($result_data, $import['column_map'][$col], $value);
                         }
-
-                        // set die edition_data array
-                        $edition_field_list = $this->get_edition_field_list();
-                        foreach ($edition_field_list as $edition_field) {
-                            // as daar 'n value is
-                            if ($edition[$edition_field]) {
-                                $edition_data[$edition_field] = $edition[$edition_field];
-                                if ($edition_field=="edition_date") { $edition_data['edition_date_end']=$edition[$edition_field]; }
-                            }
-                        }
-
-                        // write to DB
-                        if (!empty($edition_data)) {
-                            $edition_data['event_id'] = $event_id;
-                            $edition_id = $this->edition_model->set_edition($edition_action, $edition_id, $edition_data, $debug);
-                        }
-
-
-                        // RACES
-                        foreach ($edition['race_data'] as $race_action => $race_list) {
-
-                            foreach ($race_list as $race_id => $race) {
-                                // set die race_data array
-                                $race_field_list = $this->get_race_field_list();
-                                foreach ($race_field_list as $race_field) {
-                                    // as daar 'n value is
-                                    if ($race[$race_field]) {
-                                        $race_data[$race_field] = $race[$race_field];
-                                    }
-                                }
-
-                                // write to DB
-                                if (!empty($race_data)) {
-                                    $race_data['edition_id'] = $edition_id;
-                                    $race_id = $this->race_model->set_race($race_action, $race_id, $race_data, $debug);
-                                }
-                                unset($race_data);
-                            }
-                        }
-
-                        // ASA MEMBERS
-                        foreach ($edition['asa_member_data'] as $asa_member_action => $asa_member) {
-                            // set die contact_data array
-                            $asa_member_field_list = $this->get_asa_member_field_list();
-                            foreach ($asa_member_field_list as $asa_member_field) {
-
-                                if ($asa_member[$asa_member_field]) {
-                                    $asa_member_data[$asa_member_field] = $asa_member[$asa_member_field];
-                                }
-                            }
-
-                            // write to DB
-                            if (!empty($asa_member_data)) {
-                                if ($asa_member_data['asa_member_id'] > 0) {
-                                    $status = $this->asamember_model->set_asamember_edition($asa_member_data['asa_member_id'], $edition_id);
-                                }
-                            }
-                            unset($asa_member_data);
-                        }
-
-                        unset($edition_data);
                     }
+                    $result_data['race_id'] = $import['race_id'];
+                    $result_data['file_id'] = $import['file_id'];
+                    // check is pos is an INT
+                    if (!is_numeric($result_data['result_pos'])) {
+                        break;
+                    }
+                    $set_result = $this->result_model->set_result("add", NULL, $result_data);
+                    $import_counter++;
                 }
-                unset($event_data);
-            }
-        }
+                // UNSET SESSION IMPORT DATA
+                unset($_SESSION['import']);
 
-        // go to view
-        $this->session->set_flashdata([
-            'alert' => "Upload Successfull",
-            'status' => "success",
-        ]);
-
-        $this->data_to_header['crumbs'] = [
-                    "Home" => "/admin",
-                    "Event" => "/admin/event",
-                    "Import" => "/admin/event/import",
-                    "Success" => "",
-        ];
-
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/event/import_success", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-
-        // wts($_SESSION['import_event_data']);
-        // die("i run");
-    }
-
-    public function export() {
-
-        $this->load->helper('form');
-        $this->load->library('upload');
-        $this->load->model('edition_model');
-
-        $this->data_to_header['title'] = "Export Events";
-        $this->data_to_view['form_url'] = "/admin/event/run_export";
-
-        $this->data_to_view['time_period'] = $this->edition_model->get_timeperiod();
-        $this->data_to_view['time_period']['all'] = "All Data";
-
-        $this->load->view($this->header_url, $this->data_to_header);
-        $this->load->view("/admin/event/export", $this->data_to_view);
-        $this->load->view($this->footer_url, $this->data_to_footer);
-    }
-
-    public function run_export() {
-        $date_from = NULL;
-        $date_to = NULL;
-
-        $this->load->dbutil();
-        $this->load->helper('download');
-
-        $date = $this->input->post('time_period');
-        // set filename
-        if ($date) {
-            if ($date == "all") {
-                $filename = "events_all.csv";
-                $date_from = "2016-01-01";
-                $date_to = NULL;
+                $this->session->set_flashdata([
+                    'alert' => "Upload Successful",
+                    'status' => "success",
+                    'race_name' => $race_name,
+                    'import_counter' => $import_counter,
+                ]);
             } else {
-                $filename = "events_" . str_replace("-", "", $date) . ".csv";
-                $date_from = $date . "-01";
-                $date_to = date("Y-m-t", strtotime($date_from));
+                $this->session->set_flashdata([
+                    'alert' => "Upload Failed! Results already exists for this race",
+                    'status' => "danger",
+                ]);
             }
         } else {
-            $filename = "events_generic.csv";
+            // go to view
+            $this->session->set_flashdata([
+                'alert' => "Upload Failed! No upload data found",
+                'status' => "danger",
+            ]);
         }
-
-        // get events field list to sync up with the import
-        $event_field_arr = $this->get_event_field_list();
-        foreach ($event_field_arr as $field) {
-            if ($field == "event_id") {
-                $field = "events.event_id";
-            }
-            if ($field == "town_id") {
-                $field = "towns.town_id";
-            }
-            $field_arr[] = $field;
-        }
-        // add town name to make it easy for the user
-        $field_arr[] = "town_name";
-
-        // get editions field list to sync up with the import
-        $edition_field_arr = $this->get_edition_field_list();
-        foreach ($edition_field_arr as $field) {
-            if ($field == "edition_id") {
-                $field = "editions.edition_id";
-            }
-            if ($field == "latitude_num") {
-                $field = "editions.latitude_num";
-            }
-            if ($field == "longitude_num") {
-                $field = "editions.longitude_num";
-            }
-            $field_arr[] = $field;
-        }
-        // get race field list to sync up with the import
-        $race_field_arr = $this->get_race_field_list();
-        foreach ($race_field_arr as $field) {
-            if ($field == "racetype_id") {
-                $field = "races.racetype_id";
-            }
-            $field_arr[] = $field;
-        }
-
-        // get contact field list to sync up with the import
-        $contact_field_arr = $this->get_contact_field_list();
-        foreach ($contact_field_arr as $field) {
-            if ($field == "user_id") {
-                $field = "users.user_id";
-            }
-            $field_arr[] = $field;
-        }
-
-        /* get the object   */
-        $export = $this->event_model->get_event_list_data(
-                [
-                    "field_arr" => $field_arr,
-                    "date_from" => $date_from,
-                    "date_to" => $date_to,
-                ]
-        );
-        /*  pass it to db utility function  */
-        $new_report = $this->dbutil->csv_from_result($export);
-        /*  Force download the file */
-        force_download($filename, $new_report);
-        /*  Done    */
+        redirect("./admin/result/import_confirmation");
     }
 
-    private function formulate_events_data($event_data) {
-        $this->load->model('town_model');
+    public function import_confirmation() {
 
-        $return_arr = [];
-        $event_field_list = $this->get_event_field_list();
-
-        $n = 0;
-        foreach ($event_data as $key => $le) {
-            $n++;
-//         
-            // as daaar 'n event ID is
-            if ($le['event_id'] > 0) {
-                $event_action = "edit";
-                $event_key_field = "event_id";
-            } else {
-                $event_action = "add";
-                $event_key_field = "event_name";
-            }
-            $event_key_value = trim($le[$event_key_field]);
-
-            // check as daar niks is om te import nie, skip
-            if (empty($event_key_value)) {
-                continue;
-            }
-
-            // set event level data
-            foreach ($event_field_list as $event_field) {
-                if (($event_field == 'town_id') && ($le[$event_field] < 1)) {
-                    $le[$event_field] = $this->town_model->get_town_id($le['town_name']);
-                }
-                $return_arr[$event_action][$event_key_value][$event_field] = trim(@$le[$event_field]);
-            }
-
-            // add edition information
-            $edition_data = $this->formulate_edition_data($event_data, $event_key_field, $event_key_value);
-            $return_arr[$event_action][$event_key_value]['edition_data'] = $edition_data;
+        $this->data_to_header['crumbs'] = [
+            "Home" => "/admin",
+            "Result" => "/admin/result",
+            "Import" => "/admin/result/import",
+            "Success" => "",
+        ];
+        
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->data_to_view['return_url'] = $this->session->edition_return_url;
+        } else {
+            $this->data_to_view['return_url']="/admin/result/import";
         }
 
-//        wts($return_arr['edit']);
-//        die();
-        return $return_arr;
+        $this->load->view($this->header_url, $this->data_to_header);
+        $this->load->view("/admin/result/import_success", $this->data_to_view);
+        $this->load->view($this->footer_url, $this->data_to_footer);
     }
 
-    private function formulate_edition_data($event_data, $event_key_field, $event_key_value) {
+    // =========================================================================
+    // CUSTOM VALIDATIONS
+    // =========================================================================
 
-        $edition_field_list = $this->get_edition_field_list();
-
-        foreach ($event_data as $le) {
-            if (trim($le[$event_key_field]) == $event_key_value) {
-                // CHECK EDITION ID FOR ACTION
-                if ($le['edition_id']) {
-                    $edition_action = "edit";
-                    $edition_key_field = "edition_id";
-                } else {
-                    $edition_action = "add";
-                    $edition_key_field = "edition_name";
-                }
-                $edition_key_value = trim($le[$edition_key_field]);
-
-                // set edition level data
-                foreach ($edition_field_list as $edition_field) {
-                    $return_arr[$edition_action][$edition_key_value][$edition_field] = $le[$edition_field];
-                }
-
-
-//                foreach ($contact_field_list as $contact_field) {
-//                     if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
-//                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
-//                    }
-//                    $return_arr[$edition_action][$edition_key_value][$contact_field]=$le[$contact_field];
-//                }
-                // add race information
-                $race_data = $this->formulate_race_data($event_data, $edition_key_field, $edition_key_value);
-                $return_arr[$edition_action][$edition_key_value]['race_data'] = $race_data;
-
-                // add contact information
-                $contact_data = $this->formulate_contact_data($event_data, $edition_key_field, $edition_key_value);
-                $return_arr[$edition_action][$edition_key_value]['contact_data'] = $contact_data;
-
-                // add asa_member information
-                $asa_member_data = $this->formulate_asa_member_data($event_data, $edition_key_field, $edition_key_value);
-                $return_arr[$edition_action][$edition_key_value]['asa_member_data'] = $asa_member_data;
-            }
+    function check_result_file() {
+        // check if a result file exists for the race
+        $this->load->model('file_model');
+        if ($this->file_model->check_filetype_exists("race", $this->input->post("race_id"), 4)) {
+            return false;
+        } else {
+            return true;
         }
-
-        return $return_arr;
-    }
-
-    private function formulate_race_data($event_data, $edition_key_field, $edition_key_value) {
-        $race_field_list = $this->get_race_field_list();
-
-        $k = 0;
-        foreach ($event_data as $le) {
-            if (trim($le[$edition_key_field]) == $edition_key_value) {
-                if ($le['race_id']) {
-                    $race_action = "edit";
-                    $race_key_field = "race_id";
-                    $race_key_value = $le[$race_key_field];
-                } else {
-                    $race_action = "add";
-                    $race_key_value = $k;
-                }
-
-                // set event level data
-                foreach ($race_field_list as $race_field) {
-                    if ($race_field == "races.racetype_id") {
-                        $race_field = "racetype_id";
-                    }
-                    $return_arr[$race_action][$race_key_value][$race_field] = $le[$race_field];
-                }
-
-                // full list item
-                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
-            }
-            $k++;
-        }
-
-        return $return_arr;
-    }
-
-    private function formulate_contact_data($event_data, $edition_key_field, $edition_key_value) {
-        $this->load->model('user_model');
-        $contact_field_list = $this->get_contact_field_list();
-
-        $k = 0;
-        foreach ($event_data as $le) {
-            if (trim($le[$edition_key_field]) == $edition_key_value) {
-
-                // set event level data
-                foreach ($contact_field_list as $contact_field) {
-                    // check fir user ID
-                    if (($contact_field == 'user_id') && ($le[$contact_field] < 1)) {
-                        $le[$contact_field] = $this->user_model->get_user_id($le['user_email']);
-                    }
-
-                    if ($le['user_id']) {
-                        $contact_action = "edit";
-                        $contact_key_field = "user_id";
-                        $contact_key_value = $le[$contact_key_field];
-                    } else {
-                        $contact_action = "add";
-                        $contact_key_value = $k;
-                    }
-
-                    $return_arr[$contact_action][$contact_field] = $le[$contact_field];
-                }
-
-                // full list item
-                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
-            }
-            $k++;
-        }
-
-        return $return_arr;
-    }
-
-    private function formulate_asa_member_data($event_data, $edition_key_field, $edition_key_value) {
-        $this->load->model('user_model');
-        $asa_member_field_list = $this->get_asa_member_field_list();
-
-        $k = 0;
-        foreach ($event_data as $le) {
-            if (trim($le[$edition_key_field]) == $edition_key_value) {
-
-                // set event level data
-                foreach ($asa_member_field_list as $asa_member_field) {
-//                    // check fir user ID
-//                    if (($contact_field=='user_id')&&($le[$contact_field]<1)) {
-//                        $le[$contact_field]=$this->user_model->get_user_id($le['user_email']);
-//                    }
-//
-//                    if ($le['user_id']) {
-//                        $contact_action="edit";
-//                        $contact_key_field="user_id";
-//                        $contact_key_value=$le[$contact_key_field];
-//                    } else {                    
-//                        $contact_action="add";
-//                        $contact_key_value=$k;
-//                    }
-
-                    $return_arr["add"][$asa_member_field] = $le[$asa_member_field];
-                }
-
-                // full list item
-                // $return_arr[$race_action][$race_key_value]['full_list_item']=$le;
-            }
-            $k++;
-        }
-
-        return $return_arr;
     }
 
 }

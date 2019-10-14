@@ -43,22 +43,30 @@ class Race_model extends MY_model {
         return false;
     }
 
-    public function get_race_dropdown() {
-        $this->db->select("race_id, race_name, race_distance, edition_name, racetype_abbr");
+    public function get_race_dropdown($limit_results=true) {
+        $this->db->select("race_id, race_name, race_distance, edition_name, event_name, racetype_abbr, edition_date");
         $this->db->from("races");
         $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+        $this->db->join('events', 'editions.event_id=events.event_id', 'left');
         $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
         // limit the list a little
-        $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));
-        $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
-        $this->db->order_by('edition_name');
+        if ($limit_results) {
+            $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));
+            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
+        }
+        $this->db->order_by('event_name');
+        $this->db->order_by('edition_date', "DESC");
+        $this->db->order_by('race_distance', "DESC");
+//        echo $this->db->get_compiled_select();
+//        die();
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             $data[] = "Please Select";
             foreach ($query->result_array() as $row) {
                 $distance = str_pad(round($row['race_distance'], 0), 2, '0', STR_PAD_LEFT);
-                $data[$row['race_id']] = $row['edition_name'] . " | <b>" . $distance . "</b> | " . $row['racetype_abbr'];
+                $year = date('Y', strtotime($row['edition_date']));
+                $data[$row['race_id']] = $row['event_name'] . " | " . $year . " | " . $distance . " km | " . $row['racetype_abbr'];
             }
             return $data;
         }
@@ -69,9 +77,12 @@ class Race_model extends MY_model {
         if (!($id)) {
             return false;
         } else {
-            $this->db->select("races.*, edition_name");
+            $this->db->select("races.*, racetype_abbr, edition_name, edition_date, event_name, asa_member_id");
             $this->db->from("races");
-            $this->db->join('editions', 'editions.edition_id=races.edition_id', 'left');
+            $this->db->join('racetypes', 'racetype_id');
+            $this->db->join('editions', 'edition_id');
+            $this->db->join('events', 'event_id');
+            $this->db->join('edition_asa_member', 'edition_id', 'left');
             $this->db->where('race_id', $id);
             $query = $this->db->get();
 

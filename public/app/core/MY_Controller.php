@@ -169,6 +169,17 @@ class Admin_Controller extends MY_Controller {
 
         return $sum_data;
     }
+    
+    //CHECK AND CREATE UPLOAD FOLDER
+    public function check_upload_folder($linked_to, $id) {
+        $upload_path = "./uploads/" . $linked_to . "/" . $id;
+        if (!file_exists($upload_path)) {
+            if (!mkdir($upload_path, 0777, true)) {
+                return false;
+            }
+        }
+        return $upload_path;
+    }
 
     public function set_results_flag($linked_to, $id) {
         $this->load->model('url_model');
@@ -426,6 +437,18 @@ class Admin_Controller extends MY_Controller {
                 "url" => 'admin/result',
                 "icon" => "trophy",
                 "seg0" => ['result'],
+                "submenu" => [
+                    [
+                        "text" => "List Results",
+                        "url" => 'admin/result/view',
+                        "icon" => "list",
+                    ],
+                    [
+                        "text" => "Import Result Set",
+                        "url" => 'admin/result/import',
+                        "icon" => "login",
+                    ],
+                ],
             ],
             // Clubs
             [

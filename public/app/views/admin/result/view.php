@@ -13,7 +13,7 @@
                 <?php
                 if (!(empty($result_data))) {
                     // create table
-                    $this->table->set_template(ftable('list_table'));
+                    $this->table->set_template(ftable('result_table'));
                     $this->table->set_heading($heading);
                     foreach ($result_data as $id => $data_entry) {
 
@@ -30,16 +30,16 @@
                                 "confirmation_text" => "<b>Are you sure?</b>",
                             ],
                         ];
-                        
+
                         $row['pos'] = $data_entry['result_pos'];
                         $row['race'] = $data_entry['race_name'];
-                        $row['name'] = $data_entry['result_name'];
                         $row['surname'] = $data_entry['result_surname'];
+                        $row['name'] = $data_entry['result_name'];
                         $row['club'] = $data_entry['result_club'];
-                        $row['time'] = ftimeSort($data_entry['result_time']);
+                        $row['time'] = ftimeSort($data_entry['result_time'], true);
                         $row['actions'] = fbuttonActionGroup($action_array);
                         $this->table->add_row($row);
-                        
+
                         unset($row);
                     }
                     echo $this->table->generate();
@@ -48,13 +48,13 @@
                 }
 
                 // add button
-                if (@$create_link) {
-                    echo fbuttonLink($create_link . "/add", "Manually Add Result", "primary");
-                }
+//                echo fbuttonLink($create_link . "/add", "Manually Add Result", "primary");
                 ?>
 
             </div>
         </div>
     </div>
 </div>
+<?php
+//wts($result_data);
 

@@ -21,15 +21,35 @@ class Result_model extends MY_model {
         return $data;
     }
 
+    public function get_result_field_dropdown() {
+        $result_fields = $this->get_result_field_array();
+        $unset_arr = ["result_id", "race_id", "file_id", "created_date", "updated_date"];
+        foreach ($unset_arr as $unset_field) {
+            unset($result_fields[$unset_field]);
+        }
+        $result_fields = array_keys($result_fields);
+        foreach ($result_fields as $field) {
+            $field_arr[$field] = str_replace("result_", "", $field);
+        }
+        array_unshift($field_arr, '');
+        return $field_arr;
+    }
+
     public function get_result_list() {
-        $this->db->select("*");
+        $this->db->select("results.*, race_distance, edition_date, event_name, racetype_abbr");
         $this->db->from($this->table);
         $this->db->join('races', 'race_id');
+        $this->db->join('racetypes', 'racetype_id');
+        $this->db->join('editions', 'edition_id');
+        $this->db->join('events', 'event_id', 'left');
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
                 $data[$row['result_id']] = $row;
+                $distance = str_pad(round($row['race_distance'], 0), 2, '0', STR_PAD_LEFT);
+                $year = date('Y', strtotime($row['edition_date']));
+                $data[$row['result_id']]['race_name'] = $row['event_name'] . " | " . $year . " | " . $distance . " km | " . $row['racetype_abbr'];
             }
             return $data;
         }
@@ -49,17 +69,25 @@ class Result_model extends MY_model {
         }
     }
 
-    public function set_result($action, $id, $data) {
+    public function set_result($action, $result_id, $data) {
+        if (isset($data['save_only'])) {
+            unset($data['save_only']);
+        }
+
         switch ($action) {
             case "add":
-                return $this->db->insert('results', $data);
+                $this->db->insert('results', $data);
+                $result_id = $this->db->insert_id();
+                break;
             case "edit":
                 $data['updated_date'] = date("Y-m-d H:i:s");
-                return $this->db->update('results', $data, array('result_id' => $id));
+                $this->db->update('results', $data, array('result_id' => $result_id));
+                break;
             default:
                 show_404();
                 break;
         }
+        return $result_id;
     }
 
     public function remove_result($id) {
@@ -68,6 +96,17 @@ class Result_model extends MY_model {
         } else {
             $this->db->trans_start();
             $this->db->delete('results', array('result_id' => $id));
+            $this->db->trans_complete();
+            return $this->db->trans_status();
+        }
+    }
+    
+    public function remove_result_set($race_id) {
+        if (!($race_id)) {
+            return false;
+        } else {
+            $this->db->trans_start();
+            $this->db->delete('results', array('race_id' => $race_id));
             $this->db->trans_complete();
             return $this->db->trans_status();
         }
@@ -94,6 +133,14 @@ class Result_model extends MY_model {
 //            die();
 
         return $this->db->get();
+    }
+
+    public function result_exist_for_race($race_id) {
+        $query = $this->db->get_where('results', array('race_id' => $race_id));
+        if ($query->num_rows() > 0) {
+            return true;
+        }
+        return false;
     }
 
 }

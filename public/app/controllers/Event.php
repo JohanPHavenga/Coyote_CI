@@ -393,17 +393,17 @@ class Event extends Frontend_Controller {
         // check eers vir flyer
         if (isset($file_list[2])) {
             $file_id = my_encrypt($file_list[2][0]['file_id']);
-            $calc_url_list[0]['url'] = base_url("file/handler/" . $file_id);
-            $calc_url_list[0]['buttontext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_buttontext'];
-            $calc_url_list[0]['helptext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_helptext'];
-            $calc_url_list[0]['type'] = "file";
-            $calc_url_list[0]['type_id'] = 2;
+            $calc_url_list[0]['url'] = $calc_url_list[2]['url'] = base_url("file/handler/" . $file_id);
+            $calc_url_list[0]['buttontext'] = $calc_url_list[2]['buttontext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_buttontext'];
+            $calc_url_list[0]['helptext'] = $calc_url_list[2]['helptext'] = $filetype_list[$file_list[2][0]['filetype_id']]['filetype_helptext'];
+            $calc_url_list[0]['type'] = $calc_url_list[2]['type'] = "file";
+            $calc_url_list[0]['type_id'] = $calc_url_list[2]['type_id'] = 2;
         } elseif (isset($url_list[2])) {
-            $calc_url_list[0]['url'] = $url_list[2][0]['url_name'];
-            $calc_url_list[0]['buttontext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_buttontext'];
+            $calc_url_list[0]['url'] = $calc_url_list[2]['url'] = $url_list[2][0]['url_name'];
+            $calc_url_list[0]['buttontext'] = $calc_url_list[2]['buttontext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $urltype_list[$url_list[2][0]['urltype_id']]['urltype_helptext'];
-            $calc_url_list[0]['type'] = "url";
-            $calc_url_list[0]['type_id'] = 2;
+            $calc_url_list[0]['type'] = $calc_url_list[2]['type'] = "url";
+            $calc_url_list[0]['type_id'] = $calc_url_list[2]['type_id'] = 2;
         }
 
         if (isset($url_list[1])) { // dan website
@@ -411,14 +411,15 @@ class Event extends Frontend_Controller {
             $calc_url_list[0]['buttontext'] = $calc_url_list[1]['buttontext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $calc_url_list[1]['helptext'] = $urltype_list[$url_list[1][0]['urltype_id']]['urltype_helptext'];
             $calc_url_list[0]['type'] = $calc_url_list[1]['type'] = "url";
-            $calc_url_list[0]['type_id'] = 1;
+            $calc_url_list[0]['type_id'] = $calc_url_list[1]['type_id'] = 1;
         }
-        if ((isset($url_list[5])) && (in_array(4,$entrytype_list))) { // dan online entry 
+//        if ((isset($url_list[5])) && (in_array(4,$entrytype_list))) { // sit hierdie terug einde van die jaar 
+        if (isset($url_list[5])) { // dan online entry  TBR
             $calc_url_list[0]['url'] = $calc_url_list[5]['url'] = $url_list[5][0]['url_name'];
             $calc_url_list[0]['buttontext'] = $calc_url_list[5]['buttontext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_buttontext'];
             $calc_url_list[0]['helptext'] = $calc_url_list[5]['helptext'] = $urltype_list[$url_list[5][0]['urltype_id']]['urltype_helptext'];
             $calc_url_list[0]['type'] = $calc_url_list[5]['type'] = "url";
-            $calc_url_list[0]['type_id'] = 5;
+            $calc_url_list[0]['type_id'] = $calc_url_list[5]['type_id'] = 5;
         }
 
         $url_check_list = [2, 3, 4, 6, 7, 8];
@@ -438,8 +439,7 @@ class Event extends Frontend_Controller {
                 $calc_url_list[$id]['type_id'] = $id;
             }
         }
-//        wts($calc_url_list);
-
+        ksort($calc_url_list);
         return $calc_url_list;
     }
 

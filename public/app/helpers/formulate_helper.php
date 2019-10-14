@@ -155,9 +155,13 @@ if (!function_exists('fdateYear')) {
 
 if (!function_exists('ftimeSort')) {
 
-    function ftimeSort($time) {
-        if ($time) {
-            return date("H:i", strtotime($time));
+    function ftimeSort($time, $show_sec = false) {
+        if ($time) {            
+            if ($show_sec) {
+                return date("H:i:s", strtotime($time));
+            } else {
+                return date("H:i", strtotime($time));
+            }
         } else {
             return 0;
         }

@@ -74,10 +74,10 @@ if (!isset($title)) {
                             <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <!--                            <li>
-                                                            <a href="<?= base_url('admin/entry'); ?>">
-                                                                <i class="icon-docs"></i> Result Set </a>
-                                                        </li>-->
+                            <li>
+                                <a href="<?= base_url('admin/result/import'); ?>">
+                                    <i class="icon-trophy"></i> Result set </a>
+                            </li>
                             <li>
                                 <a href="<?= base_url('admin/event/import'); ?>">
                                     <i class="icon-info"></i> Event Information </a>
@@ -146,7 +146,7 @@ if (!isset($title)) {
                 <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                 <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 
-<?php include("sidebar.php"); ?>
+                <?php include("sidebar.php"); ?>
 
             </div>
             <!-- END SIDEBAR -->
