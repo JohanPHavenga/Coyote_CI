@@ -56,8 +56,13 @@
                     <h4 class="caption-subject font-dark bold uppercase">PREVIEW ENTRY</h4>
                     <?php
                     if (!(empty($input_data))) {
-                        // create table
-                        unset($result_fields[0]);
+                        // remove fields not used
+                        foreach ($result_fields as $field=>$short_name) {
+                            if (!isset($input_data[$field])) {
+                                unset($result_fields[$field]);
+                            }
+                        }
+                        
                         $this->table->set_template(ftable('preview_import_table'));
                         $this->table->set_heading(array_keys($result_fields));
                         foreach ($result_fields as $result_field => $short_name) {
@@ -85,7 +90,7 @@
 <?= form_close(); ?>
 <?php
 //wts($columns);
-wts($input_data);
+//wts($input_data);
 //wts($pre_load);
 //wts($this->input->post());
 //wts($_SESSION['import']['race_id']);

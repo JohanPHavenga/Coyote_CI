@@ -36,6 +36,9 @@
  * @filesource
  */
 
+// attenpt to get session files to clean up more
+ini_set('session.gc_probability', 1);
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
