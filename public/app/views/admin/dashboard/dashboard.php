@@ -48,7 +48,14 @@
                         foreach ($month_list as $day => $edition_list) {
                             foreach ($edition_list as $edition) {
                                 $row['date'] = fdateDay($edition['edition_timestamp']);
-                                $row['name'] = "<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
+                                
+                                $url="<a href='/admin/edition/create/edit/" . $edition['edition_id'] . "'>" . $edition['edition_name'] . "</a>";
+                                if ($edition['edition_isfeatured']) {
+                                    $row['name'] = "<strong>$url</strong>";
+                                } else {
+                                    $row['name'] = $url;
+                                }
+                                
 
                                 $email_link = '/admin/mailer/info_mail/' . $edition['edition_id'];
                                 if ($edition['user_email']) {
@@ -78,7 +85,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-rocket"></i>
-                    <span class="bold"> Entry dates close within the next month</span>
+                    <span class="bold"> Entry dates close within the next week</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -136,5 +143,5 @@
 </div>
 
 <?php
-//wts($event_list_noresults);
+wts($event_list_unconfirmed);
 ?>            

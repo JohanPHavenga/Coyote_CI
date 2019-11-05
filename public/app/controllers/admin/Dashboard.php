@@ -99,7 +99,7 @@ class Dashboard extends Admin_Controller {
             // get list of editions where the entry closing dates is near
             $params = [
                 'date_from' => date("Y-m-d"),
-                'entry_date' => date("Y-m-d", strtotime("1 month")),
+                'entry_date' => date("Y-m-d", strtotime("1 week")),
                 'only_active' => 1,
             ];
             $entry_date_close_data = $this->event_model->get_event_list_summary("date_range", $params);

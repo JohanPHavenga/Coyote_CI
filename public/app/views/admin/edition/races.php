@@ -36,10 +36,10 @@
             // chcek results
             if ($race['has_results']) {
                 $result_badge_type="success";
-                $result_badge_text="<a href='https://roadrunning/admin/result/delete_result_set/$race_id' data-toggle='confirmation' data-original-title='Delete results?' data-placement='top'>Results</a>";
+                $result_badge_text="<a href='".base_url()."admin/result/delete_result_set/$race_id' data-toggle='confirmation' data-original-title='Delete results?' data-placement='top'>Results</a>";
             } else {
                 $result_badge_type="warning";
-                $result_badge_text="<a href='https://roadrunning/admin/result/import/$race_id'>No Results</a>";
+                $result_badge_text="<a href='".base_url()."admin/result/import/$race_id'>No Results</a>";
             }
             
             if (isset($race['file_list'][4])) {
