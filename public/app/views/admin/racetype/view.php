@@ -32,12 +32,12 @@
                         $row['id'] = $data_entry['racetype_id'];
                         $row['racetype'] = $data_entry['racetype_name'];
                         $row['abbr'] = $data_entry['racetype_abbr'];
+//                        $row['color'] = $data_entry['racetype_color'];
+                        $row['icon'] = '<i class="fa fa-'.$data_entry['racetype_icon'].'">';
                         $row['status'] = flableStatus($data_entry['racetype_status']);
                         $row['actions'] = fbuttonActionGroup($action_array);
 
-                        $this->table->add_row(
-                                $row['id'], $row['racetype'], $row['abbr'], $row['status'], $row['actions']
-                        );
+                        $this->table->add_row($row);
                         unset($row);
                     }
                     echo $this->table->generate();

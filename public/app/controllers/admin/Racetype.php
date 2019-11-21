@@ -27,7 +27,7 @@ class Racetype extends Admin_Controller {
         $this->load->library('table');
         
         $this->data_to_view["racetype_data"] = $this->racetype_model->get_racetype_list();
-        $this->data_to_view['heading']=["ID","RaceType","Abbr","Status","Actions"];
+        $this->data_to_view['heading']=["ID","RaceType","Abbr","Icon","Status","Actions"];
         
         $this->data_to_view['create_link']=$this->create_url;
         $this->data_to_header['title'] = "List of RaceTypes";

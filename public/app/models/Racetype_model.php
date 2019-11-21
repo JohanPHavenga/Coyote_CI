@@ -61,6 +61,8 @@ class Racetype_model extends MY_model {
             'racetype_name' => $this->input->post('racetype_name'),
             'racetype_abbr' => $this->input->post('racetype_abbr'),
             'racetype_status' => $this->input->post('racetype_status'),
+//            'racetype_color' => $this->input->post('racetype_color'),
+            'racetype_icon' => $this->input->post('racetype_icon'),
         );
 
         switch ($action) {
