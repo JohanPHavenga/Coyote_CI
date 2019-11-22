@@ -200,9 +200,9 @@
 
 
         <!-- ADDRESS -->
-        <div class="form-group">
-            <div class="row">
-                <div class='col-sm-6'>
+        <div class="row">
+            <div class='col-sm-6'>
+                <div class="form-group">
                     <?php
                     echo form_label('Street Address Start <span class="compulsary">*</span>', 'edition_address');
                     // TBR
@@ -219,7 +219,7 @@
 //                            ]);
                     ?>
                 </div>
-                <div class='col-sm-6'>
+                <div class="form-group">
                     <?php
                     echo form_label('Street Address End', 'edition_address_end');
                     // TBR
@@ -236,6 +236,22 @@
 //                            ]);
                     ?>
                 </div>
+            </div>
+            <div class='col-sm-6'>
+                <?php
+                
+                if ($action == "edit") { 
+                    $address_nospaces=url_title($edition_detail['edition_address_end'].", ".$edition_detail['town_name'].", ZA"); 
+                    ?>
+                    <iframe
+                        width="100%"
+                        height="250"
+                        frameborder="0" style="border:1"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBERO5xjCtTOmjQ_zSSUvlp5YN_l-4yKQw&q=<?= $address_nospaces; ?>" allowfullscreen>
+                    </iframe>
+                    <?php
+                }
+                ?>
             </div>
         </div>
         <div class='form-group'>
