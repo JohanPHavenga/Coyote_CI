@@ -291,5 +291,16 @@ class Race_model extends MY_model {
             return false;
         }
     }
+    
+    public function update_field($r_id, $field, $value) {
+        if (!($r_id)) {
+            return false;
+        } else {
+            $this->db->trans_start();
+            $this->db->update('races', [$field => $value], array('race_id' => $r_id));
+            $this->db->trans_complete();
+            return $this->db->trans_status();
+        }
+    }
 
 }

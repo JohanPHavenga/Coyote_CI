@@ -190,7 +190,7 @@ class Race extends Admin_Controller {
 
             // as dit 'n ASA regulated race is
             if ($edition_info['edition_asa_member'] > 0) {
-                $race_data=$this->race_fill_blanks($race_data, $edition_info);
+                $race_data = $this->race_fill_blanks($race_data, $edition_info);
             }
 
 //            wts($race_data);
@@ -251,6 +251,27 @@ class Race extends Admin_Controller {
         $this->session->set_flashdata('alert', $msg);
         $this->session->set_flashdata('status', $status);
         redirect($this->return_url);
+    }
+
+    // ==========================================================================================
+    // TEMP DATA GENERATION SCRIPTS
+    // ==========================================================================================
+    // create race names for all races
+    function generate_race_names() {
+        // function to port old URLs from fields directly on Edition to URl table
+        $this->load->model('race_model');
+        $racelist = $this->race_model->get_race_list();
+        $n = 0;
+        foreach ($racelist as $r_id => $race) {
+            if ($race['race_name'] == "") {
+                $race_name = $this->get_race_name_from_status($race['race_name'], $race['race_distance'], $race['racetype_name'], $race['race_status']);
+                $this->race_model->update_field($r_id, "race_name", $race_name);
+                $n++;
+            }
+        }
+
+        echo "Done<br>";
+        echo "<b>" . $n . "</b> names were updated<br>";
     }
 
 }
