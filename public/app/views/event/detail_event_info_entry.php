@@ -32,7 +32,7 @@
                             }
                             echo "</b></li>";
                         } else {
-                            echo "<li class='red em'>No entrires avaialble on race day</li>";
+                            echo "<li class='red em'>No entrires available on race day</li>";
                         }
 
                         // Manual entries
@@ -57,7 +57,7 @@
                     if ($event_detail['edition_entry_funrun_otd']) {
                         foreach ($race_list as $race) {
                             if ($race['race_distance'] < 10) {
-                                echo "<li>Entries for the " . $race['race_name'] . " will be taken on the day</li>";
+                                echo "<li><u>Note:</u> Entries for the " . $race['race_name'] . " will be taken on the day</li>";
                             }
                         }
                     }
