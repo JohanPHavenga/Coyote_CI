@@ -94,8 +94,8 @@ $route['griqualandwest'] = 'landing/griqualand+west';
 $route['GriqualandWest'] = 'landing/griqualand+west';
 $route['northerncape'] = 'landing/northern+cape';
 $route['NorthernCape'] = 'landing/northern+cape';
-$route['guateng'] = 'landing/guateng';
-$route['Guateng'] = 'landing/guateng';
+$route['gauteng'] = 'landing/gauteng';
+$route['Gauteng'] = 'landing/gauteng';
 
 $route['content-overview'] = 'calendar';
 

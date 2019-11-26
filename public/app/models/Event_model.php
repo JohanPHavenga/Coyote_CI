@@ -504,7 +504,7 @@ class Event_model extends MY_model {
         }
         if (!$show_all) {
             $this->db->where("edition_date > ", date("Y-m-d", strtotime("3 months ago")));
-            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+9 month")));
+            $this->db->where("edition_date < ", date("Y-m-d", strtotime("+12 month")));
         }
 
         $this->db->order_by("edition_date", "DESC");
