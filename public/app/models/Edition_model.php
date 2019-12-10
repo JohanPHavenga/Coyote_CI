@@ -150,7 +150,7 @@ class Edition_model extends MY_model {
         if (is_null($field_arr)) {
             $field_arr = [
                 "edition_id", "edition_name", "edition_date", "edition_slug", "editions.created_date", "editions.updated_date",
-                "club_name","user_email","events.event_id", "event_name", "asa_member_id",
+                "club_name","user_email","events.event_id", "event_name", "asa_member_id AS edition_asa_member",
                 "towns.town_id","town_name","regions.region_id", "region_name","provinces.province_id","province_name",
             ];
         }
@@ -263,7 +263,7 @@ class Edition_model extends MY_model {
 //            $this->db->where('edition_id', $id);
 //            $query = $this->db->get();
 
-            $this->db->select("*");
+            $this->db->select("*, asa_member_id AS edition_asa_member");
             $this->db->from("editions");
             $this->db->join('events', 'event_id');
             $this->db->join('towns', 'town_id');

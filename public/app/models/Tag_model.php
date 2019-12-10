@@ -136,7 +136,7 @@ class Tag_model extends MY_model {
         }
         return $data;
     }
-    
+
     public function clear_edition_tags($edition_id) {
         if (!$edition_id) {
             return false;
@@ -144,7 +144,7 @@ class Tag_model extends MY_model {
         $this->db->trans_start();
         $this->db->delete('edition_tag', array('edition_id' => $edition_id));
         $this->db->trans_complete();
-        
+
         return $this->db->trans_status();
     }
 
@@ -152,15 +152,19 @@ class Tag_model extends MY_model {
         if (!$edition_id) {
             return false;
         }
-        $this->db->trans_start();
-        $insert_array = [
-            "edition_id" => $edition_id,
-            "tag_id" => $tag_id,
-        ];
-        $id = $this->db->insert('edition_tag', $insert_array);
-        $this->db->trans_complete();
-
-        return $id;
+        $list_of_tags_to_skip = [83];
+        if (in_array($tag_id, $list_of_tags_to_skip)) {
+            return false;
+        } else {
+            $this->db->trans_start();
+            $insert_array = [
+                "edition_id" => $edition_id,
+                "tag_id" => $tag_id,
+            ];
+            $id = $this->db->insert('edition_tag', $insert_array);
+            $this->db->trans_complete();
+            return true;
+        }
     }
 
 }

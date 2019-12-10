@@ -273,8 +273,6 @@ class Edition extends Admin_Controller {
         // REST of fields on flat edition_data array
         foreach ($tagtype_arr as $tagfield_name => $tagfield_id) {
             $tags[$edition_data[$tagfield_name]] = $tagfield_id;
-//            $tags[$tagfield_name]['tag']= $edition_data[$tagfield_name];
-//            $tags[$tagfield_name]['tagtype_id']=$tagfield_id;
         }
 
         // CLEAR EDITION TAGS
@@ -283,6 +281,7 @@ class Edition extends Admin_Controller {
         $this->tag_model->clear_edition_tags($edition_id);
         foreach ($tags as $tag => $tagtype_id) {
             // CHECK IF TAGS EXISTS, ELSE ADD
+            $tag=trim($tag);
             if (!empty($tag)) {
                 $tag_id = $this->tag_model->exists($tag);
                 if (!$tag_id) {
@@ -304,7 +303,7 @@ class Edition extends Admin_Controller {
 //        echo $edition_id;
 //        wts($race_data);
 //        wts($edition_data, true);
-        return($stats);
+//        return($stats);
     }
 
     public function race_status_update($race_id_arr, $status_id) {
