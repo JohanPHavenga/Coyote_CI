@@ -153,6 +153,18 @@ if (!function_exists('fdateYear')) {
 
 }
 
+if (!function_exists('fdateMonth')) {
+
+    function fdateMonth($date) {
+        if ($date) {
+            return date("F", strtotime($date));
+        } else {
+            return false;
+        }
+    }
+
+}
+
 if (!function_exists('ftimeSort')) {
 
     function ftimeSort($time, $show_sec = false) {

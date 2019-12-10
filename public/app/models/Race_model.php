@@ -19,7 +19,7 @@ class Race_model extends MY_model {
         return $data;
     }
 
-    public function get_race_list($edition_id = 0) {
+    public function get_race_list($edition_id = 0, $status=null) {
 
         $this->db->select("races.*, edition_name, edition_date, racetype_name, racetype_abbr");
         $this->db->from("races");
@@ -27,6 +27,9 @@ class Race_model extends MY_model {
         $this->db->join('racetypes', 'racetypes.racetype_id=races.racetype_id', 'left');
         if ($edition_id > 0) {
             $this->db->where('races.edition_id', $edition_id);
+        }
+        if ($status) {
+            $this->db->where('races.race_status', $status);
         }
 //            $this->db->where('races.race_status', 1);
         $this->db->order_by('races.race_distance', 'DESC');

@@ -52,3 +52,13 @@ input.danger {
 
 .badge a { color: #fff;}
 h3.popover-title { color: #333;}
+
+.tags a.badge { 
+    padding: 8px 8px;
+    height: auto;
+    font-size: 14px !important;
+    margin-bottom: 8px;
+}
+.tags a.badge:hover {
+    background: #666;
+}

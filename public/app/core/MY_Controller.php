@@ -288,6 +288,11 @@ class Admin_Controller extends MY_Controller {
                         "icon" => "pin",
                     ],
                     [
+                        "text" => "Tags",
+                        "url" => 'admin/tag',
+                        "icon" => "tag",
+                    ],
+                    [
                         "text" => "Dates",
                         "url" => 'admin/date',
                         "icon" => "calendar",
@@ -394,6 +399,11 @@ class Admin_Controller extends MY_Controller {
                         "text" => "URL Types",
                         "url" => 'admin/urltype',
                         "icon" => "link",
+                    ],
+                    [
+                        "text" => "Tag Types",
+                        "url" => 'admin/tagtype',
+                        "icon" => "tag",
                     ],
                     [
                         "text" => "Areas",

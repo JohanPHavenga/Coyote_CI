@@ -150,14 +150,21 @@ class Edition_model extends MY_model {
         if (is_null($field_arr)) {
             $field_arr = [
                 "edition_id", "edition_name", "edition_date", "edition_slug", "editions.created_date", "editions.updated_date",
-                "events.event_id", "event_name", "regions.region_id", "provinces.province_id",
+                "club_name","user_email","events.event_id", "event_name", "asa_member_id",
+                "towns.town_id","town_name","regions.region_id", "region_name","provinces.province_id","province_name",
             ];
         }
         $select = implode(",", $field_arr);
         $this->db->select($select);
         $this->db->from("editions");
         $this->db->join('events', 'event_id');
-        $this->db->join('towns', 'town_id');
+        $this->db->join('organising_club', 'event_id', 'left');
+        $this->db->join('clubs', 'club_id', 'left');
+        $this->db->join('edition_user', 'edition_id', 'left');
+        $this->db->join('users', 'user_id', 'left');
+        $this->db->join('edition_asa_member', 'edition_id', 'left');
+        $this->db->join('asa_members', 'asa_member_id', 'left');
+        $this->db->join('towns', 'events.town_id=towns.town_id');
         $this->db->join('regions', 'region_id');
         $this->db->join('provinces', 'regions.province_id=provinces.province_id');
         foreach ($query_params as $operator => $clause_arr) {
@@ -243,16 +250,31 @@ class Edition_model extends MY_model {
         if (!($id)) {
             return false;
         } else {
-            $this->db->select("editions.*, sponsor_id, users.user_id, user_name, user_surname, user_email, asa_member_id AS edition_asa_member, event_name, town_name, club_name");
+//            $this->db->select("editions.*, sponsor_id, users.user_id, user_name, user_surname, user_email, asa_member_id AS edition_asa_member, event_name, town_name, club_name");
+//            $this->db->from("editions");
+//            $this->db->join('edition_sponsor', 'edition_id', 'left');
+//            $this->db->join('events', 'event_id', 'left');
+//            $this->db->join('towns', 'town_id', 'left');
+//            $this->db->join('organising_club', 'event_id', 'left');
+//            $this->db->join('clubs', 'club_id', 'left');
+//            $this->db->join('edition_user', 'edition_id', 'left');
+//            $this->db->join('users', 'user_id', 'left');
+//            $this->db->join('edition_asa_member', 'edition_id', 'left');
+//            $this->db->where('edition_id', $id);
+//            $query = $this->db->get();
+
+            $this->db->select("*");
             $this->db->from("editions");
-            $this->db->join('edition_sponsor', 'edition_id', 'left');
-            $this->db->join('events', 'event_id', 'left');
-            $this->db->join('towns', 'town_id', 'left');
+            $this->db->join('events', 'event_id');
+            $this->db->join('towns', 'town_id');
+            $this->db->join('regions', 'region_id');
+            $this->db->join('provinces', 'regions.province_id=provinces.province_id');
             $this->db->join('organising_club', 'event_id', 'left');
             $this->db->join('clubs', 'club_id', 'left');
             $this->db->join('edition_user', 'edition_id', 'left');
             $this->db->join('users', 'user_id', 'left');
             $this->db->join('edition_asa_member', 'edition_id', 'left');
+            $this->db->join('asa_members', 'asa_member_id', 'left');
             $this->db->where('edition_id', $id);
             $query = $this->db->get();
 

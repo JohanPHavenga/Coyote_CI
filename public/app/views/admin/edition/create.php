@@ -15,6 +15,7 @@ echo form_open_multipart($form_url);
         if ($action == "edit") {
             $this->load->view('/admin/edition/entry');
             $this->load->view('/admin/edition/registration');
+            $this->load->view('/admin/edition/tags');
         }
         ?>
     </div> 
@@ -66,3 +67,4 @@ echo form_close();
 //wts($date_list_by_type);
 //wts($status_list);
 //wts($race_list);
+wts($tag_list);

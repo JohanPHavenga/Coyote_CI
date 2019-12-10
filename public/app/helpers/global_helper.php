@@ -5,10 +5,13 @@ if (!defined('BASEPATH'))
 
 if (!function_exists('wts')) {
 
-    function wts($seq = '') {
+    function wts($seq = '', $die=false) {
         echo "<pre>";
         print_r($seq);
         echo "</pre>";
+        if ($die) {
+            die();
+        }
     }
 
     function get_url_from_edition_name($encoded_edition_name) {

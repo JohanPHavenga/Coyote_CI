@@ -88,6 +88,7 @@ class Edition extends Admin_Controller {
         $this->load->model('entrytype_model');
         $this->load->model('regtype_model');
         $this->load->model('result_model');
+        $this->load->model('tag_model');
 
         // load helpers / libraries
         $this->load->helper('form');
@@ -144,10 +145,10 @@ class Edition extends Admin_Controller {
         $this->data_to_view['racetype_dropdown'] = $this->racetype_model->get_racetype_dropdown();
         $this->data_to_view['venue_dropdown'] = $this->venue_model->get_venue_dropdown();
         $this->data_to_view['admin_fee_dropdown'] = [
-            ""=>"None",
-            "online"=>"online",
-            "late"=>"late",
-            "on the day"=>"on the day",
+            "" => "None",
+            "online" => "online",
+            "late" => "late",
+            "on the day" => "on the day",
         ];
 
         $this->data_to_view['sponsor_list'] = $this->sponsor_model->get_edition_sponsor_list($edition_id);
@@ -157,12 +158,13 @@ class Edition extends Admin_Controller {
         if ($action == "edit") {
             $this->data_to_view['edition_detail'] = $this->edition_model->get_edition_detail($edition_id);
             $this->data_to_view['race_list'] = $this->race_model->get_race_list($edition_id);
+            $this->data_to_view['tag_list'] = $this->tag_model->get_edition_tag_list($edition_id);
             $this->data_to_view['date_list'] = $this->date_model->get_date_list("edition", $edition_id);
             $this->data_to_view['date_list_by_type'] = $this->date_model->get_date_list("edition", $edition_id, false, true);
             $this->data_to_view['url_list'] = $this->url_model->get_url_list("edition", $edition_id);
             $this->data_to_view['file_list'] = $this->file_model->get_file_list("edition", $edition_id);
-            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);          
-            foreach ($this->data_to_view['race_list'] as $race_id=>$race) {
+            $this->data_to_view['file_list_by_type'] = $this->file_model->get_file_list("edition", $edition_id, true);
+            foreach ($this->data_to_view['race_list'] as $race_id => $race) {
                 $this->data_to_view['race_list'][$race_id]['has_results'] = $this->result_model->result_exist_for_race($race_id);
                 $this->data_to_view['race_list'][$race_id]['file_list'] = $this->file_model->get_file_list("race", $race_id, true);
             }
@@ -213,7 +215,7 @@ class Edition extends Admin_Controller {
                     }
                     // RACES FLAT
                     if ($this->input->post('races') !== NULL) {
-                        $this->set_races_from_edition($this->input->post('races'), $this->data_to_view['race_list'], $new_edition_detail);
+                        $race_data = $this->set_races_from_edition($this->input->post('races'), $this->data_to_view['race_list'], $new_edition_detail);
                     }
                     // DATES FLAT
                     if ($this->input->post('dates') !== NULL) {
@@ -222,6 +224,8 @@ class Edition extends Admin_Controller {
                 }
                 // DATES checks
                 $this->check_start_end_dates($id, $new_edition_detail, $this->input->post('entrytype_id'), $this->input->post('regtype_id'));
+                // CEHCK TAGS
+                $this->set_tags_on_post($id, $new_edition_detail, $race_data);
             } else {
                 $alert = "Error committing to the database";
                 $status = "danger";
@@ -240,6 +244,69 @@ class Edition extends Admin_Controller {
         }
     }
 
+    private function set_tags_on_post($edition_id, $edition_data, $race_data) {
+        $this->load->model('tag_model');
+        $this->load->model('tagtype_model');
+
+        $tagtype_list = $this->tagtype_model->get_tagtype_list();
+        foreach ($tagtype_list as $tagtype_id => $tagtype) {
+            $tagtype_arr[$tagtype['tagtype_name']] = $tagtype_id;
+        }
+        // SET TAGS
+        // get race distance tags
+        foreach ($race_data as $race_id => $race) {
+            $tags[trim($race['race_name'])] = $tagtype_arr['race_name'];
+            $distance = $race['race_distance'] + 0;
+            $tags[$distance . "km"] = $tagtype_arr['race_distance'];
+        }
+        unset($tagtype_arr['race_distance']);
+        unset($tagtype_arr['race_name']);
+
+        // edition_year
+        $tags[fdateYear($edition_data['edition_date'])] = $tagtype_arr['edition_year'];
+        unset($tagtype_arr['edition_year']);
+
+        // edition_month
+        $tags[fdateMonth($edition_data['edition_date']) . " " . fdateYear($edition_data['edition_date'])] = $tagtype_arr['edition_month'];
+        unset($tagtype_arr['edition_month']);
+
+        // REST of fields on flat edition_data array
+        foreach ($tagtype_arr as $tagfield_name => $tagfield_id) {
+            $tags[$edition_data[$tagfield_name]] = $tagfield_id;
+//            $tags[$tagfield_name]['tag']= $edition_data[$tagfield_name];
+//            $tags[$tagfield_name]['tagtype_id']=$tagfield_id;
+        }
+
+        // CLEAR EDITION TAGS
+        $stats['new_tag']=0;
+        $stats['edition_tag_link']=0;
+        $this->tag_model->clear_edition_tags($edition_id);
+        foreach ($tags as $tag => $tagtype_id) {
+            // CHECK IF TAGS EXISTS, ELSE ADD
+            if (!empty($tag)) {
+                $tag_id = $this->tag_model->exists($tag);
+                if (!$tag_id) {
+                    $data = [
+                        'tag_name' => $tag,
+                        'tagtype_id' => $tagtype_id,
+                        'tag_status' => 1,
+                    ];                    
+                    $tag_id = $this->tag_model->set_tag("add", 0, $data);
+                    $stats['new_tag']++;
+                }
+                // ADD TAG
+                $this->tag_model->set_edition_tag($edition_id, $tag_id);
+                $stats['edition_tag_link']++;
+            }
+        }
+//        wts($tagtype_arr);
+//        wts($tags);
+//        echo $edition_id;
+//        wts($race_data);
+//        wts($edition_data, true);
+        return($stats);
+    }
+
     public function race_status_update($race_id_arr, $status_id) {
         $this->load->model('race_model');
         return $this->race_model->update_race_status($race_id_arr, $status_id);
@@ -249,10 +316,12 @@ class Edition extends Admin_Controller {
         $this->load->model('race_model');
         foreach ($race_list_post as $race_id => $race) {
             $combine = array_merge($race_list_current[$race_id], $race);
-            $remove = ['created_date', 'updated_date', 'edition_date', 'edition_name', 'racetype_name', 'racetype_abbr', 'race_color','has_results','file_list'];
+            $remove = ['created_date', 'updated_date', 'edition_date', 'edition_name', 'racetype_name', 'racetype_abbr', 'race_color', 'has_results', 'file_list'];
             $race_data = array_diff_key($this->race_fill_blanks($combine, $edition_info), array_flip($remove));
             $this->race_model->set_race("edit", $race_id, $race_data);
+            $return[$race_id] = $race_data;
         }
+        return $return;
     }
 
     private function set_dates_from_edition($date_list_post, $date_list_current, $edition_info) {
@@ -621,6 +690,28 @@ class Edition extends Admin_Controller {
 
         echo "Done<br>";
         echo "<b>" . $n . "</b> gps values were updated<br>";
+    }
+
+    // create tags on all races
+    function generate_tags() {
+        $this->load->model('edition_model');
+        $this->load->model('race_model');
+        $query_params = [
+            "order_by" => ["edition_status" => "1"],
+        ];
+        $edition_list = $this->edition_model->get_edition_list_new($query_params);
+
+        $acc_stats['new_tag']=0;
+        $acc_stats['edition_tag_link']=0;
+        foreach ($edition_list as $edition_id => $edition_data) {
+            $race_list = $this->race_model->get_race_list($edition_id, 1);
+            $stats=$this->set_tags_on_post($edition_id, $edition_data, $race_list);
+            $acc_stats['new_tag']=$acc_stats['new_tag']+$stats['new_tag'];
+            $acc_stats['edition_tag_link']=$acc_stats['edition_tag_link']+$stats['edition_tag_link'];
+        }
+        
+        echo "<p>".$acc_stats['new_tag']." new tags generated</p>";
+        echo "<p>".$acc_stats['edition_tag_link']." new tag links to editions</p>";
     }
 
     // move edition dates to dates table
