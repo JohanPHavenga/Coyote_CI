@@ -120,7 +120,7 @@ class User_model extends MY_model {
                 'user_name' => $this->input->post('user_name'),
                 'user_surname' => $this->input->post('user_surname'),
                 'user_email' => $this->input->post('user_email'),
-                'user_contact' => $this->input->post('user_contact'),
+                'user_contact' => $this->int_phone($this->input->post('user_contact')),
                 'user_username' => $this->input->post('user_username'),
                 'user_password' => $this->hash_pass($this->input->post('user_password')),
                 'club_id' => $this->input->post('club_id'),
@@ -239,6 +239,13 @@ class User_model extends MY_model {
         $this->db->select("users.user_id, user_name, user_surname, user_username, club_id");
         $this->db->from("users");
         return $query = $this->db->get();
+    }
+    
+    private function int_phone($phone) {
+        $phone=trim($phone);
+        $phone= str_replace(" ", "", $phone);
+        $phone= str_replace("-", "", $phone);
+        return preg_replace('/^(?:\+?27|0)?/','+27', $phone);
     }
 
 }

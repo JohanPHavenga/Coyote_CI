@@ -201,7 +201,7 @@ class User extends Admin_Controller {
         $this->form_validation->set_rules('user_name', 'Name', 'required');
         $this->form_validation->set_rules('user_surname', 'Surame', 'required');
         $this->form_validation->set_rules('user_email', 'Email', 'valid_email');
-        $this->form_validation->set_rules('user_contact', 'Phone', 'numeric');
+        $this->form_validation->set_rules('user_contact', 'Phone', 'required|trim');
         $this->form_validation->set_rules('club_id', 'Club', 'required|numeric|greater_than[0]',["greater_than"=>"Please select a club for the user"]);
         $this->form_validation->set_rules('role_id[]', 'Role', 'required');
 
