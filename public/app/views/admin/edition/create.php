@@ -67,4 +67,4 @@ echo form_close();
 //wts($date_list_by_type);
 //wts($status_list);
 //wts($race_list);
-wts($tag_list);
+//wts($tag_list);

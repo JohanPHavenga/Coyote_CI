@@ -79,7 +79,8 @@
             <div class="row">
                 <div class='col-md-12 col-sm-12'>
                     <div class='btn-group' style="float: right">
-                        <?= fbutton($text = "Upload Results", $type = "submit", $status = "warning", $size = NULL, $name = "upload"); ?>
+                        <?= fbutton($text = "Upload Results", $type = "submit", $status = "danger", $size = NULL, $name = "upload"); ?>
+                        <?= fbuttonLink($cancel_url, "Cancel", $status = "warning"); ?>
                     </div>
                 </div>
             </div>
@@ -89,6 +90,7 @@
 </div>
 <?= form_close(); ?>
 <?php
+//wts($import_data);
 //wts($columns);
 //wts($input_data);
 //wts($pre_load);

@@ -359,6 +359,12 @@ class Result extends Admin_Controller {
             $this->data_to_view['pre_load'] = $pre_load['pre'];
             $this->data_to_view['skip'] = $skip_display;
         }
+        
+        if ($this->session->has_userdata('edition_return_url')) {
+            $this->data_to_view['cancel_url'] = $this->session->edition_return_url;
+        } else {
+            $this->data_to_view['cancel_url']="/admin/result/import";
+        }
 
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view("/admin/result/" . $page, $this->data_to_view);
@@ -417,9 +423,9 @@ class Result extends Admin_Controller {
                 $data['pre']["B"] = "result_name_surname";
                 $data['pre']["C"] = "result_club";
                 $data['pre']["D"] = "result_racenum";
-                $data['pre']["E"] = "result_age";
-                $data['pre']["F"] = "result_sex";
-                $data['pre']["G"] = "result_asanum";
+                $data['pre']["E"] = "result_asanum";
+                $data['pre']["F"] = "result_age";
+                $data['pre']["G"] = "result_sex";
                 $data['pre']["H"] = "result_time";
                 break;
             case 4: // AGW
