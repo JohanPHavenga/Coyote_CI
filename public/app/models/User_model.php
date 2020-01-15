@@ -72,7 +72,7 @@ class User_model extends MY_model {
             foreach ($query->result_array() as $row) {
                 $data[$row['user_id']] = $row['user_name'] . " " . $row['user_surname'];
             }
-            move_to_top($data,60);
+            move_to_top($data, 60);
             return $data;
         }
         return false;
@@ -112,7 +112,7 @@ class User_model extends MY_model {
     }
 
     public function set_user($action, $user_id, $user_data = [], $debug = FALSE) {
-        $role_arr = [];    
+        $role_arr = [];
 //        wts($user_data); die();
         // POSTED DATA
         if (empty($user_data)) {
@@ -128,8 +128,8 @@ class User_model extends MY_model {
             $role_arr = $this->input->post('role_id');
         } else {
             // way to pass that the user role
-            if ($user_data['role_arr']) { 
-                $role_arr = $user_data['role_arr'];   
+            if ($user_data['role_arr']) {
+                $role_arr = $user_data['role_arr'];
                 unset($user_data['role_arr']);
             }
             if (isset($user_data['user_password'])) {
@@ -224,6 +224,24 @@ class User_model extends MY_model {
 
         if ($query->num_rows() > 0) {
             return $query->row_array();
+        } else {
+            // nuwe metode
+            $this->db->select('user_id,user_name,user_surname,user_email,user_password,user_contact');
+            $this->db->from("users");
+            $this->db->where('user_username', $this->input->post('user_username'));
+            $query = $this->db->get();
+
+            // mag net een user kry
+            if ($query->num_rows() == 1) {
+                foreach ($query->result_array() as $row) {
+                    if (password_verify($this->input->post('user_password'), $row['user_password'])) {
+                        unset($row['user_password']);
+                        return $row;
+                    } else {
+                        return false;
+                    }
+                }
+            }
         }
         return false;
     }
@@ -240,12 +258,12 @@ class User_model extends MY_model {
         $this->db->from("users");
         return $query = $this->db->get();
     }
-    
+
     private function int_phone($phone) {
-        $phone=trim($phone);
-        $phone= str_replace(" ", "", $phone);
-        $phone= str_replace("-", "", $phone);
-        return preg_replace('/^(?:\+?27|0)?/','+27', $phone);
+        $phone = trim($phone);
+        $phone = str_replace(" ", "", $phone);
+        $phone = str_replace("-", "", $phone);
+        return preg_replace('/^(?:\+?27|0)?/', '+27', $phone);
     }
 
 }

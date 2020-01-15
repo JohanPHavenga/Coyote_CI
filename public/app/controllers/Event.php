@@ -170,12 +170,12 @@ class Event extends Frontend_Controller {
 //        $this->data_to_view['structured_data']=$this->formulate_structured_data($this->data_to_view['event_detail']);
 
         $this->data_to_header['structured_data'] = $this->load->view('/event/structured_data', $this->data_to_view, TRUE);
-        
+
         // set buttons
         $this->data_to_view['event_detail']['calc_edition_urls'] = $btn_data['calc_edition_urls'] = $this->calc_urls_to_use($this->data_to_view['event_detail']['file_list'], $this->data_to_view['event_detail']['url_list'], $this->data_to_view['event_detail']['entrytype_list']);
 
         foreach ($this->data_to_view['event_detail']['race_list'] as $race_id => $race) {
-            $race_urls = $this->calc_urls_to_use($race['file_list'], $race['url_list']);
+            $race_urls = $this->calc_urls_to_use($race['file_list'], $race['url_list'], [], false);
             if ($race_urls) {
                 $this->data_to_view['event_detail']['calc_race_urls'][$race_id] = $race_urls;
             }
@@ -251,6 +251,10 @@ class Event extends Frontend_Controller {
         $bc = !$bc;
         $this->data_to_view['box_color'] = $box_color_arr[$bc];
 
+        // Accommodation
+        $this->load->view("/event/detail_accom", $this->data_to_view);
+        $bc = !$bc;
+        $this->data_to_view['box_color'] = $box_color_arr[$bc];
 
         // Google Add
         $this->load->view("/event/google_ad_bottom", $this->data_to_view);
@@ -381,15 +385,17 @@ class Event extends Frontend_Controller {
         redirect($return_url);
     }
 
-    function calc_urls_to_use($file_list, $url_list, $entrytype_list=[]) {
+    function calc_urls_to_use($file_list, $url_list, $entrytype_list = [], $debug = false) {
         $calc_url_list = [];
         $this->load->model('filetype_model');
         $this->load->model('urltype_model');
         $filetype_list = $this->filetype_model->get_filetype_list();
         $urltype_list = $this->urltype_model->get_urltype_list();
 
-//        wts($file_list);
-//        wts($url_list);
+        if ($debug) {
+            wts($file_list);
+            wts($url_list);
+        }
         // check eers vir flyer
         if (isset($file_list[2])) {
             $file_id = my_encrypt($file_list[2][0]['file_id']);
@@ -425,19 +431,24 @@ class Event extends Frontend_Controller {
         $url_check_list = [2, 3, 4, 6, 7, 8];
         foreach ($url_check_list as $id) {
             if (isset($file_list[$id])) {
-                $file_id = my_encrypt($file_list[$id][0]['file_id']);
+                $max_arr_key=max(array_keys($file_list[$id]));
+                $file_id = my_encrypt($file_list[$id][$max_arr_key]['file_id']);
                 $calc_url_list[$id]['url'] = base_url("file/handler/" . $file_id);
-                $calc_url_list[$id]['buttontext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_buttontext'];
-                $calc_url_list[$id]['helptext'] = $filetype_list[$file_list[$id][0]['filetype_id']]['filetype_helptext'];
+                $calc_url_list[$id]['buttontext'] = $filetype_list[$file_list[$id][$max_arr_key]['filetype_id']]['filetype_buttontext'];
+                $calc_url_list[$id]['helptext'] = $filetype_list[$file_list[$id][$max_arr_key]['filetype_id']]['filetype_helptext'];
                 $calc_url_list[$id]['type'] = "file";
                 $calc_url_list[$id]['type_id'] = $id;
             } elseif (isset($url_list[$id])) {
-                $calc_url_list[$id]['url'] = $url_list[$id][0]['url_name'];
-                $calc_url_list[$id]['buttontext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_buttontext'];
-                $calc_url_list[$id]['helptext'] = $urltype_list[$url_list[$id][0]['urltype_id']]['urltype_helptext'];
+                $max_arr_key=max(array_keys($url_list[$id]));
+                $calc_url_list[$id]['url'] = $url_list[$id][$max_arr_key]['url_name'];
+                $calc_url_list[$id]['buttontext'] = $urltype_list[$url_list[$id][$max_arr_key]['urltype_id']]['urltype_buttontext'];
+                $calc_url_list[$id]['helptext'] = $urltype_list[$url_list[$id][$max_arr_key]['urltype_id']]['urltype_helptext'];
                 $calc_url_list[$id]['type'] = "url";
                 $calc_url_list[$id]['type_id'] = $id;
             }
+        }
+        if ($debug) {
+            die();
         }
         ksort($calc_url_list);
         return $calc_url_list;
