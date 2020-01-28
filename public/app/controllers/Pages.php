@@ -22,8 +22,11 @@ class Pages extends Frontend_Controller {
         {
             $this->view($method, $params = array());
         }
-
-
+    }
+    
+    public function no_new_site($uri_string_encoded) {
+        set_cookie("no_new_site", true, 604800);
+        redirect(base_url(my_decrypt($uri_string_encoded)));
     }
 
     public function view($page = 'home')
@@ -263,7 +266,7 @@ class Pages extends Frontend_Controller {
                 "title"=>"Page not found",
                 "crumbs"=>$crumbs,
             ]);
-
+        $this->data_to_footer['no_notice']=true;
         $this->load->view($this->header_url, $this->data_to_header);
         $this->load->view('pages/404', $this->data_to_view);
         $this->load->view($this->footer_url, $this->data_to_footer);

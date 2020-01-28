@@ -1,3 +1,30 @@
+<?php
+if (isset($no_notice)) {
+    // do nothign
+} elseif (!isset($rr_cookie['no_new_site'])) {
+?>
+<div class="c-cookies-bar c-cookies-bar-1 c-cookies-bar-bottom c-bg-yellow wow animate fadeInUp" data-wow-delay="1s">
+    <div class="c-cookies-bar-container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="c-cookies-bar-content c-font-white">
+                    <b>GOOD NEW EVERYONE!</b> The new website is nearing completion. 
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="c-cookies-bar-btn">
+                    <a href="<?= base_url("new/".$uri_string); ?>" class="btn c-btn-white c-btn-border-1x c-btn-bold c-btn-square c-cookie-bar-link">Take a sneak peak</a> 
+                    <a class="c-cookies-bar-close btn c-btn-white c-btn-square c-btn-bold" href="<?= base_url("pages/no_new_site/".my_encrypt($uri_string)); ?>">Don't care</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}
+//    wts($rr_cookie);
+?>
+
 <!-- BEGIN: LAYOUT/FOOTERS/FOOTER -->
 <a name="footer"></a>
 <footer class="c-layout-footer c-layout-footer-7">
@@ -31,6 +58,9 @@
                             </li>
                             <li>
                                 <a href="/search">Search</a>
+                            </li>
+                            <li>
+                                <a href="<?= base_url("new/".$uri_string); ?>">Switch to new site</a>
                             </li>
                         </ul>
                         <ul class="c-links c-theme-ul">

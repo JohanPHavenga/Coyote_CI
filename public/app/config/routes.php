@@ -101,3 +101,5 @@ $route['content-overview'] = 'calendar';
 
 $route['seo/sitemap\.xml'] = "seo/sitemap";
 $route['seo'] = 'seo/sitemap';
+
+$route['tothefutureandbeyond'] = 'pages/switch_to_new';

@@ -7,6 +7,9 @@ class MY_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->session->set_flashdata(['previous_url' => current_url(),]);        
+        $this->data_to_view['rr_cookie']['sub_email'] = get_cookie("sub_email");
+        $this->data_to_view['rr_cookie']['no_new_site'] = $this->data_to_footer['rr_cookie']['no_new_site'] = get_cookie("no_new_site");
     }
 
     public function get_race_name_from_status($race_name, $race_distance, $racetype_name, $race_status) {
@@ -577,6 +580,9 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_header["menu_array"] = $this->set_top_menu_array();
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
         $this->data_to_footer["date_list"] = $this->get_date_list();
+        $this->data_to_footer["uri_string"] = uri_string();
+        
+//        wts($this->data_to_footer["uri_string"],1);
 
         $this->ini_array = parse_ini_file("server_config.ini", true);
         // history
