@@ -94,7 +94,7 @@ class Login extends Frontend_Controller {
             $this->load->view($this->footer_url, $this->data_to_footer);
         } else {
             $check_login = $this->user_model->check_login("admin");
-
+            
             if ($check_login) {
 
                 $this->session->set_userdata("admin_logged_in", true);

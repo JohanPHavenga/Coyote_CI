@@ -121,8 +121,8 @@ class User_model extends MY_model {
                 'user_surname' => $this->input->post('user_surname'),
                 'user_email' => $this->input->post('user_email'),
                 'user_contact' => $this->int_phone($this->input->post('user_contact')),
-                'user_username' => $this->input->post('user_username'),
-                'user_password' => $this->hash_pass($this->input->post('user_password')),
+//                'user_username' => $this->input->post('user_username'),
+//                'user_password' => $this->hash_pass($this->input->post('user_password')),
                 'club_id' => $this->input->post('club_id'),
             );
             $role_arr = $this->input->post('role_id');
@@ -132,9 +132,9 @@ class User_model extends MY_model {
                 $role_arr = $user_data['role_arr'];
                 unset($user_data['role_arr']);
             }
-            if (isset($user_data['user_password'])) {
-                $user_data['user_password'] = $this->hash_pass($user_data['user_password']);
-            }
+//            if (isset($user_data['user_password'])) {
+//                $user_data['user_password'] = $this->hash_pass($user_data['user_password']);
+//            }
         }
 
         $user_data['updated_date'] = date("Y-m-d H:i:s");
@@ -160,10 +160,9 @@ class User_model extends MY_model {
                 // add updated date to both data arrays
                 $user_data['updated_date'] = date("Y-m-d H:i:s");
                 //check of password wat gepost is alreeds gehash is
-                if (@$this->check_password($this->input->post('user_password'), $user_id)) {
-                    unset($user_data['user_password']);
-                }
-
+//                if (@$this->check_password($this->input->post('user_password'), $user_id)) {
+//                    unset($user_data['user_password']);
+//                }
                 // start SQL transaction
                 $this->db->trans_start();
                 $this->db->update('users', $user_data, array('user_id' => $user_id));
@@ -208,43 +207,75 @@ class User_model extends MY_model {
     }
 
     public function check_login($login_type = "user") {
+        $user_name = $this->input->post('user_username');
+        $password = $this->input->post('user_password');
         $user_data = array(
-            'user_username' => $this->input->post('user_username'),
-            'user_password' => $this->hash_pass($this->input->post('user_password')),
+            'user_username' => $user_name,
         );
 
-        $this->db->select("users.user_id, user_name, user_surname, role_id");
+        $this->db->select('users.user_id,user_name,user_surname,user_email,user_password,user_contact, role_id');
         $this->db->from("users");
         if ($login_type == "admin") {
             $this->db->join("user_role", "users.user_id=user_role.user_id");
             $user_data["role_id"] = 1;
         }
         $this->db->where($user_data);
+//        echo $this->db->get_compiled_select();
         $query = $this->db->get();
 
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
-        } else {
-            // nuwe metode
-            $this->db->select('user_id,user_name,user_surname,user_email,user_password,user_contact');
-            $this->db->from("users");
-            $this->db->where('user_username', $this->input->post('user_username'));
-            $query = $this->db->get();
 
-            // mag net een user kry
-            if ($query->num_rows() == 1) {
-                foreach ($query->result_array() as $row) {
-                    if (password_verify($this->input->post('user_password'), $row['user_password'])) {
-                        unset($row['user_password']);
-                        return $row;
-                    } else {
-                        return false;
-                    }
+        // mag net een user kry
+        if ($query->num_rows() == 1) {
+            foreach ($query->result_array() as $row) {
+                if (password_verify($password, $row['user_password'])) {
+                    unset($row['user_password']);
+                    return $row;
+                } else {
+                    return false;
                 }
             }
         }
         return false;
     }
+
+//    public function check_login($login_type = "user") {
+//        $user_data = array(
+//            'user_username' => $this->input->post('user_username'),
+//            'user_password' => $this->hash_pass($this->input->post('user_password')),
+//        );
+//
+//        $this->db->select("users.user_id, user_name, user_surname, role_id");
+//        $this->db->from("users");
+//        if ($login_type == "admin") {
+//            $this->db->join("user_role", "users.user_id=user_role.user_id");
+//            $user_data["role_id"] = 1;
+//        }
+//        $this->db->where($user_data);
+//        $query = $this->db->get();
+//
+//        if ($query->num_rows() > 0) {
+//            return $query->row_array();
+//        } else {
+//            // nuwe metode
+//            $this->db->select('user_id,user_name,user_surname,user_email,user_password,user_contact');
+//            $this->db->from("users");
+//            $this->db->where('user_username', $this->input->post('user_username'));
+//            $query = $this->db->get();
+//
+//            // mag net een user kry
+//            if ($query->num_rows() == 1) {
+//                foreach ($query->result_array() as $row) {
+//                    if (password_verify($this->input->post('user_password'), $row['user_password'])) {
+//                        unset($row['user_password']);
+//                        return $row;
+//                    } else {
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private function check_password($password, $id) {
         $this->db->where('user_password', $password);
@@ -260,10 +291,14 @@ class User_model extends MY_model {
     }
 
     private function int_phone($phone) {
-        $phone = trim($phone);
-        $phone = str_replace(" ", "", $phone);
-        $phone = str_replace("-", "", $phone);
-        return preg_replace('/^(?:\+?27|0)?/', '+27', $phone);
+        if ($phone) {
+            $phone = trim($phone);
+            $phone = str_replace(" ", "", $phone);
+            $phone = str_replace("-", "", $phone);
+            return preg_replace('/^(?:\+?27|0)?/', '+27', $phone);
+        } else {
+            return false;
+        }
     }
 
 }

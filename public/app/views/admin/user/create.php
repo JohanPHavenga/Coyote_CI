@@ -55,27 +55,27 @@
                     ]);
                 echo "</div>";
 
-                echo "<div class='form-group'>";
-                echo form_label('Username', 'user_username');
-                echo form_input([
-                        'name'          => 'user_username',
-                        'id'            => 'user_username',
-                        'value'         => set_value('user_username', @$user_detail['user_username']),
-                        'class'         => 'form-control',
-                    ]);
-                echo "</div>";
-
-                echo "<div class='form-group'>";
-                echo form_label('Password', 'user_password');
-                echo form_input([
-                        'name'          => 'user_password',
-                        'id'            => 'user_password',
-                        'value'         => set_value('user_password', @$user_detail['user_password']),
-                        'class'         => 'form-control',
-                        'type'          => 'password',
-                    ]);
-
-                echo "</div>";
+//                echo "<div class='form-group'>";
+//                echo form_label('Username', 'user_username');
+//                echo form_input([
+//                        'name'          => 'user_username',
+//                        'id'            => 'user_username',
+//                        'value'         => set_value('user_username', @$user_detail['user_username']),
+//                        'class'         => 'form-control',
+//                    ]);
+//                echo "</div>";
+//
+//                echo "<div class='form-group'>";
+//                echo form_label('Password', 'user_password');
+//                echo form_input([
+//                        'name'          => 'user_password',
+//                        'id'            => 'user_password',
+//                        'value'         => set_value('user_password', @$user_detail['user_password']),
+//                        'class'         => 'form-control',
+//                        'type'          => 'password',
+//                    ]);
+//
+//                echo "</div>";
 
 
                 echo "<div class='form-group'>";
