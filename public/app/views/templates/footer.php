@@ -60,7 +60,7 @@ if (isset($no_notice)) {
                                 <a href="/search">Search</a>
                             </li>
                             <li>
-                                <a href="<?= base_url("new/".$uri_string); ?>">Switch to new site</a>
+                                <a href="<?= base_url("new/".$uri_string); ?>">Switch to NEW SITE</a>
                             </li>
                         </ul>
                         <ul class="c-links c-theme-ul">
