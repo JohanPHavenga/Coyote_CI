@@ -406,7 +406,7 @@ class Emailmerge extends Admin_Controller {
         $unsub = "<p>This email was sent to ".$merge_data['email']."<br>"
                . "<a href='$url'>Unsubscribe</a> from this list</p>";
         
-        $unsub .= "<p><img src='https://www.roadrunning.co.za/img/snapscan_LAzMFdGZ.png' style='margin-bottom: 10px;'><br>Consider supporting the wesbite via SnapScan</p>"; 
+        $unsub .= "<p><a href='https://pos.snapscan.io/qr/LAzMFdGZ'><img src='https://www.roadrunning.co.za/img/snapscan_LAzMFdGZ.png' style='margin-bottom: 10px;'></a><br>Consider supporting the wesbite via SnapScan</p>"; 
         
         return $this->set_email_body($text,$unsub);
     }
