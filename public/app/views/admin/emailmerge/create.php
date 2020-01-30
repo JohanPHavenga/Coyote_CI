@@ -90,6 +90,8 @@ echo form_open($form_url);
                         echo "<div class='btn-group' style='padding-bottom: 20px; float: right'>";
                         $test_email_btn = ["text" => "Test email", "value" => "test_merge", "status" => "default"];
                         echo fbuttonSave($test_email_btn);
+                        $test_html_btn = ["text" => "Test html", "value" => "test_html", "status" => "default"];
+                        echo fbuttonSave($test_html_btn);
                         if ($emailmerge_detail['emailmerge_status'] == 4) {
                             $merge_btn = ["text" => "Execute Merge", "value" => "merge", "status" => "warning"];
                             echo fbuttonSave($merge_btn);

@@ -7,7 +7,7 @@ class MY_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->session->set_flashdata(['previous_url' => current_url(),]);        
+        $this->session->set_flashdata(['previous_url' => current_url(),]);
         $this->data_to_view['rr_cookie']['sub_email'] = get_cookie("sub_email");
         $this->data_to_view['rr_cookie']['no_new_site'] = $this->data_to_footer['rr_cookie']['no_new_site'] = get_cookie("no_new_site");
     }
@@ -60,6 +60,46 @@ class MY_Controller extends CI_Controller {
             $return_data[$year][$month][$day][$id] = $row;
         }
         return $return_data;
+    }
+
+    public function set_email_body($body, $unsub=null) {
+        $year = date("Y");
+        $html = <<<EOT
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns = "http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
+<meta name = "viewport" content = "width=device-width, initial-scale=1.0"/>
+<style>a, a[x-apple-data-detectors] { color: #26B8F3!important;
+text-decoration: underline!important;
+font-family:inherit!important;
+font-size:inherit!important;
+font-weight:inherit!important;
+line-height:inherit!important;
+}</style>
+</head>
+<body style = "background-color:#FFFFFF;margin:0;padding:0;">
+<table cellpadding = "0" cellspacing = "0" border = "0" width = "100%" bgcolor = "#FFFFFF" style = "margin:0;"><tbody><tr><td style = "padding:0;" align = "center">
+<table cellpadding = "0" cellspacing = "0" border = "0" align = "center" bgcolor = "#FFFFFF" style = "margin:0; max-width: 600px; width: 100%;"><tbody><tr><td style = "padding:0 20px;" align = "left">
+<div style = "margin:0 0 25px 0;"><img alt = "RoadRunningZA" width = "72" height = "72" src = "https://www.roadrunning.co.za/img/favicon/android-icon-72x72.png" /></div>
+
+<div style = "color:#000000;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:25.6px;text-align:left;">
+$body
+</div>
+
+<div style = "border-top: 2px solid #E5E5E5;color:#111111;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-size:11px;line-height:14px;margin:30px 0;">
+<div style = "margin:20px 0;"><a href='https://www.roadrunning.co.za/' title='Go to RoadRunningZA'><img alt = "RoadRunningZA" width = "110" height = "22" src = "https://www.roadrunning.co.za/img/logo-vec-22.png" /></a></div>
+<div style = "margin:20px 0;" > Copyright &copy;
+$year RoadRunningZA. All rights reserved.<br>
+$unsub
+</div>
+</div>
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+</body>
+</html>
+EOT;
+        return $html;
     }
 
 }
@@ -172,7 +212,7 @@ class Admin_Controller extends MY_Controller {
 
         return $sum_data;
     }
-    
+
     //CHECK AND CREATE UPLOAD FOLDER
     public function check_upload_folder($linked_to, $id) {
         $upload_path = "./uploads/" . $linked_to . "/" . $id;
@@ -581,7 +621,7 @@ class Frontend_Controller extends MY_Controller {
         $this->data_to_footer["area_list"] = $_SESSION['area_list'];
         $this->data_to_footer["date_list"] = $this->get_date_list();
         $this->data_to_footer["uri_string"] = uri_string();
-        
+
 //        wts($this->data_to_footer["uri_string"],1);
 
         $this->ini_array = parse_ini_file("server_config.ini", true);

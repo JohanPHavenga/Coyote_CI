@@ -8,7 +8,7 @@ if (isset($no_notice)) {
         <div class="row">
             <div class="col-md-9">
                 <div class="c-cookies-bar-content c-font-white">
-                    <b>GOOD NEW EVERYONE!</b> The new website is nearing completion. 
+                    <b>GOOD NEWS EVERYONE!</b> The new website is nearing completion. 
                 </div>
             </div>
             <div class="col-md-3">

@@ -197,7 +197,7 @@ class Emailmerge extends Admin_Controller {
         // Create test merge
         $emailmerge_data = $this->emailmerge_model->get_emailmerge_detail($this->data_to_view['emailmerge_detail']['emailmerge_id']);
         $merge_data = $this->get_merge_data(60, $emailmerge_data['emailmerge_linked_to'], $emailmerge_data['linked_id']); // 60 = info@roadrunning.co.za
-        $this->data_to_view['test_merge_body'] = $this->set_email_html($this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data),$merge_data);
+        $this->data_to_view['test_merge_body'] = $this->fill_variables($emailmerge_data['emailmerge_body'], $merge_data);
 
         // set validation rules
         $this->form_validation->set_rules('emailmerge_subject', 'Subject', 'required');
@@ -236,6 +236,9 @@ class Emailmerge extends Admin_Controller {
                         $this->return_url = base_url("admin/emailmerge/create/edit/" . $return_id);
                         $alert=$run_merge['alert'];
                         $msg=$run_alert['status'];
+                        break;
+                    case "test_html":
+                        wts($this->set_email_html($data["emailmerge_body"],[]),1);
                         break;
                     case "merge":
                         $run_merge=$this->merge($return_id);
@@ -394,20 +397,18 @@ class Emailmerge extends Admin_Controller {
     }
     
     private function set_email_html($text,$merge_data) {
-        $start="";
-//        $start = "<body>";
-//        $text = str_replace("<p>", "<p style='font-family: arial, sans-serif; font-size: 14px;'>", $text);
         
         $url=$merge_data['unsubscribe_url'];
-        $end = '<p style="text-align:center;font-family: Calibri, Arial, Sans-Serif;">Support the site by '
-                . '<a href="https://www.patreon.com/bePatron?u=15691607" data-patreon-widget-type="become-patron-button">becoming a Patron!</a><br>';
-        $end .= '<a href="https://www.patreon.com/bePatron?u=15691607" target="_blank" title="Support us on Patreon">
-                                <img src="https://www.roadrunning.co.za/img/patron_40.png" alt="Support us on Patreon"></a></p>';
-        $end .= "<p style='text-align:center;font-family: Calibri, Arial, Sans-Serif; font-size: 0.9em;'>This email was sent to ".$merge_data['email']."<br>"
-               . "<a href='$url'>Unsubscribe</a> from this list<br>"
-               . "RoadRunning.co.za</p>";
+//        $end = '<p style="text-align:center;font-family: Calibri, Arial, Sans-Serif;">Support the site by '
+//                . '<a href="https://www.patreon.com/bePatron?u=15691607" data-patreon-widget-type="become-patron-button">becoming a Patron!</a><br>';
+//        $end .= '<a href="https://www.patreon.com/bePatron?u=15691607" target="_blank" title="Support us on Patreon">
+//                                <img src="https://www.roadrunning.co.za/img/patron_40.png" alt="Support us on Patreon"></a></p>';
+        $unsub = "<p>This email was sent to ".$merge_data['email']."<br>"
+               . "<a href='$url'>Unsubscribe</a> from this list</p>";
         
-        return $start.$text.$end;
+        $unsub .= "<p><img src='https://www.roadrunning.co.za/img/snapscan_LAzMFdGZ.png' style='margin-bottom: 10px;'><br>Consider supporting the wesbite via SnapScan</p>"; 
+        
+        return $this->set_email_body($text,$unsub);
     }
 
     public function get_merge_data($user_id, $linked_to, $linked_id) {
